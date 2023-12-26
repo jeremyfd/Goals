@@ -15,7 +15,7 @@ class UserService {
     
     static let shared = UserService()
     private static let userCache = NSCache<NSString, NSData>()
-
+    
     
     @MainActor
     func fetchCurrentUser() async throws {
@@ -47,5 +47,19 @@ class UserService {
         let snapshot = try await FirestoreConstants.UserCollection.getDocuments()
         let users = snapshot.documents.compactMap({ try? $0.data(as: User.self) })
         return users.filter({ $0.id != uid })
+    }
+    
+    static func usernameExists(_ username: String) async throws -> Bool {
+        let querySnapshot = try await FirestoreConstants.UserCollection
+            .whereField("username", isEqualTo: username.lowercased())
+            .getDocuments()
+        return !querySnapshot.documents.isEmpty
+    }
+    
+    static func phoneNumberExists(_ phoneNumber: String) async throws -> Bool {
+        let querySnapshot = try await FirestoreConstants.UserCollection
+            .whereField("phoneNumber", isEqualTo: phoneNumber)
+            .getDocuments()
+        return !querySnapshot.documents.isEmpty
     }
 }

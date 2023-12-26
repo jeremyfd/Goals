@@ -11,6 +11,8 @@ class AuthService {
     @Published var userSession: FirebaseAuth.User?
     
     static let shared = AuthService()
+    var pendingCredential: AuthCredential?
+    
     
     init() {
         self.userSession = Auth.auth().currentUser
@@ -20,7 +22,7 @@ class AuthService {
     @MainActor
     func loginWithPhoneNumber(verificationCode: String, verificationID: String) async throws {
         let credential = PhoneAuthProvider.provider().credential(withVerificationID: verificationID, verificationCode: verificationCode)
-
+        
         do {
             let authResult = try await Auth.auth().signIn(with: credential)
             self.userSession = authResult.user
@@ -43,22 +45,47 @@ class AuthService {
             throw error
         }
     }
+    
 
+    
     @MainActor
-    func verifyCodeAndCreateUser(verificationCode: String, verificationID: String, username: String) async throws {
+    func verifyPhoneNumber(verificationCode: String, verificationID: String) async throws {
         let credential = PhoneAuthProvider.provider().credential(withVerificationID: verificationID, verificationCode: verificationCode)
 
         do {
             let authResult = try await Auth.auth().signIn(with: credential)
-            // Proceed with user creation or updating user data
-            let userId = authResult.user.uid
-            try await uploadUserData(phoneNumber: authResult.user.phoneNumber ?? "", username: username, id: userId)
+            // Store the credential for later use instead of signing in immediately
+            self.pendingCredential = credential
+        } catch {
+            print("DEBUG: Verification failed with error \(error.localizedDescription)")
+            throw error // Make sure this error is thrown for incorrect codes
+        }
+    }
+
+    
+    
+    @MainActor
+    func loginWithCredential(credential: AuthCredential, username: String) async throws {
+        do {
+            let authResult = try await Auth.auth().signIn(with: credential)
+            self.userSession = authResult.user
+            // Assuming you want to upload user data immediately after signing in
+            try await uploadUserData(phoneNumber: authResult.user.phoneNumber ?? "", username: username, id: authResult.user.uid)
         } catch {
             // Handle errors
-            print("DEBUG: Failed to verify code with error \(error.localizedDescription)")
+            print("DEBUG: Failed to sign in with credential with error \(error.localizedDescription)")
             throw error
         }
-        self.userSession = Auth.auth().currentUser
+    }
+    
+    
+    @MainActor
+    func createUser(username: String) async throws {
+        guard let user = Auth.auth().currentUser else {
+            throw NSError(domain: "AuthService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Current user not found."])
+        }
+        let userId = user.uid
+        try await uploadUserData(phoneNumber: user.phoneNumber ?? "", username: username, id: userId)
     }
     
     @MainActor

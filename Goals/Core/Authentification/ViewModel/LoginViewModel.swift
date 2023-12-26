@@ -12,28 +12,38 @@ class LoginViewModel: ObservableObject {
     @Published var verificationCode = ""
     @Published var isAuthenticating = false
     @Published var showAlert = false
-    @Published var authError: AuthError?
-
+    @Published var errorMessage: String?  // Add this line for the error message
     private var verificationID: String?
 
     @MainActor
     func sendVerificationCode() async {
+        guard !phoneNumber.isEmpty else {
+            errorMessage = "Please enter a phone number."
+            showAlert = true
+            return
+        }
+
         isAuthenticating = true
         do {
-            verificationID = try await AuthService.shared.sendVerificationCode(to: phoneNumber)
-            isAuthenticating = false
+            let userExists = try await UserService.phoneNumberExists(phoneNumber)
+            if !userExists {
+                errorMessage = "No account found with this phone number. Please sign up."
+                showAlert = true
+            } else {
+                verificationID = try await AuthService.shared.sendVerificationCode(to: phoneNumber)
+            }
         } catch {
-            // Handle errors
+            errorMessage = "Failed to send verification code: \(error.localizedDescription)"
             showAlert = true
-            isAuthenticating = false
-            // Set appropriate auth error
         }
+        isAuthenticating = false
     }
 
     @MainActor
     func verifyCodeAndLogin() async throws {
         guard let verificationID = verificationID else {
-            // Handle error: verification ID not found
+            errorMessage = "Verification ID not found."
+            showAlert = true
             return
         }
 
@@ -41,11 +51,11 @@ class LoginViewModel: ObservableObject {
         do {
             try await AuthService.shared.loginWithPhoneNumber(verificationCode: verificationCode, verificationID: verificationID)
             isAuthenticating = false
-        } catch {
-            // Handle errors
+        } catch let error as NSError {
+            errorMessage = "Failed to log in: \(error.localizedDescription)"
             showAlert = true
             isAuthenticating = false
-            // Set appropriate auth error
+            throw error
         }
     }
 }
