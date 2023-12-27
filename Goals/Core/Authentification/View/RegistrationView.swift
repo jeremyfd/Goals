@@ -52,6 +52,7 @@ struct RegistrationView: View {
                 if isCodeVerified {
                     TextField("Enter your username", text: $viewModel.username)
                         .autocapitalization(.none)
+                        .disableAutocorrection(true)
                         .modifier(ThreadsTextFieldModifier())
                         .padding(.horizontal)
                 }
@@ -64,9 +65,11 @@ struct RegistrationView: View {
                             isCodeSent = viewModel.verificationID != nil
                         } else if !viewModel.isCodeVerified {
                             await viewModel.verifyCode()
-                            isCodeVerified = viewModel.isCodeVerified // Update based on viewModel's state
+                            if viewModel.isCodeVerified {
+                                isCodeVerified = true // Only update if verification was successful
+                            }
                         } else if !viewModel.username.isEmpty {
-                            try await viewModel.createUser()
+                            await viewModel.finalizeRegistration(username: viewModel.username)
                         }
                     }
                 }) {
@@ -112,7 +115,7 @@ struct RegistrationView: View {
     
     private func getButtonText() -> String {
         if isCodeVerified {
-            return viewModel.username.isEmpty ? "Enter Username" : "Sign Up"
+            return viewModel.username.isEmpty ? "Enter Username" : "Complete Registration"
         } else {
             return isCodeSent ? "Verify Code" : "Send Verification Code"
         }

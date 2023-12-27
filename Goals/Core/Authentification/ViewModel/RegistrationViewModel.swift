@@ -50,6 +50,8 @@ class RegistrationViewModel: ObservableObject {
     
     @MainActor
     func verifyCode() async {
+        print("DEBUG: Verify Code started")
+
         guard let verificationID = verificationID else {
             errorMessage = "Verification ID not found."
             showAlert = true
@@ -58,19 +60,26 @@ class RegistrationViewModel: ObservableObject {
         
         isAuthenticating = true
         do {
-            try await AuthService.shared.verifyPhoneNumber(verificationCode: verificationCode, verificationID: verificationID)
+            let credential = try await AuthService.shared.verifyPhoneNumber(verificationCode: verificationCode, verificationID: verificationID)
+            AuthService.shared.pendingCredential = credential
             isCodeVerified = true
-            isAuthenticating = false
         } catch let error as NSError {
+            print("DEBUG: Verification failed: \(error.localizedDescription)")
             errorMessage = "Failed to verify code: \(error.localizedDescription)"
             showAlert = true
             isCodeVerified = false
-            isAuthenticating = false
+            AuthService.shared.pendingCredential = nil
         }
+        isAuthenticating = false
+        
+        print("DEBUG: Verify Code ended")
     }
     
+    
     @MainActor
-    func createUser() async throws {
+    func finalizeRegistration(username: String) async {
+        
+        // Username validation
         guard !username.isEmpty else {
             errorMessage = "Please enter a username."
             showAlert = true
@@ -78,32 +87,40 @@ class RegistrationViewModel: ObservableObject {
         }
         
         // Check if username already exists
-        let usernameExists = try await UserService.usernameExists(username)
-        if usernameExists {
-            errorMessage = "This username is already taken. Please choose another."
+        do {
+            // Check if username already exists
+            let usernameExists = try await UserService.usernameExists(username)
+            if usernameExists {
+                errorMessage = "This username is already taken. Please choose another."
+                showAlert = true
+                return
+            }
+        } catch {
+            errorMessage = "Failed to check username: \(error.localizedDescription)"
             showAlert = true
             return
         }
         
-        // Ensure that you have a valid credential from the phone number verification
-        guard let credential = AuthService.shared.pendingCredential else {
+        // Credential validation
+        guard AuthService.shared.pendingCredential != nil else {
             errorMessage = "Phone number verification failed."
             showAlert = true
             return
         }
         
-        isAuthenticating = true
+        // Attempting to finalize registration
         do {
-            // Make sure to pass the correct credential here
-            let credential = // get the correct AuthCredential
-            try await AuthService.shared.loginWithCredential(credential: credential, username: username)
-            isAuthenticating = false
-        } catch let error as NSError {
-            errorMessage = "Failed to create user: \(error.localizedDescription)"
+            // Use the stored credential to sign in
+            if let credential = AuthService.shared.pendingCredential {
+                try await AuthService.shared.loginWithCredential(credential: credential, username: username)
+                // Handle successful registration
+            } else {
+                errorMessage = "No valid credential available."
+                showAlert = true
+            }
+        } catch {
+            errorMessage = "Failed to complete registration: \(error.localizedDescription)"
             showAlert = true
-            isAuthenticating = false
-            throw error
         }
     }
-    
 }

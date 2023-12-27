@@ -46,24 +46,15 @@ class AuthService {
         }
     }
     
-
-    
-    @MainActor
-    func verifyPhoneNumber(verificationCode: String, verificationID: String) async throws {
-        let credential = PhoneAuthProvider.provider().credential(withVerificationID: verificationID, verificationCode: verificationCode)
-
-        do {
-            let authResult = try await Auth.auth().signIn(with: credential)
-            // Store the credential for later use instead of signing in immediately
-            self.pendingCredential = credential
-        } catch {
-            print("DEBUG: Verification failed with error \(error.localizedDescription)")
-            throw error // Make sure this error is thrown for incorrect codes
-        }
+    func verifyPhoneNumber(verificationCode: String, verificationID: String) async throws -> AuthCredential {
+        let credential = PhoneAuthProvider.provider().credential(
+            withVerificationID: verificationID,
+            verificationCode: verificationCode
+        )
+        _ = try await Auth.auth().signIn(with: credential)
+        return credential
     }
 
-    
-    
     @MainActor
     func loginWithCredential(credential: AuthCredential, username: String) async throws {
         do {
@@ -78,15 +69,14 @@ class AuthService {
         }
     }
     
-    
     @MainActor
-    func createUser(username: String) async throws {
-        guard let user = Auth.auth().currentUser else {
-            throw NSError(domain: "AuthService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Current user not found."])
-        }
-        let userId = user.uid
-        try await uploadUserData(phoneNumber: user.phoneNumber ?? "", username: username, id: userId)
+    func finalizeRegistration(credential: AuthCredential, username: String) async throws {
+        let authResult = try await Auth.auth().signIn(with: credential)
+        self.userSession = authResult.user
+        try await uploadUserData(phoneNumber: authResult.user.phoneNumber ?? "", username: username, id: authResult.user.uid)
+        // Note: The uploadUserData method should handle the uploading of user data to your documents.
     }
+
     
     @MainActor
     private func uploadUserData(phoneNumber: String, username: String, id: String) async throws {

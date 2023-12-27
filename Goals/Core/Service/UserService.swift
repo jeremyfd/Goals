@@ -16,6 +16,13 @@ class UserService {
     static let shared = UserService()
     private static let userCache = NSCache<NSString, NSData>()
     
+    @MainActor
+    private func uploadUserData(phoneNumber: String, username: String, id: String) async throws {
+        let user = User(phoneNumber: phoneNumber, username: username.lowercased(), id: id)
+        guard let encodedUser = try? Firestore.Encoder().encode(user) else { return }
+        try await FirestoreConstants.UserCollection.document(id).setData(encodedUser)
+        UserService.shared.currentUser = user
+    }
     
     @MainActor
     func fetchCurrentUser() async throws {
