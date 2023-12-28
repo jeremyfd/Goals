@@ -9,6 +9,13 @@
 /* Begin PBXBuildFile section */
 		96CB3EA12B38F24D00B3508D /* RegistrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CB3EA02B38F24D00B3508D /* RegistrationView.swift */; };
 		96CB3EA32B38F28300B3508D /* RegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CB3EA22B38F28300B3508D /* RegistrationViewModel.swift */; };
+		96CB3EA62B3DBEDE00B3508D /* GoalsTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CB3EA52B3DBEDE00B3508D /* GoalsTabView.swift */; };
+		96CB3EA92B3DBF4900B3508D /* SocialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CB3EA82B3DBF4900B3508D /* SocialView.swift */; };
+		96CB3EAE2B3DBF7800B3508D /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CB3EAD2B3DBF7800B3508D /* ProfileView.swift */; };
+		96CB3EB52B3DBFDE00B3508D /* GoalCreationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CB3EB42B3DBFDE00B3508D /* GoalCreationView.swift */; };
+		96CB3EBA2B3DC03D00B3508D /* ContractView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CB3EB92B3DC03D00B3508D /* ContractView.swift */; };
+		96CB3EBD2B3DCF6800B3508D /* Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CB3EBC2B3DCF6800B3508D /* Hex.swift */; };
+		96CB3EC02B3DD5E400B3508D /* FeedGoalsFilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CB3EBF2B3DD5E400B3508D /* FeedGoalsFilterViewModel.swift */; };
 		96F246952B381F4D000CC323 /* GoalsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F246942B381F4D000CC323 /* GoalsApp.swift */; };
 		96F246972B381F4D000CC323 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F246962B381F4D000CC323 /* ContentView.swift */; };
 		96F246992B381F50000CC323 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 96F246982B381F50000CC323 /* Assets.xcassets */; };
@@ -60,6 +67,13 @@
 /* Begin PBXFileReference section */
 		96CB3EA02B38F24D00B3508D /* RegistrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationView.swift; sourceTree = "<group>"; };
 		96CB3EA22B38F28300B3508D /* RegistrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewModel.swift; sourceTree = "<group>"; };
+		96CB3EA52B3DBEDE00B3508D /* GoalsTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsTabView.swift; sourceTree = "<group>"; };
+		96CB3EA82B3DBF4900B3508D /* SocialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialView.swift; sourceTree = "<group>"; };
+		96CB3EAD2B3DBF7800B3508D /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		96CB3EB42B3DBFDE00B3508D /* GoalCreationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalCreationView.swift; sourceTree = "<group>"; };
+		96CB3EB92B3DC03D00B3508D /* ContractView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractView.swift; sourceTree = "<group>"; };
+		96CB3EBC2B3DCF6800B3508D /* Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hex.swift; sourceTree = "<group>"; };
+		96CB3EBF2B3DD5E400B3508D /* FeedGoalsFilterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedGoalsFilterViewModel.swift; sourceTree = "<group>"; };
 		96F246912B381F4D000CC323 /* Goals.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Goals.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		96F246942B381F4D000CC323 /* GoalsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsApp.swift; sourceTree = "<group>"; };
 		96F246962B381F4D000CC323 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -121,6 +135,126 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		96CB3EA42B3DBEC700B3508D /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				96CB3EA52B3DBEDE00B3508D /* GoalsTabView.swift */,
+			);
+			path = TabBar;
+			sourceTree = "<group>";
+		};
+		96CB3EA72B3DBF3600B3508D /* Social */ = {
+			isa = PBXGroup;
+			children = (
+				96CB3EAF2B3DBF8300B3508D /* View */,
+				96CB3EB02B3DBF8700B3508D /* ViewModel */,
+			);
+			path = Social;
+			sourceTree = "<group>";
+		};
+		96CB3EAA2B3DBF5B00B3508D /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				96CB3EBB2B3DC06900B3508D /* CurrentUserProfile */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		96CB3EAB2B3DBF6B00B3508D /* View */ = {
+			isa = PBXGroup;
+			children = (
+				96CB3EAD2B3DBF7800B3508D /* ProfileView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		96CB3EAC2B3DBF6E00B3508D /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		96CB3EAF2B3DBF8300B3508D /* View */ = {
+			isa = PBXGroup;
+			children = (
+				96CB3EA82B3DBF4900B3508D /* SocialView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		96CB3EB02B3DBF8700B3508D /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		96CB3EB12B3DBFC400B3508D /* GoalCreation */ = {
+			isa = PBXGroup;
+			children = (
+				96CB3EB32B3DBFCD00B3508D /* ViewModel */,
+				96CB3EB22B3DBFCA00B3508D /* View */,
+			);
+			path = GoalCreation;
+			sourceTree = "<group>";
+		};
+		96CB3EB22B3DBFCA00B3508D /* View */ = {
+			isa = PBXGroup;
+			children = (
+				96CB3EB42B3DBFDE00B3508D /* GoalCreationView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		96CB3EB32B3DBFCD00B3508D /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		96CB3EB62B3DC01E00B3508D /* Contract */ = {
+			isa = PBXGroup;
+			children = (
+				96CB3EB82B3DC02800B3508D /* ViewModel */,
+				96CB3EB72B3DC02200B3508D /* View */,
+			);
+			path = Contract;
+			sourceTree = "<group>";
+		};
+		96CB3EB72B3DC02200B3508D /* View */ = {
+			isa = PBXGroup;
+			children = (
+				96CB3EB92B3DC03D00B3508D /* ContractView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		96CB3EB82B3DC02800B3508D /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		96CB3EBB2B3DC06900B3508D /* CurrentUserProfile */ = {
+			isa = PBXGroup;
+			children = (
+				96CB3EAB2B3DBF6B00B3508D /* View */,
+				96CB3EAC2B3DBF6E00B3508D /* ViewModel */,
+			);
+			path = CurrentUserProfile;
+			sourceTree = "<group>";
+		};
+		96CB3EBE2B3DD5C300B3508D /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				96CB3EBF2B3DD5E400B3508D /* FeedGoalsFilterViewModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		96F246882B381F4D000CC323 = {
 			isa = PBXGroup;
 			children = (
@@ -140,7 +274,6 @@
 		96F246932B381F4D000CC323 /* Goals */ = {
 			isa = PBXGroup;
 			children = (
-				96F2470C2B389B6C000CC323 /* Info.plist */,
 				96F247042B3831B6000CC323 /* Extensions */,
 				96F246DE2B38230B000CC323 /* App */,
 				96F246E22B38249A000CC323 /* Core */,
@@ -148,6 +281,7 @@
 				96F246F32B3827EB000CC323 /* Utils */,
 				96F246982B381F50000CC323 /* Assets.xcassets */,
 				96F246A22B382159000CC323 /* GoogleService-Info.plist */,
+				96F2470C2B389B6C000CC323 /* Info.plist */,
 				96F2469A2B381F50000CC323 /* Preview Content */,
 			);
 			path = Goals;
@@ -197,6 +331,11 @@
 		96F246E22B38249A000CC323 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				96CB3EB62B3DC01E00B3508D /* Contract */,
+				96CB3EB12B3DBFC400B3508D /* GoalCreation */,
+				96CB3EAA2B3DBF5B00B3508D /* Profile */,
+				96CB3EA72B3DBF3600B3508D /* Social */,
+				96CB3EA42B3DBEC700B3508D /* TabBar */,
 				96F246E32B3824A9000CC323 /* Authentification */,
 				96F246FC2B382A8A000CC323 /* Feed */,
 				96F246DF2B382329000CC323 /* Root */,
@@ -287,6 +426,7 @@
 		96F246FC2B382A8A000CC323 /* Feed */ = {
 			isa = PBXGroup;
 			children = (
+				96CB3EBE2B3DD5C300B3508D /* Models */,
 				96F246FF2B382AA3000CC323 /* View */,
 				96F247002B382AA7000CC323 /* ViewModel */,
 			);
@@ -329,6 +469,7 @@
 			children = (
 				96F247082B383289000CC323 /* ThreadsButtonModifier.swift */,
 				96F2470A2B3832A3000CC323 /* ThreadsTextFieldModifier.swift */,
+				96CB3EBC2B3DCF6800B3508D /* Hex.swift */,
 			);
 			path = Modifiers;
 			sourceTree = "<group>";
@@ -441,6 +582,9 @@
 				96F246F22B3826E8000CC323 /* UserService.swift in Sources */,
 				96CB3EA32B38F28300B3508D /* RegistrationViewModel.swift in Sources */,
 				96F246EF2B382657000CC323 /* AuthError.swift in Sources */,
+				96CB3EA62B3DBEDE00B3508D /* GoalsTabView.swift in Sources */,
+				96CB3EA92B3DBF4900B3508D /* SocialView.swift in Sources */,
+				96CB3EC02B3DD5E400B3508D /* FeedGoalsFilterViewModel.swift in Sources */,
 				96F246E62B3824E1000CC323 /* AuthService.swift in Sources */,
 				96F246F62B38283A000CC323 /* FirestoreConstants.swift in Sources */,
 				96F247062B3831C1000CC323 /* Color.swift in Sources */,
@@ -448,9 +592,13 @@
 				96F246972B381F4D000CC323 /* ContentView.swift in Sources */,
 				96CB3EA12B38F24D00B3508D /* RegistrationView.swift in Sources */,
 				96F246FE2B382A96000CC323 /* FeedView.swift in Sources */,
+				96CB3EB52B3DBFDE00B3508D /* GoalCreationView.swift in Sources */,
+				96CB3EAE2B3DBF7800B3508D /* ProfileView.swift in Sources */,
+				96CB3EBA2B3DC03D00B3508D /* ContractView.swift in Sources */,
 				96F246F92B382928000CC323 /* User.swift in Sources */,
 				96F246EA2B38252A000CC323 /* LoginView.swift in Sources */,
 				96F246EC2B382544000CC323 /* LoginViewModel.swift in Sources */,
+				96CB3EBD2B3DCF6800B3508D /* Hex.swift in Sources */,
 				96F247032B382E18000CC323 /* AuthenticationFormProtocol.swift in Sources */,
 				96F2470B2B3832A3000CC323 /* ThreadsTextFieldModifier.swift in Sources */,
 				96F247092B383289000CC323 /* ThreadsButtonModifier.swift in Sources */,
