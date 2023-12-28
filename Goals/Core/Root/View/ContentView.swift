@@ -15,7 +15,7 @@ struct ContentView: View {
             if viewModel.userSession == nil || !viewModel.isUserProfileComplete {
                 LoginView()
             } else {
-                FeedView()
+                GoalsTabView()
             }
         }
     }
