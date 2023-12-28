@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		969F91EA2B3DFDBE004BECB1 /* EvidenceViewFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969F91E92B3DFDBE004BECB1 /* EvidenceViewFeedView.swift */; };
+		969F91ED2B3E0687004BECB1 /* ContractViewComponentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969F91EC2B3E0687004BECB1 /* ContractViewComponentView.swift */; };
+		969F91F22B3E0C08004BECB1 /* ExpandedGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969F91F12B3E0C08004BECB1 /* ExpandedGoalView.swift */; };
 		96CB3EA12B38F24D00B3508D /* RegistrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CB3EA02B38F24D00B3508D /* RegistrationView.swift */; };
 		96CB3EA32B38F28300B3508D /* RegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CB3EA22B38F28300B3508D /* RegistrationViewModel.swift */; };
 		96CB3EA62B3DBEDE00B3508D /* GoalsTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CB3EA52B3DBEDE00B3508D /* GoalsTabView.swift */; };
@@ -66,6 +68,8 @@
 
 /* Begin PBXFileReference section */
 		969F91E92B3DFDBE004BECB1 /* EvidenceViewFeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvidenceViewFeedView.swift; sourceTree = "<group>"; };
+		969F91EC2B3E0687004BECB1 /* ContractViewComponentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractViewComponentView.swift; sourceTree = "<group>"; };
+		969F91F12B3E0C08004BECB1 /* ExpandedGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandedGoalView.swift; sourceTree = "<group>"; };
 		96CB3EA02B38F24D00B3508D /* RegistrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationView.swift; sourceTree = "<group>"; };
 		96CB3EA22B38F28300B3508D /* RegistrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewModel.swift; sourceTree = "<group>"; };
 		96CB3EA52B3DBEDE00B3508D /* GoalsTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsTabView.swift; sourceTree = "<group>"; };
@@ -141,6 +145,38 @@
 				969F91E92B3DFDBE004BECB1 /* EvidenceViewFeedView.swift */,
 			);
 			path = Components;
+			sourceTree = "<group>";
+		};
+		969F91EB2B3E066F004BECB1 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				969F91EC2B3E0687004BECB1 /* ContractViewComponentView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		969F91EE2B3E0BCC004BECB1 /* GoalInfo */ = {
+			isa = PBXGroup;
+			children = (
+				969F91F02B3E0BE5004BECB1 /* View */,
+				969F91EF2B3E0BE0004BECB1 /* ViewModel */,
+			);
+			path = GoalInfo;
+			sourceTree = "<group>";
+		};
+		969F91EF2B3E0BE0004BECB1 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		969F91F02B3E0BE5004BECB1 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				969F91F12B3E0C08004BECB1 /* ExpandedGoalView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		96CB3EA42B3DBEC700B3508D /* TabBar */ = {
@@ -225,6 +261,7 @@
 		96CB3EB62B3DC01E00B3508D /* Contract */ = {
 			isa = PBXGroup;
 			children = (
+				969F91EB2B3E066F004BECB1 /* Components */,
 				96CB3EB82B3DC02800B3508D /* ViewModel */,
 				96CB3EB72B3DC02200B3508D /* View */,
 			);
@@ -331,6 +368,7 @@
 		96F246E22B38249A000CC323 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				969F91EE2B3E0BCC004BECB1 /* GoalInfo */,
 				96CB3EB62B3DC01E00B3508D /* Contract */,
 				96CB3EB12B3DBFC400B3508D /* GoalCreation */,
 				96CB3EAA2B3DBF5B00B3508D /* Profile */,
@@ -583,10 +621,12 @@
 				96CB3EA32B38F28300B3508D /* RegistrationViewModel.swift in Sources */,
 				96F246EF2B382657000CC323 /* AuthError.swift in Sources */,
 				96CB3EA62B3DBEDE00B3508D /* GoalsTabView.swift in Sources */,
+				969F91F22B3E0C08004BECB1 /* ExpandedGoalView.swift in Sources */,
 				96CB3EA92B3DBF4900B3508D /* SocialView.swift in Sources */,
 				96F246E62B3824E1000CC323 /* AuthService.swift in Sources */,
 				96F246F62B38283A000CC323 /* FirestoreConstants.swift in Sources */,
 				96F247062B3831C1000CC323 /* Color.swift in Sources */,
+				969F91ED2B3E0687004BECB1 /* ContractViewComponentView.swift in Sources */,
 				96F246FB2B3829B8000CC323 /* ContentViewModel.swift in Sources */,
 				96F246972B381F4D000CC323 /* ContentView.swift in Sources */,
 				969F91EA2B3DFDBE004BECB1 /* EvidenceViewFeedView.swift in Sources */,

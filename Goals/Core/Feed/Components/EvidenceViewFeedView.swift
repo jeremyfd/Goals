@@ -8,16 +8,19 @@
 import SwiftUI
 
 struct EvidenceViewFeedView: View {
+    @State private var isShowingExpandedGoalView = false
+    
     var body: some View {
         VStack{
+            
             Image("gymphoto")
                 .resizable()
                 .scaledToFill()
                 .frame(width: UIScreen.main.bounds.width - 40, height: UIScreen.main.bounds.height/1.75)
                 .cornerRadius(40)
             
-            Button {
-                
+            NavigationLink {
+                ExpandedGoalView()
             } label: {
                 HStack{
                     VStack(alignment: .leading){
