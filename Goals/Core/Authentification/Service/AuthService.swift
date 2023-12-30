@@ -80,7 +80,7 @@ class AuthService {
     
     @MainActor
     private func uploadUserData(phoneNumber: String, username: String, id: String) async throws {
-        let user = User(phoneNumber: phoneNumber, username: username.lowercased(), id: id)
+        let user = User(id: id, phoneNumber: phoneNumber, username: username.lowercased())
         guard let encodedUser = try? Firestore.Encoder().encode(user) else { return }
         try await FirestoreConstants.UserCollection.document(id).setData(encodedUser)
         UserService.shared.currentUser = user

@@ -7,10 +7,13 @@
 
 import SwiftUI
 
-import SwiftUI
-
 struct CurrentUserProfileView: View {
     @State private var showCalendarView = false
+    @StateObject var viewModel = ProfileViewModel()
+    
+    private var currentUser: User? {
+        return viewModel.currentUser
+    }
 
     
     var body: some View {
@@ -37,7 +40,7 @@ struct CurrentUserProfileView: View {
                                     .font(.title)
                                     .fontWeight(.bold)
                                 
-                                Text("@jeremy")
+                                Text("@\(currentUser?.username ?? "")")
                                     .font(.body)
                             }
                             

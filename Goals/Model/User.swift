@@ -10,16 +10,13 @@ import Firebase
 import Foundation
 
 struct User: Identifiable, Codable {
-//    let fullname: String
-//    let email: String
+    let id: String
     let phoneNumber : String
     let username: String
     var profileImageUrl: String?
     var bio: String?
     var link: String?
     var stats: UserStats?
-    var isFollowed: Bool?
-    let id: String
     
     var isCurrentUser: Bool {
         return id == Auth.auth().currentUser?.uid
