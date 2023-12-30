@@ -24,12 +24,19 @@ class UserService {
     }
     
     @MainActor
-    func fetchCurrentUser() async throws {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        let snapshot = try await FirestoreConstants.UserCollection.document(uid).getDocument()
-        let user = try snapshot.data(as: User.self)
-        self.currentUser = user
+    func fetchCurrentUser(completion: @escaping (Bool, Error?) -> Void) async {
+        do {
+            guard let uid = Auth.auth().currentUser?.uid else { return }
+            let snapshot = try await FirestoreConstants.UserCollection.document(uid).getDocument()
+            let user = try snapshot.data(as: User.self)
+            self.currentUser = user
+            completion(true, nil)
+        } catch {
+            print("Error fetching user: \(error)")
+            completion(false, error)
+        }
     }
+
     
     static func fetchUser(withUid uid: String) async throws -> User {
         if let nsData = userCache.object(forKey: uid as NSString) {

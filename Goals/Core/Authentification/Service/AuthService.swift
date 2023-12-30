@@ -16,23 +16,35 @@ class AuthService {
     
     init() {
         self.userSession = Auth.auth().currentUser
-        Task { try await UserService.shared.fetchCurrentUser() }
-    }
-    
-    @MainActor
-    func loginWithPhoneNumber(verificationCode: String, verificationID: String) async throws {
-        let credential = PhoneAuthProvider.provider().credential(withVerificationID: verificationID, verificationCode: verificationCode)
-        
-        do {
-            let authResult = try await Auth.auth().signIn(with: credential)
-            self.userSession = authResult.user
-            // Fetch or update user data as necessary
-        } catch {
-            // Handle errors
-            print("DEBUG: Failed to login with phone number with error \(error.localizedDescription)")
-            throw error
+        Task {
+            await UserService.shared.fetchCurrentUser { success, error in
+                // Handle the result of fetching the current user
+                if success {
+                    print("User fetched successfully.")
+                } else if let error = error {
+                    print("Error fetching user: \(error)")
+                }
+            }
         }
     }
+
+    
+    @MainActor
+    func loginWithPhoneNumber(verificationCode: String, verificationID: String, completion: @escaping (Bool, Error?) -> Void) async {
+        do {
+            let credential = PhoneAuthProvider.provider().credential(withVerificationID: verificationID, verificationCode: verificationCode)
+            let authResult = try await Auth.auth().signIn(with: credential)
+            self.userSession = authResult.user
+            await UserService.shared.fetchCurrentUser { success, error in
+                completion(success, error)
+            }
+        } catch {
+            print("DEBUG: Failed to login with phone number with error \(error.localizedDescription)")
+            completion(false, error)
+        }
+    }
+
+
     
     @MainActor
     func sendVerificationCode(to phoneNumber: String) async throws -> String {

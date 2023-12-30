@@ -40,22 +40,29 @@ class LoginViewModel: ObservableObject {
     }
 
     @MainActor
-    func verifyCodeAndLogin() async throws {
+    func verifyCodeAndLogin() async {
         guard let verificationID = verificationID else {
-            errorMessage = "Verification ID not found."
-            showAlert = true
+            self.errorMessage = "Verification ID not found."
+            self.showAlert = true
             return
         }
 
-        isAuthenticating = true
-        do {
-            try await AuthService.shared.loginWithPhoneNumber(verificationCode: verificationCode, verificationID: verificationID)
-            isAuthenticating = false
-        } catch let error as NSError {
-            errorMessage = "Failed to log in: \(error.localizedDescription)"
-            showAlert = true
-            isAuthenticating = false
-            throw error
+        self.isAuthenticating = true
+        await AuthService.shared.loginWithPhoneNumber(verificationCode: verificationCode, verificationID: verificationID) { success, error in
+            if success {
+                // Handle successful login
+                // Make sure to execute any UI updates on the main thread.
+                DispatchQueue.main.async {
+                    self.isAuthenticating = false
+                    // Other UI updates...
+                }
+            } else if let error = error {
+                DispatchQueue.main.async {
+                    self.errorMessage = "Login error: \(error.localizedDescription)"
+                    self.showAlert = true
+                    self.isAuthenticating = false
+                }
+            }
         }
     }
 }
