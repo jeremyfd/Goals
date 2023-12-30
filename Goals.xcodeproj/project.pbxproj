@@ -8,16 +8,29 @@
 
 /* Begin PBXBuildFile section */
 		969F91EA2B3DFDBE004BECB1 /* EvidenceViewFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969F91E92B3DFDBE004BECB1 /* EvidenceViewFeedView.swift */; };
-		969F91ED2B3E0687004BECB1 /* ContractViewComponentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969F91EC2B3E0687004BECB1 /* ContractViewComponentView.swift */; };
+		969F91ED2B3E0687004BECB1 /* CollapsedGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969F91EC2B3E0687004BECB1 /* CollapsedGoalView.swift */; };
 		969F91F22B3E0C08004BECB1 /* ExpandedGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969F91F12B3E0C08004BECB1 /* ExpandedGoalView.swift */; };
+		969F91F52B3ED598004BECB1 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969F91F42B3ED598004BECB1 /* CalendarView.swift */; };
+		969F91F92B3F0116004BECB1 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969F91F82B3F0116004BECB1 /* SettingsView.swift */; };
+		969F91FB2B3F0525004BECB1 /* GoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969F91FA2B3F0525004BECB1 /* GoalView.swift */; };
+		969F91FE2B3F2510004BECB1 /* ExpansionButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969F91FD2B3F2510004BECB1 /* ExpansionButtonView.swift */; };
+		969F92002B3F5895004BECB1 /* SelfCollapsedGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969F91FF2B3F5895004BECB1 /* SelfCollapsedGoalView.swift */; };
+		969F92042B3F7769004BECB1 /* UploadEvidence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969F92032B3F7769004BECB1 /* UploadEvidence.swift */; };
 		96CB3EA12B38F24D00B3508D /* RegistrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CB3EA02B38F24D00B3508D /* RegistrationView.swift */; };
 		96CB3EA32B38F28300B3508D /* RegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CB3EA22B38F28300B3508D /* RegistrationViewModel.swift */; };
 		96CB3EA62B3DBEDE00B3508D /* GoalsTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CB3EA52B3DBEDE00B3508D /* GoalsTabView.swift */; };
-		96CB3EA92B3DBF4900B3508D /* SocialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CB3EA82B3DBF4900B3508D /* SocialView.swift */; };
 		96CB3EAE2B3DBF7800B3508D /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CB3EAD2B3DBF7800B3508D /* ProfileView.swift */; };
 		96CB3EB52B3DBFDE00B3508D /* GoalCreationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CB3EB42B3DBFDE00B3508D /* GoalCreationView.swift */; };
 		96CB3EBA2B3DC03D00B3508D /* ContractView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CB3EB92B3DC03D00B3508D /* ContractView.swift */; };
 		96CB3EBD2B3DCF6800B3508D /* Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CB3EBC2B3DCF6800B3508D /* Hex.swift */; };
+		96EDC7152B408F9900AC2C38 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EDC7142B408F9900AC2C38 /* CameraView.swift */; };
+		96EDC7182B408FEB00AC2C38 /* CameraViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EDC7172B408FEB00AC2C38 /* CameraViewModel.swift */; };
+		96EDC71A2B40900A00AC2C38 /* CameraPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EDC7192B40900A00AC2C38 /* CameraPreview.swift */; };
+		96EDC71C2B40903100AC2C38 /* CameraManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EDC71B2B40903100AC2C38 /* CameraManager.swift */; };
+		96EDC71F2B40A2EC00AC2C38 /* FriendsTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EDC71E2B40A2EC00AC2C38 /* FriendsTabView.swift */; };
+		96EDC7212B40A30200AC2C38 /* FriendSuggestionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EDC7202B40A30200AC2C38 /* FriendSuggestionsView.swift */; };
+		96EDC7232B40A31F00AC2C38 /* CurrentFriendsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EDC7222B40A31F00AC2C38 /* CurrentFriendsView.swift */; };
+		96EDC7252B40A33600AC2C38 /* SentRequestsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EDC7242B40A33600AC2C38 /* SentRequestsView.swift */; };
 		96F246952B381F4D000CC323 /* GoalsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F246942B381F4D000CC323 /* GoalsApp.swift */; };
 		96F246972B381F4D000CC323 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F246962B381F4D000CC323 /* ContentView.swift */; };
 		96F246992B381F50000CC323 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 96F246982B381F50000CC323 /* Assets.xcassets */; };
@@ -68,16 +81,29 @@
 
 /* Begin PBXFileReference section */
 		969F91E92B3DFDBE004BECB1 /* EvidenceViewFeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvidenceViewFeedView.swift; sourceTree = "<group>"; };
-		969F91EC2B3E0687004BECB1 /* ContractViewComponentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractViewComponentView.swift; sourceTree = "<group>"; };
+		969F91EC2B3E0687004BECB1 /* CollapsedGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollapsedGoalView.swift; sourceTree = "<group>"; };
 		969F91F12B3E0C08004BECB1 /* ExpandedGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandedGoalView.swift; sourceTree = "<group>"; };
+		969F91F42B3ED598004BECB1 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
+		969F91F82B3F0116004BECB1 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		969F91FA2B3F0525004BECB1 /* GoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalView.swift; sourceTree = "<group>"; };
+		969F91FD2B3F2510004BECB1 /* ExpansionButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpansionButtonView.swift; sourceTree = "<group>"; };
+		969F91FF2B3F5895004BECB1 /* SelfCollapsedGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfCollapsedGoalView.swift; sourceTree = "<group>"; };
+		969F92032B3F7769004BECB1 /* UploadEvidence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadEvidence.swift; sourceTree = "<group>"; };
 		96CB3EA02B38F24D00B3508D /* RegistrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationView.swift; sourceTree = "<group>"; };
 		96CB3EA22B38F28300B3508D /* RegistrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewModel.swift; sourceTree = "<group>"; };
 		96CB3EA52B3DBEDE00B3508D /* GoalsTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsTabView.swift; sourceTree = "<group>"; };
-		96CB3EA82B3DBF4900B3508D /* SocialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialView.swift; sourceTree = "<group>"; };
 		96CB3EAD2B3DBF7800B3508D /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		96CB3EB42B3DBFDE00B3508D /* GoalCreationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalCreationView.swift; sourceTree = "<group>"; };
 		96CB3EB92B3DC03D00B3508D /* ContractView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractView.swift; sourceTree = "<group>"; };
 		96CB3EBC2B3DCF6800B3508D /* Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hex.swift; sourceTree = "<group>"; };
+		96EDC7142B408F9900AC2C38 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
+		96EDC7172B408FEB00AC2C38 /* CameraViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewModel.swift; sourceTree = "<group>"; };
+		96EDC7192B40900A00AC2C38 /* CameraPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPreview.swift; sourceTree = "<group>"; };
+		96EDC71B2B40903100AC2C38 /* CameraManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraManager.swift; sourceTree = "<group>"; };
+		96EDC71E2B40A2EC00AC2C38 /* FriendsTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsTabView.swift; sourceTree = "<group>"; };
+		96EDC7202B40A30200AC2C38 /* FriendSuggestionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendSuggestionsView.swift; sourceTree = "<group>"; };
+		96EDC7222B40A31F00AC2C38 /* CurrentFriendsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentFriendsView.swift; sourceTree = "<group>"; };
+		96EDC7242B40A33600AC2C38 /* SentRequestsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentRequestsView.swift; sourceTree = "<group>"; };
 		96F246912B381F4D000CC323 /* Goals.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Goals.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		96F246942B381F4D000CC323 /* GoalsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsApp.swift; sourceTree = "<group>"; };
 		96F246962B381F4D000CC323 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -147,17 +173,10 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
-		969F91EB2B3E066F004BECB1 /* Components */ = {
-			isa = PBXGroup;
-			children = (
-				969F91EC2B3E0687004BECB1 /* ContractViewComponentView.swift */,
-			);
-			path = Components;
-			sourceTree = "<group>";
-		};
 		969F91EE2B3E0BCC004BECB1 /* GoalInfo */ = {
 			isa = PBXGroup;
 			children = (
+				969F91FC2B3F2500004BECB1 /* Components */,
 				969F91F02B3E0BE5004BECB1 /* View */,
 				969F91EF2B3E0BE0004BECB1 /* ViewModel */,
 			);
@@ -175,6 +194,57 @@
 			isa = PBXGroup;
 			children = (
 				969F91F12B3E0C08004BECB1 /* ExpandedGoalView.swift */,
+				969F91FA2B3F0525004BECB1 /* GoalView.swift */,
+				969F91FF2B3F5895004BECB1 /* SelfCollapsedGoalView.swift */,
+				969F91EC2B3E0687004BECB1 /* CollapsedGoalView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		969F91F32B3ED586004BECB1 /* Calendar */ = {
+			isa = PBXGroup;
+			children = (
+				969F91F42B3ED598004BECB1 /* CalendarView.swift */,
+			);
+			path = Calendar;
+			sourceTree = "<group>";
+		};
+		969F91F62B3F0107004BECB1 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				969F91F72B3F010D004BECB1 /* View */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		969F91F72B3F010D004BECB1 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				969F91F82B3F0116004BECB1 /* SettingsView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		969F91FC2B3F2500004BECB1 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				969F91FD2B3F2510004BECB1 /* ExpansionButtonView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		969F92012B3F7758004BECB1 /* Evidence */ = {
+			isa = PBXGroup;
+			children = (
+				969F92022B3F775C004BECB1 /* View */,
+			);
+			path = Evidence;
+			sourceTree = "<group>";
+		};
+		969F92022B3F775C004BECB1 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				969F92032B3F7769004BECB1 /* UploadEvidence.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -185,15 +255,6 @@
 				96CB3EA52B3DBEDE00B3508D /* GoalsTabView.swift */,
 			);
 			path = TabBar;
-			sourceTree = "<group>";
-		};
-		96CB3EA72B3DBF3600B3508D /* Social */ = {
-			isa = PBXGroup;
-			children = (
-				96CB3EAF2B3DBF8300B3508D /* View */,
-				96CB3EB02B3DBF8700B3508D /* ViewModel */,
-			);
-			path = Social;
 			sourceTree = "<group>";
 		};
 		96CB3EAA2B3DBF5B00B3508D /* Profile */ = {
@@ -213,21 +274,6 @@
 			sourceTree = "<group>";
 		};
 		96CB3EAC2B3DBF6E00B3508D /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = ViewModel;
-			sourceTree = "<group>";
-		};
-		96CB3EAF2B3DBF8300B3508D /* View */ = {
-			isa = PBXGroup;
-			children = (
-				96CB3EA82B3DBF4900B3508D /* SocialView.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		96CB3EB02B3DBF8700B3508D /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
 			);
@@ -261,7 +307,6 @@
 		96CB3EB62B3DC01E00B3508D /* Contract */ = {
 			isa = PBXGroup;
 			children = (
-				969F91EB2B3E066F004BECB1 /* Components */,
 				96CB3EB82B3DC02800B3508D /* ViewModel */,
 				96CB3EB72B3DC02200B3508D /* View */,
 			);
@@ -290,6 +335,28 @@
 				96CB3EAC2B3DBF6E00B3508D /* ViewModel */,
 			);
 			path = CurrentUserProfile;
+			sourceTree = "<group>";
+		};
+		96EDC7132B408F5300AC2C38 /* Camera */ = {
+			isa = PBXGroup;
+			children = (
+				96EDC7142B408F9900AC2C38 /* CameraView.swift */,
+				96EDC7172B408FEB00AC2C38 /* CameraViewModel.swift */,
+				96EDC7192B40900A00AC2C38 /* CameraPreview.swift */,
+				96EDC71B2B40903100AC2C38 /* CameraManager.swift */,
+			);
+			path = Camera;
+			sourceTree = "<group>";
+		};
+		96EDC71D2B40A2D800AC2C38 /* Friends */ = {
+			isa = PBXGroup;
+			children = (
+				96EDC71E2B40A2EC00AC2C38 /* FriendsTabView.swift */,
+				96EDC7222B40A31F00AC2C38 /* CurrentFriendsView.swift */,
+				96EDC7202B40A30200AC2C38 /* FriendSuggestionsView.swift */,
+				96EDC7242B40A33600AC2C38 /* SentRequestsView.swift */,
+			);
+			path = Friends;
 			sourceTree = "<group>";
 		};
 		96F246882B381F4D000CC323 = {
@@ -368,11 +435,15 @@
 		96F246E22B38249A000CC323 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				96EDC71D2B40A2D800AC2C38 /* Friends */,
+				96EDC7132B408F5300AC2C38 /* Camera */,
+				969F92012B3F7758004BECB1 /* Evidence */,
+				969F91F62B3F0107004BECB1 /* Settings */,
+				969F91F32B3ED586004BECB1 /* Calendar */,
 				969F91EE2B3E0BCC004BECB1 /* GoalInfo */,
 				96CB3EB62B3DC01E00B3508D /* Contract */,
 				96CB3EB12B3DBFC400B3508D /* GoalCreation */,
 				96CB3EAA2B3DBF5B00B3508D /* Profile */,
-				96CB3EA72B3DBF3600B3508D /* Social */,
 				96CB3EA42B3DBEC700B3508D /* TabBar */,
 				96F246E32B3824A9000CC323 /* Authentification */,
 				96F246FC2B382A8A000CC323 /* Feed */,
@@ -617,32 +688,45 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				969F92002B3F5895004BECB1 /* SelfCollapsedGoalView.swift in Sources */,
 				96F246F22B3826E8000CC323 /* UserService.swift in Sources */,
 				96CB3EA32B38F28300B3508D /* RegistrationViewModel.swift in Sources */,
 				96F246EF2B382657000CC323 /* AuthError.swift in Sources */,
 				96CB3EA62B3DBEDE00B3508D /* GoalsTabView.swift in Sources */,
+				969F91FE2B3F2510004BECB1 /* ExpansionButtonView.swift in Sources */,
 				969F91F22B3E0C08004BECB1 /* ExpandedGoalView.swift in Sources */,
-				96CB3EA92B3DBF4900B3508D /* SocialView.swift in Sources */,
 				96F246E62B3824E1000CC323 /* AuthService.swift in Sources */,
 				96F246F62B38283A000CC323 /* FirestoreConstants.swift in Sources */,
+				96EDC7252B40A33600AC2C38 /* SentRequestsView.swift in Sources */,
+				96EDC71A2B40900A00AC2C38 /* CameraPreview.swift in Sources */,
 				96F247062B3831C1000CC323 /* Color.swift in Sources */,
-				969F91ED2B3E0687004BECB1 /* ContractViewComponentView.swift in Sources */,
+				969F91ED2B3E0687004BECB1 /* CollapsedGoalView.swift in Sources */,
+				969F91FB2B3F0525004BECB1 /* GoalView.swift in Sources */,
 				96F246FB2B3829B8000CC323 /* ContentViewModel.swift in Sources */,
 				96F246972B381F4D000CC323 /* ContentView.swift in Sources */,
+				96EDC7182B408FEB00AC2C38 /* CameraViewModel.swift in Sources */,
 				969F91EA2B3DFDBE004BECB1 /* EvidenceViewFeedView.swift in Sources */,
 				96CB3EA12B38F24D00B3508D /* RegistrationView.swift in Sources */,
+				969F91F52B3ED598004BECB1 /* CalendarView.swift in Sources */,
+				96EDC7152B408F9900AC2C38 /* CameraView.swift in Sources */,
 				96F246FE2B382A96000CC323 /* FeedView.swift in Sources */,
 				96CB3EB52B3DBFDE00B3508D /* GoalCreationView.swift in Sources */,
 				96CB3EAE2B3DBF7800B3508D /* ProfileView.swift in Sources */,
 				96CB3EBA2B3DC03D00B3508D /* ContractView.swift in Sources */,
 				96F246F92B382928000CC323 /* User.swift in Sources */,
+				96EDC71F2B40A2EC00AC2C38 /* FriendsTabView.swift in Sources */,
+				969F92042B3F7769004BECB1 /* UploadEvidence.swift in Sources */,
 				96F246EA2B38252A000CC323 /* LoginView.swift in Sources */,
+				969F91F92B3F0116004BECB1 /* SettingsView.swift in Sources */,
 				96F246EC2B382544000CC323 /* LoginViewModel.swift in Sources */,
 				96CB3EBD2B3DCF6800B3508D /* Hex.swift in Sources */,
 				96F247032B382E18000CC323 /* AuthenticationFormProtocol.swift in Sources */,
 				96F2470B2B3832A3000CC323 /* ThreadsTextFieldModifier.swift in Sources */,
 				96F247092B383289000CC323 /* ThreadsButtonModifier.swift in Sources */,
+				96EDC71C2B40903100AC2C38 /* CameraManager.swift in Sources */,
+				96EDC7212B40A30200AC2C38 /* FriendSuggestionsView.swift in Sources */,
 				96F246952B381F4D000CC323 /* GoalsApp.swift in Sources */,
+				96EDC7232B40A31F00AC2C38 /* CurrentFriendsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -780,11 +864,14 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Goals/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSCameraUsageDescription = "To take pictures of evidence.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "To store the evidences";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -810,11 +897,14 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Goals/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSCameraUsageDescription = "To take pictures of evidence.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "To store the evidences";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

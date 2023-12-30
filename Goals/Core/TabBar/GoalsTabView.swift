@@ -28,12 +28,12 @@ struct GoalsTabView: View {
                 .onAppear { selectedTab = 1 }
                 .tag(1)
             
-            GoalCreationView()
+            CameraView()
                 .tabItem { Image(systemName: "plus") }
                 .onAppear { selectedTab = 2 }
                 .tag(2)
             
-            SocialView()
+            FriendsTabView()
                 .tabItem {
                     Image(systemName: selectedTab == 3 ? "person.2.fill" : "person.2")
                         .environment(\.symbolVariants, selectedTab == 3 ? .fill : .none)

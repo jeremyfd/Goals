@@ -1,13 +1,13 @@
 //
-//  ContractViewComponentView.swift
+//  SelfCollapsedGoalView.swift
 //  Goals
 //
-//  Created by Work on 28/12/2023.
+//  Created by Work on 29/12/2023.
 //
 
 import SwiftUI
 
-struct ContractViewComponentView: View {
+struct SelfCollapsedGoalView: View {
     var body: some View {
         
         Button {
@@ -19,28 +19,16 @@ struct ContractViewComponentView: View {
                     Text("Go Gym")
                         .font(.title2)
                         .fontWeight(.bold)
-                    
-                    HStack{
-                        Image("portrait")
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 30, height: 30)
-                            .clipShape(Circle())
-                        
-                        Text("@jeremy")
-                    }
                         
                 }
                 .foregroundColor(.black)
                 .padding()
-                
-                Spacer()
-                
+                                
                 HStack {
-                    Text("Week 2")
+                    Text("Last day!")
                         .font(.title3)
                         .fontWeight(.bold)
-                        .foregroundColor(.black)
+                        .foregroundColor(.red)
                         .padding(.trailing)
                     
                     Image(systemName: "chevron.down")
@@ -54,14 +42,13 @@ struct ContractViewComponentView: View {
             }
             .padding(.horizontal)
             .padding(.vertical, 5)
-            .frame(width: UIScreen.main.bounds.width - 40)
+            .frame(height: 50)
             .background(Color.white)
             .cornerRadius(40) // Rounded corners
         }
-        .padding(.horizontal)
     }
 }
 
 #Preview {
-    ContractViewComponentView()
+    SelfCollapsedGoalView()
 }

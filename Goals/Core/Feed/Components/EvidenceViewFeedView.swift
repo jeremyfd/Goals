@@ -13,11 +13,35 @@ struct EvidenceViewFeedView: View {
     var body: some View {
         VStack{
             
-            Image("gymphoto")
-                .resizable()
-                .scaledToFill()
-                .frame(width: UIScreen.main.bounds.width - 40, height: UIScreen.main.bounds.height/1.75)
-                .cornerRadius(40)
+            
+            ZStack(alignment: .bottom) {
+                Image("gymphoto")
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: UIScreen.main.bounds.width - 40, height: UIScreen.main.bounds.height/2)
+                    .cornerRadius(40)
+                    .overlay(
+                        LinearGradient(gradient: Gradient(colors: [.clear, .black]), startPoint: .center, endPoint: .bottom)
+                            .edgesIgnoringSafeArea(.all)
+                    )
+
+                HStack {
+                    VStack(alignment: .leading) {
+                        Text("London")
+                            .foregroundColor(.white)
+                            .fontWeight(.bold)
+                        Text("15:26 26/12/23")
+                            .foregroundColor(.white)
+                            .fontWeight(.bold)
+                    }
+                    
+                    Spacer()
+                }
+                .padding()
+            }
+            .frame(width: UIScreen.main.bounds.width - 40, height: UIScreen.main.bounds.height/2)
+            .cornerRadius(40)
+
             
             NavigationLink {
                 ExpandedGoalView()

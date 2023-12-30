@@ -23,14 +23,33 @@ struct FeedView: View {
             )
             .ignoresSafeArea()
             .overlay(
-                VStack {
+                VStack(alignment: .leading) {
+                    
+                    HStack(alignment: .center) {
+                        Text("My Goals")
+                            .font(.title)
+                            .fontWeight(.bold)
+                            .padding(.leading)
+                    }
+                    
+                    ScrollView(.horizontal) {
+                        HStack(spacing: 10) {
+                            ForEach(0..<5) { _ in
+                                SelfCollapsedGoalView()
+                            }
+                        }
+                    }
+                    .padding(.bottom)
+                    .padding(.leading)
+                    .scrollIndicators(.hidden)
+                    
                     Picker("", selection: $selectedTab) {
                         Text("My Contracts").tag(0)
                         Text("Friends Contracts").tag(1)
                     }
                     .pickerStyle(SegmentedPickerStyle())
                     .padding(.horizontal)
-
+                    
                     TabView(selection: $selectedTab) {
                         ScrollView {
                             contentForYourContracts()
@@ -44,10 +63,12 @@ struct FeedView: View {
                     }
                     .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
                 }
+//                    .navigationTitle("Feed")
+//                    .navigationBarTitleDisplayMode(.inline)
             )
         }
     }
-
+    
     func contentForYourContracts() -> some View {
         VStack {
             
@@ -55,7 +76,7 @@ struct FeedView: View {
                 Text("Today")
                     .font(.title)
                     .fontWeight(.bold)
-                    .padding(.leading, 55)
+                    .padding(.leading)
                 Spacer()
             }
             
@@ -66,7 +87,7 @@ struct FeedView: View {
             }
         }
     }
-
+    
     func contentForFriendsContracts() -> some View {
         VStack {
             
@@ -74,7 +95,7 @@ struct FeedView: View {
                 Text("Today")
                     .font(.title)
                     .fontWeight(.bold)
-                    .padding(.leading, 55)
+                    .padding(.leading)
                 Spacer()
             }
             

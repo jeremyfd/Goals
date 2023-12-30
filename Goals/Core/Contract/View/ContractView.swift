@@ -63,7 +63,7 @@ struct ContractView: View {
             
             LazyVStack(spacing: 20){
                 ForEach(0 ... 10, id: \.self) { thread in
-                    ContractViewComponentView()
+                    CollapsedGoalView()
                 }
             }
         }
@@ -83,7 +83,7 @@ struct ContractView: View {
             
             LazyVStack(spacing: 20){
                 ForEach(0 ... 10, id: \.self) { thread in
-                    ContractViewComponentView()
+                    CollapsedGoalView()
                 }
             }
         }
