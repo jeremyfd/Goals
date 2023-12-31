@@ -16,6 +16,7 @@ struct User: Identifiable, Codable {
     var profileImageUrl: String?
     var bio: String?
     var link: String?
+    var fullName: String?
     var stats: UserStats?
     
     var isCurrentUser: Bool {

@@ -28,7 +28,6 @@ class AuthService {
         }
     }
 
-    
     @MainActor
     func loginWithPhoneNumber(verificationCode: String, verificationID: String, completion: @escaping (Bool, Error?) -> Void) async {
         do {
@@ -44,8 +43,6 @@ class AuthService {
         }
     }
 
-
-    
     @MainActor
     func sendVerificationCode(to phoneNumber: String) async throws -> String {
         do {
@@ -102,6 +99,7 @@ class AuthService {
         do {
             try Auth.auth().signOut()
             self.userSession = nil
+            UserService.shared.reset()
         } catch {
             print("DEBUG: Failed to sign out")
         }

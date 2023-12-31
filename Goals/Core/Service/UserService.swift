@@ -37,7 +37,6 @@ class UserService {
         }
     }
 
-    
     static func fetchUser(withUid uid: String) async throws -> User {
         if let nsData = userCache.object(forKey: uid as NSString) {
             if let user = try? JSONDecoder().decode(User.self, from: nsData as Data) {
@@ -75,4 +74,9 @@ class UserService {
             .getDocuments()
         return !querySnapshot.documents.isEmpty
     }
+    
+    func reset() {
+        self.currentUser = nil
+    }
+    
 }

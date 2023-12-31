@@ -36,9 +36,12 @@ struct CurrentUserProfileView: View {
                                 .overlay(Circle().stroke(Color.white, lineWidth: 4))
                             
                             VStack(alignment: .leading){
-                                Text("Jeremy")
-                                    .font(.title)
-                                    .fontWeight(.bold)
+                                
+                                if let fullName = currentUser?.fullName{
+                                    Text(currentUser?.fullName ?? "")
+                                        .font(.title)
+                                        .fontWeight(.bold)
+                                }
                                 
                                 Text("@\(currentUser?.username ?? "")")
                                     .font(.body)
