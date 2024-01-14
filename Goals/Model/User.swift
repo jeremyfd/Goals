@@ -18,6 +18,9 @@ struct User: Identifiable, Codable {
     var link: String?
     var fullName: String?
     var stats: UserStats?
+    var isFriend: Bool?
+    var isFriendRequestReceived: Bool?
+    var isFriendRequestSent: Bool?
     
     var isCurrentUser: Bool {
         return id == Auth.auth().currentUser?.uid
@@ -25,9 +28,8 @@ struct User: Identifiable, Codable {
 }
 
 struct UserStats: Codable {
-    var followersCount: Int
-    var followingCount: Int
-    var threadsCount: Int
+    var friendsCount: Int
+    var goalsCount: Int
 }
 
 extension User: Hashable {

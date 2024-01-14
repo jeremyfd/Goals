@@ -63,8 +63,7 @@ struct FeedView: View {
                     }
                     .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
                 }
-//                    .navigationTitle("Feed")
-//                    .navigationBarTitleDisplayMode(.inline)
+
             )
         }
     }

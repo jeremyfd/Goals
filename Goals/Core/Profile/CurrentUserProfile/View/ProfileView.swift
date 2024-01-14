@@ -10,6 +10,7 @@ import SwiftUI
 struct CurrentUserProfileView: View {
     @State private var showCalendarView = false
     @StateObject var viewModel = ProfileViewModel()
+
     
     private var currentUser: User? {
         return viewModel.currentUser
@@ -37,7 +38,7 @@ struct CurrentUserProfileView: View {
                             
                             VStack(alignment: .leading){
                                 
-                                if let fullName = currentUser?.fullName{
+                                if (currentUser?.fullName) != nil{
                                     Text(currentUser?.fullName ?? "")
                                         .font(.title)
                                         .fontWeight(.bold)
@@ -143,6 +144,9 @@ struct CurrentUserProfileView: View {
     }
 }
 
-#Preview {
-    CurrentUserProfileView()
+struct CurrentUserProfileView_Previews: PreviewProvider {
+    static var previews: some View {
+        CurrentUserProfileView()
+    }
 }
+

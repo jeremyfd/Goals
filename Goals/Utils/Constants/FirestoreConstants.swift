@@ -12,4 +12,8 @@ struct FirestoreConstants {
     
     static let UserCollection = Root.collection("users")
     
+    static let FriendRequestsCollection = Root.collection("friendrequests")
+    
+    static let FriendsCollection = Root.collection("friends")
+
 }

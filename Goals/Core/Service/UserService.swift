@@ -36,7 +36,7 @@ class UserService {
             completion(false, error)
         }
     }
-
+    
     static func fetchUser(withUid uid: String) async throws -> User {
         if let nsData = userCache.object(forKey: uid as NSString) {
             if let user = try? JSONDecoder().decode(User.self, from: nsData as Data) {
@@ -80,3 +80,172 @@ class UserService {
     }
     
 }
+
+// MARK: - Friend Requests and Management
+
+extension UserService {
+    // Send a friend request
+    @MainActor
+    func sendFriendRequest(toUid uid: String) async throws {
+        guard let currentUid = Auth.auth().currentUser?.uid else { return }
+        try await FirestoreConstants
+            .FriendRequestsCollection
+            .document(currentUid)
+            .collection("sent-requests")
+            .document(uid)
+            .setData([:])
+        
+        try await FirestoreConstants
+            .FriendRequestsCollection
+            .document(uid)
+            .collection("received-requests")
+            .document(currentUid)
+            .setData([:])
+    }
+    
+    // Accept a friend request
+    @MainActor
+    func acceptFriendRequest(fromUid uid: String) async throws {
+        guard let currentUid = Auth.auth().currentUser?.uid else { return }
+        
+        // Add each other as friends
+        async let _ = try await FirestoreConstants
+            .FriendsCollection
+            .document(currentUid)
+            .collection("user-friends")
+            .document(uid)
+            .setData([:])
+        
+        async let _ = try await FirestoreConstants
+            .FriendsCollection
+            .document(uid)
+            .collection("user-friends")
+            .document(currentUid)
+            .setData([:])
+        
+        // Remove the friend request
+        async let _ = try await removeFriendRequest(fromUid: uid)
+    }
+    
+    // Reject a friend request
+    @MainActor
+    func rejectFriendRequest(fromUid uid: String) async throws {
+        // Simply remove the friend request
+        async let _ = try await removeFriendRequest(fromUid: uid)
+    }
+    
+    // Remove a friend
+    @MainActor
+    func removeFriend(uid: String) async throws {
+        guard let currentUid = Auth.auth().currentUser?.uid else { return }
+        
+        async let _ = try await FirestoreConstants
+            .FriendsCollection
+            .document(currentUid)
+            .collection("user-friends")
+            .document(uid)
+            .delete()
+
+        async let _ = try await FirestoreConstants
+            .FriendsCollection
+            .document(uid)
+            .collection("user-friends")
+            .document(currentUid)
+            .delete()
+    }
+    
+    // Helper function to remove a friend request
+    private func removeFriendRequest(fromUid uid: String) async throws {
+        guard let currentUid = Auth.auth().currentUser?.uid else { return }
+        
+        async let _ = try await FirestoreConstants
+            .FriendRequestsCollection
+            .document(currentUid)
+            .collection("received-requests")
+            .document(uid)
+            .delete()
+        
+        async let _ = try await FirestoreConstants
+            .FriendRequestsCollection
+            .document(uid)
+            .collection("sent-requests")
+            .document(currentUid)
+            .delete()
+    }
+    
+    // Unsend a friend request
+    @MainActor
+    func unsendFriendRequest(toUid uid: String) async throws {
+        guard let currentUid = Auth.auth().currentUser?.uid else { return }
+        try await FirestoreConstants
+            .FriendRequestsCollection
+            .document(currentUid)
+            .collection("sent-requests")
+            .document(uid)
+            .delete()
+        
+        try await FirestoreConstants
+            .FriendRequestsCollection
+            .document(uid)
+            .collection("received-requests")
+            .document(currentUid)
+            .delete()
+    }
+
+    // Delete a received friend request
+    @MainActor
+    func deleteReceivedFriendRequest(fromUid uid: String) async throws {
+        guard let currentUid = Auth.auth().currentUser?.uid else { return }
+        try await FirestoreConstants
+            .FriendRequestsCollection
+            .document(currentUid)
+            .collection("received-requests")
+            .document(uid)
+            .delete()
+
+        try await FirestoreConstants
+            .FriendRequestsCollection
+            .document(uid)
+            .collection("sent-requests")
+            .document(currentUid)
+            .delete()
+    }
+    
+    // Check if a user is already a friend
+    static func checkIfUserIsFriend(_ uid: String) async -> Bool {
+        guard let currentUid = Auth.auth().currentUser?.uid else { return false }
+        let collection = FirestoreConstants.FriendsCollection.document(currentUid).collection("user-friends")
+        guard let snapshot = try? await collection.document(uid).getDocument() else { return false }
+        return snapshot.exists
+    }
+    
+    static func checkIfRequestSent(toUid targetUid: String) async throws -> Bool {
+        guard let currentUid = Auth.auth().currentUser?.uid else { return false }
+        let document = try await FirestoreConstants
+            .FriendRequestsCollection
+            .document(currentUid)
+            .collection("sent-requests")
+            .document(targetUid)
+            .getDocument()
+
+        return document.exists
+    }
+    
+    static func checkIfRequestReceived(fromUid targetUid: String) async throws -> Bool {
+        guard let currentUid = Auth.auth().currentUser?.uid else { return false }
+        let document = try await FirestoreConstants
+            .FriendRequestsCollection
+            .document(currentUid)
+            .collection("received-requests")
+            .document(targetUid)
+            .getDocument()
+
+        return document.exists
+    }
+
+    
+    
+}
+
+// Other methods like fetching friend stats, friend lists, and updating feeds would need to be adjusted similarly.
+

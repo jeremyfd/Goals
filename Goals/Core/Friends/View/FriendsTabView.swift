@@ -11,7 +11,7 @@ struct FriendsTabView: View {
     @StateObject private var viewModel = FriendsTabViewModel()
     @State private var selectedTab = "Friends"
     @FocusState private var isTextFieldFocused: Bool
-    
+
     var body: some View {
         NavigationStack {
             ZStack {
@@ -21,7 +21,7 @@ struct FriendsTabView: View {
                     endPoint: .top
                 )
                 .ignoresSafeArea()
-                
+
                 VStack {
                     HStack {
                         TextField("Add or search for friends", text: $viewModel.searchText)
@@ -31,8 +31,7 @@ struct FriendsTabView: View {
                             .padding()
                             .background(Color(.systemGray6))
                             .cornerRadius(8)
-                        
-                        // Cancel Button
+
                         if !viewModel.searchText.isEmpty {
                             Button("Cancel") {
                                 viewModel.searchText = ""
@@ -44,45 +43,23 @@ struct FriendsTabView: View {
                         }
                     }
                     .padding(.horizontal)
-                    
-                    
-                    
-                    // Conditional display based on search text
+
                     if viewModel.searchText.isEmpty {
-                        
-                        // Custom pill-shaped tab switcher placed at the top
                         PillTabSwitcher(selectedTab: $selectedTab)
                             .padding(.vertical)
-                        
-                        // TabView for swipe functionality
+
                         TabView(selection: $selectedTab) {
-                            FriendSuggestionsView()
-                                .tag("Suggestions") // Identifier for the tab
-                            
-                            CurrentFriendsView()
-                                .tag("Friends") // Identifier for the tab
-                            
-                            SentRequestsView()
-                                .tag("Requests") // Identifier for the tab
+                            FriendSuggestionsView().tag("Suggestions")
+                            CurrentFriendsView().tag("Friends")
+                            FriendRequestsView().tag("Requests")
                         }
-                        .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never)) // Hides the default tab bar
+                        .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                     } else {
-                        // Scrollable LazyVStack for search results
                         ScrollView {
                             LazyVStack {
                                 ForEach(viewModel.searchResults, id: \.id) { user in
-                                    HStack {
-                                        VStack(alignment: .leading, spacing: 8) {
-                                            Text(user.fullName ?? "")
-                                                .font(.headline)
-                                            Text("@\(user.username)")
-                                                .font(.subheadline)
-                                        }
-                                        .padding()
-                                        
-                                        Spacer()
-                                    }
+                                    UserCell(viewModel: UserCellViewModel(user: user))
                                 }
                             }
                         }
@@ -90,9 +67,12 @@ struct FriendsTabView: View {
                     }
                 }
             }
+            
         }
+        
     }
 }
+
 
 struct PillTabSwitcher: View {
     @Binding var selectedTab: String
