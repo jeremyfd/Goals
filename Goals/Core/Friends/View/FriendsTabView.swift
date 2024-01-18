@@ -11,7 +11,7 @@ struct FriendsTabView: View {
     @StateObject private var viewModel = FriendsTabViewModel()
     @State private var selectedTab = "Friends"
     @FocusState private var isTextFieldFocused: Bool
-
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -21,7 +21,7 @@ struct FriendsTabView: View {
                     endPoint: .top
                 )
                 .ignoresSafeArea()
-
+                
                 VStack {
                     HStack {
                         TextField("Add or search for friends", text: $viewModel.searchText)
@@ -31,7 +31,7 @@ struct FriendsTabView: View {
                             .padding()
                             .background(Color(.systemGray6))
                             .cornerRadius(8)
-
+                        
                         if !viewModel.searchText.isEmpty {
                             Button("Cancel") {
                                 viewModel.searchText = ""
@@ -43,11 +43,11 @@ struct FriendsTabView: View {
                         }
                     }
                     .padding(.horizontal)
-
+                    
                     if viewModel.searchText.isEmpty {
                         PillTabSwitcher(selectedTab: $selectedTab)
                             .padding(.vertical)
-
+                        
                         TabView(selection: $selectedTab) {
                             FriendSuggestionsView().tag("Suggestions")
                             CurrentFriendsView().tag("Friends")
@@ -59,11 +59,16 @@ struct FriendsTabView: View {
                         ScrollView {
                             LazyVStack {
                                 ForEach(viewModel.searchResults, id: \.id) { user in
-                                    UserCell(viewModel: UserCellViewModel(user: user))
+                                    NavigationLink(value: user) {
+                                        UserCell(viewModel: UserCellViewModel(user: user))
+                                    }
                                 }
                             }
                         }
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .navigationDestination(for: User.self, destination: { user in
+                            StrangerProfileView(user: user)
+                        })
                     }
                 }
             }

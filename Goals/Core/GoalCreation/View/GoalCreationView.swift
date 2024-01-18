@@ -9,6 +9,9 @@ import SwiftUI
 
 struct GoalCreationView: View {
     @State private var goalName = ""
+    @State private var goalPartner = ""
+    @State private var goalFrequency = ""
+
     
     var body: some View {
         NavigationStack {
@@ -28,38 +31,54 @@ struct GoalCreationView: View {
                     
                     VStack{
                         HStack {
-                            Text("Name")
+                            Text("Name:")
+                                .fontWeight(.bold)
                             
                             Spacer()
                             
                             TextField("Goal name...", text: $goalName)
-                                .background(Color(.systemGray6))
-                                .cornerRadius(8)
+                                .padding(5)
+//                                .background(Color(.systemGray6))
+//                                .cornerRadius(8)
                         }
                         HStack {
-                            Text("Partner")
+                            Text("Partner:")
+                                .fontWeight(.bold)
                             
                             Spacer()
                             
-                            TextField("Partner username...", text: $goalName)
-                                .background(Color(.systemGray6))
-                                .cornerRadius(8)
+                            TextField("Partner username...", text: $goalPartner)
+                                .padding(5)
+//                                .background(Color(.systemGray6))
+//                                .cornerRadius(8)
                         }
                         HStack {
-                            Text("Frequency")
+                            Text("Frequency:")
+                                .fontWeight(.bold)
                             
                             Spacer()
                             
-                            TextField("Partner username...", text: $goalName)
-                                .background(Color(.systemGray6))
-                                .cornerRadius(8)
+                            TextField("Partner username...", text: $goalFrequency)
+                                .padding(5)
+//                                .background(Color(.systemGray6))
+//                                .cornerRadius(8)
                         }
+                        
+                        VStack (alignment: .leading, spacing: 15){
+                            Text("You will not be able to delete this goal and your friends will keep you accountable to it.")
+                            Text("Please create your goal wisely.")
+                        }
+                        .padding(.top)
                         
                         Button(action: {
                             
                         }, label: {
                             Text("Create Goal")
+                                .foregroundStyle(Color.black)
+                                .fontWeight(.bold)
+
                         })
+                        .padding(.top)
                     }
                     .padding(.horizontal)
                 }
@@ -67,7 +86,6 @@ struct GoalCreationView: View {
         }
     }
 }
-
 
 #Preview {
     GoalCreationView()

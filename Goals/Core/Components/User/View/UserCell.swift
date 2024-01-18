@@ -37,36 +37,40 @@ struct UserCell: View {
                 
                 Spacer()
                 
-                if !viewModel.user.isCurrentUser {
-                    if isFriendRequestReceived {
-                        Button(action: {
-                            viewModel.acceptFriendRequest()
-                        }) {
-                            Text("Accept")
-                        }
-                        Button(action: {
-                            viewModel.rejectFriendRequest()
-                        }) {
-                            Text("Reject")
-                        }
-                    } else if isFriendRequestSent {
-                        Button(action: {
-                            viewModel.unsendFriendRequest()
-                        }) {
-                            Text("Unsend Request")
-                        }
-                    } else if isFriend {
-                        Button(action: {
-                            viewModel.removeFriend()
-                        }) {
-                            Text("Delete")
+                if !viewModel.isLoading { // Check if loading is completed
+                    if !viewModel.user.isCurrentUser {
+                        if isFriendRequestReceived {
+                            Button(action: {
+                                viewModel.acceptFriendRequest()
+                            }) {
+                                Text("Accept")
+                            }
+                            Button(action: {
+                                viewModel.rejectFriendRequest()
+                            }) {
+                                Text("Reject")
+                            }
+                        } else if isFriendRequestSent {
+                            Button(action: {
+                                viewModel.unsendFriendRequest()
+                            }) {
+                                Text("Unsend Request")
+                            }
+                        } else if isFriend {
+                            Button(action: {
+                                viewModel.removeFriend()
+                            }) {
+                                Text("Delete")
+                            }
+                        } else {
+                            Button(action: {
+                                viewModel.sendFriendRequest()
+                            }) {
+                                Text("Add")
+                            }
                         }
                     } else {
-                        Button(action: {
-                            viewModel.sendFriendRequest()
-                        }) {
-                            Text("Add")
-                        }
+                        
                     }
                 }
             }

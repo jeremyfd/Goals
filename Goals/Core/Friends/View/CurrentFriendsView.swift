@@ -21,9 +21,14 @@ struct CurrentFriendsView: View {
                 .padding()
 
                 ForEach(viewModel.friends, id: \.id) { friend in
-                    UserCell(viewModel: UserCellViewModel(user: friend))
+                    NavigationLink(value: friend) {
+                        UserCell(viewModel: UserCellViewModel(user: friend))
+                    }
                 }
             }
+            .navigationDestination(for: User.self, destination: { user in
+                FriendProfile(user: user)
+            })
         }
     }
 }

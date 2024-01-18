@@ -9,6 +9,8 @@ import SwiftUI
 
 class UserCellViewModel: ObservableObject {
     @Published var user: User
+    @Published var isLoading = true
+
     private var userService: UserService
     
     init(user: User, userService:UserService = .shared) {
@@ -19,6 +21,7 @@ class UserCellViewModel: ObservableObject {
     
     // Fetch the current state of the friendship
     func fetchFriendshipStatus() {
+        isLoading = true // Set to true when fetching starts
         Task {
             do {
                 let isFriend = await UserService.checkIfUserIsFriend(user.id)
@@ -31,6 +34,7 @@ class UserCellViewModel: ObservableObject {
                     self.user.isFriend = isFriend
                     self.user.isFriendRequestSent = isFriendRequestSent
                     self.user.isFriendRequestReceived = isFriendRequestReceived
+                    self.isLoading = false // Set to false when fetching ends
                 }
             } catch {
                 print("Error fetching friendship status: \(error)")

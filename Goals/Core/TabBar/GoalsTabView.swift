@@ -28,7 +28,7 @@ struct GoalsTabView: View {
                 .onAppear { selectedTab = 1 }
                 .tag(1)
             
-            CameraView()
+            GoalCreationView()
                 .tabItem { Image(systemName: "plus") }
                 .onAppear { selectedTab = 2 }
                 .tag(2)

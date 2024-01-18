@@ -14,6 +14,8 @@
 		963592A22B54285200DD04B8 /* FriendRequestsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963592A12B54285200DD04B8 /* FriendRequestsViewModel.swift */; };
 		963592A42B542A0E00DD04B8 /* CurrentFriendsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963592A32B542A0E00DD04B8 /* CurrentFriendsViewModel.swift */; };
 		963592A72B54419700DD04B8 /* EditProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963592A62B54419700DD04B8 /* EditProfileView.swift */; };
+		963592AC2B58826800DD04B8 /* StrangerProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963592AB2B58826800DD04B8 /* StrangerProfileView.swift */; };
+		963592B02B59B56600DD04B8 /* FriendProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963592AF2B59B56600DD04B8 /* FriendProfile.swift */; };
 		969F91EA2B3DFDBE004BECB1 /* EvidenceViewFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969F91E92B3DFDBE004BECB1 /* EvidenceViewFeedView.swift */; };
 		969F91ED2B3E0687004BECB1 /* CollapsedGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969F91EC2B3E0687004BECB1 /* CollapsedGoalView.swift */; };
 		969F91F22B3E0C08004BECB1 /* ExpandedGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969F91F12B3E0C08004BECB1 /* ExpandedGoalView.swift */; };
@@ -95,6 +97,8 @@
 		963592A12B54285200DD04B8 /* FriendRequestsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendRequestsViewModel.swift; sourceTree = "<group>"; };
 		963592A32B542A0E00DD04B8 /* CurrentFriendsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentFriendsViewModel.swift; sourceTree = "<group>"; };
 		963592A62B54419700DD04B8 /* EditProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileView.swift; sourceTree = "<group>"; };
+		963592AB2B58826800DD04B8 /* StrangerProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrangerProfileView.swift; sourceTree = "<group>"; };
+		963592AF2B59B56600DD04B8 /* FriendProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendProfile.swift; sourceTree = "<group>"; };
 		969F91E92B3DFDBE004BECB1 /* EvidenceViewFeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvidenceViewFeedView.swift; sourceTree = "<group>"; };
 		969F91EC2B3E0687004BECB1 /* CollapsedGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollapsedGoalView.swift; sourceTree = "<group>"; };
 		969F91F12B3E0C08004BECB1 /* ExpandedGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandedGoalView.swift; sourceTree = "<group>"; };
@@ -223,6 +227,46 @@
 			path = "Edit Profile";
 			sourceTree = "<group>";
 		};
+		963592A82B58809C00DD04B8 /* Stranger Profile */ = {
+			isa = PBXGroup;
+			children = (
+				963592A92B5880A800DD04B8 /* View */,
+				963592AA2B5880AC00DD04B8 /* ViewModel */,
+			);
+			path = "Stranger Profile";
+			sourceTree = "<group>";
+		};
+		963592A92B5880A800DD04B8 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				963592AB2B58826800DD04B8 /* StrangerProfileView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		963592AA2B5880AC00DD04B8 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		963592AD2B59B55200DD04B8 /* FriendProfile */ = {
+			isa = PBXGroup;
+			children = (
+				963592AE2B59B55D00DD04B8 /* View */,
+			);
+			path = FriendProfile;
+			sourceTree = "<group>";
+		};
+		963592AE2B59B55D00DD04B8 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				963592AF2B59B56600DD04B8 /* FriendProfile.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		969F91E82B3DFD87004BECB1 /* Components */ = {
 			isa = PBXGroup;
 			children = (
@@ -317,6 +361,8 @@
 		96CB3EAA2B3DBF5B00B3508D /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				963592AD2B59B55200DD04B8 /* FriendProfile */,
+				963592A82B58809C00DD04B8 /* Stranger Profile */,
 				963592A52B54418600DD04B8 /* Edit Profile */,
 				96CB3EBB2B3DC06900B3508D /* CurrentUserProfile */,
 			);
@@ -796,6 +842,7 @@
 				963592A42B542A0E00DD04B8 /* CurrentFriendsViewModel.swift in Sources */,
 				96EDC7152B408F9900AC2C38 /* CameraView.swift in Sources */,
 				96F246FE2B382A96000CC323 /* FeedView.swift in Sources */,
+				963592B02B59B56600DD04B8 /* FriendProfile.swift in Sources */,
 				96CB3EB52B3DBFDE00B3508D /* GoalCreationView.swift in Sources */,
 				96CB3EAE2B3DBF7800B3508D /* ProfileView.swift in Sources */,
 				96CB3EBA2B3DC03D00B3508D /* ContractView.swift in Sources */,
@@ -806,6 +853,7 @@
 				96F246EC2B382544000CC323 /* LoginViewModel.swift in Sources */,
 				96CB3EBD2B3DCF6800B3508D /* Hex.swift in Sources */,
 				963592952B509F8300DD04B8 /* UserCell.swift in Sources */,
+				963592AC2B58826800DD04B8 /* StrangerProfileView.swift in Sources */,
 				96F247032B382E18000CC323 /* AuthenticationFormProtocol.swift in Sources */,
 				96F2470B2B3832A3000CC323 /* ThreadsTextFieldModifier.swift in Sources */,
 				96F247092B383289000CC323 /* ThreadsButtonModifier.swift in Sources */,

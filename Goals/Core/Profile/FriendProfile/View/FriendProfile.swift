@@ -1,25 +1,18 @@
 //
-//  CurrentUserProfileView.swift
+//  FriendProfile.swift
 //  Goals
 //
-//  Created by Work on 28/12/2023.
+//  Created by Work on 18/01/2024.
 //
 
 import SwiftUI
 
-struct CurrentUserProfileView: View {
+struct FriendProfile: View {
     @State private var showCalendarView = false
-    @State private var navigateToEditProfile = false
-    @StateObject var viewModel = ProfileViewModel()
-
-    
-    private var currentUser: User? {
-        return viewModel.currentUser
-    }
-
+    let user: User
     
     var body: some View {
-        NavigationStack {
+        ZStack {
             LinearGradient(
                 gradient: Gradient(colors: [Color.white, Color.brown.opacity(0.9)]),
                 startPoint: .bottom,
@@ -39,13 +32,13 @@ struct CurrentUserProfileView: View {
                             
                             VStack(alignment: .leading){
                                 
-                                if (currentUser?.fullName) != nil{
-                                    Text(currentUser?.fullName ?? "")
+                                if (user.fullName) != nil{
+                                    Text(user.fullName ?? "")
                                         .font(.title)
                                         .fontWeight(.bold)
                                 }
                                 
-                                Text("@\(currentUser?.username ?? "")")
+                                Text("@\(user.username)")
                                     .font(.body)
                             }
                             
@@ -61,35 +54,9 @@ struct CurrentUserProfileView: View {
                                     .frame(width: 25, height: 25)
                                     .foregroundColor(Color.theme.primaryText)
                             })
-                            
-                            NavigationLink {
-                                SettingsView()
-                            } label: {
-                                Image(systemName: "line.3.horizontal")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 25, height: 25)
-                                    .foregroundColor(Color.theme.primaryText)
-                            }
+                        
                         }
                         .padding(.trailing)
-                        
-                        NavigationLink(destination: EditProfileView(), isActive: $navigateToEditProfile) {
-                            EmptyView()
-                        }
-                        .hidden()
-                        
-                        Button {
-                            navigateToEditProfile = true
-                        } label: {
-                            HStack{
-                                Text("Edit profile")
-                            }
-                            .padding(.horizontal)
-                            .padding(.vertical, 5)
-                            .background(Color.white)
-                            .cornerRadius(40)
-                        }
                         
                         VStack(alignment: .leading, spacing: 5) {
                             
@@ -150,9 +117,6 @@ struct CurrentUserProfileView: View {
     }
 }
 
-struct CurrentUserProfileView_Previews: PreviewProvider {
-    static var previews: some View {
-        CurrentUserProfileView()
-    }
-}
-
+//#Preview {
+//    FriendProfile()
+//}

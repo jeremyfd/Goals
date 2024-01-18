@@ -22,7 +22,8 @@ class DeveloperPreview: ObservableObject {
         phoneNumber: "+33622003938",
         username: "daniel-ricciardo",
         profileImageUrl: nil,
-        bio: "Daniel Ricciardo"
+        bio: "Daniel Ricciardo",
+        fullName: "Daniel Ricciardo"
     )
     
 }

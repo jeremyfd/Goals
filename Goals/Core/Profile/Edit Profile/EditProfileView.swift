@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct EditProfileView: View {
-    @Binding var isPresented: Bool
     @State private var newFullName = ""
     @State private var newProfileImage: Image? = nil
+    @Environment(\.presentationMode) var presentation
     
     var body: some View {
         NavigationView {
@@ -47,16 +47,14 @@ struct EditProfileView: View {
             .navigationBarTitle("Edit Profile", displayMode: .inline)
             .navigationBarItems(
                 leading: Button("Cancel") {
-                    isPresented = false
+                    self.presentation.wrappedValue.dismiss()
                 },
                 trailing: Button("Save") {
-                    // Save the new full name and profile picture to your data model
-                    // You can update the ViewModel here with the new data
-                    // Close the Edit Profile view
-                    isPresented = false
+                    // Save logic
                 }
             )
         }
+        .navigationBarBackButtonHidden(true)
     }
 }
 
