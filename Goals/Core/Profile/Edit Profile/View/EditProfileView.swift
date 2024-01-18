@@ -6,30 +6,33 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 struct EditProfileView: View {
     @State private var newFullName = ""
-    @State private var newProfileImage: Image? = nil
+    @StateObject var viewModel = EditProfileViewModel()
     @Environment(\.presentationMode) var presentation
+    
+    //    private var user: User? {
+    //        return viewModel.currentUser
+    //    }
     
     var body: some View {
         NavigationView {
             Form {
                 Section(header: Text("Edit Profile")) {
-                    if let profileImage = newProfileImage {
-                        profileImage
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 100, height: 100)
-                            .clipShape(Circle())
-                            .overlay(Circle().stroke(Color.blue, lineWidth: 2))
-                    } else {
-                        Image("default_profile_image")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 100, height: 100)
-                            .clipShape(Circle())
-                            .overlay(Circle().stroke(Color.blue, lineWidth: 2))
+                    
+                    PhotosPicker(selection: $viewModel.selectedImage) {
+                        if let image = viewModel.profileImage {
+                            image
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: ProfileImageSize.small.dimension, height: ProfileImageSize.small.dimension)
+                                .clipShape(Circle())
+                                .foregroundColor(Color(.systemGray4))
+                        } else {
+                            CircularProfileImageView(size: .small)
+                        }
                     }
                     
                     Button(action: {
@@ -50,7 +53,10 @@ struct EditProfileView: View {
                     self.presentation.wrappedValue.dismiss()
                 },
                 trailing: Button("Save") {
-                    // Save logic
+                    Task {
+                        try await viewModel.updateUserData()
+                        self.presentation.wrappedValue.dismiss()
+                    }
                 }
             )
         }

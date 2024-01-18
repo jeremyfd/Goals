@@ -244,7 +244,15 @@ extension UserService {
     }
 
     
+    // MARK: - ImageService
     
+    func updateUserProfileImage (withImageUrl imageUrl: String) async throws {
+        guard let currentUid = Auth.auth().currentUser?.uid else { return }
+        try await Firestore.firestore().collection("users").document(currentUid).updateData([
+            "profileImageUrl": imageUrl
+        ])
+        self.currentUser?.profileImageUrl = imageUrl
+    }
 }
 
 // Other methods like fetching friend stats, friend lists, and updating feeds would need to be adjusted similarly.

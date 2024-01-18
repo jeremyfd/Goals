@@ -10,7 +10,7 @@ import SwiftUI
 struct CurrentUserProfileView: View {
     @State private var showCalendarView = false
     @State private var navigateToEditProfile = false
-    @StateObject var viewModel = ProfileViewModel()
+    @StateObject var viewModel = CurrentUserProfileViewModel()
 
     
     private var currentUser: User? {
