@@ -11,12 +11,12 @@ struct CurrentUserProfileView: View {
     @State private var showCalendarView = false
     @State private var navigateToEditProfile = false
     @StateObject var viewModel = CurrentUserProfileViewModel()
-
+    
     
     private var currentUser: User? {
         return viewModel.currentUser
     }
-
+    
     
     var body: some View {
         NavigationStack {
@@ -30,11 +30,7 @@ struct CurrentUserProfileView: View {
                 ScrollView {
                     VStack(alignment: .leading){
                         HStack{
-                            Image("portrait")
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width: 70, height: 70)
-                                .clipShape(Circle())
+                            CircularProfileImageView(user: currentUser, size: .xLarge)
                                 .overlay(Circle().stroke(Color.white, lineWidth: 4))
                             
                             VStack(alignment: .leading){
@@ -74,10 +70,19 @@ struct CurrentUserProfileView: View {
                         }
                         .padding(.trailing)
                         
-                        NavigationLink(destination: EditProfileView(), isActive: $navigateToEditProfile) {
+                        NavigationLink(destination: Group {
+                            if let user = currentUser {
+                                EditProfileView(user: user)
+                            } else {
+                                // Provide an alternative view if currentUser is nil
+                                Text("User not found")
+                            }
+                        },
+                                       isActive: $navigateToEditProfile) {
                             EmptyView()
                         }
-                        .hidden()
+                                       .hidden()
+                        
                         
                         Button {
                             navigateToEditProfile = true
@@ -90,6 +95,7 @@ struct CurrentUserProfileView: View {
                             .background(Color.white)
                             .cornerRadius(40)
                         }
+                        .padding(.top)
                         
                         VStack(alignment: .leading, spacing: 5) {
                             
@@ -143,7 +149,7 @@ struct CurrentUserProfileView: View {
                     .navigationBarTitleDisplayMode(.inline)
             )
         }
-       
+        
         .sheet(isPresented: $showCalendarView) {
             CalendarView()
         }

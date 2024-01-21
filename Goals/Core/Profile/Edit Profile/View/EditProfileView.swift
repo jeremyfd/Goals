@@ -9,6 +9,7 @@ import SwiftUI
 import PhotosUI
 
 struct EditProfileView: View {
+    let user: User
     @State private var newFullName = ""
     @StateObject var viewModel = EditProfileViewModel()
     @Environment(\.presentationMode) var presentation
@@ -31,7 +32,7 @@ struct EditProfileView: View {
                                 .clipShape(Circle())
                                 .foregroundColor(Color(.systemGray4))
                         } else {
-                            CircularProfileImageView(size: .small)
+                            CircularProfileImageView(user: user, size: .small)
                         }
                     }
                     
@@ -43,9 +44,7 @@ struct EditProfileView: View {
                     }
                 }
                 
-                Section(header: Text("Full Name")) {
-                    TextField("Enter your full name", text: $newFullName)
-                }
+                Text(user.fullName ?? "")
             }
             .navigationBarTitle("Edit Profile", displayMode: .inline)
             .navigationBarItems(

@@ -23,11 +23,7 @@ struct FriendProfile: View {
                 ScrollView {
                     VStack(alignment: .leading){
                         HStack{
-                            Image("portrait")
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width: 70, height: 70)
-                                .clipShape(Circle())
+                            CircularProfileImageView(user: user, size: .xLarge)
                                 .overlay(Circle().stroke(Color.white, lineWidth: 4))
                             
                             VStack(alignment: .leading){

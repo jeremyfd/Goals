@@ -22,12 +22,7 @@ struct StrangerProfileView: View {
             .overlay(
                 VStack(alignment: .leading){
                     HStack{
-                        Image("portrait")
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 70, height: 70)
-                            .clipShape(Circle())
-                            .overlay(Circle().stroke(Color.white, lineWidth: 4))
+                        CircularProfileImageView(user: user, size: .xLarge)
                         
                         VStack(alignment: .leading){
                             

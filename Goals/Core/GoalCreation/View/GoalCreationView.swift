@@ -8,10 +8,9 @@
 import SwiftUI
 
 struct GoalCreationView: View {
-    @State private var goalName = ""
-    @State private var goalPartner = ""
-    @State private var goalFrequency = ""
-
+    @StateObject var viewModel = GoalCreationViewModel()
+    @Environment(\.dismiss) var dismiss
+    @Binding var tabIndex: Int
     
     var body: some View {
         NavigationStack {
@@ -36,10 +35,9 @@ struct GoalCreationView: View {
                             
                             Spacer()
                             
-                            TextField("Goal name...", text: $goalName)
+                            TextField("Goal name...", text: $viewModel.title)
                                 .padding(5)
-//                                .background(Color(.systemGray6))
-//                                .cornerRadius(8)
+                            
                         }
                         HStack {
                             Text("Partner:")
@@ -47,10 +45,9 @@ struct GoalCreationView: View {
                             
                             Spacer()
                             
-                            TextField("Partner username...", text: $goalPartner)
+                            TextField("Partner username...", text: $viewModel.partnerUID)
                                 .padding(5)
-//                                .background(Color(.systemGray6))
-//                                .cornerRadius(8)
+                            
                         }
                         HStack {
                             Text("Frequency:")
@@ -58,10 +55,9 @@ struct GoalCreationView: View {
                             
                             Spacer()
                             
-                            TextField("Partner username...", text: $goalFrequency)
+                            Slider(value: $viewModel.frequency, in: 1...7, step: 1)
                                 .padding(5)
-//                                .background(Color(.systemGray6))
-//                                .cornerRadius(8)
+                            Text("\(Int(viewModel.frequency))x a week")
                         }
                         
                         VStack (alignment: .leading, spacing: 15){
@@ -69,24 +65,38 @@ struct GoalCreationView: View {
                             Text("Please create your goal wisely.")
                         }
                         .padding(.top)
-                        
-                        Button(action: {
-                            
-                        }, label: {
-                            Text("Create Goal")
-                                .foregroundStyle(Color.black)
-                                .fontWeight(.bold)
-
-                        })
-                        .padding(.top)
                     }
                     .padding(.horizontal)
                 }
             }
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("Cancel") {
+                        dismiss()
+                    }
+                    .font(.subheadline)
+                    .foregroundStyle(Color.theme.primaryText)
+                }
+                
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Create Goal") {
+                        Task {
+                            try await viewModel.uploadGoal()
+                            dismiss()
+                        }
+                    }
+                    .font(.subheadline)
+                    .fontWeight(.semibold)
+                    .foregroundStyle(Color.theme.primaryText)
+                }
+            }
+            .onDisappear { tabIndex = 0 }
+            .navigationTitle("New Thread")
+            .navigationBarTitleDisplayMode(.inline)
         }
     }
 }
 
-#Preview {
-    GoalCreationView()
-}
+//#Preview {
+//    GoalCreationView()
+//}
