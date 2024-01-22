@@ -11,6 +11,8 @@
 		9600D97B2B5DA99D00DAC807 /* GoalCreationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9600D97A2B5DA99D00DAC807 /* GoalCreationViewModel.swift */; };
 		9600D97D2B5DA9CE00DAC807 /* GoalService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9600D97C2B5DA9CE00DAC807 /* GoalService.swift */; };
 		9600D97F2B5DB2D800DAC807 /* GoalCreationDummyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9600D97E2B5DB2D800DAC807 /* GoalCreationDummyView.swift */; };
+		9600D9812B5DC15900DAC807 /* ContractViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9600D9802B5DC15900DAC807 /* ContractViewModel.swift */; };
+		9600D9832B5F0A6C00DAC807 /* GoalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9600D9822B5F0A6C00DAC807 /* GoalViewModel.swift */; };
 		963592952B509F8300DD04B8 /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963592942B509F8300DD04B8 /* UserCell.swift */; };
 		9635929A2B50A19F00DD04B8 /* CircularProfileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963592992B50A19F00DD04B8 /* CircularProfileImageView.swift */; };
 		9635929C2B50A20100DD04B8 /* PreviewProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9635929B2B50A20100DD04B8 /* PreviewProvider.swift */; };
@@ -100,6 +102,8 @@
 		9600D97A2B5DA99D00DAC807 /* GoalCreationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalCreationViewModel.swift; sourceTree = "<group>"; };
 		9600D97C2B5DA9CE00DAC807 /* GoalService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalService.swift; sourceTree = "<group>"; };
 		9600D97E2B5DB2D800DAC807 /* GoalCreationDummyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalCreationDummyView.swift; sourceTree = "<group>"; };
+		9600D9802B5DC15900DAC807 /* ContractViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractViewModel.swift; sourceTree = "<group>"; };
+		9600D9822B5F0A6C00DAC807 /* GoalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalViewModel.swift; sourceTree = "<group>"; };
 		963592942B509F8300DD04B8 /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
 		963592992B50A19F00DD04B8 /* CircularProfileImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProfileImageView.swift; sourceTree = "<group>"; };
 		9635929B2B50A20100DD04B8 /* PreviewProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewProvider.swift; sourceTree = "<group>"; };
@@ -309,6 +313,7 @@
 		969F91EF2B3E0BE0004BECB1 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				9600D9822B5F0A6C00DAC807 /* GoalViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -452,6 +457,7 @@
 		96CB3EB82B3DC02800B3508D /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				9600D9802B5DC15900DAC807 /* ContractViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -851,6 +857,7 @@
 				9600D9792B5B072000DAC807 /* Goal.swift in Sources */,
 				9635929C2B50A20100DD04B8 /* PreviewProvider.swift in Sources */,
 				969F91FE2B3F2510004BECB1 /* ExpansionButtonView.swift in Sources */,
+				9600D9832B5F0A6C00DAC807 /* GoalViewModel.swift in Sources */,
 				9635929A2B50A19F00DD04B8 /* CircularProfileImageView.swift in Sources */,
 				969F91F22B3E0C08004BECB1 /* ExpandedGoalView.swift in Sources */,
 				96F246E62B3824E1000CC323 /* AuthService.swift in Sources */,
@@ -884,6 +891,7 @@
 				96F246EA2B38252A000CC323 /* LoginView.swift in Sources */,
 				969F91F92B3F0116004BECB1 /* SettingsView.swift in Sources */,
 				96F246EC2B382544000CC323 /* LoginViewModel.swift in Sources */,
+				9600D9812B5DC15900DAC807 /* ContractViewModel.swift in Sources */,
 				96CB3EBD2B3DCF6800B3508D /* Hex.swift in Sources */,
 				963592952B509F8300DD04B8 /* UserCell.swift in Sources */,
 				963592AC2B58826800DD04B8 /* StrangerProfileView.swift in Sources */,

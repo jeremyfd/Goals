@@ -8,7 +8,12 @@
 import SwiftUI
 
 struct GoalView: View {
+    @StateObject var viewModel: GoalViewModel
     @State private var showReactions = false
+    
+    init(user: User) {
+        self._viewModel = StateObject(wrappedValue: GoalViewModel(user: user))
+    }
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -83,6 +88,6 @@ struct GoalView: View {
     }
 }
 
-#Preview {
-    GoalView()
-}
+//#Preview {
+//    GoalView()
+//}

@@ -91,7 +91,7 @@ struct GoalCreationView: View {
                 }
             }
             .onDisappear { tabIndex = 0 }
-            .navigationTitle("New Thread")
+            .navigationTitle("New Goal")
             .navigationBarTitleDisplayMode(.inline)
         }
     }

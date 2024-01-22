@@ -135,12 +135,14 @@ struct CurrentUserProfileView: View {
                         }
                         .padding(.top)
                         
-                        LazyVStack(spacing: 20) {
-                            ForEach(0..<5) { _ in
-                                GoalView()
+                        if let user = currentUser {
+                            LazyVStack(spacing: 20) {
+                                ForEach(0..<5) { _ in
+                                    GoalView(user: user)
+                                }
                             }
+                            .padding(.horizontal)
                         }
-                        .padding(.horizontal)
                         
                     }
                     .padding(.leading)

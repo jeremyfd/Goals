@@ -17,7 +17,7 @@ extension PreviewProvider {
 class DeveloperPreview: ObservableObject {
     static let shared = DeveloperPreview()
     
-    var user = User(
+    let user = User(
         id: NSUUID().uuidString,
         phoneNumber: "+33622003938",
         username: "daniel-ricciardo",
@@ -26,4 +26,5 @@ class DeveloperPreview: ObservableObject {
         fullName: "Daniel Ricciardo"
     )
     
+    let goal = Goal(ownerUid: "123", partnerUid: "123", timestamp: Timestamp(), title: "Play the Piano", frequency: 5)
 }

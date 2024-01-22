@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct ContractView: View {
+    @StateObject var viewModel = ContractViewModel()
     
     @Namespace var animation
     @State private var selectedTab: Int = 0
@@ -36,6 +37,7 @@ struct ContractView: View {
                         }
                         .tag(0)
                         
+                        
                         ScrollView {
                             contentForFriendsContracts()
                         }
@@ -43,6 +45,9 @@ struct ContractView: View {
                     }
                     .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
                 }
+                    .refreshable {
+                        Task { try await viewModel.fetchGoals() }
+                    }
                 .navigationTitle("Contracts")
                 .navigationBarTitleDisplayMode(.inline)
             )
@@ -62,8 +67,8 @@ struct ContractView: View {
             .padding(.top)
             
             LazyVStack(spacing: 20){
-                ForEach(0 ... 10, id: \.self) { thread in
-                    CollapsedGoalView()
+                ForEach(viewModel.goals) { goal in
+                    CollapsedGoalView(goal: goal)
                 }
             }
         }
@@ -82,8 +87,8 @@ struct ContractView: View {
             .padding(.top)
             
             LazyVStack(spacing: 20){
-                ForEach(0 ... 10, id: \.self) { thread in
-                    CollapsedGoalView()
+                ForEach(viewModel.goals) { goal in
+                    CollapsedGoalView(goal: goal)
                 }
             }
         }

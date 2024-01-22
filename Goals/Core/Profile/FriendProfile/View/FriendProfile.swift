@@ -94,7 +94,7 @@ struct FriendProfile: View {
                         
                         LazyVStack(spacing: 20) {
                             ForEach(0..<5) { _ in
-                                GoalView()
+                                GoalView(user: user)
                             }
                         }
                         .padding(.horizontal)

@@ -16,8 +16,8 @@ class GoalCreationViewModel: ObservableObject {
     func uploadGoal() async throws {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let goal = Goal(
-            ownerUID: uid,
-            partnerUID: partnerUID,
+            ownerUid: uid,
+            partnerUid: partnerUID,
             timestamp: Timestamp(),
             title: title,
             frequency: Int(frequency))

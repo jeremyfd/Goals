@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct CollapsedGoalView: View {
+    let goal: Goal
+    
     var body: some View {
         
         Button {
@@ -16,18 +18,14 @@ struct CollapsedGoalView: View {
             HStack{
                 VStack(alignment: .leading, spacing: 5){
                     
-                    Text("Go Gym")
+                    Text(goal.title)
                         .font(.title2)
                         .fontWeight(.bold)
                     
                     HStack{
-                        Image("portrait")
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 30, height: 30)
-                            .clipShape(Circle())
+                        CircularProfileImageView(user: goal.user, size: .small)
                         
-                        Text("@jeremy")
+                        Text(goal.user?.username ?? "")
                     }
                         
                 }
@@ -62,6 +60,6 @@ struct CollapsedGoalView: View {
     }
 }
 
-#Preview {
-    CollapsedGoalView()
-}
+//#Preview {
+//    CollapsedGoalView()
+//}

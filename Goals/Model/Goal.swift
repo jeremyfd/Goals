@@ -10,16 +10,16 @@ import Firebase
 import FirebaseFirestoreSwift
 
 struct Goal: Identifiable, Codable {
-    @DocumentID private var threadId: String?
+    @DocumentID private var goalId: String?
 
-    let ownerUID: String
-    let partnerUID: String
+    let ownerUid: String
+    let partnerUid: String
     let timestamp: Timestamp
     let title: String
     let frequency: Int
     
     var id: String {
-        return threadId ?? NSUUID().uuidString
+        return goalId ?? NSUUID().uuidString
     }
     
     var user: User?

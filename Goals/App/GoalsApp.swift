@@ -26,7 +26,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 }
 
 @main
-struct ThreadsApp: App {
+struct GoalsApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
     var body: some Scene {

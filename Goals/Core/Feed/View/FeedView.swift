@@ -80,7 +80,7 @@ struct FeedView: View {
             }
             
             LazyVStack(spacing: 30){
-                ForEach(0 ... 10, id: \.self) { thread in
+                ForEach(0 ... 10, id: \.self) { goal in
                     EvidenceViewFeedView()
                 }
             }
@@ -99,7 +99,7 @@ struct FeedView: View {
             }
             
             LazyVStack(spacing: 30){
-                ForEach(0 ... 10, id: \.self) { thread in
+                ForEach(0 ... 10, id: \.self) { goal in
                     EvidenceViewFeedView()
                 }
             }
