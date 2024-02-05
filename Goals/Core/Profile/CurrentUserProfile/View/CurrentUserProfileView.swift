@@ -136,11 +136,7 @@ struct CurrentUserProfileView: View {
                         .padding(.top)
                         
                         if let user = currentUser {
-                            LazyVStack(spacing: 20) {
-                                ForEach(0..<5) { _ in
-                                    GoalView(user: user)
-                                }
-                            }
+                            UserContentListView(user: user)
                             .padding(.horizontal)
                         }
                         

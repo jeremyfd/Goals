@@ -1,36 +1,28 @@
 //
-//  GoalView.swift
+//  GoalViewCell.swift
 //  Goals
 //
-//  Created by Work on 29/12/2023.
+//  Created by Jeremy Daines on 05/02/2024.
 //
 
 import SwiftUI
 
-struct GoalView: View {
-    @StateObject var viewModel: GoalViewModel
+struct GoalViewCell: View {
+    let goal: Goal
     @State private var showReactions = false
-    
-    init(user: User) {
-        self._viewModel = StateObject(wrappedValue: GoalViewModel(user: user))
-    }
 
     var body: some View {
         VStack(alignment: .leading) {
             VStack(alignment: .leading, spacing: 5) {
                 
-            Text("Play the Piano")
+                Text(goal.title)
                 .font(.title)
                 .fontWeight(.bold)
             
             HStack{
-                Image("portrait")
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 35, height: 35)
-                    .clipShape(Circle())
+                CircularProfileImageView(user: goal.user, size: .small)
                 
-                Text("@jeremy")
+                Text(goal.user?.username ?? "")
                     .font(.title2)
             }
         }
@@ -89,5 +81,5 @@ struct GoalView: View {
 }
 
 //#Preview {
-//    GoalView()
+//    GoalViewCell()
 //}

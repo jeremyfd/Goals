@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4F6ED7702B718715000E4594 /* UserContentListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6ED76F2B718715000E4594 /* UserContentListView.swift */; };
+		4F6ED7722B71871F000E4594 /* UserContentListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6ED7712B71871F000E4594 /* UserContentListViewModel.swift */; };
+		4F6ED7762B71890F000E4594 /* GoalViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6ED7752B71890F000E4594 /* GoalViewCell.swift */; };
 		9600D9792B5B072000DAC807 /* Goal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9600D9782B5B072000DAC807 /* Goal.swift */; };
 		9600D97B2B5DA99D00DAC807 /* GoalCreationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9600D97A2B5DA99D00DAC807 /* GoalCreationViewModel.swift */; };
 		9600D97D2B5DA9CE00DAC807 /* GoalService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9600D97C2B5DA9CE00DAC807 /* GoalService.swift */; };
@@ -98,6 +101,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4F6ED76F2B718715000E4594 /* UserContentListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserContentListView.swift; sourceTree = "<group>"; };
+		4F6ED7712B71871F000E4594 /* UserContentListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserContentListViewModel.swift; sourceTree = "<group>"; };
+		4F6ED7752B71890F000E4594 /* GoalViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalViewCell.swift; sourceTree = "<group>"; };
 		9600D9782B5B072000DAC807 /* Goal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Goal.swift; sourceTree = "<group>"; };
 		9600D97A2B5DA99D00DAC807 /* GoalCreationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalCreationViewModel.swift; sourceTree = "<group>"; };
 		9600D97C2B5DA9CE00DAC807 /* GoalService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalService.swift; sourceTree = "<group>"; };
@@ -201,9 +207,51 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4F6ED76C2B7186E7000E4594 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				4F6ED76D2B7186F4000E4594 /* View */,
+				4F6ED76E2B7186F7000E4594 /* ViewModel */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		4F6ED76D2B7186F4000E4594 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				4F6ED76F2B718715000E4594 /* UserContentListView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		4F6ED76E2B7186F7000E4594 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				4F6ED7712B71871F000E4594 /* UserContentListViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		4F6ED7732B7188F4000E4594 /* Goal */ = {
+			isa = PBXGroup;
+			children = (
+				4F6ED7742B7188FD000E4594 /* View */,
+			);
+			path = Goal;
+			sourceTree = "<group>";
+		};
+		4F6ED7742B7188FD000E4594 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				4F6ED7752B71890F000E4594 /* GoalViewCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		963592962B50A14500DD04B8 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				4F6ED7732B7188F4000E4594 /* Goal */,
 				963592972B50A14F00DD04B8 /* User */,
 			);
 			path = Components;
@@ -387,6 +435,7 @@
 		96CB3EAA2B3DBF5B00B3508D /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				4F6ED76C2B7186E7000E4594 /* Components */,
 				963592AD2B59B55200DD04B8 /* FriendProfile */,
 				963592A82B58809C00DD04B8 /* Stranger Profile */,
 				963592A52B54418600DD04B8 /* Edit Profile */,
@@ -863,6 +912,8 @@
 				96F246E62B3824E1000CC323 /* AuthService.swift in Sources */,
 				96F246F62B38283A000CC323 /* FirestoreConstants.swift in Sources */,
 				96EDC7252B40A33600AC2C38 /* FriendRequestsView.swift in Sources */,
+				4F6ED7722B71871F000E4594 /* UserContentListViewModel.swift in Sources */,
+				4F6ED7702B718715000E4594 /* UserContentListView.swift in Sources */,
 				96EDC71A2B40900A00AC2C38 /* CameraPreview.swift in Sources */,
 				96F247062B3831C1000CC323 /* Color.swift in Sources */,
 				9600D97D2B5DA9CE00DAC807 /* GoalService.swift in Sources */,
@@ -875,6 +926,7 @@
 				96EDC7182B408FEB00AC2C38 /* CameraViewModel.swift in Sources */,
 				9600D97B2B5DA99D00DAC807 /* GoalCreationViewModel.swift in Sources */,
 				969F91EA2B3DFDBE004BECB1 /* EvidenceViewFeedView.swift in Sources */,
+				4F6ED7762B71890F000E4594 /* GoalViewCell.swift in Sources */,
 				96CB3EA12B38F24D00B3508D /* RegistrationView.swift in Sources */,
 				969F91F52B3ED598004BECB1 /* CalendarView.swift in Sources */,
 				963592A42B542A0E00DD04B8 /* CurrentFriendsViewModel.swift in Sources */,
