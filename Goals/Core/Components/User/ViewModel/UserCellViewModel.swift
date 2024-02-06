@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+@MainActor
 class UserCellViewModel: ObservableObject {
     @Published var user: User
     @Published var isLoading = true
@@ -24,7 +25,7 @@ class UserCellViewModel: ObservableObject {
         isLoading = true // Set to true when fetching starts
         Task {
             do {
-                let isFriend = await UserService.checkIfUserIsFriend(user.id)
+                let isFriend = await UserService.checkIfUserIsFriendWithUid(user.id)
                 let isFriendRequestSent = try await UserService.checkIfRequestSent(toUid: user.id)
                 // Assuming a method to check if a friend request is received
                 let isFriendRequestReceived = try await UserService.checkIfRequestReceived(fromUid: user.id)

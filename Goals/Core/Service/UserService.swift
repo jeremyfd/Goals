@@ -212,10 +212,17 @@ extension UserService {
     }
     
     // Check if a user is already a friend
-    static func checkIfUserIsFriend(_ uid: String) async -> Bool {
+    static func checkIfUserIsFriendWithUid(_ uid: String) async -> Bool {
         guard let currentUid = Auth.auth().currentUser?.uid else { return false }
         let collection = FirestoreConstants.FriendsCollection.document(currentUid).collection("user-friends")
         guard let snapshot = try? await collection.document(uid).getDocument() else { return false }
+        return snapshot.exists
+    }
+    
+    static func checkIfUserIsFriend(_ user: User) async -> Bool {
+        guard let currentUid = Auth.auth().currentUser?.uid else { return false }
+        let collection = FirestoreConstants.FriendsCollection.document(currentUid).collection("user-friends")
+        guard let snapshot = try? await collection.document(user.id).getDocument() else { return false }
         return snapshot.exists
     }
     
@@ -255,6 +262,4 @@ extension UserService {
         self.currentUser?.profileImageUrl = imageUrl
     }
 }
-
-// Other methods like fetching friend stats, friend lists, and updating feeds would need to be adjusted similarly.
 

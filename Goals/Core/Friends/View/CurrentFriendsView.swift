@@ -27,7 +27,7 @@ struct CurrentFriendsView: View {
                 }
             }
             .navigationDestination(for: User.self, destination: { user in
-                FriendProfile(user: user)
+                UserProfileView(user: user)
             })
         }
     }

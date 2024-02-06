@@ -67,7 +67,7 @@ struct FriendsTabView: View {
                         }
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .navigationDestination(for: User.self, destination: { user in
-                            StrangerProfileView(user: user)
+                            UserProfileView(user: user)
                         })
                     }
                 }
