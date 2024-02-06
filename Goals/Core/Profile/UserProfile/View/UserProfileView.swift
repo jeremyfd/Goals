@@ -9,123 +9,93 @@ import SwiftUI
 
 struct UserProfileView: View {
     @State private var showCalendarView = false
-    @StateObject var viewModel: UserProfileViewModel
+    @StateObject private var viewModel: UserProfileViewModel
     
     init(user: User) {
-        self._viewModel = StateObject(wrappedValue: UserProfileViewModel(user: user))
+        _viewModel = StateObject(wrappedValue: UserProfileViewModel(user: user))
     }
     
     private var isFriend: Bool {
-        return viewModel.user.isFriend ?? false
+        viewModel.user.isFriend ?? false
     }
     
     private var user: User {
-        return viewModel.user
+        viewModel.user
     }
     
     var body: some View {
         ZStack {
-            LinearGradient(
-                gradient: Gradient(colors: [Color.white, Color.brown.opacity(0.9)]),
-                startPoint: .bottom,
-                endPoint: .top
-            )
-            .ignoresSafeArea()
-            .overlay(
-                ScrollView {
-                    VStack(alignment: .leading){
-                        HStack{
-                            CircularProfileImageView(user: user, size: .xLarge)
-                                .overlay(Circle().stroke(Color.white, lineWidth: 4))
-                            
-                            VStack(alignment: .leading){
-                                
-                                if (user.fullName) != nil{
-                                    Text(user.fullName ?? "")
-                                        .font(.title)
-                                        .fontWeight(.bold)
-                                }
-                                
-                                Text("@\(user.username)")
-                                    .font(.body)
-                            }
-                            
-                            Spacer()
-                            
+            LinearGradient(gradient: Gradient(colors: [Color.white, Color.brown.opacity(0.9)]), startPoint: .bottom, endPoint: .top)
+                .ignoresSafeArea()
+                .overlay(
+                    ScrollView {
+                        VStack(alignment: .leading) {
+                            profileHeader
                             if isFriend {
-                                
-                                Button(action: {
-                                    showCalendarView = true
-                                },
-                                       label: {
-                                    Image(systemName: "calendar")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: 25, height: 25)
-                                        .foregroundColor(Color.theme.primaryText)
-                                })
-                                
+                                friendDetails
+                                UserContentListView(user: user)
+                                    .padding(.horizontal)
+                            } else {
+                                Text ("This user is not your friend")
                             }
                         }
-                        .padding(.trailing)
-                        
-                        if isFriend {
-                            VStack(alignment: .leading, spacing: 5) {
-                                
-                                HStack {
-                                    Text("Goals completed:")
-                                        .font(.title2)
-                                        .padding(.top, 5)
-                                    
-                                    Text("5 goals")
-                                        .font(.title2)
-                                        .fontWeight(.bold)
-                                        .padding(.top, 5)
-                                }
-                                
-                                HStack {
-                                    Text("Longest streak:")
-                                        .font(.title2)
-                                        .padding(.top, 5)
-                                    
-                                    Text("Go Gym - Week 10")
-                                        .font(.title2)
-                                        .fontWeight(.bold)
-                                        .padding(.top, 5)
-                                }
-                                
-                                HStack {
-                                    Text("Live Goals:")
-                                        .font(.title2)
-                                        .padding(.top, 5)
-                                    
-                                    Text("10 Goals")
-                                        .font(.title2)
-                                        .fontWeight(.bold)
-                                        .padding(.top, 5)
-                                }
-                                
-                            }
-                            .padding(.top)
-                            
-                            UserContentListView(
-                                user: user
-                            )
-                            .padding(.horizontal)
-                            
-                        }
+                        .padding(.leading)
                     }
-                    .padding(.leading)
-                }
                     .navigationTitle("Profile")
                     .navigationBarTitleDisplayMode(.inline)
-            )
+                )
         }
-        .onAppear {
-            viewModel.loadUserData()
-        }
+        .onAppear(perform: viewModel.loadUserData)
         .sheet(isPresented: $showCalendarView) {
             CalendarView()
+        }
+    }
+    
+    private var profileHeader: some View {
+        HStack {
+            CircularProfileImageView(user: user, size: .xLarge)
+                .overlay(Circle().stroke(Color.white, lineWidth: 4))
+            VStack(alignment: .leading) {
+                if let fullName = user.fullName {
+                    Text(fullName)
+                        .font(.title)
+                        .fontWeight(.bold)
+                }
+                Text("@\(user.username)")
+                    .font(.body)
+            }
+            Spacer()
+            if isFriend {
+                Button(action: { showCalendarView = true }) {
+                    Image(systemName: "calendar")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 25, height: 25)
+                        .foregroundColor(Color.theme.primaryText)
+                }
+            }
+        }
+        .padding(.trailing)
+    }
+    
+    private var friendDetails: some View {
+        VStack(alignment: .leading, spacing: 5) {
+            goalDetail("Goals completed:", detail: "5 goals")
+            goalDetail("Longest streak:", detail: "Go Gym - Week 10")
+            goalDetail("Live Goals:", detail: "10 Goals")
+        }
+        .padding(.top)
+    }
+    
+    private func goalDetail(_ title: String, detail: String) -> some View {
+        HStack {
+            Text(title)
+                .font(.title2)
+                .padding(.top, 5)
+            Text(detail)
+                .font(.title2)
+                .fontWeight(.bold)
+                .padding(.top, 5)
         }
     }
 }
