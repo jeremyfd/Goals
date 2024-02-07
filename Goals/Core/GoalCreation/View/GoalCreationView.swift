@@ -11,6 +11,7 @@ struct GoalCreationView: View {
     @StateObject var viewModel = GoalCreationViewModel()
     @Environment(\.dismiss) var dismiss
     @Binding var tabIndex: Int
+    @State private var showingPartnerSearch = false
     
     var body: some View {
         NavigationStack {
@@ -43,10 +44,15 @@ struct GoalCreationView: View {
                             Text("Partner:")
                                 .fontWeight(.bold)
                             
-                            Spacer()
+                            Button(action: {
+                                showingPartnerSearch.toggle()
+                            }
+                                   , label: {
+                                Text("Partner username...")
+                                    .padding(5)
+                            })
                             
-                            TextField("Partner username...", text: $viewModel.partnerUID)
-                                .padding(5)
+                            Spacer()
                             
                         }
                         HStack {
@@ -93,6 +99,9 @@ struct GoalCreationView: View {
             .onDisappear { tabIndex = 0 }
             .navigationTitle("New Goal")
             .navigationBarTitleDisplayMode(.inline)
+            .sheet(isPresented: $showingPartnerSearch) {
+                PartnerSearchView()
+            }
         }
     }
 }

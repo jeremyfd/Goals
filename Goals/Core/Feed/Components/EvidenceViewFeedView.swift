@@ -44,7 +44,7 @@ struct EvidenceViewFeedView: View {
 
             
             NavigationLink {
-                ExpandedGoalView()
+//                ExpandedGoalView(goal.goal)
             } label: {
                 HStack{
                     VStack(alignment: .leading){

@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ExpandedGoalView: View {
+    let goal: Goal
     @State private var showCalendarView = false
     
     var body: some View {
@@ -18,7 +19,7 @@ struct ExpandedGoalView: View {
                 
                 VStack(alignment: .leading, spacing: 10) {
                     
-                    Text("Play the piano until the sunset")
+                    Text(goal.title)
                         .font(.title)
                         .fontWeight(.bold)
                     
@@ -46,13 +47,9 @@ struct ExpandedGoalView: View {
                     
                     
                     HStack{
-                        Image("portrait")
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 35, height: 35)
-                            .clipShape(Circle())
+                        CircularProfileImageView(user: goal.user, size: .small)
                         
-                        Text("@jeremy")
+                        Text(goal.user?.username ?? "")
                             .font(.title2)
                     }
                 }
@@ -191,6 +188,6 @@ struct ExpandedGoalView: View {
 }
 
 
-#Preview {
-    ExpandedGoalView()
-}
+//#Preview {
+//    ExpandedGoalView()
+//}

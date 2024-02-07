@@ -65,7 +65,7 @@ struct GoalViewCell: View {
                 Spacer()
                 
                 NavigationLink {
-                    ExpandedGoalView()
+                    ExpandedGoalView(goal: goal)
                 } label: {
                     Image(systemName: "chevron.right")
                         .resizable()

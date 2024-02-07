@@ -33,11 +33,15 @@ struct SelfCollapsedGoalViewCell: View {
                         .foregroundColor(.red)
                         .padding(.trailing)
                     
-                    Image(systemName: "chevron.down")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 20, height: 20)
-                        .foregroundColor(.black)
+                    NavigationLink {
+                        ExpandedGoalView(goal: goal)
+                    } label: {
+                        Image(systemName: "chevron.down")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 20, height: 20)
+                            .foregroundColor(.black)
+                    }
                 }
                 .padding(.horizontal)
                 
