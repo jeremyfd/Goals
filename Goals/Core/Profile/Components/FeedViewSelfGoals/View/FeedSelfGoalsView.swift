@@ -1,13 +1,13 @@
 //
-//  UserContentListView.swift
+//  FeedSelfGoalsView.swift
 //  Goals
 //
-//  Created by Jeremy Daines on 05/02/2024.
+//  Created by Jeremy Daines on 06/02/2024.
 //
 
 import SwiftUI
 
-struct UserContentListView: View {
+struct FeedSelfGoalsView: View {
     @StateObject var viewModel: UserContentListViewModel
 
     init(user: User) {
@@ -15,26 +15,26 @@ struct UserContentListView: View {
     }
 
     var body: some View {
-        VStack {
+        ScrollView(.horizontal) {
             
-            LazyVStack {
+            HStack(spacing: 10) {
                 if viewModel.goals.isEmpty {
                     Text(viewModel.noContentText())
-                        .font(.subheadline)
-                        .foregroundColor(.gray)
+                        .font(.headline)
+                        .padding(.bottom)
                 } else {
                     ForEach(viewModel.goals) { goal in
-                        GoalViewCell(goal: goal)
+                        SelfCollapsedGoalViewCell(goal: goal)
+                            .padding(.bottom, 5)
                     }
                     .transition(.move(edge: .leading))
                 }
             }
-            .padding(.vertical, 8)
         }
     }
 }
 
 
 //#Preview {
-//    UserContentListView()
+//    FeedSelfGoalsView()
 //}

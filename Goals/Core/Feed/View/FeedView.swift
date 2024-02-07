@@ -10,6 +10,11 @@
 import SwiftUI
 
 struct FeedView: View {
+    @StateObject var viewModel = FeedViewModel()
+    
+    private var currentUser: User? {
+        return viewModel.currentUser
+    }
     
     @Namespace var animation
     @State private var selectedTab: Int = 0
@@ -32,17 +37,11 @@ struct FeedView: View {
                             .padding(.leading)
                     }
                     
-                    ScrollView(.horizontal) {
-                        HStack(spacing: 10) {
-                            ForEach(0..<5) { _ in
-                                SelfCollapsedGoalView()
-                            }
-                        }
+                    if let user = currentUser {
+                        FeedSelfGoalsView(user: user)
+                        .padding(.horizontal)
                     }
-                    .padding(.bottom)
-                    .padding(.leading)
-                    .scrollIndicators(.hidden)
-                    
+                  
                     Picker("", selection: $selectedTab) {
                         Text("My Contracts").tag(0)
                         Text("Friends Contracts").tag(1)

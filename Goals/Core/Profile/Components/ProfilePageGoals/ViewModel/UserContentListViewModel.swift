@@ -31,6 +31,6 @@ class UserContentListViewModel: ObservableObject {
         let name = user.isCurrentUser ? "You" : user.username
         let nextWord = user.isCurrentUser ? "haven't" : "hasn't"
         
-        return "\(name) \(nextWord) posted any threads yet."
+        return "\(name) \(nextWord) created any goals yet."
     }
 }

@@ -38,28 +38,54 @@ class ContractViewModel: ObservableObject {
         return ids
     }
     
-    func fetchGoals() async throws {
-        print("DEBUG: Fetching goals")
-        let goalIDs = await fetchGoalIDs()
-        print("DEBUG: Goal IDs fetched: \(goalIDs)")
+//    func fetchGoals() async throws {
+//        print("DEBUG: Fetching goals")
+//        let goalIDs = await fetchGoalIDs()
+//        print("DEBUG: Goal IDs fetched: \(goalIDs)")
+//
+//        try await withThrowingTaskGroup(of: Goal.self, body: { group in
+//            var goals = [Goal]()
+//
+//            for id in goalIDs {
+//                print("DEBUG: Adding task to fetch goal with ID: \(id)")
+//                group.addTask { return try await GoalService.fetchGoal(goalId: id) }
+//            }
+//
+//            for try await goal in group {
+//                print("DEBUG: Fetched goal: \(goal)")
+//                goals.append(try await fetchGoalUserData(goal: goal))
+//            }
+//
+//            self.goals = goals.sorted(by: { $0.timestamp.dateValue() > $1.timestamp.dateValue() })
+//            isLoading = false
+//            print("DEBUG: Finished fetching goals, total count: \(self.goals.count)")
+//        })
+//    }
+    
+    func fetchGoals() async {
+        do {
+            print("DEBUG: Fetching goals")
+            let goalIDs = await fetchGoalIDs()
+            print("DEBUG: Goal IDs fetched: \(goalIDs)")
 
-        try await withThrowingTaskGroup(of: Goal.self, body: { group in
-            var goals = [Goal]()
+            var fetchedGoals = [Goal]()
+            try await withThrowingTaskGroup(of: Goal.self, body: { group in
+                for id in goalIDs {
+                    group.addTask { return try await GoalService.fetchGoal(goalId: id) }
+                }
 
-            for id in goalIDs {
-                print("DEBUG: Adding task to fetch goal with ID: \(id)")
-                group.addTask { return try await GoalService.fetchGoal(goalId: id) }
-            }
-
-            for try await goal in group {
-                print("DEBUG: Fetched goal: \(goal)")
-                goals.append(try await fetchGoalUserData(goal: goal))
-            }
-
-            self.goals = goals.sorted(by: { $0.timestamp.dateValue() > $1.timestamp.dateValue() })
+                for try await goal in group {
+                    let enrichedGoal = try await fetchGoalUserData(goal: goal)
+                    fetchedGoals.append(enrichedGoal)
+                }
+            })
+            self.goals = fetchedGoals.sorted(by: { $0.timestamp.dateValue() > $1.timestamp.dateValue() })
             isLoading = false
             print("DEBUG: Finished fetching goals, total count: \(self.goals.count)")
-        })
+        } catch {
+            print("DEBUG: Error fetching goals: \(error)")
+            // Handle the error appropriately, maybe set an error state to show in UI
+        }
     }
     
     private func fetchGoalUserData(goal: Goal) async throws -> Goal {
@@ -72,31 +98,3 @@ class ContractViewModel: ObservableObject {
     }
 }
 
-
-//import Foundation
-//import Firebase
-//
-//@MainActor
-//class ContractViewModel: ObservableObject {
-//    @Published var goals = [Goal]()
-//    
-//    init() {
-//        Task { try await fetchGoals()}
-//    }
-//    
-//    func fetchGoals() async throws {
-//        self.goals = try await GoalService.fetchGoals()
-//        try await fetchUserDataforGoals()
-//    }
-//    
-//    private func fetchUserDataforGoals() async throws {
-//        for i in 0 ..< goals.count {
-//            let goal = goals[i]
-//            let ownerUid = goal.ownerUid
-//            let goalUser = try await UserService.fetchUser(withUid: ownerUid)
-//            
-//            goals[i].user = goalUser
-//        }
-//    }
-//    
-//}

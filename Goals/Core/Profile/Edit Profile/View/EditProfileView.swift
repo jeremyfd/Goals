@@ -14,10 +14,6 @@ struct EditProfileView: View {
     @StateObject var viewModel = EditProfileViewModel()
     @Environment(\.presentationMode) var presentation
     
-    //    private var user: User? {
-    //        return viewModel.currentUser
-    //    }
-    
     var body: some View {
         NavigationView {
             Form {

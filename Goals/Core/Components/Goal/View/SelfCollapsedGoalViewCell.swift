@@ -1,5 +1,5 @@
 //
-//  SelfCollapsedGoalView.swift
+//  SelfCollapsedGoalViewCell.swift
 //  Goals
 //
 //  Created by Work on 29/12/2023.
@@ -7,7 +7,9 @@
 
 import SwiftUI
 
-struct SelfCollapsedGoalView: View {
+struct SelfCollapsedGoalViewCell: View {
+    let goal: Goal
+    
     var body: some View {
         
         Button {
@@ -16,7 +18,7 @@ struct SelfCollapsedGoalView: View {
             HStack{
                 VStack(alignment: .leading, spacing: 5){
                     
-                    Text("Go Gym")
+                    Text(goal.title)
                         .font(.title2)
                         .fontWeight(.bold)
                         
@@ -49,6 +51,6 @@ struct SelfCollapsedGoalView: View {
     }
 }
 
-#Preview {
-    SelfCollapsedGoalView()
-}
+//#Preview {
+//    SelfCollapsedGoalViewCell()
+//}

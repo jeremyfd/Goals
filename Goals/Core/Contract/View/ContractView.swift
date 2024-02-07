@@ -55,6 +55,7 @@ struct ContractView: View {
     }
 
     func contentForYourContracts() -> some View {
+        
         VStack {
             
             HStack{
@@ -68,7 +69,7 @@ struct ContractView: View {
             
             LazyVStack(spacing: 20){
                 ForEach(viewModel.goals) { goal in
-                    CollapsedGoalView(goal: goal)
+                    CollapsedGoalViewCell(goal: goal)
                 }
             }
         }
@@ -88,7 +89,7 @@ struct ContractView: View {
             
             LazyVStack(spacing: 20){
                 ForEach(viewModel.goals) { goal in
-                    CollapsedGoalView(goal: goal)
+                    CollapsedGoalViewCell(goal: goal)
                 }
             }
         }

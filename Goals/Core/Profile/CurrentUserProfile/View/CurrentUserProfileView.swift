@@ -89,6 +89,7 @@ struct CurrentUserProfileView: View {
                         } label: {
                             HStack{
                                 Text("Edit profile")
+                                    .foregroundStyle(Color.black)
                             }
                             .padding(.horizontal)
                             .padding(.vertical, 5)
@@ -147,7 +148,6 @@ struct CurrentUserProfileView: View {
                     .navigationBarTitleDisplayMode(.inline)
             )
         }
-        
         .sheet(isPresented: $showCalendarView) {
             CalendarView()
         }

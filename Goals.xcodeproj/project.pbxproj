@@ -12,12 +12,13 @@
 		4F6ED7762B71890F000E4594 /* GoalViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6ED7752B71890F000E4594 /* GoalViewCell.swift */; };
 		4F6ED77C2B726CB6000E4594 /* UserProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6ED77B2B726CB6000E4594 /* UserProfileView.swift */; };
 		4F6ED77E2B726E3B000E4594 /* UserProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6ED77D2B726E3B000E4594 /* UserProfileViewModel.swift */; };
+		4F6ED7852B72A3CA000E4594 /* FeedSelfGoalsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6ED7842B72A3CA000E4594 /* FeedSelfGoalsView.swift */; };
+		4F6ED7872B72A4F8000E4594 /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6ED7862B72A4F8000E4594 /* FeedViewModel.swift */; };
 		9600D9792B5B072000DAC807 /* Goal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9600D9782B5B072000DAC807 /* Goal.swift */; };
 		9600D97B2B5DA99D00DAC807 /* GoalCreationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9600D97A2B5DA99D00DAC807 /* GoalCreationViewModel.swift */; };
 		9600D97D2B5DA9CE00DAC807 /* GoalService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9600D97C2B5DA9CE00DAC807 /* GoalService.swift */; };
 		9600D97F2B5DB2D800DAC807 /* GoalCreationDummyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9600D97E2B5DB2D800DAC807 /* GoalCreationDummyView.swift */; };
 		9600D9812B5DC15900DAC807 /* ContractViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9600D9802B5DC15900DAC807 /* ContractViewModel.swift */; };
-		9600D9832B5F0A6C00DAC807 /* GoalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9600D9822B5F0A6C00DAC807 /* GoalViewModel.swift */; };
 		963592952B509F8300DD04B8 /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963592942B509F8300DD04B8 /* UserCell.swift */; };
 		9635929A2B50A19F00DD04B8 /* CircularProfileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963592992B50A19F00DD04B8 /* CircularProfileImageView.swift */; };
 		9635929C2B50A20100DD04B8 /* PreviewProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9635929B2B50A20100DD04B8 /* PreviewProvider.swift */; };
@@ -25,19 +26,16 @@
 		963592A22B54285200DD04B8 /* FriendRequestsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963592A12B54285200DD04B8 /* FriendRequestsViewModel.swift */; };
 		963592A42B542A0E00DD04B8 /* CurrentFriendsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963592A32B542A0E00DD04B8 /* CurrentFriendsViewModel.swift */; };
 		963592A72B54419700DD04B8 /* EditProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963592A62B54419700DD04B8 /* EditProfileView.swift */; };
-		963592AC2B58826800DD04B8 /* StrangerProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963592AB2B58826800DD04B8 /* StrangerProfileView.swift */; };
-		963592B02B59B56600DD04B8 /* FriendProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963592AF2B59B56600DD04B8 /* FriendProfile.swift */; };
 		963592B42B59D2D400DD04B8 /* EditProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963592B32B59D2D400DD04B8 /* EditProfileViewModel.swift */; };
 		963592B62B59D40900DD04B8 /* CurrentUserProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963592B52B59D40900DD04B8 /* CurrentUserProfileViewModel.swift */; };
 		963592B82B59D6E900DD04B8 /* ImageUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963592B72B59D6E900DD04B8 /* ImageUploader.swift */; };
 		969F91EA2B3DFDBE004BECB1 /* EvidenceViewFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969F91E92B3DFDBE004BECB1 /* EvidenceViewFeedView.swift */; };
-		969F91ED2B3E0687004BECB1 /* CollapsedGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969F91EC2B3E0687004BECB1 /* CollapsedGoalView.swift */; };
+		969F91ED2B3E0687004BECB1 /* CollapsedGoalViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969F91EC2B3E0687004BECB1 /* CollapsedGoalViewCell.swift */; };
 		969F91F22B3E0C08004BECB1 /* ExpandedGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969F91F12B3E0C08004BECB1 /* ExpandedGoalView.swift */; };
 		969F91F52B3ED598004BECB1 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969F91F42B3ED598004BECB1 /* CalendarView.swift */; };
 		969F91F92B3F0116004BECB1 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969F91F82B3F0116004BECB1 /* SettingsView.swift */; };
-		969F91FB2B3F0525004BECB1 /* GoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969F91FA2B3F0525004BECB1 /* GoalView.swift */; };
 		969F91FE2B3F2510004BECB1 /* ExpansionButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969F91FD2B3F2510004BECB1 /* ExpansionButtonView.swift */; };
-		969F92002B3F5895004BECB1 /* SelfCollapsedGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969F91FF2B3F5895004BECB1 /* SelfCollapsedGoalView.swift */; };
+		969F92002B3F5895004BECB1 /* SelfCollapsedGoalViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969F91FF2B3F5895004BECB1 /* SelfCollapsedGoalViewCell.swift */; };
 		96CB3EA12B38F24D00B3508D /* RegistrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CB3EA02B38F24D00B3508D /* RegistrationView.swift */; };
 		96CB3EA32B38F28300B3508D /* RegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CB3EA22B38F28300B3508D /* RegistrationViewModel.swift */; };
 		96CB3EA62B3DBEDE00B3508D /* GoalsTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CB3EA52B3DBEDE00B3508D /* GoalsTabView.swift */; };
@@ -108,12 +106,13 @@
 		4F6ED7752B71890F000E4594 /* GoalViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalViewCell.swift; sourceTree = "<group>"; };
 		4F6ED77B2B726CB6000E4594 /* UserProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileView.swift; sourceTree = "<group>"; };
 		4F6ED77D2B726E3B000E4594 /* UserProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewModel.swift; sourceTree = "<group>"; };
+		4F6ED7842B72A3CA000E4594 /* FeedSelfGoalsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedSelfGoalsView.swift; sourceTree = "<group>"; };
+		4F6ED7862B72A4F8000E4594 /* FeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
 		9600D9782B5B072000DAC807 /* Goal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Goal.swift; sourceTree = "<group>"; };
 		9600D97A2B5DA99D00DAC807 /* GoalCreationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalCreationViewModel.swift; sourceTree = "<group>"; };
 		9600D97C2B5DA9CE00DAC807 /* GoalService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalService.swift; sourceTree = "<group>"; };
 		9600D97E2B5DB2D800DAC807 /* GoalCreationDummyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalCreationDummyView.swift; sourceTree = "<group>"; };
 		9600D9802B5DC15900DAC807 /* ContractViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractViewModel.swift; sourceTree = "<group>"; };
-		9600D9822B5F0A6C00DAC807 /* GoalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalViewModel.swift; sourceTree = "<group>"; };
 		963592942B509F8300DD04B8 /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
 		963592992B50A19F00DD04B8 /* CircularProfileImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProfileImageView.swift; sourceTree = "<group>"; };
 		9635929B2B50A20100DD04B8 /* PreviewProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewProvider.swift; sourceTree = "<group>"; };
@@ -121,19 +120,16 @@
 		963592A12B54285200DD04B8 /* FriendRequestsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendRequestsViewModel.swift; sourceTree = "<group>"; };
 		963592A32B542A0E00DD04B8 /* CurrentFriendsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentFriendsViewModel.swift; sourceTree = "<group>"; };
 		963592A62B54419700DD04B8 /* EditProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileView.swift; sourceTree = "<group>"; };
-		963592AB2B58826800DD04B8 /* StrangerProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrangerProfileView.swift; sourceTree = "<group>"; };
-		963592AF2B59B56600DD04B8 /* FriendProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendProfile.swift; sourceTree = "<group>"; };
 		963592B32B59D2D400DD04B8 /* EditProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewModel.swift; sourceTree = "<group>"; };
 		963592B52B59D40900DD04B8 /* CurrentUserProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CurrentUserProfileViewModel.swift; path = "Goals/Core/Profile/Edit Profile/ViewModel/CurrentUserProfileViewModel.swift"; sourceTree = SOURCE_ROOT; };
 		963592B72B59D6E900DD04B8 /* ImageUploader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUploader.swift; sourceTree = "<group>"; };
 		969F91E92B3DFDBE004BECB1 /* EvidenceViewFeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvidenceViewFeedView.swift; sourceTree = "<group>"; };
-		969F91EC2B3E0687004BECB1 /* CollapsedGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollapsedGoalView.swift; sourceTree = "<group>"; };
+		969F91EC2B3E0687004BECB1 /* CollapsedGoalViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollapsedGoalViewCell.swift; sourceTree = "<group>"; };
 		969F91F12B3E0C08004BECB1 /* ExpandedGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandedGoalView.swift; sourceTree = "<group>"; };
 		969F91F42B3ED598004BECB1 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		969F91F82B3F0116004BECB1 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
-		969F91FA2B3F0525004BECB1 /* GoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalView.swift; sourceTree = "<group>"; };
 		969F91FD2B3F2510004BECB1 /* ExpansionButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpansionButtonView.swift; sourceTree = "<group>"; };
-		969F91FF2B3F5895004BECB1 /* SelfCollapsedGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfCollapsedGoalView.swift; sourceTree = "<group>"; };
+		969F91FF2B3F5895004BECB1 /* SelfCollapsedGoalViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfCollapsedGoalViewCell.swift; sourceTree = "<group>"; };
 		96CB3EA02B38F24D00B3508D /* RegistrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationView.swift; sourceTree = "<group>"; };
 		96CB3EA22B38F28300B3508D /* RegistrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewModel.swift; sourceTree = "<group>"; };
 		96CB3EA52B3DBEDE00B3508D /* GoalsTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsTabView.swift; sourceTree = "<group>"; };
@@ -214,8 +210,8 @@
 		4F6ED76C2B7186E7000E4594 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				4F6ED76D2B7186F4000E4594 /* View */,
-				4F6ED76E2B7186F7000E4594 /* ViewModel */,
+				4F6ED7802B72A381000E4594 /* FeedViewSelfGoals */,
+				4F6ED77F2B72A34F000E4594 /* ProfilePageGoals */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -248,6 +244,8 @@
 			isa = PBXGroup;
 			children = (
 				4F6ED7752B71890F000E4594 /* GoalViewCell.swift */,
+				969F91FF2B3F5895004BECB1 /* SelfCollapsedGoalViewCell.swift */,
+				969F91EC2B3E0687004BECB1 /* CollapsedGoalViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -273,6 +271,39 @@
 			isa = PBXGroup;
 			children = (
 				4F6ED77D2B726E3B000E4594 /* UserProfileViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		4F6ED77F2B72A34F000E4594 /* ProfilePageGoals */ = {
+			isa = PBXGroup;
+			children = (
+				4F6ED76D2B7186F4000E4594 /* View */,
+				4F6ED76E2B7186F7000E4594 /* ViewModel */,
+			);
+			path = ProfilePageGoals;
+			sourceTree = "<group>";
+		};
+		4F6ED7802B72A381000E4594 /* FeedViewSelfGoals */ = {
+			isa = PBXGroup;
+			children = (
+				4F6ED7812B72A38C000E4594 /* View */,
+				4F6ED7822B72A38F000E4594 /* ViewModel */,
+			);
+			path = FeedViewSelfGoals;
+			sourceTree = "<group>";
+		};
+		4F6ED7812B72A38C000E4594 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				4F6ED7842B72A3CA000E4594 /* FeedSelfGoalsView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		4F6ED7822B72A38F000E4594 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -321,38 +352,6 @@
 			path = "Edit Profile";
 			sourceTree = "<group>";
 		};
-		963592A82B58809C00DD04B8 /* Stranger Profile */ = {
-			isa = PBXGroup;
-			children = (
-				963592A92B5880A800DD04B8 /* View */,
-			);
-			path = "Stranger Profile";
-			sourceTree = "<group>";
-		};
-		963592A92B5880A800DD04B8 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				963592AB2B58826800DD04B8 /* StrangerProfileView.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		963592AD2B59B55200DD04B8 /* FriendProfile */ = {
-			isa = PBXGroup;
-			children = (
-				963592AE2B59B55D00DD04B8 /* View */,
-			);
-			path = FriendProfile;
-			sourceTree = "<group>";
-		};
-		963592AE2B59B55D00DD04B8 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				963592AF2B59B56600DD04B8 /* FriendProfile.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
 		963592B12B59D2B800DD04B8 /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -390,7 +389,6 @@
 		969F91EF2B3E0BE0004BECB1 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				9600D9822B5F0A6C00DAC807 /* GoalViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -399,9 +397,6 @@
 			isa = PBXGroup;
 			children = (
 				969F91F12B3E0C08004BECB1 /* ExpandedGoalView.swift */,
-				969F91FA2B3F0525004BECB1 /* GoalView.swift */,
-				969F91FF2B3F5895004BECB1 /* SelfCollapsedGoalView.swift */,
-				969F91EC2B3E0687004BECB1 /* CollapsedGoalView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -464,11 +459,9 @@
 		96CB3EAA2B3DBF5B00B3508D /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				4F6ED7772B726A6C000E4594 /* UserProfile */,
 				4F6ED76C2B7186E7000E4594 /* Components */,
-				963592AD2B59B55200DD04B8 /* FriendProfile */,
-				963592A82B58809C00DD04B8 /* Stranger Profile */,
 				963592A52B54418600DD04B8 /* Edit Profile */,
+				4F6ED7772B726A6C000E4594 /* UserProfile */,
 				96CB3EBB2B3DC06900B3508D /* CurrentUserProfile */,
 			);
 			path = Profile;
@@ -789,6 +782,7 @@
 		96F247002B382AA7000CC323 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				4F6ED7862B72A4F8000E4594 /* FeedViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -925,7 +919,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				969F92002B3F5895004BECB1 /* SelfCollapsedGoalView.swift in Sources */,
+				969F92002B3F5895004BECB1 /* SelfCollapsedGoalViewCell.swift in Sources */,
 				96F246F22B3826E8000CC323 /* UserService.swift in Sources */,
 				963592B82B59D6E900DD04B8 /* ImageUploader.swift in Sources */,
 				96EDC72C2B40E01D00AC2C38 /* FriendsTabViewModel.swift in Sources */,
@@ -934,9 +928,9 @@
 				963592A02B5420C200DD04B8 /* UserCellViewModel.swift in Sources */,
 				96CB3EA62B3DBEDE00B3508D /* GoalsTabView.swift in Sources */,
 				9600D9792B5B072000DAC807 /* Goal.swift in Sources */,
+				4F6ED7852B72A3CA000E4594 /* FeedSelfGoalsView.swift in Sources */,
 				9635929C2B50A20100DD04B8 /* PreviewProvider.swift in Sources */,
 				969F91FE2B3F2510004BECB1 /* ExpansionButtonView.swift in Sources */,
-				9600D9832B5F0A6C00DAC807 /* GoalViewModel.swift in Sources */,
 				9635929A2B50A19F00DD04B8 /* CircularProfileImageView.swift in Sources */,
 				969F91F22B3E0C08004BECB1 /* ExpandedGoalView.swift in Sources */,
 				96F246E62B3824E1000CC323 /* AuthService.swift in Sources */,
@@ -948,8 +942,7 @@
 				96F247062B3831C1000CC323 /* Color.swift in Sources */,
 				9600D97D2B5DA9CE00DAC807 /* GoalService.swift in Sources */,
 				9600D97F2B5DB2D800DAC807 /* GoalCreationDummyView.swift in Sources */,
-				969F91ED2B3E0687004BECB1 /* CollapsedGoalView.swift in Sources */,
-				969F91FB2B3F0525004BECB1 /* GoalView.swift in Sources */,
+				969F91ED2B3E0687004BECB1 /* CollapsedGoalViewCell.swift in Sources */,
 				963592A72B54419700DD04B8 /* EditProfileView.swift in Sources */,
 				96F246FB2B3829B8000CC323 /* ContentViewModel.swift in Sources */,
 				96F246972B381F4D000CC323 /* ContentView.swift in Sources */,
@@ -962,7 +955,7 @@
 				963592A42B542A0E00DD04B8 /* CurrentFriendsViewModel.swift in Sources */,
 				96EDC7152B408F9900AC2C38 /* CameraView.swift in Sources */,
 				96F246FE2B382A96000CC323 /* FeedView.swift in Sources */,
-				963592B02B59B56600DD04B8 /* FriendProfile.swift in Sources */,
+				4F6ED7872B72A4F8000E4594 /* FeedViewModel.swift in Sources */,
 				96CB3EB52B3DBFDE00B3508D /* GoalCreationView.swift in Sources */,
 				96CB3EAE2B3DBF7800B3508D /* CurrentUserProfileView.swift in Sources */,
 				96CB3EBA2B3DC03D00B3508D /* ContractView.swift in Sources */,
@@ -977,7 +970,6 @@
 				9600D9812B5DC15900DAC807 /* ContractViewModel.swift in Sources */,
 				96CB3EBD2B3DCF6800B3508D /* Hex.swift in Sources */,
 				963592952B509F8300DD04B8 /* UserCell.swift in Sources */,
-				963592AC2B58826800DD04B8 /* StrangerProfileView.swift in Sources */,
 				96F247032B382E18000CC323 /* AuthenticationFormProtocol.swift in Sources */,
 				96F2470B2B3832A3000CC323 /* ThreadsTextFieldModifier.swift in Sources */,
 				96F247092B383289000CC323 /* ThreadsButtonModifier.swift in Sources */,

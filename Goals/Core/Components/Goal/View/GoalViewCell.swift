@@ -18,18 +18,21 @@ struct GoalViewCell: View {
                 Text(goal.title)
                 .font(.title)
                 .fontWeight(.bold)
+                .foregroundStyle(Color.black)
             
             HStack{
                 CircularProfileImageView(user: goal.user, size: .small)
                 
                 Text(goal.user?.username ?? "")
                     .font(.title2)
+                    .foregroundStyle(Color.black)
             }
         }
             
             Text("Completed 6 times.")
                 .font(.title)
                 .fontWeight(.bold)
+                .foregroundStyle(Color.black)
             
             
             ScrollView(.horizontal) {

@@ -108,24 +108,32 @@ extension UserService {
     func acceptFriendRequest(fromUid uid: String) async throws {
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
         
-        // Add each other as friends
-        async let _ = try await FirestoreConstants
+        // Add each other as friends and remove the friend request in parallel
+        async let addFriendForCurrentUser = FirestoreConstants
             .FriendsCollection
             .document(currentUid)
             .collection("user-friends")
             .document(uid)
             .setData([:])
         
-        async let _ = try await FirestoreConstants
+        async let addFriendForOtherUser = FirestoreConstants
             .FriendsCollection
             .document(uid)
             .collection("user-friends")
             .document(currentUid)
             .setData([:])
         
-        // Remove the friend request
-        async let _ = try await removeFriendRequest(fromUid: uid)
+        async let removeRequest = removeFriendRequest(fromUid: uid)
+        
+        // Update feeds for both users
+        async let updateFeedForCurrentUser = updateUserFeedAfterFriend(followedUid: uid, targetUserId: currentUid)
+        async let updateFeedForOtherUser = updateUserFeedAfterFriend(followedUid: currentUid, targetUserId: uid)
+        
+        // Await all operations to complete
+        _ = try await (addFriendForCurrentUser, addFriendForOtherUser, removeRequest, updateFeedForCurrentUser, updateFeedForOtherUser)
     }
+
+
     
     // Reject a friend request
     @MainActor
@@ -139,20 +147,30 @@ extension UserService {
     func removeFriend(uid: String) async throws {
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
         
-        async let _ = try await FirestoreConstants
+        // Remove each other as friends
+        async let removeForCurrentUser = FirestoreConstants
             .FriendsCollection
             .document(currentUid)
             .collection("user-friends")
             .document(uid)
             .delete()
-
-        async let _ = try await FirestoreConstants
+        
+        async let removeForOtherUser = FirestoreConstants
             .FriendsCollection
             .document(uid)
             .collection("user-friends")
             .document(currentUid)
             .delete()
+        
+        // Update feeds for both users to reflect the removal of friendship
+        async let updateFeedForCurrentUser = updateUserFeedAfterUnfriend(unfollowedUid: uid, targetUserId: currentUid)
+        async let updateFeedForOtherUser = updateUserFeedAfterUnfriend(unfollowedUid: currentUid, targetUserId: uid)
+        
+        // Await all operations to complete
+        _ = try await (removeForCurrentUser, removeForOtherUser, updateFeedForCurrentUser, updateFeedForOtherUser)
     }
+
+
     
     // Helper function to remove a friend request
     private func removeFriendRequest(fromUid uid: String) async throws {
@@ -191,7 +209,7 @@ extension UserService {
             .document(currentUid)
             .delete()
     }
-
+    
     // Delete a received friend request
     @MainActor
     func deleteReceivedFriendRequest(fromUid uid: String) async throws {
@@ -202,7 +220,7 @@ extension UserService {
             .collection("received-requests")
             .document(uid)
             .delete()
-
+        
         try await FirestoreConstants
             .FriendRequestsCollection
             .document(uid)
@@ -234,7 +252,7 @@ extension UserService {
             .collection("sent-requests")
             .document(targetUid)
             .getDocument()
-
+        
         return document.exists
     }
     
@@ -246,12 +264,48 @@ extension UserService {
             .collection("received-requests")
             .document(targetUid)
             .getDocument()
-
+        
         return document.exists
     }
+}
 
-    
-    // MARK: - ImageService
+
+// MARK: - Feed Updates
+
+extension UserService {
+    // Update to include a targetUserId parameter
+    func updateUserFeedAfterFriend(followedUid: String, targetUserId: String) async throws {
+        let goalsSnapshot = try await FirestoreConstants.GoalsCollection.whereField("ownerUid", isEqualTo: followedUid).getDocuments()
+        
+        for document in goalsSnapshot.documents {
+            try await FirestoreConstants
+                .UserCollection
+                .document(targetUserId) // Use targetUserId instead of currentUid
+                .collection("user-feed")
+                .document(document.documentID)
+                .setData([:])
+        }
+    }
+
+    // Update to include a targetUserId parameter
+    func updateUserFeedAfterUnfriend(unfollowedUid: String, targetUserId: String) async throws {
+        let goalsSnapshot = try await FirestoreConstants.GoalsCollection.whereField("ownerUid", isEqualTo: unfollowedUid).getDocuments()
+        
+        for document in goalsSnapshot.documents {
+            try await FirestoreConstants
+                .UserCollection
+                .document(targetUserId) // Use targetUserId instead of currentUid
+                .collection("user-feed")
+                .document(document.documentID)
+                .delete()
+        }
+    }
+
+}
+
+// MARK: - ImageService
+
+extension UserService {
     
     @MainActor
     func updateUserProfileImage (withImageUrl imageUrl: String) async throws {

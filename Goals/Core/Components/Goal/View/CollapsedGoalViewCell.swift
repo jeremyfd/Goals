@@ -1,5 +1,5 @@
 //
-//  CollapsedGoalView.swift
+//  CollapsedGoalViewCell.swift
 //  Goals
 //
 //  Created by Work on 28/12/2023.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CollapsedGoalView: View {
+struct CollapsedGoalViewCell: View {
     let goal: Goal
     
     var body: some View {
@@ -54,12 +54,13 @@ struct CollapsedGoalView: View {
             .padding(.vertical, 5)
             .frame(width: UIScreen.main.bounds.width - 40)
             .background(Color.white)
-            .cornerRadius(40) // Rounded corners
+            .cornerRadius(40)
         }
         .padding(.horizontal)
+        
     }
 }
 
 //#Preview {
-//    CollapsedGoalView()
+//    CollapsedGoalViewCell()
 //}
