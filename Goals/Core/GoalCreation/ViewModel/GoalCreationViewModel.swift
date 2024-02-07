@@ -12,6 +12,7 @@ class GoalCreationViewModel: ObservableObject {
     @Published var title = ""
     @Published var partnerUID = ""
     @Published var frequency = 1.0
+    @Published var partnerUsername: String = ""
     
     func uploadGoal() async throws {
         guard let uid = Auth.auth().currentUser?.uid else { return }

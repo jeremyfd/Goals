@@ -10,6 +10,8 @@ import SwiftUI
 struct PartnerSearchView: View {
     @StateObject private var viewModel = PartnerSearchViewModel()
     @FocusState private var isTextFieldFocused: Bool
+    @Binding var selectedUsername: String
+    @Environment(\.dismiss) var dismiss
     
     var body: some View {
         NavigationStack {
@@ -38,10 +40,14 @@ struct PartnerSearchView: View {
                     ScrollView {
                         LazyVStack {
                             ForEach(viewModel.searchResults, id: \.id) { user in
-                                NavigationLink(value: user) {
+                                Button(action: {
+                                    self.selectedUsername = user.username
+                                    dismiss()
+                                }) {
                                     PartnerAddCell(user: user)
                                 }
                             }
+
                         }
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -54,6 +60,6 @@ struct PartnerSearchView: View {
 }
 
 
-#Preview {
-    PartnerSearchView()
-}
+//#Preview {
+//    PartnerSearchView()
+//}

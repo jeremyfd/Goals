@@ -48,7 +48,7 @@ struct GoalCreationView: View {
                                 showingPartnerSearch.toggle()
                             }
                                    , label: {
-                                Text("Partner username...")
+                                Text(viewModel.partnerUsername.isEmpty ? "Partner username..." : viewModel.partnerUsername)
                                     .padding(5)
                             })
                             
@@ -100,7 +100,7 @@ struct GoalCreationView: View {
             .navigationTitle("New Goal")
             .navigationBarTitleDisplayMode(.inline)
             .sheet(isPresented: $showingPartnerSearch) {
-                PartnerSearchView()
+                PartnerSearchView(selectedUsername: $viewModel.partnerUsername)
             }
         }
     }
