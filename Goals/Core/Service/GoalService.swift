@@ -27,10 +27,10 @@ struct GoalService {
     }
     
     static func fetchGoal(goalId: String) async throws -> Goal {
-        print("DEBUG: Fetching goal with ID: \(goalId)")
+//        print("DEBUG: Fetching goal with ID: \(goalId)")
         let snapshot = try await FirestoreConstants.GoalsCollection.document(goalId).getDocument()
         let goal = try snapshot.data(as: Goal.self)
-        print("DEBUG: Successfully fetched goal: \(goal)")
+//        print("DEBUG: Successfully fetched goal: \(goal)")
         return goal
     }
     

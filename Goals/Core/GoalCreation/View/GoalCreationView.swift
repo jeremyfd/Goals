@@ -38,8 +38,9 @@ struct GoalCreationView: View {
                             
                             TextField("Goal name...", text: $viewModel.title)
                                 .padding(5)
-                            
+                                .foregroundColor(Color.theme.primaryText)
                         }
+                        
                         HStack {
                             Text("Partner:")
                                 .fontWeight(.bold)
@@ -47,7 +48,7 @@ struct GoalCreationView: View {
                             Button(action: {
                                 showingPartnerSearch.toggle()
                             }, label: {
-                                Text(viewModel.partnerUID.isEmpty ? "Partner username..." : viewModel.partnerUsername)
+                                Text(viewModel.partnerUID.isEmpty ? "Select partner..." : "@\(viewModel.partnerUsername)")
                                     .padding(5)
                             })
                             
@@ -84,15 +85,17 @@ struct GoalCreationView: View {
                 }
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Create Goal") {
-                        Task {
-                            try await viewModel.uploadGoal()
-                            dismiss()
+                    if !viewModel.title.isEmpty && !viewModel.partnerUID.isEmpty {
+                        Button("Create Goal") {
+                            Task {
+                                try await viewModel.uploadGoal()
+                                dismiss()
+                            }
                         }
+                        .font(.subheadline)
+                        .fontWeight(.semibold)
+                        .foregroundStyle(Color.theme.primaryText)
                     }
-                    .font(.subheadline)
-                    .fontWeight(.semibold)
-                    .foregroundStyle(Color.theme.primaryText)
                 }
             }
             .onDisappear { tabIndex = 0 }

@@ -31,7 +31,7 @@ class UserCellViewModel: ObservableObject {
                 let isFriendRequestReceived = try await UserService.checkIfRequestReceived(fromUid: user.id)
                 
                 DispatchQueue.main.async {
-                    print("DEBUG: Fetch Friendship Status - isFriend: \(isFriend), isFriendRequestSent: \(isFriendRequestSent), isFriendRequestReceived: \(isFriendRequestReceived)")
+//                    print("DEBUG: Fetch Friendship Status - isFriend: \(isFriend), isFriendRequestSent: \(isFriendRequestSent), isFriendRequestReceived: \(isFriendRequestReceived)")
                     self.user.isFriend = isFriend
                     self.user.isFriendRequestSent = isFriendRequestSent
                     self.user.isFriendRequestReceived = isFriendRequestReceived

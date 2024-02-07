@@ -20,7 +20,7 @@ class AuthService {
             await UserService.shared.fetchCurrentUser { success, error in
                 // Handle the result of fetching the current user
                 if success {
-                    print("User fetched successfully.")
+//                    print("DEBUG: User fetched successfully.")
                 } else if let error = error {
                     print("Error fetching user: \(error)")
                 }

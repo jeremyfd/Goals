@@ -15,7 +15,7 @@ class ContractViewModel: ObservableObject {
     
     
     init() {
-        print("DEBUG: ContractViewModel initialized")
+//        print("DEBUG: ContractViewModel initialized")
         Task { try await fetchGoals() }
     }
     
@@ -24,7 +24,7 @@ class ContractViewModel: ObservableObject {
             print("DEBUG: No current user UID found")
             return []
         }
-        print("DEBUG: Current user UID: \(uid)")
+//        print("DEBUG: Current user UID: \(uid)")
         isLoading = true
         
         let snapshot = try? await FirestoreConstants
@@ -34,39 +34,15 @@ class ContractViewModel: ObservableObject {
             .getDocuments()
         
         let ids = snapshot?.documents.map({ $0.documentID }) ?? []
-        print("DEBUG: Fetched goal IDs: \(ids)")
+//        print("DEBUG: Fetched goal IDs: \(ids)")
         return ids
     }
     
-//    func fetchGoals() async throws {
-//        print("DEBUG: Fetching goals")
-//        let goalIDs = await fetchGoalIDs()
-//        print("DEBUG: Goal IDs fetched: \(goalIDs)")
-//
-//        try await withThrowingTaskGroup(of: Goal.self, body: { group in
-//            var goals = [Goal]()
-//
-//            for id in goalIDs {
-//                print("DEBUG: Adding task to fetch goal with ID: \(id)")
-//                group.addTask { return try await GoalService.fetchGoal(goalId: id) }
-//            }
-//
-//            for try await goal in group {
-//                print("DEBUG: Fetched goal: \(goal)")
-//                goals.append(try await fetchGoalUserData(goal: goal))
-//            }
-//
-//            self.goals = goals.sorted(by: { $0.timestamp.dateValue() > $1.timestamp.dateValue() })
-//            isLoading = false
-//            print("DEBUG: Finished fetching goals, total count: \(self.goals.count)")
-//        })
-//    }
-    
     func fetchGoals() async {
         do {
-            print("DEBUG: Fetching goals")
+//            print("DEBUG: Fetching goals")
             let goalIDs = await fetchGoalIDs()
-            print("DEBUG: Goal IDs fetched: \(goalIDs)")
+//            print("DEBUG: Goal IDs fetched: \(goalIDs)")
 
             var fetchedGoals = [Goal]()
             try await withThrowingTaskGroup(of: Goal.self, body: { group in
@@ -81,7 +57,7 @@ class ContractViewModel: ObservableObject {
             })
             self.goals = fetchedGoals.sorted(by: { $0.timestamp.dateValue() > $1.timestamp.dateValue() })
             isLoading = false
-            print("DEBUG: Finished fetching goals, total count: \(self.goals.count)")
+//            print("DEBUG: Finished fetching goals, total count: \(self.goals.count)")
         } catch {
             print("DEBUG: Error fetching goals: \(error)")
             // Handle the error appropriately, maybe set an error state to show in UI

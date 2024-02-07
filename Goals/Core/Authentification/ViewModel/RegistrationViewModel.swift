@@ -50,7 +50,7 @@ class RegistrationViewModel: ObservableObject {
     
     @MainActor
     func verifyCode() async {
-        print("DEBUG: Verify Code started")
+//        print("DEBUG: Verify Code started")
 
         guard let verificationID = verificationID else {
             errorMessage = "Verification ID not found."
@@ -72,7 +72,7 @@ class RegistrationViewModel: ObservableObject {
         }
         isAuthenticating = false
         
-        print("DEBUG: Verify Code ended")
+//        print("DEBUG: Verify Code ended")
     }
     
     
