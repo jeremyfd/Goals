@@ -6,10 +6,19 @@
 //
 
 import SwiftUI
+import Firebase
 
 struct ExpandedGoalView: View {
     let goal: Goal
+    @StateObject private var viewModel = ExpandedGoalViewModel()
     @State private var showCalendarView = false
+    
+    private func formatDate(_ timestamp: Timestamp) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .medium
+//        dateFormatter.dateFormat = "dd/MM/yyyy"
+        return dateFormatter.string(from: timestamp.dateValue())
+    }
     
     var body: some View {
         
@@ -61,7 +70,7 @@ struct ExpandedGoalView: View {
                             .font(.title2)
                             .padding(.top, 5)
                         
-                        Text("10/12/2023")
+                        Text(formatDate(goal.timestamp))
                             .font(.title2)
                             .fontWeight(.bold)
                             .padding(.top, 5)
@@ -72,10 +81,17 @@ struct ExpandedGoalView: View {
                             .font(.title2)
                             .padding(.top, 5)
                         
-                        Text("@theo")
-                            .font(.title2)
-                            .fontWeight(.bold)
-                            .padding(.top, 5)
+                        // Display partner username once it's fetched
+                        if let partnerUser = viewModel.partnerUser {
+                            Text("@\(partnerUser.username)")
+                                .font(.title2)
+                                .fontWeight(.bold)
+                                .padding(.top, 5)
+                        } else {
+                            Text("Partner: Loading...")
+                                .font(.title2)
+                                .padding(.top, 5)
+                        }
                     }
                     
                     HStack {
@@ -83,7 +99,7 @@ struct ExpandedGoalView: View {
                             .font(.title2)
                             .padding(.top, 5)
                         
-                        Text("3x a week")
+                        Text("\(goal.frequency)x a week")
                             .font(.title2)
                             .fontWeight(.bold)
                             .padding(.top, 5)
@@ -170,6 +186,11 @@ struct ExpandedGoalView: View {
                         }
                     }
                 }
+            }
+        }
+        .onAppear {
+            if viewModel.partnerUser == nil {
+                viewModel.fetchPartnerUser(partnerUid: goal.partnerUid)
             }
         }
         .padding(.horizontal, 30)

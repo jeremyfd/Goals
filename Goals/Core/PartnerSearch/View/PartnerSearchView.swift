@@ -11,6 +11,7 @@ struct PartnerSearchView: View {
     @StateObject private var viewModel = PartnerSearchViewModel()
     @FocusState private var isTextFieldFocused: Bool
     @Binding var selectedUsername: String
+    @Binding var partnerUID: String
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
@@ -42,6 +43,7 @@ struct PartnerSearchView: View {
                             ForEach(viewModel.searchResults, id: \.id) { user in
                                 Button(action: {
                                     self.selectedUsername = user.username
+                                    self.partnerUID = user.id
                                     dismiss()
                                 }) {
                                     PartnerAddCell(user: user)
