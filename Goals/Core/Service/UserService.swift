@@ -300,7 +300,6 @@ extension UserService {
                 .delete()
         }
     }
-
 }
 
 // MARK: - ImageService

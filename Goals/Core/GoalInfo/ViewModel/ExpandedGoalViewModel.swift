@@ -22,4 +22,21 @@ class ExpandedGoalViewModel: ObservableObject {
             }
         }
     }
+    
+    func deleteGoal(goalId: String, completion: @escaping (Result<Void, Error>) -> Void) {
+        Task {
+            do {
+                try await GoalService.deleteGoal(goalId: goalId)
+                // Call the completion handler to indicate success
+                DispatchQueue.main.async {
+                    completion(.success(()))
+                }
+            } catch {
+                // Call the completion handler with the error if deletion fails
+                DispatchQueue.main.async {
+                    completion(.failure(error))
+                }
+            }
+        }
+    }
 }

@@ -14,6 +14,10 @@ struct ExpandedGoalView: View {
     @State private var showCalendarView = false
     @State private var isDescriptionExpanded: Bool = false
     @State private var navigateToUser: User? = nil
+    @State private var showActionSheet = false
+    @State private var showAlert = false
+    @Environment(\.presentationMode) var presentationMode
+
     
     private func formatDate(_ timestamp: Timestamp) -> String {
         let dateFormatter = DateFormatter()
@@ -37,10 +41,19 @@ struct ExpandedGoalView: View {
                         
                         Spacer()
                         
+                    }
+                    
+                    HStack{
+                        CircularProfileImageView(user: goal.user, size: .small)
+                        
+                        Text(goal.user?.username ?? "")
+                            .font(.title2)
+                        
+                        Spacer()
+                        
                         Button(action: {
                             showCalendarView = true
-                        },
-                               label: {
+                        }, label: {
                             HStack {
                                 Image(systemName: "calendar")
                                     .resizable()
@@ -58,13 +71,6 @@ struct ExpandedGoalView: View {
                             }
                             .foregroundStyle(Color.black)
                         })
-                    }
-                    
-                    HStack{
-                        CircularProfileImageView(user: goal.user, size: .small)
-                        
-                        Text(goal.user?.username ?? "")
-                            .font(.title2)
 
                     }
                 }
@@ -112,6 +118,8 @@ struct ExpandedGoalView: View {
                             .fontWeight(.bold)
                             .padding(.top, 5)
                     }
+                    
+
                     
                     if let description = goal.description {
                         VStack(alignment: .leading, spacing: 10) {
@@ -227,6 +235,46 @@ struct ExpandedGoalView: View {
             }
 
         }
+        .navigationBarItems(trailing: Menu {
+            Button(action: {
+                showCalendarView.toggle()
+            }) {
+                Label("Show Calendar", systemImage: "calendar")
+            }
+            
+            Button(action: {
+                // Show confirmation alert before deleting
+                showAlert = true
+            }) {
+                Label("Delete Goal", systemImage: "trash")
+            }
+            .disabled(goal.user?.id != Auth.auth().currentUser?.uid) // Disable if not the goal owner
+        } label: {
+            Image(systemName: "ellipsis.circle")
+                .imageScale(.large)
+        })
+        .alert(isPresented: $showAlert) {
+            Alert(
+                title: Text("Delete Goal"),
+                message: Text("Are you sure you want to delete this goal? This action cannot be undone."),
+                primaryButton: .destructive(Text("Delete")) {
+                    // Call the deleteGoal function from the viewModel
+                    viewModel.deleteGoal(goalId: goal.id) { result in
+                        switch result {
+                        case .success():
+                            // Handle successful deletion, e.g., dismiss the current view or show a success message
+                            presentationMode.wrappedValue.dismiss()
+                        case .failure(let error):
+                            // Handle the error, e.g., show an error message
+                            print("Error deleting goal: \(error.localizedDescription)")
+                            // You might want to use another @State variable to trigger an error alert/message
+                        }
+                    }
+                },
+                secondaryButton: .cancel()
+            )
+        }
+
         .onAppear {
             if viewModel.partnerUser == nil {
                 viewModel.fetchPartnerUser(partnerUid: goal.partnerUid)
