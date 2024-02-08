@@ -236,23 +236,19 @@ struct ExpandedGoalView: View {
 
         }
         .navigationBarItems(trailing: Menu {
-            Button(action: {
-                showCalendarView.toggle()
-            }) {
-                Label("Show Calendar", systemImage: "calendar")
+            if goal.user?.id == Auth.auth().currentUser?.uid {
+                Button(action: {
+                    showAlert = true
+                }) {
+                    Label("Delete Goal", systemImage: "trash")
+                }
             }
-            
-            Button(action: {
-                // Show confirmation alert before deleting
-                showAlert = true
-            }) {
-                Label("Delete Goal", systemImage: "trash")
-            }
-            .disabled(goal.user?.id != Auth.auth().currentUser?.uid) // Disable if not the goal owner
+//            .disabled(goal.user?.id != Auth.auth().currentUser?.uid) // Disable if not the goal owner
         } label: {
             Image(systemName: "ellipsis.circle")
                 .imageScale(.large)
         })
+        
         .alert(isPresented: $showAlert) {
             Alert(
                 title: Text("Delete Goal"),
