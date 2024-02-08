@@ -120,7 +120,7 @@ struct GoalCreationView: View {
                     }
                 }
             }
-            .onDisappear { tabIndex = 0 }
+//            .onDisappear { tabIndex = 0 }
             .navigationTitle("New Goal")
             .navigationBarTitleDisplayMode(.inline)
             .sheet(isPresented: $showingPartnerSearch) {
