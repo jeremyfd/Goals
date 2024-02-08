@@ -28,17 +28,17 @@ struct GoalsTabView: View {
                 .onAppear { selectedTab = 1 }
                 .tag(1)
             
-//            GoalCreationDummyView(tabIndex: $selectedTab)
             AddDummyView(tabIndex: $selectedTab)
                 .tabItem { Image(systemName: "plus") }
                 .onAppear { selectedTab = 2 }
                 .tag(2)
             
-            FriendsTabView()
+            PublicChallengesView()
                 .tabItem {
-                    Image(systemName: selectedTab == 3 ? "person.2.fill" : "person.2")
+                    Image(systemName: selectedTab == 3 ? "trophy.fill" : "trophy")
                         .environment(\.symbolVariants, selectedTab == 3 ? .fill : .none)
-                }                .onAppear { selectedTab = 3 }
+                }
+                .onAppear { selectedTab = 3 }
                 .tag(3)
             
             CurrentUserProfileView()
@@ -50,7 +50,6 @@ struct GoalsTabView: View {
                 .tag(4)
         }
         .tint(Color.theme.primaryText)
-
     }
 }
 

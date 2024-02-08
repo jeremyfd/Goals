@@ -11,7 +11,8 @@ import Firebase
 class GoalCreationViewModel: ObservableObject {
     @Published var title = ""
     @Published var partnerUID = ""
-    @Published var frequency = 1.0
+    @Published var frequency = 2.0
+    @Published var duration = 1.0
     @Published var description = ""
     @Published var partnerUsername: String = ""
     
@@ -23,7 +24,8 @@ class GoalCreationViewModel: ObservableObject {
             timestamp: Timestamp(),
             title: title,
             frequency: Int(frequency), 
-            description: description)
+            description: description, 
+            duration: Int(duration))
         try await GoalService.uploadGoal(goal)
     }
 }

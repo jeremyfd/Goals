@@ -20,10 +20,11 @@
 		4F6ED7922B7436A6000E4594 /* ExpandedGoalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6ED7912B7436A6000E4594 /* ExpandedGoalViewModel.swift */; };
 		4FE8D45C2B754C7600ECD64D /* AddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE8D45B2B754C7600ECD64D /* AddView.swift */; };
 		4FE8D45E2B754E0800ECD64D /* AddDummyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE8D45D2B754E0800ECD64D /* AddDummyView.swift */; };
+		4FE8D4622B758DDF00ECD64D /* ExplanationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE8D4612B758DDF00ECD64D /* ExplanationView.swift */; };
+		4FE8D4662B758F5600ECD64D /* PublicChallengesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE8D4652B758F5600ECD64D /* PublicChallengesView.swift */; };
 		9600D9792B5B072000DAC807 /* Goal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9600D9782B5B072000DAC807 /* Goal.swift */; };
 		9600D97B2B5DA99D00DAC807 /* GoalCreationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9600D97A2B5DA99D00DAC807 /* GoalCreationViewModel.swift */; };
 		9600D97D2B5DA9CE00DAC807 /* GoalService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9600D97C2B5DA9CE00DAC807 /* GoalService.swift */; };
-		9600D97F2B5DB2D800DAC807 /* GoalCreationDummyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9600D97E2B5DB2D800DAC807 /* GoalCreationDummyView.swift */; };
 		9600D9812B5DC15900DAC807 /* ContractViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9600D9802B5DC15900DAC807 /* ContractViewModel.swift */; };
 		963592952B509F8300DD04B8 /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963592942B509F8300DD04B8 /* UserCell.swift */; };
 		9635929A2B50A19F00DD04B8 /* CircularProfileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963592992B50A19F00DD04B8 /* CircularProfileImageView.swift */; };
@@ -120,10 +121,11 @@
 		4F6ED7912B7436A6000E4594 /* ExpandedGoalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandedGoalViewModel.swift; sourceTree = "<group>"; };
 		4FE8D45B2B754C7600ECD64D /* AddView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddView.swift; sourceTree = "<group>"; };
 		4FE8D45D2B754E0800ECD64D /* AddDummyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDummyView.swift; sourceTree = "<group>"; };
+		4FE8D4612B758DDF00ECD64D /* ExplanationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExplanationView.swift; sourceTree = "<group>"; };
+		4FE8D4652B758F5600ECD64D /* PublicChallengesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicChallengesView.swift; sourceTree = "<group>"; };
 		9600D9782B5B072000DAC807 /* Goal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Goal.swift; sourceTree = "<group>"; };
 		9600D97A2B5DA99D00DAC807 /* GoalCreationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalCreationViewModel.swift; sourceTree = "<group>"; };
 		9600D97C2B5DA9CE00DAC807 /* GoalService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalService.swift; sourceTree = "<group>"; };
-		9600D97E2B5DB2D800DAC807 /* GoalCreationDummyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalCreationDummyView.swift; sourceTree = "<group>"; };
 		9600D9802B5DC15900DAC807 /* ContractViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractViewModel.swift; sourceTree = "<group>"; };
 		963592942B509F8300DD04B8 /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
 		963592992B50A19F00DD04B8 /* CircularProfileImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProfileImageView.swift; sourceTree = "<group>"; };
@@ -345,6 +347,38 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		4FE8D45F2B758DC200ECD64D /* Explanation */ = {
+			isa = PBXGroup;
+			children = (
+				4FE8D4602B758DCC00ECD64D /* View */,
+			);
+			path = Explanation;
+			sourceTree = "<group>";
+		};
+		4FE8D4602B758DCC00ECD64D /* View */ = {
+			isa = PBXGroup;
+			children = (
+				4FE8D4612B758DDF00ECD64D /* ExplanationView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		4FE8D4632B758F3500ECD64D /* Public Challenges */ = {
+			isa = PBXGroup;
+			children = (
+				4FE8D4642B758F4600ECD64D /* View */,
+			);
+			path = "Public Challenges";
+			sourceTree = "<group>";
+		};
+		4FE8D4642B758F4600ECD64D /* View */ = {
+			isa = PBXGroup;
+			children = (
+				4FE8D4652B758F5600ECD64D /* PublicChallengesView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		963592962B50A14500DD04B8 /* Components */ = {
 			isa = PBXGroup;
 			children = (
@@ -535,7 +569,6 @@
 			isa = PBXGroup;
 			children = (
 				96CB3EB42B3DBFDE00B3508D /* GoalCreationView.swift */,
-				9600D97E2B5DB2D800DAC807 /* GoalCreationDummyView.swift */,
 				4FE8D45B2B754C7600ECD64D /* AddView.swift */,
 				4FE8D45D2B754E0800ECD64D /* AddDummyView.swift */,
 			);
@@ -701,22 +734,24 @@
 		96F246E22B38249A000CC323 /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				4F6ED78A2B741ED1000E4594 /* PartnerSearch */,
-				963592962B50A14500DD04B8 /* Components */,
-				96EDC71D2B40A2D800AC2C38 /* Friends */,
-				96EDC7132B408F5300AC2C38 /* Camera */,
-				969F92012B3F7758004BECB1 /* Evidence */,
-				969F91F62B3F0107004BECB1 /* Settings */,
-				969F91F32B3ED586004BECB1 /* Calendar */,
-				969F91EE2B3E0BCC004BECB1 /* GoalInfo */,
-				96CB3EB62B3DC01E00B3508D /* Contract */,
-				96CB3EB12B3DBFC400B3508D /* GoalCreation */,
-				96CB3EAA2B3DBF5B00B3508D /* Profile */,
-				96CB3EA42B3DBEC700B3508D /* TabBar */,
 				96F246E32B3824A9000CC323 /* Authentification */,
+				969F91F32B3ED586004BECB1 /* Calendar */,
+				96EDC7132B408F5300AC2C38 /* Camera */,
+				963592962B50A14500DD04B8 /* Components */,
+				96CB3EB62B3DC01E00B3508D /* Contract */,
+				969F92012B3F7758004BECB1 /* Evidence */,
+				4FE8D45F2B758DC200ECD64D /* Explanation */,
 				96F246FC2B382A8A000CC323 /* Feed */,
+				96EDC71D2B40A2D800AC2C38 /* Friends */,
+				96CB3EB12B3DBFC400B3508D /* GoalCreation */,
+				969F91EE2B3E0BCC004BECB1 /* GoalInfo */,
+				4F6ED78A2B741ED1000E4594 /* PartnerSearch */,
+				96CB3EAA2B3DBF5B00B3508D /* Profile */,
+				4FE8D4632B758F3500ECD64D /* Public Challenges */,
 				96F246DF2B382329000CC323 /* Root */,
 				96F246F02B3826DA000CC323 /* Service */,
+				969F91F62B3F0107004BECB1 /* Settings */,
+				96CB3EA42B3DBEC700B3508D /* TabBar */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -981,10 +1016,10 @@
 				4F6ED78E2B741EF4000E4594 /* PartnerSearchView.swift in Sources */,
 				4F6ED7722B71871F000E4594 /* UserContentListViewModel.swift in Sources */,
 				4F6ED7702B718715000E4594 /* UserContentListView.swift in Sources */,
+				4FE8D4622B758DDF00ECD64D /* ExplanationView.swift in Sources */,
 				96EDC71A2B40900A00AC2C38 /* CameraPreview.swift in Sources */,
 				96F247062B3831C1000CC323 /* Color.swift in Sources */,
 				9600D97D2B5DA9CE00DAC807 /* GoalService.swift in Sources */,
-				9600D97F2B5DB2D800DAC807 /* GoalCreationDummyView.swift in Sources */,
 				969F91ED2B3E0687004BECB1 /* CollapsedGoalViewCell.swift in Sources */,
 				963592A72B54419700DD04B8 /* EditProfileView.swift in Sources */,
 				96F246FB2B3829B8000CC323 /* ContentViewModel.swift in Sources */,
@@ -999,6 +1034,7 @@
 				963592A42B542A0E00DD04B8 /* CurrentFriendsViewModel.swift in Sources */,
 				96EDC7152B408F9900AC2C38 /* CameraView.swift in Sources */,
 				96F246FE2B382A96000CC323 /* FeedView.swift in Sources */,
+				4FE8D4662B758F5600ECD64D /* PublicChallengesView.swift in Sources */,
 				4F6ED7902B741F0A000E4594 /* PartnerSearchViewModel.swift in Sources */,
 				4F6ED7872B72A4F8000E4594 /* FeedViewModel.swift in Sources */,
 				96CB3EB52B3DBFDE00B3508D /* GoalCreationView.swift in Sources */,

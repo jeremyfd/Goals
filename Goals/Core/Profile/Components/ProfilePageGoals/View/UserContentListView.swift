@@ -16,7 +16,6 @@ struct UserContentListView: View {
 
     var body: some View {
         VStack {
-            
             LazyVStack {
                 if viewModel.goals.isEmpty {
                     Text(viewModel.noContentText())

@@ -28,6 +28,8 @@ struct ExpandedGoalView: View {
     
     var body: some View {
         
+        ScrollView {
+        
         VStack(alignment: .leading) {
             
             VStack(alignment: .leading) {
@@ -40,14 +42,14 @@ struct ExpandedGoalView: View {
                             .fontWeight(.bold)
                         
                         Spacer()
-                        
                     }
+                    .padding(.bottom, -5)
                     
                     HStack{
                         CircularProfileImageView(user: goal.user, size: .small)
                         
                         Text(goal.user?.username ?? "")
-                            .font(.title2)
+                            .font(.title3)
                         
                         Spacer()
                         
@@ -61,7 +63,7 @@ struct ExpandedGoalView: View {
                                     .frame(width: 25, height: 25)
                                 
                                 Text("Week 10")
-                                    .font(.title2)
+                                    .font(.title3)
                                 
                                 Image(systemName: "chevron.down")
                                     .resizable()
@@ -130,7 +132,7 @@ struct ExpandedGoalView: View {
                             Text(description)
                                 .font(.title2)
                                 .fontWeight(.bold)
-                                .padding(.top, 5)
+                                .padding(.top, -5)
                                 .lineLimit(isDescriptionExpanded ? nil : 1) // Dynamically change line limit
                                 .fixedSize(horizontal: false, vertical: true) // Allow text to expand vertically
                             
@@ -139,7 +141,6 @@ struct ExpandedGoalView: View {
                             }) {
                                 Text(isDescriptionExpanded ? "Less" : "More")
                                     .font(.headline)
-//                                    .foregroundColor(.blue)
                             }
                         }
                     }
@@ -153,7 +154,6 @@ struct ExpandedGoalView: View {
             }
             .padding(.vertical)
             
-            ScrollView {
                 
                 LazyVStack {
                     
@@ -235,6 +235,7 @@ struct ExpandedGoalView: View {
             }
 
         }
+        .scrollIndicators(.hidden)
         .navigationBarItems(trailing: Menu {
             if goal.user?.id == Auth.auth().currentUser?.uid {
                 Button(action: {
@@ -243,7 +244,6 @@ struct ExpandedGoalView: View {
                     Label("Delete Goal", systemImage: "trash")
                 }
             }
-//            .disabled(goal.user?.id != Auth.auth().currentUser?.uid) // Disable if not the goal owner
         } label: {
             Image(systemName: "ellipsis.circle")
                 .imageScale(.large)

@@ -13,6 +13,10 @@ struct GoalCreationView: View {
     @Binding var tabIndex: Int
     @State private var showingPartnerSearch = false
     
+    var weeksToAchieveGoal: Int {
+        return Int(ceil(7.0 / viewModel.frequency))
+    }
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -67,7 +71,7 @@ struct GoalCreationView: View {
                             
                             Spacer()
                             
-                            Slider(value: $viewModel.frequency, in: 1...7, step: 1)
+                            Slider(value: $viewModel.frequency, in: 2...7, step: 1)
                                 .padding(5)
                             Text("\(Int(viewModel.frequency))x a week")
                         }
@@ -89,6 +93,8 @@ struct GoalCreationView: View {
                         }
                         
                         VStack (alignment: .leading, spacing: 15){
+                            Text("It will take \(weeksToAchieveGoal) weeks to achieve the goal 7 times.")
+                                .fontWeight(.bold)
                             Text("You will not be able to delete this goal and your friends will keep you accountable to it.")
                             Text("Please create your goal wisely.")
                         }
@@ -110,6 +116,7 @@ struct GoalCreationView: View {
                     if !viewModel.title.isEmpty && !viewModel.partnerUID.isEmpty {
                         Button("Create Goal") {
                             Task {
+                                viewModel.duration = Double(weeksToAchieveGoal)
                                 try await viewModel.uploadGoal()
                                 dismiss()
                             }

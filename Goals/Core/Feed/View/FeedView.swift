@@ -31,10 +31,21 @@ struct FeedView: View {
                 VStack(alignment: .leading) {
                     
                     HStack(alignment: .center) {
+
                         Text("My Goals")
                             .font(.title)
                             .fontWeight(.bold)
                             .padding(.leading)
+                        
+                        Spacer()
+                        
+                        NavigationLink(destination: FriendsTabView()) {
+                            Image(systemName: "person.2.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 35, height: 35)
+                                .padding(.horizontal)
+                        }
                     }
                     
                     if let user = currentUser {

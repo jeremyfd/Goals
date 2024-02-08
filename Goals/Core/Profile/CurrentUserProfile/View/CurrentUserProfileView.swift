@@ -77,11 +77,10 @@ struct CurrentUserProfileView: View {
                                 // Provide an alternative view if currentUser is nil
                                 Text("User not found")
                             }
-                        },
-                                       isActive: $navigateToEditProfile) {
+                        }, isActive: $navigateToEditProfile) {
                             EmptyView()
                         }
-                                       .hidden()
+                        .hidden()
                         
                         
                         Button {
