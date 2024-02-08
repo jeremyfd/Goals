@@ -17,6 +17,7 @@ struct Goal: Identifiable, Codable {
     let timestamp: Timestamp
     let title: String
     let frequency: Int
+    let description: String?
     
     var id: String {
         return goalId ?? NSUUID().uuidString

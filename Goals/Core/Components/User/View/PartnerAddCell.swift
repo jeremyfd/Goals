@@ -25,6 +25,13 @@ struct PartnerAddCell: View {
                 
                 Spacer()
                 
+                Label("Add", systemImage: "plus")
+                    .padding(4)
+//                    .overlay(
+//                        RoundedRectangle(cornerRadius: 4)
+//                            .stroke(Color.blue, lineWidth: 1)
+//                    )
+                
             }
             .padding(.horizontal)
             

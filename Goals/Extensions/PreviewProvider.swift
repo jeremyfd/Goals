@@ -26,5 +26,5 @@ class DeveloperPreview: ObservableObject {
         fullName: "Daniel Ricciardo"
     )
     
-    let goal = Goal(ownerUid: "123", partnerUid: "123", timestamp: Timestamp(), title: "Play the Piano", frequency: 5)
+    let goal = Goal(ownerUid: "123", partnerUid: "123", timestamp: Timestamp(), title: "Play the Piano", frequency: 5, description: "I want to play Lalaland")
 }

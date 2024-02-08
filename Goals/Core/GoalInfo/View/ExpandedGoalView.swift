@@ -12,11 +12,13 @@ struct ExpandedGoalView: View {
     let goal: Goal
     @StateObject private var viewModel = ExpandedGoalViewModel()
     @State private var showCalendarView = false
+    @State private var isDescriptionExpanded: Bool = false
+    @State private var navigateToUser: User? = nil
     
     private func formatDate(_ timestamp: Timestamp) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .medium
-//        dateFormatter.dateFormat = "dd/MM/yyyy"
+        //        dateFormatter.dateFormat = "dd/MM/yyyy"
         return dateFormatter.string(from: timestamp.dateValue())
     }
     
@@ -28,43 +30,46 @@ struct ExpandedGoalView: View {
                 
                 VStack(alignment: .leading, spacing: 10) {
                     
-                    Text(goal.title)
-                        .font(.title)
-                        .fontWeight(.bold)
-                    
-                    Button(action: {
-                        showCalendarView = true
-                    },
-                           label: {
-                        HStack {
-                            Image(systemName: "flame.fill")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 30, height: 30)
-                            
-                            Text("Week 10")
-                                .font(.title)
-                            
-                            Image(systemName: "chevron.down")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 15, height: 15)
-                            
-                        }
-                        .foregroundStyle(Color.black)
-                    })
-                    
+                    HStack {
+                        Text(goal.title)
+                            .font(.title)
+                            .fontWeight(.bold)
+                        
+                        Spacer()
+                        
+                        Button(action: {
+                            showCalendarView = true
+                        },
+                               label: {
+                            HStack {
+                                Image(systemName: "calendar")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 25, height: 25)
+                                
+                                Text("Week 10")
+                                    .font(.title2)
+                                
+                                Image(systemName: "chevron.down")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 15, height: 15)
+                                
+                            }
+                            .foregroundStyle(Color.black)
+                        })
+                    }
                     
                     HStack{
                         CircularProfileImageView(user: goal.user, size: .small)
                         
                         Text(goal.user?.username ?? "")
                             .font(.title2)
+
                     }
                 }
                 
                 VStack(alignment: .leading, spacing: 5) {
-                    
                     HStack {
                         Text("Started:")
                             .font(.title2)
@@ -87,6 +92,9 @@ struct ExpandedGoalView: View {
                                 .font(.title2)
                                 .fontWeight(.bold)
                                 .padding(.top, 5)
+                                .onTapGesture {
+                                    navigateToUser = partnerUser
+                                }
                         } else {
                             Text("Partner: Loading...")
                                 .font(.title2)
@@ -105,6 +113,29 @@ struct ExpandedGoalView: View {
                             .padding(.top, 5)
                     }
                     
+                    if let description = goal.description {
+                        VStack(alignment: .leading, spacing: 10) {
+                            Text("Description:")
+                                .font(.title2)
+                                .padding(.top, 5)
+                            
+                            Text(description)
+                                .font(.title2)
+                                .fontWeight(.bold)
+                                .padding(.top, 5)
+                                .lineLimit(isDescriptionExpanded ? nil : 1) // Dynamically change line limit
+                                .fixedSize(horizontal: false, vertical: true) // Allow text to expand vertically
+                            
+                            Button(action: {
+                                isDescriptionExpanded.toggle()
+                            }) {
+                                Text(isDescriptionExpanded ? "Less" : "More")
+                                    .font(.headline)
+//                                    .foregroundColor(.blue)
+                            }
+                        }
+                    }
+
                 }
                 
                 Text("Completed 6 times.")
@@ -187,6 +218,14 @@ struct ExpandedGoalView: View {
                     }
                 }
             }
+            
+            NavigationLink(destination: navigateToUser.map { UserProfileView(user: $0) }, isActive: Binding<Bool>(
+                get: { navigateToUser != nil },
+                set: { if !$0 { navigateToUser = nil } }
+            )) {
+                EmptyView()
+            }
+
         }
         .onAppear {
             if viewModel.partnerUser == nil {

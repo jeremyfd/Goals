@@ -12,6 +12,7 @@ class GoalCreationViewModel: ObservableObject {
     @Published var title = ""
     @Published var partnerUID = ""
     @Published var frequency = 1.0
+    @Published var description = ""
     @Published var partnerUsername: String = ""
     
     func uploadGoal() async throws {
@@ -21,7 +22,8 @@ class GoalCreationViewModel: ObservableObject {
             partnerUid: partnerUID,
             timestamp: Timestamp(),
             title: title,
-            frequency: Int(frequency))
+            frequency: Int(frequency), 
+            description: description)
         try await GoalService.uploadGoal(goal)
     }
 }

@@ -21,6 +21,7 @@ struct CollapsedGoalViewCell: View {
                     Text(goal.title)
                         .font(.title2)
                         .fontWeight(.bold)
+                        .multilineTextAlignment(.leading)
                     
                     HStack{
                         CircularProfileImageView(user: goal.user, size: .small)

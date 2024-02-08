@@ -39,6 +39,11 @@ struct GoalCreationView: View {
                             TextField("Goal name...", text: $viewModel.title)
                                 .padding(5)
                                 .foregroundColor(Color.theme.primaryText)
+                                .onChange(of: viewModel.title) { newValue in
+                                    if newValue.count > 20 {
+                                        viewModel.title = String(newValue.prefix(20))
+                                    }
+                                }
                         }
                         
                         HStack {
@@ -55,6 +60,7 @@ struct GoalCreationView: View {
                             Spacer()
                             
                         }
+                        
                         HStack {
                             Text("Frequency:")
                                 .fontWeight(.bold)
@@ -64,6 +70,22 @@ struct GoalCreationView: View {
                             Slider(value: $viewModel.frequency, in: 1...7, step: 1)
                                 .padding(5)
                             Text("\(Int(viewModel.frequency))x a week")
+                        }
+                        
+                        HStack {
+                            Text("Description:")
+                                .fontWeight(.bold)
+                            
+                            Spacer()
+                            
+                            TextField("Explain your goal...", text: $viewModel.description)
+                                .padding(5)
+                                .foregroundColor(Color.theme.primaryText)
+                                .onChange(of: viewModel.description) { newValue in
+                                    if newValue.count > 100 {
+                                        viewModel.title = String(newValue.prefix(100))
+                                    }
+                                }
                         }
                         
                         VStack (alignment: .leading, spacing: 15){

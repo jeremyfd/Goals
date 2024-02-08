@@ -34,25 +34,52 @@ struct PartnerSearchView: View {
                             .background(Color(.systemGray6))
                             .cornerRadius(8)
                         
+                        if !viewModel.searchText.isEmpty {
+                            Button("Cancel") {
+                                viewModel.searchText = ""
+                                isTextFieldFocused = false
+                            }
+                            .padding(.horizontal)
+                            .transition(.move(edge: .trailing))
+                            .animation(.default, value: viewModel.searchText)
+                        }
+                        
                     }
                     .padding(.horizontal)
                     .padding(.top)
-
-                    ScrollView {
-                        LazyVStack {
-                            ForEach(viewModel.searchResults, id: \.id) { user in
-                                Button(action: {
-                                    self.selectedUsername = user.username
-                                    self.partnerUID = user.id
-                                    dismiss()
-                                }) {
-                                    PartnerAddCell(user: user)
-                                }
+                    
+                    if viewModel.searchText.isEmpty {
+                        
+                        ForEach(viewModel.friends, id: \.id) { friend in
+                            Button(action: {
+                                self.selectedUsername = friend.username
+                                self.partnerUID = friend.id
+                                dismiss()
+                            }) {
+                                PartnerAddCell(user: friend)
                             }
-
                         }
+                        
+                        Spacer()
+                        
+                    } else {
+                        
+                        ScrollView {
+                            LazyVStack {
+                                ForEach(viewModel.searchResults, id: \.id) { user in
+                                    Button(action: {
+                                        self.selectedUsername = user.username
+                                        self.partnerUID = user.id
+                                        dismiss()
+                                    }) {
+                                        PartnerAddCell(user: user)
+                                    }
+                                }
+                                
+                            }
+                        }
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
                     }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
             }
             
