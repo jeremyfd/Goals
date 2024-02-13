@@ -47,9 +47,9 @@ struct AddView: View {
         .sheet(isPresented: $showGoalCreationView) {
             GoalCreationView(tabIndex: $tabIndex)
         }
-        .sheet(isPresented: $showSubmitEvidenceView) {
-            SubmitEvidenceView()
-        }
+//        .sheet(isPresented: $showSubmitEvidenceView) {
+//            SubmitEvidenceView()
+//        }
     }
 }
 

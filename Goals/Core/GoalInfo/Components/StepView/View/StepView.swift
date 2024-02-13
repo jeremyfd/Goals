@@ -17,6 +17,7 @@ struct StepView: View {
     @Binding var isShowingLargeImage: Bool
     @Binding var evidenceToDelete: Evidence?
     @Binding var showingConfirmationAlert: Bool
+    @State private var isShowingSubmitEvidenceView = false
     
     var body: some View {
         VStack {
@@ -56,9 +57,16 @@ struct StepView: View {
     @ViewBuilder
     private var submitEvidenceView: some View {
         if viewModel.currentUserID == goal.ownerUid {
-            Text("Submit Evidence")
-                .foregroundColor(.blue)
-                // Implement action for submitting evidence
+            Button("Submit Evidence") {
+                           // Set the state to true to present the SubmitEvidenceView
+                           isShowingSubmitEvidenceView = true
+                       }
+                       .foregroundColor(.blue)
+                       .sheet(isPresented: $isShowingSubmitEvidenceView) {
+                           // Present the SubmitEvidenceView
+                           // Pass necessary bindings and initializations
+                           SubmitEvidenceView(viewModel: SubmitEvidenceViewModel(goalID: goal.id, weekNumber: step.weekNumber, day: step.day))
+                       }
         } else {
             Text("No evidence yet")
                 .foregroundColor(.gray)

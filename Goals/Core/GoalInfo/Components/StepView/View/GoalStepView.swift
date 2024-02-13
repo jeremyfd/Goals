@@ -330,15 +330,15 @@ struct GoalStepView: View {
               message: Text("Are you sure you want to delete this evidence?"),
               primaryButton: .destructive(Text("Delete")) {
             if let evidence = evidenceToDelete {
-                //                    viewModel.deleteEvidence(evidence) { result in
-                //                        switch result {
-                //                        case .success:
-                //                            print("Success")
-                //                        case .failure(let error):
-                //                            alertMessage = error.localizedDescription
-                //                            showingDeletionAlert = true
-                //                        }
-                //                    }
+//                viewModel.deleteEvidence(evidence) { result in
+//                    switch result {
+//                    case .success:
+//                        print("Success")
+//                    case .failure(let error):
+//                        alertMessage = error.localizedDescription
+//                        showingDeletionAlert = true
+//                    }
+//                }
             }
         },
               secondaryButton: .cancel())

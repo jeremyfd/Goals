@@ -5,10 +5,10 @@
 //  Created by Jeremy Daines on 09/02/2024.
 //
 
-//import Foundation
-//import Firebase
-//import FirebaseFirestoreSwift
-//
+import Foundation
+import Firebase
+import FirebaseFirestoreSwift
+
 //struct EvidenceService {
 //    
 ////    static func uploadEvidence(_ evidence: Evidence) async throws {
@@ -79,14 +79,14 @@
 //    }
 //}
 
-//import Foundation
-//import Firebase
-//import FirebaseFirestore
-//import FirebaseFirestoreSwift
-//
-//struct EvidenceService {
-//    // Evidence-related functions go here
-//    
+import Foundation
+import Firebase
+import FirebaseFirestore
+import FirebaseFirestoreSwift
+
+struct EvidenceService {
+    // Evidence-related functions go here
+    
 //    func uploadEvidenceImageAndCreateEvidence(goalID: String, weekNumber: Int, day: Int, image: UIImage, completion: @escaping (Result<Void, Error>) -> Void) {
 //        // First, upload the image
 //        ImageUploader.uploadImage(image: image, type: .evidence) { [weak self] result in
@@ -119,7 +119,24 @@
 //            completion(.failure(error))
 //        }
 //    }
-//    
+    
+    func uploadEvidenceImageAndCreateEvidence(goalID: String, weekNumber: Int, day: Int, image: UIImage) async throws {
+        // Attempt to upload the image and get a non-optional image URL
+        guard let imageURL = try await ImageUploader.uploadImage(image: image, type: .evidence) else {
+            throw NSError(domain: "ImageUploader", code: 1001, userInfo: [NSLocalizedDescriptionKey: "Failed to upload image and obtain URL"])
+        }
+        
+        // Now that imageURL is guaranteed to be non-nil, create the evidence document
+        try await createEvidence(goalID: goalID, weekNumber: weekNumber, day: day, imageURL: imageURL)
+    }
+
+    private func createEvidence(goalID: String, weekNumber: Int, day: Int, imageURL: String) async throws {
+        let evidence = Evidence(goalID: goalID, weekNumber: weekNumber, day: day, imageURL: imageURL, timestamp: Timestamp(), isVerified: false)
+        
+        // Using FirestoreConstants to access the "evidences" collection directly
+        try await FirestoreConstants.EvidencesCollection.document(evidence.id).setData(from: evidence)
+    }
+    
 //    // Adjusted to directly use FirestoreSwift for decoding
 //    func fetchEvidences(goalID: String, completion: @escaping (Result<[Evidence], Error>) -> Void) {
 //        db.collection("evidences").whereField("goalID", isEqualTo: goalID).getDocuments { (snapshot, error) in
@@ -175,5 +192,5 @@
 //        // Placeholder function to illustrate the concept
 //        return imageURL
 //    }
-//}
-//
+}
+

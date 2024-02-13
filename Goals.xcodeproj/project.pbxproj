@@ -426,8 +426,8 @@
 			isa = PBXGroup;
 			children = (
 				4FE8D46D2B76B4ED00ECD64D /* GoalStepView.swift */,
-				4FE8D4732B76B7C700ECD64D /* WeeklyProgress.swift */,
 				4FE8D47C2B7BD6E100ECD64D /* StepView.swift */,
+				4FE8D4732B76B7C700ECD64D /* WeeklyProgress.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
