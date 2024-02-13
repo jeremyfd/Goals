@@ -10,6 +10,7 @@ import SwiftUI
 struct AddView: View {
     @Binding var tabIndex: Int
     @State private var showGoalCreationView = false
+    @State private var showSubmitEvidenceView = false
 
     var body: some View {
         VStack {
@@ -27,7 +28,7 @@ struct AddView: View {
             })
             
             Button(action: {
-                
+                showSubmitEvidenceView = true
             }, label: {
                 Text("Submit Evidence")
                     .fontWeight(.bold)
@@ -45,6 +46,9 @@ struct AddView: View {
         .onDisappear { tabIndex = 0 }
         .sheet(isPresented: $showGoalCreationView) {
             GoalCreationView(tabIndex: $tabIndex)
+        }
+        .sheet(isPresented: $showSubmitEvidenceView) {
+            SubmitEvidenceView()
         }
     }
 }

@@ -11,6 +11,7 @@ import Firebase
 struct ExpandedGoalView: View {
     let goal: Goal
     @StateObject private var viewModel = ExpandedGoalViewModel()
+    @StateObject private var goalStepViewModel: GoalStepViewModel
     @State private var showCalendarView = false
     @State private var isDescriptionExpanded: Bool = false
     @State private var navigateToUser: User? = nil
@@ -18,7 +19,11 @@ struct ExpandedGoalView: View {
     @State private var showAlert = false
     @Environment(\.presentationMode) var presentationMode
 
-    
+    init(goal: Goal) {
+        self.goal = goal
+        _goalStepViewModel = StateObject(wrappedValue: GoalStepViewModel(goalID: goal.id))
+    }
+
     private func formatDate(_ timestamp: Timestamp) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .medium
@@ -154,7 +159,9 @@ struct ExpandedGoalView: View {
             }
             .padding(.vertical)
             
-                
+            GoalStepView(goal: goal, viewModel: goalStepViewModel)
+                .padding(.top, 10)
+                        
                 LazyVStack {
                     
                     Text("Week 1 - 1st January 2023")

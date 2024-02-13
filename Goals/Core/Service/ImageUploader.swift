@@ -12,15 +12,15 @@ import FirebaseStorage
 
 enum UploadType {
     case profile
-    case goal
+    case evidence
     
     var filePath: StorageReference {
         let filename = NSUUID().uuidString
         switch self {
         case .profile:
             return Storage.storage().reference(withPath: "/profile_images/\(filename)")
-        case .goal:
-            return Storage.storage().reference(withPath: "/post_images/\(filename)")
+        case .evidence:
+            return Storage.storage().reference(withPath: "/evidence_images/\(filename)")
         }
     }
 }
@@ -37,6 +37,21 @@ struct ImageUploader {
         } catch {
             print("DEBUG: Failed to upload image \(error.localizedDescription)")
             return nil
+        }
+    }
+    
+    static func deleteImage(atPath path: String) async throws {
+        // Create a reference to the file to delete
+        let storageRef = Storage.storage().reference(withPath: path)
+        
+        do {
+            // Delete the file
+            try await storageRef.delete()
+//            print("DEBUG: Successfully deleted image at path \(path)")
+        } catch let error {
+            // An error occurred!
+            print("DEBUG: Error occurred while deleting image: \(error.localizedDescription)")
+            throw error
         }
     }
 }

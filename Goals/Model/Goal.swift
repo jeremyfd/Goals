@@ -25,5 +25,21 @@ struct Goal: Identifiable, Codable {
     }
     
     var user: User?
-    
 }
+
+struct Step: Identifiable {
+    var id: String { "\(weekNumber)-\(day)" }
+    var weekNumber: Int
+    var day: Int
+    var evidence: Evidence?
+    var status: StepStatus
+}
+
+enum StepStatus: String {
+    case completed = "Completed"
+    case readyToSubmit = "Ready to Submit"
+    case notStartedYet = "Not Started Yet"
+    case failed = "Failed"
+    case completePreviousStep = "Complete previous step"
+}
+

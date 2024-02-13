@@ -22,6 +22,15 @@
 		4FE8D45E2B754E0800ECD64D /* AddDummyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE8D45D2B754E0800ECD64D /* AddDummyView.swift */; };
 		4FE8D4622B758DDF00ECD64D /* ExplanationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE8D4612B758DDF00ECD64D /* ExplanationView.swift */; };
 		4FE8D4662B758F5600ECD64D /* PublicChallengesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE8D4652B758F5600ECD64D /* PublicChallengesView.swift */; };
+		4FE8D4692B76B1B000ECD64D /* ImageViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE8D4682B76B1B000ECD64D /* ImageViewer.swift */; };
+		4FE8D46E2B76B4ED00ECD64D /* GoalStepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE8D46D2B76B4ED00ECD64D /* GoalStepView.swift */; };
+		4FE8D4702B76B58600ECD64D /* GoalStepViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE8D46F2B76B58600ECD64D /* GoalStepViewModel.swift */; };
+		4FE8D4722B76B63200ECD64D /* Evidence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE8D4712B76B63200ECD64D /* Evidence.swift */; };
+		4FE8D4742B76B7C700ECD64D /* WeeklyProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE8D4732B76B7C700ECD64D /* WeeklyProgress.swift */; };
+		4FE8D4762B76BB4F00ECD64D /* EvidenceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE8D4752B76BB4F00ECD64D /* EvidenceService.swift */; };
+		4FE8D4792B7B9AD500ECD64D /* SubmitEvidenceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE8D4782B7B9AD500ECD64D /* SubmitEvidenceViewModel.swift */; };
+		4FE8D47B2B7BB23800ECD64D /* SubmitEvidenceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE8D47A2B7BB23800ECD64D /* SubmitEvidenceView.swift */; };
+		4FE8D47D2B7BD6E100ECD64D /* StepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE8D47C2B7BD6E100ECD64D /* StepView.swift */; };
 		9600D9792B5B072000DAC807 /* Goal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9600D9782B5B072000DAC807 /* Goal.swift */; };
 		9600D97B2B5DA99D00DAC807 /* GoalCreationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9600D97A2B5DA99D00DAC807 /* GoalCreationViewModel.swift */; };
 		9600D97D2B5DA9CE00DAC807 /* GoalService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9600D97C2B5DA9CE00DAC807 /* GoalService.swift */; };
@@ -123,6 +132,15 @@
 		4FE8D45D2B754E0800ECD64D /* AddDummyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDummyView.swift; sourceTree = "<group>"; };
 		4FE8D4612B758DDF00ECD64D /* ExplanationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExplanationView.swift; sourceTree = "<group>"; };
 		4FE8D4652B758F5600ECD64D /* PublicChallengesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicChallengesView.swift; sourceTree = "<group>"; };
+		4FE8D4682B76B1B000ECD64D /* ImageViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewer.swift; sourceTree = "<group>"; };
+		4FE8D46D2B76B4ED00ECD64D /* GoalStepView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalStepView.swift; sourceTree = "<group>"; };
+		4FE8D46F2B76B58600ECD64D /* GoalStepViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalStepViewModel.swift; sourceTree = "<group>"; };
+		4FE8D4712B76B63200ECD64D /* Evidence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Evidence.swift; sourceTree = "<group>"; };
+		4FE8D4732B76B7C700ECD64D /* WeeklyProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyProgress.swift; sourceTree = "<group>"; };
+		4FE8D4752B76BB4F00ECD64D /* EvidenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvidenceService.swift; sourceTree = "<group>"; };
+		4FE8D4782B7B9AD500ECD64D /* SubmitEvidenceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmitEvidenceViewModel.swift; sourceTree = "<group>"; };
+		4FE8D47A2B7BB23800ECD64D /* SubmitEvidenceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmitEvidenceView.swift; sourceTree = "<group>"; };
+		4FE8D47C2B7BD6E100ECD64D /* StepView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepView.swift; sourceTree = "<group>"; };
 		9600D9782B5B072000DAC807 /* Goal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Goal.swift; sourceTree = "<group>"; };
 		9600D97A2B5DA99D00DAC807 /* GoalCreationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalCreationViewModel.swift; sourceTree = "<group>"; };
 		9600D97C2B5DA9CE00DAC807 /* GoalService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalService.swift; sourceTree = "<group>"; };
@@ -379,9 +397,53 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		4FE8D4672B76B19A00ECD64D /* Image */ = {
+			isa = PBXGroup;
+			children = (
+				4FE8D4682B76B1B000ECD64D /* ImageViewer.swift */,
+			);
+			path = Image;
+			sourceTree = "<group>";
+		};
+		4FE8D46A2B76B4D100ECD64D /* StepView */ = {
+			isa = PBXGroup;
+			children = (
+				4FE8D46C2B76B4DF00ECD64D /* View */,
+				4FE8D46B2B76B4DB00ECD64D /* ViewModel */,
+			);
+			path = StepView;
+			sourceTree = "<group>";
+		};
+		4FE8D46B2B76B4DB00ECD64D /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				4FE8D46F2B76B58600ECD64D /* GoalStepViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		4FE8D46C2B76B4DF00ECD64D /* View */ = {
+			isa = PBXGroup;
+			children = (
+				4FE8D46D2B76B4ED00ECD64D /* GoalStepView.swift */,
+				4FE8D4732B76B7C700ECD64D /* WeeklyProgress.swift */,
+				4FE8D47C2B7BD6E100ECD64D /* StepView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		4FE8D4772B7B9ABB00ECD64D /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				4FE8D4782B7B9AD500ECD64D /* SubmitEvidenceViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		963592962B50A14500DD04B8 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				4FE8D4672B76B19A00ECD64D /* Image */,
 				4F6ED7732B7188F4000E4594 /* Goal */,
 				963592972B50A14F00DD04B8 /* User */,
 			);
@@ -501,6 +563,7 @@
 		969F91FC2B3F2500004BECB1 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				4FE8D46A2B76B4D100ECD64D /* StepView */,
 				969F91FD2B3F2510004BECB1 /* ExpansionButtonView.swift */,
 			);
 			path = Components;
@@ -510,6 +573,7 @@
 			isa = PBXGroup;
 			children = (
 				969F92022B3F775C004BECB1 /* View */,
+				4FE8D4772B7B9ABB00ECD64D /* ViewModel */,
 			);
 			path = Evidence;
 			sourceTree = "<group>";
@@ -517,6 +581,7 @@
 		969F92022B3F775C004BECB1 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				4FE8D47A2B7BB23800ECD64D /* SubmitEvidenceView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -808,6 +873,7 @@
 				96F246F12B3826E8000CC323 /* UserService.swift */,
 				963592B72B59D6E900DD04B8 /* ImageUploader.swift */,
 				9600D97C2B5DA9CE00DAC807 /* GoalService.swift */,
+				4FE8D4752B76BB4F00ECD64D /* EvidenceService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -834,6 +900,7 @@
 			children = (
 				96F246F82B382928000CC323 /* User.swift */,
 				9600D9782B5B072000DAC807 /* Goal.swift */,
+				4FE8D4712B76B63200ECD64D /* Evidence.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1002,6 +1069,8 @@
 				96EDC72C2B40E01D00AC2C38 /* FriendsTabViewModel.swift in Sources */,
 				96CB3EA32B38F28300B3508D /* RegistrationViewModel.swift in Sources */,
 				96F246EF2B382657000CC323 /* AuthError.swift in Sources */,
+				4FE8D4722B76B63200ECD64D /* Evidence.swift in Sources */,
+				4FE8D4792B7B9AD500ECD64D /* SubmitEvidenceViewModel.swift in Sources */,
 				963592A02B5420C200DD04B8 /* UserCellViewModel.swift in Sources */,
 				96CB3EA62B3DBEDE00B3508D /* GoalsTabView.swift in Sources */,
 				9600D9792B5B072000DAC807 /* Goal.swift in Sources */,
@@ -1013,6 +1082,7 @@
 				96F246E62B3824E1000CC323 /* AuthService.swift in Sources */,
 				96F246F62B38283A000CC323 /* FirestoreConstants.swift in Sources */,
 				96EDC7252B40A33600AC2C38 /* FriendRequestsView.swift in Sources */,
+				4FE8D4692B76B1B000ECD64D /* ImageViewer.swift in Sources */,
 				4F6ED78E2B741EF4000E4594 /* PartnerSearchView.swift in Sources */,
 				4F6ED7722B71871F000E4594 /* UserContentListViewModel.swift in Sources */,
 				4F6ED7702B718715000E4594 /* UserContentListView.swift in Sources */,
@@ -1021,6 +1091,7 @@
 				96F247062B3831C1000CC323 /* Color.swift in Sources */,
 				9600D97D2B5DA9CE00DAC807 /* GoalService.swift in Sources */,
 				969F91ED2B3E0687004BECB1 /* CollapsedGoalViewCell.swift in Sources */,
+				4FE8D4762B76BB4F00ECD64D /* EvidenceService.swift in Sources */,
 				963592A72B54419700DD04B8 /* EditProfileView.swift in Sources */,
 				96F246FB2B3829B8000CC323 /* ContentViewModel.swift in Sources */,
 				96F246972B381F4D000CC323 /* ContentView.swift in Sources */,
@@ -1031,19 +1102,24 @@
 				4F6ED7762B71890F000E4594 /* GoalViewCell.swift in Sources */,
 				96CB3EA12B38F24D00B3508D /* RegistrationView.swift in Sources */,
 				969F91F52B3ED598004BECB1 /* CalendarView.swift in Sources */,
+				4FE8D4742B76B7C700ECD64D /* WeeklyProgress.swift in Sources */,
+				4FE8D47B2B7BB23800ECD64D /* SubmitEvidenceView.swift in Sources */,
 				963592A42B542A0E00DD04B8 /* CurrentFriendsViewModel.swift in Sources */,
 				96EDC7152B408F9900AC2C38 /* CameraView.swift in Sources */,
 				96F246FE2B382A96000CC323 /* FeedView.swift in Sources */,
 				4FE8D4662B758F5600ECD64D /* PublicChallengesView.swift in Sources */,
 				4F6ED7902B741F0A000E4594 /* PartnerSearchViewModel.swift in Sources */,
+				4FE8D46E2B76B4ED00ECD64D /* GoalStepView.swift in Sources */,
 				4F6ED7872B72A4F8000E4594 /* FeedViewModel.swift in Sources */,
 				96CB3EB52B3DBFDE00B3508D /* GoalCreationView.swift in Sources */,
 				96CB3EAE2B3DBF7800B3508D /* CurrentUserProfileView.swift in Sources */,
 				96CB3EBA2B3DC03D00B3508D /* ContractView.swift in Sources */,
 				963592B42B59D2D400DD04B8 /* EditProfileViewModel.swift in Sources */,
+				4FE8D4702B76B58600ECD64D /* GoalStepViewModel.swift in Sources */,
 				963592B62B59D40900DD04B8 /* CurrentUserProfileViewModel.swift in Sources */,
 				96F246F92B382928000CC323 /* User.swift in Sources */,
 				96EDC71F2B40A2EC00AC2C38 /* FriendsTabView.swift in Sources */,
+				4FE8D47D2B7BD6E100ECD64D /* StepView.swift in Sources */,
 				4F6ED7922B7436A6000E4594 /* ExpandedGoalViewModel.swift in Sources */,
 				4F6ED77C2B726CB6000E4594 /* UserProfileView.swift in Sources */,
 				96F246EA2B38252A000CC323 /* LoginView.swift in Sources */,
