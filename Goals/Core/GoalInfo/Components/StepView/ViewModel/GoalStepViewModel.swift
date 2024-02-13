@@ -10,6 +10,7 @@ import Firebase
 import Combine
 import SwiftUI
 
+@MainActor
 class GoalStepViewModel: ObservableObject {
     
     @Published var goal: Goal?

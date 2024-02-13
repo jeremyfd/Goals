@@ -316,6 +316,10 @@ struct GoalStepView: View {
         let stepsForWeek = viewModel.steps(forGoal: goal).filter { $0.weekNumber == weekNumber + 1 }
         let weekStartsAt = goal.timestamp.dateValue().addingTimeInterval(week: weekNumber, day: 0)
         
+        // Corrected part: Removed unnecessary ForEach loop that was causing repetition
+        Text("Week \(weekNumber + 1): Starts \(weekStartsAt.dayMonthString())")
+            .bold()
+            .font(.title3)
         ForEach(stepsForWeek, id: \.id) { step in
             StepView(step: step, viewModel: viewModel, goal: goal, selectedLargeImageURL: $selectedLargeImageURL, isShowingLargeImage: $isShowingLargeImage, evidenceToDelete: $evidenceToDelete, showingConfirmationAlert: $showingConfirmationAlert)
         }
