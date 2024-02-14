@@ -85,6 +85,11 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 
 struct EvidenceService {
+    
+    static let shared = EvidenceService()
+    
+    private init() {}
+    
     // Evidence-related functions go here
     
 //    func uploadEvidenceImageAndCreateEvidence(goalID: String, weekNumber: Int, day: Int, image: UIImage, completion: @escaping (Result<Void, Error>) -> Void) {
@@ -152,7 +157,23 @@ struct EvidenceService {
 //            }
 //        }
 //    }
-//    
+    
+    // Refactored to use async/await
+    func fetchEvidences(goalID: String) async throws -> [Evidence] {
+        // Accessing the "evidences" collection using FirestoreConstants
+        let querySnapshot = try await FirestoreConstants.EvidencesCollection
+            .whereField("goalID", isEqualTo: goalID)
+            .getDocuments()
+        
+        // Map the documents to Evidence objects
+        let evidences = querySnapshot.documents.compactMap { document -> Evidence? in
+            return try? document.data(as: Evidence.self)
+        }
+        
+        return evidences
+    }
+
+
 //    func updateEvidence(_ evidence: Evidence, completion: @escaping (Result<Void, Error>) -> Void) {
 //        db.collection("evidences").document(evidence.id!).updateData(["isVerified": evidence.isVerified]) { error in
 //            if let error = error {
@@ -162,7 +183,19 @@ struct EvidenceService {
 //            }
 //        }
 //    }
-//    
+    
+    func updateEvidence(_ evidence: Evidence) async throws {
+        let evidenceID = evidence.id
+        
+        do {
+            try await FirestoreConstants.EvidencesCollection.document(evidenceID).updateData(["isVerified": evidence.isVerified])
+        } catch {
+            throw error
+        }
+    }
+
+
+    
 //    func deleteEvidence(_ evidence: Evidence, completion: @escaping (Result<Void, Error>) -> Void) {
 //        // First, delete the Firestore document
 //        db.collection("evidences").document(evidence.id!).delete() { [weak self] error in
@@ -186,11 +219,22 @@ struct EvidenceService {
 //            }
 //        }
 //    }
-//    
-//    private func derivePathFromURL(imageURL: String) -> String {
-//        // Implementation depends on how you're storing and referencing images
-//        // Placeholder function to illustrate the concept
-//        return imageURL
-//    }
+    
+    func deleteEvidence(_ evidence: Evidence) async throws {
+        let evidenceID = evidence.id
+
+        // First, delete the Firestore document
+        try await FirestoreConstants.EvidencesCollection.document(evidenceID).delete()
+
+        // Then, attempt to delete the associated image, if applicable
+        if let imageURL = evidence.imageURL {
+            let imagePath = derivePathFromURL(imageURL: imageURL)
+            try await ImageUploader.deleteImage(atPath: imagePath)
+        }
+    }
+
+    private func derivePathFromURL(imageURL: String) -> String {
+        return imageURL
+    }
 }
 

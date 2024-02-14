@@ -39,6 +39,7 @@ struct SubmitEvidenceView: View {
                             .padding()
                     } else {
                         Button("Submit Evidence") {
+                            print("DEBUG: Submitting evidence for step")
                             isSubmitting = true // Indicate submission started
                             Task {
                                 await viewModel.submitEvidence { success in

@@ -11,10 +11,22 @@ import FirebaseFirestoreSwift
 
 struct GoalService {
     
+    static let shared = GoalService()
+    
     static func uploadGoal(_ goal: Goal) async throws {
         guard let goalData = try? Firestore.Encoder().encode(goal) else { return }
         let ref = try await FirestoreConstants.GoalsCollection.addDocument(data: goalData)
         try await updateUserFeedsAfterPost(goalId: ref.documentID)
+    }
+    
+    func updateGoal(_ goal: Goal) async throws {
+        let documentRef = FirestoreConstants.GoalsCollection.document(goal.id)
+        
+        do {
+            try await documentRef.updateData(["currentCount": goal.currentCount])
+        } catch {
+            throw error
+        }
     }
     
     static func fetchGoals() async throws -> [Goal] {

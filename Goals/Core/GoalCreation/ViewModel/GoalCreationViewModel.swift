@@ -13,6 +13,7 @@ class GoalCreationViewModel: ObservableObject {
     @Published var partnerUID = ""
     @Published var frequency = 2.0
     @Published var duration = 1.0
+    @Published var currentCount = 0.0
     @Published var description = ""
     @Published var partnerUsername: String = ""
     
@@ -25,7 +26,8 @@ class GoalCreationViewModel: ObservableObject {
             title: title,
             frequency: Int(frequency), 
             description: description, 
-            duration: Int(duration))
+            duration: Int(duration), 
+            currentCount: Int(currentCount))
         try await GoalService.uploadGoal(goal)
     }
 }

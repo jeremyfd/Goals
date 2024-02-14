@@ -58,15 +58,15 @@ struct StepView: View {
     private var submitEvidenceView: some View {
         if viewModel.currentUserID == goal.ownerUid {
             Button("Submit Evidence") {
-                           // Set the state to true to present the SubmitEvidenceView
-                           isShowingSubmitEvidenceView = true
-                       }
-                       .foregroundColor(.blue)
-                       .sheet(isPresented: $isShowingSubmitEvidenceView) {
-                           // Present the SubmitEvidenceView
-                           // Pass necessary bindings and initializations
-                           SubmitEvidenceView(viewModel: SubmitEvidenceViewModel(goalID: goal.id, weekNumber: step.weekNumber, day: step.day))
-                       }
+                // Set the state to true to present the SubmitEvidenceView
+                isShowingSubmitEvidenceView = true
+            }
+            .foregroundColor(.blue)
+            .sheet(isPresented: $isShowingSubmitEvidenceView) {
+                // Present the SubmitEvidenceView
+                // Pass necessary bindings and initializations
+                SubmitEvidenceView(viewModel: SubmitEvidenceViewModel(goalID: goal.id, weekNumber: step.weekNumber, day: step.day))
+            }
         } else {
             Text("No evidence yet")
                 .foregroundColor(.gray)
@@ -109,7 +109,10 @@ struct StepView: View {
     private func verificationButton(_ evidence: Evidence) -> some View {
         if !evidence.isVerified && viewModel.currentUserID == goal.partnerUid {
             Button("Verify") {
-//                viewModel.verifyEvidence(evidence)
+                Task {
+                    try await  viewModel.verifyEvidence(evidence)
+                }
+                
             }
             .foregroundColor(.white)
             .padding()

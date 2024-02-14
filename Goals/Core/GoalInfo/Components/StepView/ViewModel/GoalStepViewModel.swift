@@ -39,7 +39,7 @@ class GoalStepViewModel: ObservableObject {
             self.goal = fetchedGoal
             self.weeklyProgress = Array(repeating: WeeklyProgress(verifiedEvidencesCount: 0, totalPossible: self.goal?.frequency ?? 0), count: self.goal?.duration ?? 0)
             
-            //            await fetchEvidences()
+            await fetchEvidences()
             
             do {
                 let user = try await UserService.fetchUser(withUid: fetchedGoal.ownerUid) // Updated to match your function signature
@@ -172,7 +172,24 @@ class GoalStepViewModel: ObservableObject {
 //                }
 //            }
 //        }
-//    
+    
+    func fetchEvidences() async {
+        do {
+            let fetchedEvidences = try await EvidenceService.shared.fetchEvidences(goalID: goalID)
+            // Assuming Evidence has a 'submittedAt' field of a custom type that needs converting to Date
+            self.evidences = fetchedEvidences.sorted {
+                guard let date1 = $0.timestamp.dateValue() as Date?,
+                      let date2 = $1.timestamp.dateValue() as Date? else {
+                    return false
+                }
+                return date1 > date2
+            }
+        } catch {
+            print("Failed to fetch evidences: \(error.localizedDescription)")
+            // Handle the error appropriately
+        }
+    }
+
 //        func verifyEvidence(_ evidence: Evidence) {
 //            guard let index = evidences.firstIndex(where: { $0.id == evidence.id }) else {
 //                return
@@ -204,7 +221,32 @@ class GoalStepViewModel: ObservableObject {
 //                }
 //            }
 //        }
-//    
+    
+    @MainActor
+    func verifyEvidence(_ evidence: Evidence) async {
+        guard let index = evidences.firstIndex(where: { $0.id == evidence.id }) else {
+            return
+        }
+
+        evidences[index].isVerified = true
+
+        do {
+            try await EvidenceService.shared.updateEvidence(evidence)
+            // Increment the current count of the goal
+            self.goal?.currentCount += 1
+            self.updateWeeklyProgress(forWeek: evidence.weekNumber - 1) // Assuming week numbers start from 1
+
+            // Now update this change in the Firebase
+            try await GoalService.shared.updateGoal(self.goal!)
+            print("Goal's currentCount updated successfully")
+        } catch {
+            print("Failed to update: \(error.localizedDescription)")
+            // Revert the isVerified property change or show an error message to the user
+            self.evidences[index].isVerified = false
+        }
+    }
+
+    
 //        func deleteEvidence(_ evidence: Evidence, completion: @escaping (Result<Void, Error>) -> Void) {
 //            EvidenceService().deleteEvidence(evidence) { result in
 //                    switch result {
@@ -231,5 +273,32 @@ class GoalStepViewModel: ObservableObject {
 //                    }
 //                }
 //            }
+    
+    @MainActor
+    func deleteEvidence(_ evidence: Evidence) async -> Result<Void, Error> {
+        do {
+            // Assuming EvidenceService.deleteEvidence is now an async function
+            try await EvidenceService.shared.deleteEvidence(evidence)
+            
+            // Assuming you need to transform the imageURL to a path suitable for deleteImage
+            if let imageURL = evidence.imageURL {
+                // Assuming you have a way to derive the storage path from the imageURL
+                let path = derivePathFromURL(imageURL: imageURL)
+                try await ImageUploader.deleteImage(atPath: path)
+            }
+            
+            // Update the UI to reflect the deletion success
+            self.deletionSuccess = true
+            return .success(())
+        } catch {
+            // Handle error deleting evidence or image
+            self.deletionError = error
+            return .failure(error)
+        }
+    }
+    
+    private func derivePathFromURL(imageURL: String) -> String {
+        return imageURL
+    }
 }
 

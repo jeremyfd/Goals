@@ -83,7 +83,7 @@ class SubmitEvidenceViewModel: ObservableObject {
     func submitEvidence(completion: @escaping (Bool) -> Void) async {
         guard let image = uiImage else { return }
         
-        let evidenceService = EvidenceService()
+        let evidenceService = EvidenceService.shared
         
         do {
             try await evidenceService.uploadEvidenceImageAndCreateEvidence(goalID: goalID, weekNumber: weekNumber, day: day, image: image)

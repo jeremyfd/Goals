@@ -303,7 +303,7 @@ struct GoalStepView: View {
                 }
             }
             .onAppear {
-                print("Evidence count: \(viewModel.evidences.count)")
+//                print("DEBUG: Evidence count: \(viewModel.evidences.count)")
             }
             .navigationTitle("Goal Details")
             .navigationBarTitleDisplayMode(.inline)
@@ -326,23 +326,27 @@ struct GoalStepView: View {
     }
     
     private var confirmationAlert: Alert {
-        Alert(title: Text("Delete Evidence"),
-              message: Text("Are you sure you want to delete this evidence?"),
-              primaryButton: .destructive(Text("Delete")) {
-            if let evidence = evidenceToDelete {
-//                viewModel.deleteEvidence(evidence) { result in
-//                    switch result {
-//                    case .success:
-//                        print("Success")
-//                    case .failure(let error):
-//                        alertMessage = error.localizedDescription
-//                        showingDeletionAlert = true
-//                    }
-//                }
-            }
-        },
-              secondaryButton: .cancel())
+        Alert(
+            title: Text("Delete Evidence"),
+            message: Text("Are you sure you want to delete this evidence?"),
+            primaryButton: .destructive(Text("Delete")) {
+                if let evidence = evidenceToDelete {
+                    Task {
+                        let result = await viewModel.deleteEvidence(evidence)
+                        switch result {
+                        case .success:
+                            print("Success")
+                        case .failure(let error):
+                            alertMessage = error.localizedDescription
+                            showingDeletionAlert = true
+                        }
+                    }
+                }
+            },
+            secondaryButton: .cancel()
+        )
     }
+
 }
 
 extension Date {
