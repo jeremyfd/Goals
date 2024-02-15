@@ -11,12 +11,22 @@ import Firebase
 struct ExpandedGoalView: View {
     let goal: Goal
     @StateObject private var viewModel = ExpandedGoalViewModel()
+    @StateObject private var evidenceViewModel: EvidenceSubViewModel
     @State private var showCalendarView = false
     @State private var isDescriptionExpanded: Bool = false
     @State private var navigateToUser: User? = nil
     @State private var showActionSheet = false
     @State private var showAlert = false
+    @State private var showingSubmitEvidenceView = false
     @Environment(\.presentationMode) var presentationMode
+    
+    init(goal: Goal) {
+            self.goal = goal
+            // Convert Firebase Timestamp to Date for the start date
+            let startDate = goal.timestamp.dateValue()
+            // Initialize the EvidenceSubViewModel with the converted start date and other goal details
+            _evidenceViewModel = StateObject(wrappedValue: EvidenceSubViewModel(goalId: goal.id, startDate: startDate, duration: goal.duration, frequency: goal.frequency))
+        }
 
     
     private func formatDate(_ timestamp: Timestamp) -> String {
@@ -154,7 +164,16 @@ struct ExpandedGoalView: View {
             }
             .padding(.vertical)
             
-                
+            EvidenceSubView(viewModel: evidenceViewModel) {
+                self.showingSubmitEvidenceView = true
+            }
+            .sheet(isPresented: $showingSubmitEvidenceView) {
+                // Assuming you need to pass specific data to SubmitEvidenceView's ViewModel
+                // You may need to adjust how you manage and pass this data based on your app's flow
+                SubmitEvidenceView(viewModel: SubmitEvidenceViewModel(goalID: goal.id, weekNumber: 1, dayNumber: 1))
+            }
+
+            
                 LazyVStack {
                     
                     Text("Week 1 - 1st January 2023")
