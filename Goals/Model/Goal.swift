@@ -28,13 +28,25 @@ struct Goal: Identifiable, Codable {
     var user: User?
 }
 
-struct Step: Identifiable {
+struct Step: Identifiable, Hashable {
     var id: String { "\(weekNumber)-\(day)" }
     var weekNumber: Int
     var day: Int
     var evidence: Evidence?
     var status: StepStatus
+
+    static func == (lhs: Step, rhs: Step) -> Bool {
+        return lhs.id == rhs.id && lhs.weekNumber == rhs.weekNumber && lhs.day == rhs.day && lhs.status == rhs.status
+    }
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+        hasher.combine(weekNumber)
+        hasher.combine(day)
+    }
 }
+
+
 
 enum StepStatus: String {
     case completed = "Completed"

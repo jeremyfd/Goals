@@ -13,5 +13,9 @@
 			</array>
 		</dict>
 	</array>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Salina-Trial-Regular-BF64b607e2aa94e.otf</string>
+	</array>
 </dict>
 </plist>

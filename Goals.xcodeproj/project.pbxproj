@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4F182F922B7D14CD0072EABE /* SimpleImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F182F912B7D14CD0072EABE /* SimpleImageView.swift */; };
+		4F182F972B7D1F190072EABE /* salina-font-family-1707901445-0 in Resources */ = {isa = PBXBuildFile; fileRef = 4F182F962B7D1F190072EABE /* salina-font-family-1707901445-0 */; };
+		4F182F992B7D1F8A0072EABE /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F182F982B7D1F8A0072EABE /* Fonts.swift */; };
 		4F6ED7702B718715000E4594 /* UserContentListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6ED76F2B718715000E4594 /* UserContentListView.swift */; };
 		4F6ED7722B71871F000E4594 /* UserContentListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6ED7712B71871F000E4594 /* UserContentListViewModel.swift */; };
 		4F6ED7762B71890F000E4594 /* GoalViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6ED7752B71890F000E4594 /* GoalViewCell.swift */; };
@@ -117,6 +120,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4F182F912B7D14CD0072EABE /* SimpleImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleImageView.swift; sourceTree = "<group>"; };
+		4F182F962B7D1F190072EABE /* salina-font-family-1707901445-0 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "salina-font-family-1707901445-0"; sourceTree = "<group>"; };
+		4F182F982B7D1F8A0072EABE /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		4F6ED76F2B718715000E4594 /* UserContentListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserContentListView.swift; sourceTree = "<group>"; };
 		4F6ED7712B71871F000E4594 /* UserContentListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserContentListViewModel.swift; sourceTree = "<group>"; };
 		4F6ED7752B71890F000E4594 /* GoalViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalViewCell.swift; sourceTree = "<group>"; };
@@ -239,6 +245,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4F182F932B7D1C1F0072EABE /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				4F182F962B7D1F190072EABE /* salina-font-family-1707901445-0 */,
+				4F182F982B7D1F8A0072EABE /* Fonts.swift */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		4F6ED76C2B7186E7000E4594 /* Components */ = {
 			isa = PBXGroup;
 			children = (
@@ -428,6 +443,7 @@
 				4FE8D46D2B76B4ED00ECD64D /* GoalStepView.swift */,
 				4FE8D47C2B7BD6E100ECD64D /* StepView.swift */,
 				4FE8D4732B76B7C700ECD64D /* WeeklyProgress.swift */,
+				4F182F912B7D14CD0072EABE /* SimpleImageView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -750,6 +766,7 @@
 				96F246982B381F50000CC323 /* Assets.xcassets */,
 				96F246A22B382159000CC323 /* GoogleService-Info.plist */,
 				96F2470C2B389B6C000CC323 /* Info.plist */,
+				4F182F932B7D1C1F0072EABE /* Fonts */,
 				96F2469A2B381F50000CC323 /* Preview Content */,
 			);
 			path = Goals;
@@ -1052,6 +1069,7 @@
 			files = (
 				96F2469C2B381F50000CC323 /* Preview Assets.xcassets in Resources */,
 				96F246992B381F50000CC323 /* Assets.xcassets in Resources */,
+				4F182F972B7D1F190072EABE /* salina-font-family-1707901445-0 in Resources */,
 				96F246A32B382159000CC323 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1066,6 +1084,7 @@
 				969F92002B3F5895004BECB1 /* SelfCollapsedGoalViewCell.swift in Sources */,
 				96F246F22B3826E8000CC323 /* UserService.swift in Sources */,
 				963592B82B59D6E900DD04B8 /* ImageUploader.swift in Sources */,
+				4F182F922B7D14CD0072EABE /* SimpleImageView.swift in Sources */,
 				96EDC72C2B40E01D00AC2C38 /* FriendsTabViewModel.swift in Sources */,
 				96CB3EA32B38F28300B3508D /* RegistrationViewModel.swift in Sources */,
 				96F246EF2B382657000CC323 /* AuthError.swift in Sources */,
@@ -1090,6 +1109,7 @@
 				96EDC71A2B40900A00AC2C38 /* CameraPreview.swift in Sources */,
 				96F247062B3831C1000CC323 /* Color.swift in Sources */,
 				9600D97D2B5DA9CE00DAC807 /* GoalService.swift in Sources */,
+				4F182F992B7D1F8A0072EABE /* Fonts.swift in Sources */,
 				969F91ED2B3E0687004BECB1 /* CollapsedGoalViewCell.swift in Sources */,
 				4FE8D4762B76BB4F00ECD64D /* EvidenceService.swift in Sources */,
 				963592A72B54419700DD04B8 /* EditProfileView.swift in Sources */,

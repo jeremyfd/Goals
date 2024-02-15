@@ -22,12 +22,28 @@ struct StepView: View {
     var body: some View {
         VStack {
             stepHeader
-            if let evidence = step.evidence, let imageURL = evidence.imageURL {
-                evidenceView(evidence, imageURL: imageURL)
+            if let evidence = step.evidence {
+                // Evidence is available, now check for imageURL and display
+                if let imageURL = evidence.imageURL {
+                    evidenceView(evidence, imageURL: imageURL)
+                } else {
+                    // imageURL is not available, handle accordingly
+                    Text("Evidence has no image URL.")
+                }
+            } else {
             }
         }
-        .padding()
+        .onAppear {
+            print("DEBUG: Rendering StepView for step \(step.weekNumber)-\(step.day)")
+            if let evidence = step.evidence {
+                print("DEBUG: Evidence ID \(evidence.id) for step \(step.id) with imageURL: \(evidence.imageURL ?? "No Image URL")")
+            } else {
+                print("DEBUG: No evidence for step \(step.id)")
+            }
+        }
+
     }
+    
     
     @ViewBuilder
     private var stepHeader: some View {
@@ -78,8 +94,15 @@ struct StepView: View {
         HStack {
             Spacer()
             ZStack {
+                
                 KFImage(URL(string: imageURL))
                     .resizable()
+                    .onSuccess { _ in
+                        print("DEBUG: Successfully loaded image for URL: \(imageURL)")
+                    }
+                    .onFailure { error in
+                        print("DEBUG: Kingfisher failed to load image with error: \(error.localizedDescription) for URL: \(imageURL)")
+                    }
                     .scaledToFill()
                     .frame(width: 70, height: 70)
                     .clipShape(Circle())
@@ -87,6 +110,7 @@ struct StepView: View {
                         selectedLargeImageURL = imageURL
                         isShowingLargeImage = true
                     }
+                
                 if evidence.isVerified {
                     Image(systemName: "checkmark.circle.fill")
                         .foregroundColor(.green)
@@ -112,7 +136,6 @@ struct StepView: View {
                 Task {
                     try await  viewModel.verifyEvidence(evidence)
                 }
-                
             }
             .foregroundColor(.white)
             .padding()

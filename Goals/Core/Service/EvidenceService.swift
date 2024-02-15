@@ -90,41 +90,6 @@ struct EvidenceService {
     
     private init() {}
     
-    // Evidence-related functions go here
-    
-//    func uploadEvidenceImageAndCreateEvidence(goalID: String, weekNumber: Int, day: Int, image: UIImage, completion: @escaping (Result<Void, Error>) -> Void) {
-//        // First, upload the image
-//        ImageUploader.uploadImage(image: image, type: .evidence) { [weak self] result in
-//            switch result {
-//            case .success(let imageURL):
-//                guard let imageURL = imageURL else {
-//                    completion(.failure(NSError(domain: "ImageUploader", code: 0, userInfo: [NSLocalizedDescriptionKey: "Failed to obtain image URL"])))
-//                    return
-//                }
-//                // Then, create the evidence with the obtained imageURL
-//                self?.createEvidence(goalID: goalID, weekNumber: weekNumber, day: day, imageURL: imageURL, completion: completion)
-//            case .failure(let error):
-//                completion(.failure(error))
-//            }
-//        }
-//    }
-//    
-//    func createEvidence(goalID: String, weekNumber: Int, day: Int, imageURL: String, completion: @escaping (Result<Void, Error>) -> Void) {
-//        let evidence = Evidence(id: UUID().uuidString, goalID: goalID, weekNumber: weekNumber, day: day, imageURL: imageURL, timestamp: Timestamp(), isVerified: false)
-//        
-//        do {
-//            try db.collection("evidences").document(evidence.id!).setData(from: evidence) { error in
-//                if let error = error {
-//                    completion(.failure(error))
-//                } else {
-//                    completion(.success(()))
-//                }
-//            }
-//        } catch {
-//            completion(.failure(error))
-//        }
-//    }
-    
     func uploadEvidenceImageAndCreateEvidence(goalID: String, weekNumber: Int, day: Int, image: UIImage) async throws {
         // Attempt to upload the image and get a non-optional image URL
         guard let imageURL = try await ImageUploader.uploadImage(image: image, type: .evidence) else {
@@ -141,23 +106,7 @@ struct EvidenceService {
         // Using FirestoreConstants to access the "evidences" collection directly
         try await FirestoreConstants.EvidencesCollection.document(evidence.id).setData(from: evidence)
     }
-    
-//    // Adjusted to directly use FirestoreSwift for decoding
-//    func fetchEvidences(goalID: String, completion: @escaping (Result<[Evidence], Error>) -> Void) {
-//        db.collection("evidences").whereField("goalID", isEqualTo: goalID).getDocuments { (snapshot, error) in
-//            if let error = error {
-//                completion(.failure(error))
-//            } else if let snapshot = snapshot {
-//                let evidences = snapshot.documents.compactMap { document -> Evidence? in
-//                    return try? document.data(as: Evidence.self)
-//                }
-//                completion(.success(evidences))
-//            } else {
-//                completion(.failure(NSError(domain: "Firestore Error", code: -1, userInfo: nil)))
-//            }
-//        }
-//    }
-    
+
     // Refactored to use async/await
     func fetchEvidences(goalID: String) async throws -> [Evidence] {
         // Accessing the "evidences" collection using FirestoreConstants
@@ -173,17 +122,6 @@ struct EvidenceService {
         return evidences
     }
 
-
-//    func updateEvidence(_ evidence: Evidence, completion: @escaping (Result<Void, Error>) -> Void) {
-//        db.collection("evidences").document(evidence.id!).updateData(["isVerified": evidence.isVerified]) { error in
-//            if let error = error {
-//                completion(.failure(error))
-//            } else {
-//                completion(.success(()))
-//            }
-//        }
-//    }
-    
     func updateEvidence(_ evidence: Evidence) async throws {
         let evidenceID = evidence.id
         
@@ -193,32 +131,6 @@ struct EvidenceService {
             throw error
         }
     }
-
-
-    
-//    func deleteEvidence(_ evidence: Evidence, completion: @escaping (Result<Void, Error>) -> Void) {
-//        // First, delete the Firestore document
-//        db.collection("evidences").document(evidence.id!).delete() { [weak self] error in
-//            if let error = error {
-//                completion(.failure(error))
-//                return
-//            }
-//            // Then, attempt to delete the associated image
-//            guard let imageURL = evidence.imageURL else {
-//                completion(.success(())) // No imageURL to delete
-//                return
-//            }
-//            let imagePath = self?.derivePathFromURL(imageURL: imageURL) ?? ""
-//            ImageUploader.deleteImage(atPath: imagePath) { result in
-//                switch result {
-//                case .success():
-//                    completion(.success(()))
-//                case .failure(let error):
-//                    completion(.failure(error))
-//                }
-//            }
-//        }
-//    }
     
     func deleteEvidence(_ evidence: Evidence) async throws {
         let evidenceID = evidence.id

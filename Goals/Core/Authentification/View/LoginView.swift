@@ -16,13 +16,12 @@ struct LoginView: View {
         NavigationStack {
             VStack(spacing: 20) {
                 Spacer()
-
-                Image("threads-app-icon")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 120, height: 120)
-                    .padding()
-                    .colorMultiply(Color.theme.primaryText)
+                
+                Text("Phylax")
+                    .font(.custom("Salina-Trial-Regular-BF64b607e2aa94e", size: 40))
+                    .fontWeight(.bold)
+                
+                Spacer()
                 
                 Text("Sign In")
                     .font(.title)
@@ -115,6 +114,7 @@ struct LoginView: View {
                 }
                 .padding(.horizontal)
                 
+                Spacer()
                 Spacer()
             }
             .alert(isPresented: $viewModel.showAlert) {

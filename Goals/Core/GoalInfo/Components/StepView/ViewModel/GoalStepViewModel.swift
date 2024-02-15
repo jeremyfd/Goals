@@ -15,6 +15,7 @@ class GoalStepViewModel: ObservableObject {
     
     @Published var goal: Goal?
     @Published var evidences: [Evidence] = []
+    @Published var steps: [Step] = []
     @Published var currentUserID: String?  // State variable for the current user ID
     @Published var username: String?
     @Published var deletionError: Error?
@@ -40,7 +41,6 @@ class GoalStepViewModel: ObservableObject {
             self.weeklyProgress = Array(repeating: WeeklyProgress(verifiedEvidencesCount: 0, totalPossible: self.goal?.frequency ?? 0), count: self.goal?.duration ?? 0)
             
             await fetchEvidences()
-            
             do {
                 let user = try await UserService.fetchUser(withUid: fetchedGoal.ownerUid) // Updated to match your function signature
                 self.username = user.username
@@ -55,6 +55,7 @@ class GoalStepViewModel: ObservableObject {
     }
     
     func updateWeeklyProgress(forWeek weekNumber: Int) {
+        print("DEBUG: Updating weekly progress for week: \(weekNumber)")
         guard weekNumber < weeklyProgress.count else { return }
         weeklyProgress[weekNumber].verifiedEvidencesCount += 1
     }
@@ -135,92 +136,44 @@ class GoalStepViewModel: ObservableObject {
         }
         
         return result
-    
-    
-//    var currentWeekIndex: Int {
-//        let calendar = Calendar.current
-//        let startDate = goal?.timestamp.dateValue() ?? Date()
-//        let currentDate = Date()
-//        // Calculate the number of weeks since the goal's start date
-//        let weeksSinceStart = calendar.dateComponents([.weekOfYear], from: startDate, to: currentDate).weekOfYear ?? 0
-//        return weeksSinceStart
-//    }
-//    
-//    func isWeekFullyCompleted(weekIndex: Int) -> Bool {
-//        // Given a week index, check the number of verified evidences for that week
-//        let verifiedEvidencesForWeek = evidences.filter { $0.weekNumber - 1 == weekIndex && $0.isVerified }.count
-//        return verifiedEvidencesForWeek == goal?.frequency
-//    }
+
 }
     
     // MARK: - Evidences
     
-//        func fetchEvidences() {
-//            EvidenceService.shared.fetchEvidences(goalID: goalID) { [weak self] result in
-//                switch result {
-//                case .success(let fetchedEvidences):
-//                    self?.evidences = fetchedEvidences.sorted {
-//                        guard let date1 = $0.submittedAt.timestamp.dateValue() as Date?,
-//                              let date2 = $1.submittedAt.timestamp.dateValue() as Date? else {
-//                            return false
-//                        }
-//                        return date1 > date2
-//                    }
-//                case .failure(let error):
-//                    print("Failed to fetch evidences: \(error.localizedDescription)")
-//                    // Handle the error appropriately
-//                }
-//            }
-//        }
-    
     func fetchEvidences() async {
         do {
             let fetchedEvidences = try await EvidenceService.shared.fetchEvidences(goalID: goalID)
-            // Assuming Evidence has a 'submittedAt' field of a custom type that needs converting to Date
-            self.evidences = fetchedEvidences.sorted {
-                guard let date1 = $0.timestamp.dateValue() as Date?,
-                      let date2 = $1.timestamp.dateValue() as Date? else {
-                    return false
-                }
-                return date1 > date2
+            DispatchQueue.main.async {
+                self.evidences = fetchedEvidences.sorted { $0.timestamp.dateValue() < $1.timestamp.dateValue() }
+                print("DEBUG: Evidences fetched and sorted.")
+                self.generateSteps() // Regenerate steps with new evidence data
             }
         } catch {
-            print("Failed to fetch evidences: \(error.localizedDescription)")
-            // Handle the error appropriately
+            print("DEBUG: Failed to fetch evidences: \(error.localizedDescription)")
         }
     }
-
-//        func verifyEvidence(_ evidence: Evidence) {
-//            guard let index = evidences.firstIndex(where: { $0.id == evidence.id }) else {
-//                return
-//            }
-//    
-//            evidences[index].isVerified = true
-//    
-//            EvidenceService.shared.updateEvidence(evidence) { result in
-//                switch result {
-//                case .success:
-//                    // Increment the current count of the goal
-//                    self.goal?.currentCount += 1
-//                    self.updateWeeklyProgress(forWeek: evidence.weekNumber - 1) // Assuming week numbers start from 1
-//                    // Now update this change in the Firebase
-//                    GoalService.shared.updateGoal(self.goal!) { updateResult in
-//                        switch updateResult {
-//                        case .success:
-//                            print("Goal's currentCount updated successfully")
-//                        case .failure(let error):
-//                            print("Failed to update goal's currentCount: \(error.localizedDescription)")
-//                            // You might want to revert the isVerified property change or show an error message to the user
-//                            self.evidences[index].isVerified = false
-//                        }
-//                    }
-//                case .failure(let error):
-//                    print("Failed to update evidence: \(error.localizedDescription)")
-//                    // You might want to revert the isVerified property change or show an error message to the user
-//                    self.evidences[index].isVerified = false
-//                }
-//            }
-//        }
+    
+    private func generateSteps() {
+        guard let goal = goal else { return }
+        print("DEBUG: Generating steps for goal with duration: \(goal.duration)")
+        
+        var generatedSteps: [Step] = []
+        for week in 1...goal.duration {
+            for day in 1...goal.frequency {
+                let evidenceForStep = evidences.first { $0.weekNumber == week && $0.day == day }
+                let status: StepStatus = evidenceForStep != nil ? .completed : .notStartedYet // Simplified for demonstration
+                let step = Step(weekNumber: week, day: day, evidence: evidenceForStep, status: status)
+                generatedSteps.append(step)
+                if evidenceForStep != nil {
+                    print("DEBUG: Evidence \(evidenceForStep!.id) associated with Step for Week: \(week), Day: \(day)")
+                } else {
+                    print("DEBUG: No evidence for Step for Week: \(week), Day: \(day)")
+                }
+            }
+        }
+        self.steps = generatedSteps
+    }
     
     @MainActor
     func verifyEvidence(_ evidence: Evidence) async {
@@ -245,34 +198,6 @@ class GoalStepViewModel: ObservableObject {
             self.evidences[index].isVerified = false
         }
     }
-
-    
-//        func deleteEvidence(_ evidence: Evidence, completion: @escaping (Result<Void, Error>) -> Void) {
-//            EvidenceService().deleteEvidence(evidence) { result in
-//                    switch result {
-//                    case .success:
-//                        ImageUploader.shared.deleteImage(url: evidence.imageURL) { result in
-//                            switch result {
-//                            case .success:
-//                                // Update the UI to reflect the deletion success
-//                                DispatchQueue.main.async {
-//                                    self.deletionSuccess = true
-//                                }
-//                            case .failure(let error):
-//                                // Handle error deleting image
-//                                DispatchQueue.main.async {
-//                                    self.deletionError = error
-//                                }
-//                            }
-//                        }
-//                    case .failure(let error):
-//                        // Handle error deleting evidence
-//                        DispatchQueue.main.async {
-//                            self.deletionError = error
-//                        }
-//                    }
-//                }
-//            }
     
     @MainActor
     func deleteEvidence(_ evidence: Evidence) async -> Result<Void, Error> {
@@ -300,5 +225,6 @@ class GoalStepViewModel: ObservableObject {
     private func derivePathFromURL(imageURL: String) -> String {
         return imageURL
     }
+    
 }
 

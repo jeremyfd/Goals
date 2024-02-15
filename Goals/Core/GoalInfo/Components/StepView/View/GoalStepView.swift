@@ -288,40 +288,65 @@ struct GoalStepView: View {
     private var goalStepsScrollView: some View {
         ScrollView {
             VStack {
-                ForEach(0..<goal.duration, id: \.self) { weekNumber in
-                    weekSection(weekNumber: weekNumber)
-                }
-            }
-            .alert(isPresented: $showingConfirmationAlert) {
-                confirmationAlert
-            }
-            .onReceive(viewModel.$deletionSuccess) { success in
-                if success {
-                    Task {
-                        await viewModel.loadGoal()
+                ForEach(1...goal.duration, id: \.self) { weekNumber in
+                    let stepsForWeek = viewModel.steps.filter { $0.weekNumber == weekNumber }
+                    if !stepsForWeek.isEmpty {
+                        weekSection(weekNumber: weekNumber, stepsForWeek: stepsForWeek)
                     }
                 }
             }
-            .onAppear {
-//                print("DEBUG: Evidence count: \(viewModel.evidences.count)")
             }
-            .navigationTitle("Goal Details")
-            .navigationBarTitleDisplayMode(.inline)
-            .padding(.vertical)
+        .onReceive(viewModel.$steps) { _ in
+            // When the steps update, the view should redraw
         }
+        .navigationTitle("Goal Details")
+        .navigationBarTitleDisplayMode(.inline)
+        .padding(.vertical)
     }
     
+//    @ViewBuilder
+//    private func weekHeader(weekNumber: Int) -> some View {
+//        let weekStartsAt = goal.timestamp.dateValue().addingTimeInterval(week: weekNumber - 1, day: 0)
+//        Text("Week \(weekNumber): Starts \(weekStartsAt.dayMonthString())")
+//            .bold()
+//            .font(.title3)
+//    }
+//    
+//    @ViewBuilder
+//    private func stepsForWeek(weekNumber: Int) -> some View {
+//        let stepsForWeek = viewModel.steps.filter { $0.weekNumber == weekNumber }
+//        ForEach(stepsForWeek, id: \.id) { step in
+//            StepView(
+//                step: step,
+//                viewModel: viewModel,
+//                goal: goal,
+//                selectedLargeImageURL: $selectedLargeImageURL,
+//                isShowingLargeImage: $isShowingLargeImage,
+//                evidenceToDelete: $evidenceToDelete,
+//                showingConfirmationAlert: $showingConfirmationAlert
+//            )
+//        }
+//    }
+
     @ViewBuilder
-    private func weekSection(weekNumber: Int) -> some View {
-        let stepsForWeek = viewModel.steps(forGoal: goal).filter { $0.weekNumber == weekNumber + 1 }
-        let weekStartsAt = goal.timestamp.dateValue().addingTimeInterval(week: weekNumber, day: 0)
+    private func weekSection(weekNumber: Int, stepsForWeek: [Step]) -> some View {
+        let weekStartsAt = goal.timestamp.dateValue().addingTimeInterval(week: weekNumber - 1, day: 0)
         
-        // Corrected part: Removed unnecessary ForEach loop that was causing repetition
-        Text("Week \(weekNumber + 1): Starts \(weekStartsAt.dayMonthString())")
-            .bold()
-            .font(.title3)
-        ForEach(stepsForWeek, id: \.id) { step in
-            StepView(step: step, viewModel: viewModel, goal: goal, selectedLargeImageURL: $selectedLargeImageURL, isShowingLargeImage: $isShowingLargeImage, evidenceToDelete: $evidenceToDelete, showingConfirmationAlert: $showingConfirmationAlert)
+        VStack(alignment: .leading) {
+            Text("Week \(weekNumber): Starts \(weekStartsAt.dayMonthString())")
+                .bold()
+                .font(.title3)
+                .padding(.top)
+            
+            ForEach(stepsForWeek, id: \.id) { step in
+                StepView(step: step,
+                         viewModel: viewModel,
+                         goal: goal,
+                         selectedLargeImageURL: $selectedLargeImageURL,
+                         isShowingLargeImage: $isShowingLargeImage,
+                         evidenceToDelete: $evidenceToDelete,
+                         showingConfirmationAlert: $showingConfirmationAlert)
+            }
         }
     }
     
