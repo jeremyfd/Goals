@@ -44,29 +44,24 @@ class SubmitEvidenceViewModel: ObservableObject {
             completion(false)
             return
         }
-        
-        // Assuming ImageUploader and EvidenceService are set up to handle async operations
+
         do {
-            // Use ImageUploader to upload the image first, then create an Evidence object with the URL
-            if let imageUrl = try await ImageUploader.uploadImage(image: image, type: .goal) {
-                // Create an Evidence object
-                var newEvidence = Evidence(
-                    ownerUid: Auth.auth().currentUser?.uid ?? "",
-                    partnerUid: "",
-                    timestamp: Timestamp(date: Date()),
-                    verified: false,
-                    weekNumber: weekNumber,
-                    dayNumber: dayNumber,
-                    imageUrl: imageUrl,
-                    description: ""
-                )
-                
-                // Upload the evidence using EvidenceService
-                _ = try await EvidenceService.uploadEvidence(newEvidence, image: image)
-                completion(true)
-            } else {
-                completion(false)
-            }
+            // Directly pass image to EvidenceService without uploading it here
+            var newEvidence = Evidence(
+                goalID: goalID,
+                ownerUid: Auth.auth().currentUser?.uid ?? "",
+                partnerUid: "",
+                timestamp: Timestamp(date: Date()),
+                verified: false,
+                weekNumber: weekNumber,
+                dayNumber: dayNumber,
+                imageUrl: "", // Temporarily empty, will be set in EvidenceService
+                description: ""
+            )
+            
+            // Upload the evidence (and the image within the service)
+            _ = try await EvidenceService.uploadEvidence(newEvidence, image: image)
+            completion(true)
         } catch {
             print("Failed to submit evidence: \(error.localizedDescription)")
             completion(false)

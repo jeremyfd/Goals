@@ -18,6 +18,6 @@ struct FirestoreConstants {
     
     static let GoalsCollection = Root.collection("goals")
     
-    static let EvidenceCollection = Root.collection("evidence")
+    static let EvidenceCollection = Root.collection("evidences")
     
 }

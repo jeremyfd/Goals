@@ -12,15 +12,15 @@ import FirebaseStorage
 
 enum UploadType {
     case profile
-    case goal
+    case evidence
     
     var filePath: StorageReference {
         let filename = NSUUID().uuidString
         switch self {
         case .profile:
             return Storage.storage().reference(withPath: "/profile_images/\(filename)")
-        case .goal:
-            return Storage.storage().reference(withPath: "/post_images/\(filename)")
+        case .evidence:
+            return Storage.storage().reference(withPath: "/evidences_images/\(filename)")
         }
     }
 }

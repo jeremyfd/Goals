@@ -12,6 +12,7 @@ import FirebaseFirestoreSwift
 struct Evidence: Identifiable, Codable {
     @DocumentID var evidenceId: String?
     
+    let goalID: String
     let ownerUid: String
     let partnerUid: String
     let timestamp: Timestamp
