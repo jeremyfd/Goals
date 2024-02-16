@@ -11,7 +11,7 @@ import Kingfisher
 
 struct EvidenceSubView: View {
     @ObservedObject var viewModel: EvidenceSubViewModel
-    var onSubmitEvidence: () -> Void
+    var onSubmitEvidence: (Int, Int) -> Void
 
     var body: some View {
         ForEach(viewModel.steps, id: \.id) { step in
@@ -29,7 +29,7 @@ struct EvidenceSubView: View {
         switch step.status {
         case .readyToSubmit:
             Button("Submit Evidence") {
-                onSubmitEvidence()
+                onSubmitEvidence(step.weekNumber, step.dayNumber)
             }
             .buttonStyle(.borderedProminent)
         case .completed:
@@ -70,4 +70,11 @@ struct EvidenceSubView: View {
             EmptyView()
         }
     }
+}
+
+struct SubmitEvidenceSheetIdentifier: Identifiable {
+    let id: UUID = UUID()
+    var goalID: String
+    var weekNumber: Int
+    var dayNumber: Int
 }

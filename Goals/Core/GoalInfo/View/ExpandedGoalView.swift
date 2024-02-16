@@ -20,14 +20,17 @@ struct ExpandedGoalView: View {
     @State private var showingSubmitEvidenceView = false
     @Environment(\.presentationMode) var presentationMode
     
-    init(goal: Goal) {
-            self.goal = goal
-            // Convert Firebase Timestamp to Date for the start date
-            let startDate = goal.timestamp.dateValue()
-            // Initialize the EvidenceSubViewModel with the converted start date and other goal details
-            _evidenceViewModel = StateObject(wrappedValue: EvidenceSubViewModel(goalId: goal.id, startDate: startDate, duration: goal.duration, frequency: goal.frequency))
-        }
+    @State private var submitEvidenceSheetIdentifier: SubmitEvidenceSheetIdentifier?
 
+    
+    init(goal: Goal) {
+        self.goal = goal
+        // Convert Firebase Timestamp to Date for the start date
+        let startDate = goal.timestamp.dateValue()
+        // Initialize the EvidenceSubViewModel with the converted start date and other goal details
+        _evidenceViewModel = StateObject(wrappedValue: EvidenceSubViewModel(goalId: goal.id, startDate: startDate, duration: goal.duration, frequency: goal.frequency))
+    }
+    
     
     private func formatDate(_ timestamp: Timestamp) -> String {
         let dateFormatter = DateFormatter()
@@ -39,211 +42,139 @@ struct ExpandedGoalView: View {
     var body: some View {
         
         ScrollView {
-        
-        VStack(alignment: .leading) {
             
             VStack(alignment: .leading) {
                 
-                VStack(alignment: .leading, spacing: 10) {
+                VStack(alignment: .leading) {
                     
-                    HStack {
-                        Text(goal.title)
-                            .font(.title)
-                            .fontWeight(.bold)
+                    VStack(alignment: .leading, spacing: 10) {
                         
-                        Spacer()
-                    }
-                    .padding(.bottom, -5)
-                    
-                    HStack{
-                        CircularProfileImageView(user: goal.user, size: .small)
-                        
-                        Text(goal.user?.username ?? "")
-                            .font(.title3)
-                        
-                        Spacer()
-                        
-                        Button(action: {
-                            showCalendarView = true
-                        }, label: {
-                            HStack {
-                                Image(systemName: "calendar")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 25, height: 25)
-                                
-                                Text("Week 10")
-                                    .font(.title3)
-                                
-                                Image(systemName: "chevron.down")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 15, height: 15)
-                                
-                            }
-                            .foregroundStyle(Color.black)
-                        })
-
-                    }
-                }
-                
-                VStack(alignment: .leading, spacing: 5) {
-                    HStack {
-                        Text("Started:")
-                            .font(.title2)
-                            .padding(.top, 5)
-                        
-                        Text(formatDate(goal.timestamp))
-                            .font(.title2)
-                            .fontWeight(.bold)
-                            .padding(.top, 5)
-                    }
-                    
-                    HStack {
-                        Text("Partner:")
-                            .font(.title2)
-                            .padding(.top, 5)
-                        
-                        // Display partner username once it's fetched
-                        if let partnerUser = viewModel.partnerUser {
-                            Text("@\(partnerUser.username)")
-                                .font(.title2)
+                        HStack {
+                            Text(goal.title)
+                                .font(.title)
                                 .fontWeight(.bold)
-                                .padding(.top, 5)
-                                .onTapGesture {
-                                    navigateToUser = partnerUser
-                                }
-                        } else {
-                            Text("Partner: Loading...")
-                                .font(.title2)
-                                .padding(.top, 5)
-                        }
-                    }
-                    
-                    HStack {
-                        Text("Frequency:")
-                            .font(.title2)
-                            .padding(.top, 5)
-                        
-                        Text("\(goal.frequency)x a week")
-                            .font(.title2)
-                            .fontWeight(.bold)
-                            .padding(.top, 5)
-                    }
-                    
-
-                    
-                    if let description = goal.description {
-                        VStack(alignment: .leading, spacing: 10) {
-                            Text("Description:")
-                                .font(.title2)
-                                .padding(.top, 5)
                             
-                            Text(description)
-                                .font(.title2)
-                                .fontWeight(.bold)
-                                .padding(.top, -5)
-                                .lineLimit(isDescriptionExpanded ? nil : 1) // Dynamically change line limit
-                                .fixedSize(horizontal: false, vertical: true) // Allow text to expand vertically
+                            Spacer()
+                        }
+                        .padding(.bottom, -5)
+                        
+                        HStack{
+                            CircularProfileImageView(user: goal.user, size: .small)
+                            
+                            Text(goal.user?.username ?? "")
+                                .font(.title3)
+                            
+                            Spacer()
                             
                             Button(action: {
-                                isDescriptionExpanded.toggle()
-                            }) {
-                                Text(isDescriptionExpanded ? "Less" : "More")
-                                    .font(.headline)
-                            }
+                                showCalendarView = true
+                            }, label: {
+                                HStack {
+                                    Image(systemName: "calendar")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 25, height: 25)
+                                    
+                                    Text("Week 10")
+                                        .font(.title3)
+                                    
+                                    Image(systemName: "chevron.down")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 15, height: 15)
+                                    
+                                }
+                                .foregroundStyle(Color.black)
+                            })
+                            
                         }
                     }
-
+                    
+                    VStack(alignment: .leading, spacing: 5) {
+                        HStack {
+                            Text("Started:")
+                                .font(.title2)
+                                .padding(.top, 5)
+                            
+                            Text(formatDate(goal.timestamp))
+                                .font(.title2)
+                                .fontWeight(.bold)
+                                .padding(.top, 5)
+                        }
+                        
+                        HStack {
+                            Text("Partner:")
+                                .font(.title2)
+                                .padding(.top, 5)
+                            
+                            // Display partner username once it's fetched
+                            if let partnerUser = viewModel.partnerUser {
+                                Text("@\(partnerUser.username)")
+                                    .font(.title2)
+                                    .fontWeight(.bold)
+                                    .padding(.top, 5)
+                                    .onTapGesture {
+                                        navigateToUser = partnerUser
+                                    }
+                            } else {
+                                Text("Partner: Loading...")
+                                    .font(.title2)
+                                    .padding(.top, 5)
+                            }
+                        }
+                        
+                        HStack {
+                            Text("Frequency:")
+                                .font(.title2)
+                                .padding(.top, 5)
+                            
+                            Text("\(goal.frequency)x a week")
+                                .font(.title2)
+                                .fontWeight(.bold)
+                                .padding(.top, 5)
+                        }
+                        
+                        
+                        
+                        if let description = goal.description {
+                            VStack(alignment: .leading, spacing: 10) {
+                                Text("Description:")
+                                    .font(.title2)
+                                    .padding(.top, 5)
+                                
+                                Text(description)
+                                    .font(.title2)
+                                    .fontWeight(.bold)
+                                    .padding(.top, -5)
+                                    .lineLimit(isDescriptionExpanded ? nil : 1) // Dynamically change line limit
+                                    .fixedSize(horizontal: false, vertical: true) // Allow text to expand vertically
+                                
+                                Button(action: {
+                                    isDescriptionExpanded.toggle()
+                                }) {
+                                    Text(isDescriptionExpanded ? "Less" : "More")
+                                        .font(.headline)
+                                }
+                            }
+                        }
+                        
+                    }
+                    
+                    Text("Completed 6 times.")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                        .padding(.top, 5)
                 }
+                .padding(.vertical)
                 
-                Text("Completed 6 times.")
-                    .font(.title2)
-                    .fontWeight(.bold)
-                    .padding(.top, 5)
-            }
-            .padding(.vertical)
-            
-            EvidenceSubView(viewModel: evidenceViewModel) {
-                self.showingSubmitEvidenceView = true
-            }
-            .sheet(isPresented: $showingSubmitEvidenceView) {
-                // Assuming you need to pass specific data to SubmitEvidenceView's ViewModel
-                // You may need to adjust how you manage and pass this data based on your app's flow
-                SubmitEvidenceView(viewModel: SubmitEvidenceViewModel(goalID: goal.id, weekNumber: 1, dayNumber: 1))
-            }
-
-            
-                LazyVStack {
-                    
-                    Text("Week 1 - 1st January 2023")
-                        .font(.title2)
-                        .fontWeight(.bold)
-                        .padding(.top, 5)
-                    
-                    ForEach(0..<3) { _ in
-                        HStack {
-                            Image("gymphoto")
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width: 110, height: 110)
-                                .cornerRadius(40)
-                            
-                            Image(systemName: "checkmark.circle.fill")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 40, height: 40)
-                                .foregroundColor(.green)
-                                .background(Color.white)
-                                .clipShape(Circle())
-                                .offset(x: -40, y: 30)
-                            
-                            VStack(alignment: .leading) {
-                                Text("Monday 7th June")
-                                Text("20h13")
-                                Text("London")
-                            }
-                            .font(.subheadline)
-                            .padding(.leading, -30)
-                            
-                            Spacer()
-                        }
-                    }
-                    
-                    Text("Week 2 - 8th January 2023")
-                        .font(.title2)
-                        .fontWeight(.bold)
-                        .padding(.top, 5)
-                    
-                    ForEach(0..<3) { _ in
-                        HStack {
-                            Image("gymphoto")
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width: 110, height: 110)
-                                .cornerRadius(40)
-                            
-                            Image(systemName: "checkmark.circle.fill")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 40, height: 40)
-                                .foregroundColor(.green)
-                                .background(Color.white)
-                                .clipShape(Circle())
-                                .offset(x: -40, y: 30)
-                            
-                            VStack(alignment: .leading) {
-                                Text("Monday 7th June")
-                                Text("20h13")
-                                Text("London")
-                            }
-                            .font(.subheadline)
-                            .padding(.leading, -30)
-                            
-                            Spacer()
-                        }
-                    }
+                EvidenceSubView(viewModel: evidenceViewModel) { weekNumber, dayNumber in
+                    self.submitEvidenceSheetIdentifier = SubmitEvidenceSheetIdentifier(goalID: goal.id, weekNumber: weekNumber, dayNumber: dayNumber)
                 }
+
+                .sheet(item: $submitEvidenceSheetIdentifier) { identifier in
+                    SubmitEvidenceView(viewModel: SubmitEvidenceViewModel(goalID: identifier.goalID, weekNumber: identifier.weekNumber, dayNumber: identifier.dayNumber))
+                }
+
             }
             
             NavigationLink(destination: navigateToUser.map { UserProfileView(user: $0) }, isActive: Binding<Bool>(
@@ -252,7 +183,7 @@ struct ExpandedGoalView: View {
             )) {
                 EmptyView()
             }
-
+            
         }
         .scrollIndicators(.hidden)
         .navigationBarItems(trailing: Menu {
@@ -289,7 +220,7 @@ struct ExpandedGoalView: View {
                 secondaryButton: .cancel()
             )
         }
-
+        
         .onAppear {
             if viewModel.partnerUser == nil {
                 viewModel.fetchPartnerUser(partnerUid: goal.partnerUid)
@@ -313,4 +244,76 @@ struct ExpandedGoalView: View {
 
 //#Preview {
 //    ExpandedGoalView()
+//}
+
+//
+//LazyVStack {
+//    
+//    Text("Week 1 - 1st January 2023")
+//        .font(.title2)
+//        .fontWeight(.bold)
+//        .padding(.top, 5)
+//    
+//    ForEach(0..<3) { _ in
+//        HStack {
+//            Image("gymphoto")
+//                .resizable()
+//                .scaledToFill()
+//                .frame(width: 110, height: 110)
+//                .cornerRadius(40)
+//            
+//            Image(systemName: "checkmark.circle.fill")
+//                .resizable()
+//                .aspectRatio(contentMode: .fit)
+//                .frame(width: 40, height: 40)
+//                .foregroundColor(.green)
+//                .background(Color.white)
+//                .clipShape(Circle())
+//                .offset(x: -40, y: 30)
+//            
+//            VStack(alignment: .leading) {
+//                Text("Monday 7th June")
+//                Text("20h13")
+//                Text("London")
+//            }
+//            .font(.subheadline)
+//            .padding(.leading, -30)
+//            
+//            Spacer()
+//        }
+//    }
+//    
+//    Text("Week 2 - 8th January 2023")
+//        .font(.title2)
+//        .fontWeight(.bold)
+//        .padding(.top, 5)
+//    
+//    ForEach(0..<3) { _ in
+//        HStack {
+//            Image("gymphoto")
+//                .resizable()
+//                .scaledToFill()
+//                .frame(width: 110, height: 110)
+//                .cornerRadius(40)
+//            
+//            Image(systemName: "checkmark.circle.fill")
+//                .resizable()
+//                .aspectRatio(contentMode: .fit)
+//                .frame(width: 40, height: 40)
+//                .foregroundColor(.green)
+//                .background(Color.white)
+//                .clipShape(Circle())
+//                .offset(x: -40, y: 30)
+//            
+//            VStack(alignment: .leading) {
+//                Text("Monday 7th June")
+//                Text("20h13")
+//                Text("London")
+//            }
+//            .font(.subheadline)
+//            .padding(.leading, -30)
+//            
+//            Spacer()
+//        }
+//    }
 //}
