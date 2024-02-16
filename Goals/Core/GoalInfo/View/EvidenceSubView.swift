@@ -75,9 +75,9 @@ struct EvidenceSubView: View {
             VStack {
                 KFImage(URL(string: evidence.imageUrl))
                     .resizable()
-                    .scaledToFit()
-                    .frame(height: 200)
-                    .cornerRadius(10)
+                    .scaledToFill()
+                    .frame(width: 110, height: 110)
+                    .cornerRadius(40)
                     .onTapGesture {
                         self.selectedImageURL = evidence.imageUrl
                         self.isImageViewerPresented = true
@@ -117,34 +117,14 @@ struct EvidenceSubView: View {
         if evidence.verified {
             Image(systemName: "checkmark.circle.fill")
                 .resizable()
-                .frame(width: 30, height: 30)
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 40, height: 40)
                 .foregroundColor(.green)
-                .background(Circle().fill(Color.white))
-                .offset(x: -5, y: -5)
+                .background(Color.white)
+                .clipShape(Circle())
+                .offset(x: 40, y: 30)
         } else {
             EmptyView()
         }
     }
 }
-
-
-
-
-//    @ViewBuilder
-//    private func stepStatusView(step: Step) -> some View {
-//        switch step.status {
-//        case .readyToSubmit:
-//            Button("Submit Evidence") {
-//                onSubmitEvidence(step.weekNumber, step.dayNumber)
-//            }
-//            .buttonStyle(.borderedProminent)
-//        case .completed:
-//            completedStepView(step: step)
-//        case .completePreviousStep:
-//            Text("Complete Previous Step").foregroundColor(.orange)
-//        case .failed:
-//            Text("Failed to complete").foregroundColor(.red)
-//        case .notStartedYet:
-//            Text("Upcoming").foregroundColor(.gray)
-//        }
-//    }

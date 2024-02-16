@@ -21,7 +21,10 @@ struct ImageViewer: View {
                     KFImage(url)
                         .resizable()
                         .aspectRatio(contentMode: .fill)
-                        .frame(width: geometry.size.width - 40, height: (geometry.size.width - 40) * 4 / 3) // Adjust the aspect ratio as per your requirement
+                        .frame(
+                            width: max(geometry.size.width - 40, 0),
+                            height: max((geometry.size.width - 40) * 4 / 3, 0)
+                        )
                         .cornerRadius(8)
                         .clipped() // Clip the image to the frame's bounds
                         .padding(.horizontal, 20)
