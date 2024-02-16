@@ -10,6 +10,7 @@ import Kingfisher
 
 
 struct EvidenceSubView: View {
+    let goal: Goal
     @ObservedObject var viewModel: EvidenceSubViewModel
     var onSubmitEvidence: (Int, Int) -> Void
 
@@ -23,23 +24,45 @@ struct EvidenceSubView: View {
         }
     }
     
-
     @ViewBuilder
     private func stepStatusView(step: Step) -> some View {
-        switch step.status {
-        case .readyToSubmit:
-            Button("Submit Evidence") {
-                onSubmitEvidence(step.weekNumber, step.dayNumber)
+        if viewModel.currentUserID == goal.ownerUid {
+            switch step.status {
+            case .completed:
+                completedStepView(step: step)
+            case .readyToSubmit:
+                Button("Submit Evidence") {
+                    onSubmitEvidence(step.weekNumber, step.dayNumber)
+                }
+                .buttonStyle(.borderedProminent)
+            case .notStartedYet:
+                Text("This week hasn’t started yet")
+                    .foregroundColor(.gray)
+            case .failed:
+                Text("You failed this step")
+                    .foregroundColor(.gray)
+            case .completePreviousStep:
+                Text("Complete previous step")
+                    .foregroundColor(.gray)
+                
             }
-            .buttonStyle(.borderedProminent)
-        case .completed:
-            completedStepView(step: step)
-        case .completePreviousStep:
-            Text("Complete Previous Step").foregroundColor(.orange)
-        case .failed:
-            Text("Failed to complete").foregroundColor(.red)
-        case .notStartedYet:
-            Text("Upcoming").foregroundColor(.gray)
+        } else { // If the user is not the creator of the goal
+            switch step.status {
+            case .completed:
+                completedStepView(step: step)
+            case .readyToSubmit:
+                Text("No evidence yet")
+                    .foregroundColor(.gray)
+            case .notStartedYet:
+                Text("This week hasn’t started yet")
+                    .foregroundColor(.gray)
+            case .failed:
+                Text("They failed this step")
+                    .foregroundColor(.gray)
+            case .completePreviousStep:
+                Text("No evidence yet")
+                    .foregroundColor(.gray)
+            }
         }
     }
 
@@ -78,3 +101,23 @@ struct SubmitEvidenceSheetIdentifier: Identifiable {
     var weekNumber: Int
     var dayNumber: Int
 }
+
+
+//    @ViewBuilder
+//    private func stepStatusView(step: Step) -> some View {
+//        switch step.status {
+//        case .readyToSubmit:
+//            Button("Submit Evidence") {
+//                onSubmitEvidence(step.weekNumber, step.dayNumber)
+//            }
+//            .buttonStyle(.borderedProminent)
+//        case .completed:
+//            completedStepView(step: step)
+//        case .completePreviousStep:
+//            Text("Complete Previous Step").foregroundColor(.orange)
+//        case .failed:
+//            Text("Failed to complete").foregroundColor(.red)
+//        case .notStartedYet:
+//            Text("Upcoming").foregroundColor(.gray)
+//        }
+//    }

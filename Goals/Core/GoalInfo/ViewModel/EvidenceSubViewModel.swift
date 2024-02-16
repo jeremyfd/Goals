@@ -16,6 +16,10 @@ class EvidenceSubViewModel: ObservableObject {
     let goalStartDate: Date
     let goalDuration: Int
     let goalFrequency: Int
+    
+    var currentUserID: String? {
+            AuthService.shared.userSession?.uid
+        }
 
     init(goalId: String, startDate: Date, duration: Int, frequency: Int) {
         self.goalId = goalId

@@ -167,7 +167,7 @@ struct ExpandedGoalView: View {
                 }
                 .padding(.vertical)
                 
-                EvidenceSubView(viewModel: evidenceViewModel) { weekNumber, dayNumber in
+                EvidenceSubView(goal: goal, viewModel: evidenceViewModel) { weekNumber, dayNumber in
                     self.submitEvidenceSheetIdentifier = SubmitEvidenceSheetIdentifier(goalID: goal.id, weekNumber: weekNumber, dayNumber: dayNumber)
                 }
 
