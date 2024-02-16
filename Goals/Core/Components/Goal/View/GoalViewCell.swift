@@ -29,7 +29,7 @@ struct GoalViewCell: View {
             }
         }
             
-            Text("Completed 6 times.")
+            Text("Completed \(goal.currentCount) times.")
                 .font(.title)
                 .fontWeight(.bold)
                 .foregroundStyle(Color.black)

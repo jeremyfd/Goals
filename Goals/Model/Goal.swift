@@ -19,6 +19,7 @@ struct Goal: Identifiable, Codable {
     let frequency: Int
     let description: String?
     var duration: Int
+    var currentCount: Int
     
     var id: String {
         return goalId ?? NSUUID().uuidString

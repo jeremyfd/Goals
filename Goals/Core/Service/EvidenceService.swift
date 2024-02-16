@@ -35,9 +35,16 @@ struct EvidenceService {
             return evidences
         }
     
-    static func updateEvidenceVerification(evidenceId: String, isVerified: Bool) async throws {
+    static func updateEvidenceVerification(evidenceId: String, isVerified: Bool, goalId: String) async throws {
+        // Update the evidence's verified status
         try await FirestoreConstants.EvidenceCollection.document(evidenceId).updateData(["verified": isVerified])
+        
+        // If the evidence is being verified, increment the goal's currentCount
+        if isVerified {
+            try await GoalService.incrementCurrentCountForGoal(goalId: goalId)
+        }
     }
+
     
     static func deleteEvidence(evidenceId: String) async throws {
         // Fetch the document to get the imageUrl

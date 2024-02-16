@@ -130,10 +130,11 @@ class EvidenceSubViewModel: ObservableObject {
         
         Task {
             do {
-                // Update the evidence's verification status to true
-                try await EvidenceService.updateEvidenceVerification(evidenceId: evidenceId, isVerified: true)
-                // Optionally, refresh the evidence list to reflect the change
+                // Update the evidence's verification status to true and increment the goal's current count
+                try await EvidenceService.updateEvidenceVerification(evidenceId: evidenceId, isVerified: true, goalId: goalId)
+                // Refresh the evidence list to reflect the change
                 await fetchEvidenceForGoal()
+                // Optionally, if you have UI elements depending on the goal's currentCount, trigger their update here
             } catch {
                 print("Error verifying evidence: \(error.localizedDescription)")
                 // Handle the error, e.g., show an error message to the user

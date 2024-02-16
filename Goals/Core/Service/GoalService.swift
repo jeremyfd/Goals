@@ -88,4 +88,25 @@ struct GoalService {
             }
         }
     }
+    
+    static func incrementCurrentCountForGoal(goalId: String) async throws {
+        let goalRef = FirestoreConstants.GoalsCollection.document(goalId)
+        
+        try await Firestore.firestore().runTransaction { transaction, errorPointer in
+            let goalDocument: DocumentSnapshot
+            do {
+                try goalDocument = transaction.getDocument(goalRef)
+            } catch let fetchError {
+                errorPointer?.pointee = fetchError as NSError
+                return nil
+            }
+
+            guard let currentCount = goalDocument.data()?["currentCount"] as? Int else {
+                return nil
+            }
+
+            transaction.updateData(["currentCount": currentCount + 1], forDocument: goalRef)
+            return nil
+        }
+    }
 }
