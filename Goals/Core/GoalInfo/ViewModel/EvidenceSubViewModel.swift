@@ -108,4 +108,20 @@ class EvidenceSubViewModel: ObservableObject {
         isSubmittingEvidence = true
         // Implement UI presentation logic here, possibly using a sheet or navigation
     }
+    
+    func deleteEvidence(evidenceId: String) {
+        guard !evidenceId.isEmpty else { return }
+        
+        Task {
+            do {
+                // Delete the evidence document and its associated image
+                try await EvidenceService.deleteEvidence(evidenceId: evidenceId)
+                // Fetch the updated list of evidences after deletion
+                await fetchEvidenceForGoal()
+            } catch {
+                print("Error deleting evidence: \(error.localizedDescription)")
+                // Handle the error, e.g., show an error message to the user
+            }
+        }
+    }
 }

@@ -13,6 +13,7 @@
 		4F182FA12B7E6D900072EABE /* EvidenceSubViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F182FA02B7E6D900072EABE /* EvidenceSubViewModel.swift */; };
 		4F182FA32B7E6E220072EABE /* SubmitEvidenceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F182FA22B7E6E220072EABE /* SubmitEvidenceView.swift */; };
 		4F182FA62B7E6E5F0072EABE /* SubmitEvidenceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F182FA52B7E6E5F0072EABE /* SubmitEvidenceViewModel.swift */; };
+		4F182FA82B7F97130072EABE /* SubmitEvidenceSheetIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F182FA72B7F97130072EABE /* SubmitEvidenceSheetIdentifier.swift */; };
 		4F6ED7702B718715000E4594 /* UserContentListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6ED76F2B718715000E4594 /* UserContentListView.swift */; };
 		4F6ED7722B71871F000E4594 /* UserContentListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6ED7712B71871F000E4594 /* UserContentListViewModel.swift */; };
 		4F6ED7762B71890F000E4594 /* GoalViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6ED7752B71890F000E4594 /* GoalViewCell.swift */; };
@@ -120,6 +121,7 @@
 		4F182FA02B7E6D900072EABE /* EvidenceSubViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvidenceSubViewModel.swift; sourceTree = "<group>"; };
 		4F182FA22B7E6E220072EABE /* SubmitEvidenceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmitEvidenceView.swift; sourceTree = "<group>"; };
 		4F182FA52B7E6E5F0072EABE /* SubmitEvidenceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmitEvidenceViewModel.swift; sourceTree = "<group>"; };
+		4F182FA72B7F97130072EABE /* SubmitEvidenceSheetIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmitEvidenceSheetIdentifier.swift; sourceTree = "<group>"; };
 		4F6ED76F2B718715000E4594 /* UserContentListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserContentListView.swift; sourceTree = "<group>"; };
 		4F6ED7712B71871F000E4594 /* UserContentListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserContentListViewModel.swift; sourceTree = "<group>"; };
 		4F6ED7752B71890F000E4594 /* GoalViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalViewCell.swift; sourceTree = "<group>"; };
@@ -860,6 +862,7 @@
 				96F246F82B382928000CC323 /* User.swift */,
 				9600D9782B5B072000DAC807 /* Goal.swift */,
 				4F182F9C2B7E4ECC0072EABE /* Evidence.swift */,
+				4F182FA72B7F97130072EABE /* SubmitEvidenceSheetIdentifier.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1067,6 +1070,7 @@
 				4FE8D4662B758F5600ECD64D /* PublicChallengesView.swift in Sources */,
 				4F6ED7902B741F0A000E4594 /* PartnerSearchViewModel.swift in Sources */,
 				4F6ED7872B72A4F8000E4594 /* FeedViewModel.swift in Sources */,
+				4F182FA82B7F97130072EABE /* SubmitEvidenceSheetIdentifier.swift in Sources */,
 				96CB3EB52B3DBFDE00B3508D /* GoalCreationView.swift in Sources */,
 				96CB3EAE2B3DBF7800B3508D /* CurrentUserProfileView.swift in Sources */,
 				96CB3EBA2B3DC03D00B3508D /* ContractView.swift in Sources */,

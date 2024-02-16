@@ -39,4 +39,20 @@ struct ImageUploader {
             return nil
         }
     }
+    
+    static func deleteImage(withURL urlString: String) async throws {
+        guard let url = URL(string: urlString) else {
+            throw NSError(domain: "ImageUploaderError", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid URL"])
+        }
+        
+        let ref = Storage.storage().reference(forURL: url.absoluteString)
+        
+        do {
+            try await ref.delete()
+            print("DEBUG: Successfully deleted image")
+        } catch let error {
+            print("DEBUG: Failed to delete image \(error.localizedDescription)")
+            throw error
+        }
+    }
 }

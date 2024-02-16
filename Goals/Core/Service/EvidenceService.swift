@@ -40,6 +40,23 @@ struct EvidenceService {
     }
     
     static func deleteEvidence(evidenceId: String) async throws {
+        // Fetch the document to get the imageUrl
+        let documentSnapshot = try await FirestoreConstants.EvidenceCollection.document(evidenceId).getDocument()
+        
+        guard let evidence = try? documentSnapshot.data(as: Evidence.self) else {
+            throw NSError(domain: "DeleteEvidenceError", code: 1, userInfo: [NSLocalizedDescriptionKey: "Failed to fetch evidence for deletion."])
+        }
+        
+        // Since imageUrl is non-optional, you can directly use it
+        do {
+            try await ImageUploader.deleteImage(withURL: evidence.imageUrl)
+            print("DEBUG: Successfully deleted image from storage")
+        } catch {
+            print("DEBUG: Failed to delete image from storage, \(error.localizedDescription)")
+            // Handle the error as needed. Depending on your requirements, you might log this error or throw it.
+        }
+        
+        // Proceed to delete the evidence document from Firestore
         try await FirestoreConstants.EvidenceCollection.document(evidenceId).delete()
     }
 }

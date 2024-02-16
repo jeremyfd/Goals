@@ -69,16 +69,28 @@ struct EvidenceSubView: View {
     @ViewBuilder
     private func completedStepView(step: Step) -> some View {
         if let evidence = step.evidence {
-            KFImage(URL(string: evidence.imageUrl))
-                .resizable()
-                .scaledToFit()
-                .frame(height: 200)
-                .cornerRadius(10)
-                .overlay(verificationOverlay(for: evidence))
+            VStack {
+                KFImage(URL(string: evidence.imageUrl))
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: 200)
+                    .cornerRadius(10)
+                    .overlay(verificationOverlay(for: evidence))
+                
+                // Delete button for evidence
+                if viewModel.currentUserID == goal.ownerUid {
+                    Button("Delete Evidence") {
+                        viewModel.deleteEvidence(evidenceId: evidence.evidenceId ?? "")
+                    }
+                    .foregroundColor(.red)
+                    .buttonStyle(.bordered)
+                }
+            }
         } else {
             Text("No Evidence").foregroundColor(.gray)
         }
     }
+
 
     @ViewBuilder
     private func verificationOverlay(for evidence: Evidence) -> some View {
@@ -95,12 +107,7 @@ struct EvidenceSubView: View {
     }
 }
 
-struct SubmitEvidenceSheetIdentifier: Identifiable {
-    let id: UUID = UUID()
-    var goalID: String
-    var weekNumber: Int
-    var dayNumber: Int
-}
+
 
 
 //    @ViewBuilder
