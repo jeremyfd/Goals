@@ -124,4 +124,20 @@ class EvidenceSubViewModel: ObservableObject {
             }
         }
     }
+    
+    func verifyEvidence(evidenceId: String) {
+        guard !evidenceId.isEmpty else { return }
+        
+        Task {
+            do {
+                // Update the evidence's verification status to true
+                try await EvidenceService.updateEvidenceVerification(evidenceId: evidenceId, isVerified: true)
+                // Optionally, refresh the evidence list to reflect the change
+                await fetchEvidenceForGoal()
+            } catch {
+                print("Error verifying evidence: \(error.localizedDescription)")
+                // Handle the error, e.g., show an error message to the user
+            }
+        }
+    }
 }

@@ -85,6 +85,16 @@ struct EvidenceSubView: View {
                     .foregroundColor(.red)
                     .buttonStyle(.bordered)
                 }
+                
+                // Verify button for the goal's partner
+                if viewModel.currentUserID == goal.partnerUid && !evidence.verified {
+                    Button("Verify") {
+                        viewModel.verifyEvidence(evidenceId: evidence.evidenceId ?? "")
+                    }
+                    .foregroundColor(.green)
+                    .buttonStyle(.borderedProminent)
+                }
+                
             }
         } else {
             Text("No Evidence").foregroundColor(.gray)
