@@ -13,7 +13,10 @@ struct EvidenceSubView: View {
     let goal: Goal
     @ObservedObject var viewModel: EvidenceSubViewModel
     var onSubmitEvidence: (Int, Int) -> Void
-
+    
+    @State private var isImageViewerPresented = false
+    @State private var selectedImageURL: String?
+    
     var body: some View {
         ForEach(viewModel.steps, id: \.id) { step in
             VStack {
@@ -65,7 +68,7 @@ struct EvidenceSubView: View {
             }
         }
     }
-
+    
     @ViewBuilder
     private func completedStepView(step: Step) -> some View {
         if let evidence = step.evidence {
@@ -75,6 +78,10 @@ struct EvidenceSubView: View {
                     .scaledToFit()
                     .frame(height: 200)
                     .cornerRadius(10)
+                    .onTapGesture {
+                        self.selectedImageURL = evidence.imageUrl
+                        self.isImageViewerPresented = true
+                    }
                     .overlay(verificationOverlay(for: evidence))
                 
                 // Delete button for evidence
@@ -96,12 +103,15 @@ struct EvidenceSubView: View {
                 }
                 
             }
+            .sheet(isPresented: $isImageViewerPresented) {
+                ImageViewer(imageURL: $selectedImageURL, isPresented: $isImageViewerPresented)
+            }
         } else {
             Text("No Evidence").foregroundColor(.gray)
         }
     }
-
-
+    
+    
     @ViewBuilder
     private func verificationOverlay(for evidence: Evidence) -> some View {
         if evidence.verified {
