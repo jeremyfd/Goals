@@ -172,9 +172,12 @@ struct ExpandedGoalView: View {
                 }
 
                 .sheet(item: $submitEvidenceSheetIdentifier) { identifier in
-                    SubmitEvidenceView(viewModel: SubmitEvidenceViewModel(goalID: identifier.goalID, weekNumber: identifier.weekNumber, dayNumber: identifier.dayNumber))
+                    SubmitEvidenceView(viewModel: SubmitEvidenceViewModel(goalID: identifier.goalID, weekNumber: identifier.weekNumber, dayNumber: identifier.dayNumber)) {
+                        Task {
+                            await evidenceViewModel.fetchEvidenceForGoal()
+                        }
+                    }
                 }
-
             }
             
             NavigationLink(destination: navigateToUser.map { UserProfileView(user: $0) }, isActive: Binding<Bool>(

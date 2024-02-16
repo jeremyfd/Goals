@@ -13,6 +13,7 @@ struct SubmitEvidenceView: View {
     @State private var isPickerPresented = false
     @Environment(\.presentationMode) var presentationMode
     @State private var isSubmitting = false
+    var onSubmissionSuccess: () -> Void
     
     var body: some View {
         NavigationView {
@@ -46,7 +47,8 @@ struct SubmitEvidenceView: View {
                                     DispatchQueue.main.async { // Ensure UI updates are on the main thread
                                         isSubmitting = false // Reset submission state
                                         if success {
-                                            presentationMode.wrappedValue.dismiss() // Dismiss on success
+                                            presentationMode.wrappedValue.dismiss()
+                                            self.onSubmissionSuccess()
                                         } else {
                                             // Handle failure, e.g., by showing an alert
                                         }
