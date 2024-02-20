@@ -136,13 +136,30 @@ struct CurrentUserProfileView: View {
                         .padding(.top)
                         
                         if let user = currentUser {
-                            UserContentListView(user: user)
-                            .padding(.horizontal)
+                            VStack {
+                                LazyVStack {
+                                    if viewModel.goals.isEmpty {
+                                        Text(viewModel.noContentText())
+                                            .font(.headline)
+                                    } else {
+                                        ForEach(viewModel.goals) { goal in
+                                            GoalViewCell(goal: goal)
+                                        }
+                                        .transition(.move(edge: .leading))
+                                    }
+                                }
+                                .padding(.vertical, 8)
+                            }
                         }
                         
                     }
                     .padding(.leading)
                 }
+                    .refreshable {
+                        if let user = viewModel.currentUser {
+                            viewModel.refreshUserGoals(for: user)
+                        }
+                    }
                     .navigationTitle("Profile")
                     .navigationBarTitleDisplayMode(.inline)
             )
@@ -152,6 +169,8 @@ struct CurrentUserProfileView: View {
         }
     }
 }
+
+
 
 struct CurrentUserProfileView_Previews: PreviewProvider {
     static var previews: some View {
