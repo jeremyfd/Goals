@@ -33,7 +33,7 @@ struct UserProfileView: View {
                             profileHeader
                             if isFriend {
                                 friendDetails
-                                UserContentListView(user: user)
+                                goalsList
                                     .padding(.horizontal)
                             } else {
                                 Text ("This user is not your friend")
@@ -41,6 +41,9 @@ struct UserProfileView: View {
                         }
                         .padding(.leading)
                     }
+                    .refreshable {
+                                               viewModel.refreshUserGoals()
+                                           }
                     .navigationTitle("Profile")
                     .navigationBarTitleDisplayMode(.inline)
                 )
@@ -96,6 +99,23 @@ struct UserProfileView: View {
                 .font(.title2)
                 .fontWeight(.bold)
                 .padding(.top, 5)
+        }
+    }
+    
+    private var goalsList: some View {
+        VStack {
+            LazyVStack {
+                if viewModel.goals.isEmpty {
+                    Text("No goals yet")
+                        .font(.headline)
+                } else {
+                    ForEach(viewModel.goals) { goal in
+                        GoalViewCell(goal: goal)
+                            .transition(.move(edge: .leading))
+                    }
+                }
+            }
+            .padding(.vertical, 8)
         }
     }
 }

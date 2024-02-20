@@ -54,8 +54,8 @@ struct GoalService {
                 .collection("user-feed")
                 .document(goalId).setData([:])
         }
-        
-        try await FirestoreConstants.UserCollection.document(uid).collection("user-feed").document(goalId).setData([:])
+        //add if want to add own goals to user-feed
+//        try await FirestoreConstants.UserCollection.document(uid).collection("user-feed").document(goalId).setData([:])
     }
     
     static func deleteGoal(goalId: String) async throws {
