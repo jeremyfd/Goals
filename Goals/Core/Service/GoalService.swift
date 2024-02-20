@@ -15,7 +15,17 @@ struct GoalService {
         guard let goalData = try? Firestore.Encoder().encode(goal) else { return }
         let ref = try await FirestoreConstants.GoalsCollection.addDocument(data: goalData)
         try await updateUserFeedsAfterPost(goalId: ref.documentID)
+        try await updatePartnerFeedAfterPost(goalId: ref.documentID, partnerUid: goal.partnerUid)
     }
+
+    private static func updatePartnerFeedAfterPost(goalId: String, partnerUid: String) async throws {
+        // Update the "user-feed-partner" for the partner user
+        try await FirestoreConstants.UserCollection
+            .document(partnerUid)
+            .collection("user-feed-partner")
+            .document(goalId).setData([:])
+    }
+
     
     static func fetchGoals() async throws -> [Goal] {
         let snapshot = try await FirestoreConstants
@@ -42,6 +52,15 @@ struct GoalService {
         return goals.sorted(by: { $0.timestamp.dateValue() > $1.timestamp.dateValue() })
     }
     
+    static func fetchPartnerGoals(uid: String) async throws -> [Goal] {
+        let snapshot = try await FirestoreConstants.UserCollection
+            .document(uid)
+            .collection("user-feed-partner")
+            .getDocuments()
+        
+        return snapshot.documents.compactMap({ try? $0.data(as: Goal.self) })
+    }
+    
     private static func updateUserFeedsAfterPost(goalId: String) async throws {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         
@@ -59,13 +78,35 @@ struct GoalService {
     }
     
     static func deleteGoal(goalId: String) async throws {
-        // Attempt to delete the goal document from Firestore
-        try await FirestoreConstants.GoalsCollection.document(goalId).delete()
-        
-        // Cleanup: Remove the goal from all user feeds
-        try await removeGoalFromUserFeeds(goalId: goalId)
+        // First, attempt to fetch the goal to get the partnerUid
+        let goalDocumentSnapshot = try await FirestoreConstants.GoalsCollection.document(goalId).getDocument()
+        if let goal = try? goalDocumentSnapshot.data(as: Goal.self) {
+            // Proceed with cleanup before deleting the goal document
+            // Remove the goal from all user feeds
+            try await removeGoalFromUserFeeds(goalId: goalId)
+            
+            // Remove the goal from the partner's feed, now that we have the partnerUid
+            try await removeGoalFromPartnerFeeds(goalId: goalId, partnerUid: goal.partnerUid)
+            
+            // Finally, delete the goal document from Firestore
+            try await FirestoreConstants.GoalsCollection.document(goalId).delete()
+        } else {
+            // Handle the case where the goal doesn't exist or couldn't be fetched
+            print("Error: Goal document with ID \(goalId) could not be fetched or does not exist.")
+            // Optionally, throw a custom error if needed
+        }
     }
+
     
+    private static func removeGoalFromPartnerFeeds(goalId: String, partnerUid: String) async throws {
+        // Directly attempt to delete the goal from the partner's "user-feed-partner" without fetching the goal
+        try await FirestoreConstants.UserCollection
+            .document(partnerUid)
+            .collection("user-feed-partner")
+            .document(goalId)
+            .delete()
+    }
+
     private static func removeGoalFromUserFeeds(goalId: String) async throws {
         // Query all users to find which feeds contain the goalId, this might need optimization for large datasets
         let usersSnapshot = try await FirestoreConstants.UserCollection.getDocuments()
