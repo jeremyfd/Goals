@@ -176,7 +176,7 @@
 		96EDC7222B40A31F00AC2C38 /* CurrentFriendsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentFriendsView.swift; sourceTree = "<group>"; };
 		96EDC7242B40A33600AC2C38 /* FriendRequestsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendRequestsView.swift; sourceTree = "<group>"; };
 		96EDC72B2B40E01D00AC2C38 /* FriendsTabViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsTabViewModel.swift; sourceTree = "<group>"; };
-		96F246912B381F4D000CC323 /* Goals.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Goals.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		96F246912B381F4D000CC323 /* Phylax.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Phylax.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		96F246942B381F4D000CC323 /* GoalsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsApp.swift; sourceTree = "<group>"; };
 		96F246962B381F4D000CC323 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		96F246982B381F50000CC323 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -698,7 +698,7 @@
 		96F246922B381F4D000CC323 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				96F246912B381F4D000CC323 /* Goals.app */,
+				96F246912B381F4D000CC323 /* Phylax.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -970,7 +970,7 @@
 				96F246DC2B3821F4000CC323 /* Kingfisher */,
 			);
 			productName = Goals;
-			productReference = 96F246912B381F4D000CC323 /* Goals.app */;
+			productReference = 96F246912B381F4D000CC323 /* Phylax.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -1254,7 +1254,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jeremydaines.Goals;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Phylax;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1287,7 +1287,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jeremydaines.Goals;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Phylax;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

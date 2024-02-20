@@ -17,13 +17,10 @@ struct RegistrationView: View {
         VStack(spacing: 20) {
             Spacer()
             
-            // Logo image
-            Image("threads-app-icon")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 120, height: 120)
-                .padding()
-                .colorMultiply(Color.theme.primaryText)
+            Text("Phylax")
+                .font(.title)
+                .fontWeight(.bold)
+                .padding(.bottom)
             
             Text("Sign Up")
                 .font(.title)
