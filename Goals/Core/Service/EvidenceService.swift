@@ -36,7 +36,7 @@ struct EvidenceService {
     
     static func fetchEvidences(forGoalId goalId: String) async throws -> [Evidence] {
             let querySnapshot = try await FirestoreConstants.EvidenceCollection.whereField("goalID", isEqualTo: goalId).getDocuments()
-            print("DEBUG: Query snapshot documents: \(querySnapshot.documents)")
+//            print("DEBUG: Query snapshot documents: \(querySnapshot.documents)")
             
             let evidences: [Evidence] = querySnapshot.documents.compactMap { document -> Evidence? in
                 try? document.data(as: Evidence.self)
