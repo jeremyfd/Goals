@@ -7,8 +7,6 @@
 
 import SwiftUI
 
-import SwiftUI
-
 struct CalendarView: View {
     
     let monthLabels = ["Jan", "", "", "", "Feb", "", "", "", "Mar", "", "", "", "", "Apr", "", "", "", "May", "", "", "", "Jun", "", "", "", "", "Jul", "", "", "", "Aug", "", "", "", "Sep", "", "", "", "Oct", "", "", "", "Nov", "", "", "", "Dec", "", "", ""]

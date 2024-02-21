@@ -66,6 +66,7 @@ struct GoalViewCell: View {
                             }
                         }
                     }
+                    .padding(.bottom)
                 }
             }
             .matchedGeometryEffect(id: "collapsedScroll", in: animation)

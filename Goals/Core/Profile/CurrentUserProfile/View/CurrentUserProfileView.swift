@@ -146,6 +146,7 @@ struct CurrentUserProfileView: View {
                                             GoalViewCell(viewModel: GoalViewCellViewModel(goalId: goal.id), goal: goal, selectedImageURL: .constant(nil), isShowingImage: .constant(false))
                                         }
                                         .transition(.move(edge: .leading))
+                                        .padding(.trailing)
                                     }
                                 }
                                 .padding(.vertical, 8)
