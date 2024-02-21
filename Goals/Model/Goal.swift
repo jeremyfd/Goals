@@ -9,7 +9,7 @@ import Foundation
 import Firebase
 import FirebaseFirestoreSwift
 
-struct Goal: Identifiable, Codable {
+struct Goal: Identifiable, Codable, Hashable {
     @DocumentID private var goalId: String?
 
     let ownerUid: String

@@ -39,8 +39,15 @@ struct FeedView: View {
                         
                         Spacer()
                         
+                        NavigationLink(destination: ActivityView()) {
+                            Image(systemName: "heart")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 25, height: 25)
+                        }
+
                         NavigationLink(destination: FriendsTabView()) {
-                            Image(systemName: "person.2.fill")
+                            Image(systemName: "person.2")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 35, height: 35)

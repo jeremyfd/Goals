@@ -20,4 +20,6 @@ struct FirestoreConstants {
     
     static let EvidenceCollection = Root.collection("evidences")
     
+    static let ActivityCollection = Root.collection("activity")
+    
 }
