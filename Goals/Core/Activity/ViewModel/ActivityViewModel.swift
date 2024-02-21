@@ -17,9 +17,10 @@ class ActivityViewModel: ObservableObject {
             switch selectedFilter {
             case .all:
                 self.notifications = temp
-            case .replies:
+            case .goals:
                 temp = notifications
-                self.notifications = notifications.filter({ $0.type == .reply })
+                self.notifications = notifications.filter({ $0.type == .friendGoal })
+                self.notifications = notifications.filter({ $0.type == .partnerGoal })
             }
         }
     }
@@ -52,7 +53,7 @@ class ActivityViewModel: ObservableObject {
         async let notificationUser = try await UserService.fetchUser(withUid: notification.senderUid)
         var user = try await notificationUser
         
-        if notification.type == .follow {
+        if notification.type == .friend {
             async let isFriend = await UserService.checkIfUserIsFriendWithUid(notification.senderUid)
             user.isFriend = await isFriend
         }

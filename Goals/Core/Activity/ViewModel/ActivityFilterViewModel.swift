@@ -9,12 +9,12 @@ import Foundation
 
 enum ActivityFilterViewModel: Int, CaseIterable, Identifiable, Codable {
     case all
-    case replies
+    case goals
 
     var title: String {
         switch self {
         case .all: return "All"
-        case .replies: return "Replies"
+        case .goals: return "Goals"
         }
     }
     

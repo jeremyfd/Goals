@@ -12,17 +12,21 @@ struct ActivityBadgeView: View {
     
     private var badgeColor: Color {
         switch type {
-        case .like: return Color.theme.pink
-        case .follow: return Color.theme.purple
-        case .reply: return Color(.systemBlue)
+        case .react: return Color.theme.pink
+        case .friend: return Color.theme.purple
+        case .friendGoal: return Color(.systemBlue)
+        case .partnerGoal: return Color(.systemBlue)
+        case .evidence: return Color(.systemBlue)
         }
     }
     
     private var badgeImageName: String {
         switch type {
-        case .like: return "heart.fill"
-        case .follow: return "person.fill"
-        case .reply: return "arrowshape.turn.up.backward.fill"
+        case .react: return "heart.fill"
+        case .friend: return "person.fill"
+        case .friendGoal: return "plus.circle"
+        case .partnerGoal: return "plus.circle"
+        case .evidence: return "plus.circle"
         }
     }
     
@@ -48,6 +52,6 @@ struct ActivityBadgeView: View {
 
 struct ActivityBadgeView_Previews: PreviewProvider {
     static var previews: some View {
-        ActivityBadgeView(type: .follow)
+        ActivityBadgeView(type: .react)
     }
 }

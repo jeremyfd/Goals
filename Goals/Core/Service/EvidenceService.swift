@@ -19,11 +19,20 @@ struct EvidenceService {
         var newEvidence = evidence
         newEvidence.imageUrl = imageUrl
         
+        // Save the evidence document in Firestore
         let ref = try await FirestoreConstants.EvidenceCollection.addDocument(from: newEvidence)
         var uploadedEvidence = newEvidence
         uploadedEvidence.evidenceId = ref.documentID // Directly assign to evidenceId
+        
+        // Fetch the associated goal using the goalID from the evidence
+        let goal = try await GoalService.fetchGoal(goalId: evidence.goalID)
+        
+        // Now that you have the goal, you can get the partnerUid and use it for the notification
+        ActivityService.uploadNotification(toUid: goal.partnerUid, type: .evidence, goalId: goal.id)
+        
         return uploadedEvidence
     }
+
     
     static func fetchEvidences(forGoalId goalId: String) async throws -> [Evidence] {
             let querySnapshot = try await FirestoreConstants.EvidenceCollection.whereField("goalID", isEqualTo: goalId).getDocuments()

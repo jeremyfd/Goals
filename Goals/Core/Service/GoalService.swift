@@ -16,6 +16,8 @@ struct GoalService {
         let ref = try await FirestoreConstants.GoalsCollection.addDocument(data: goalData)
         try await updateUserFeedsAfterPost(goalId: ref.documentID)
         try await updatePartnerFeedAfterPost(goalId: ref.documentID, partnerUid: goal.partnerUid)
+        
+        ActivityService.uploadNotification(toUid: goal.partnerUid, type: .friendGoal, goalId: ref.documentID)
     }
 
     private static func updatePartnerFeedAfterPost(goalId: String, partnerUid: String) async throws {

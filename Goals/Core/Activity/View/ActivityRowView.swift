@@ -12,16 +12,20 @@ struct ActivityRowView: View {
     
     private var activityMessage: String {
         switch model.type {
-        case .like:
-            return model.goal?.title ?? ""
-        case .follow:
-            return "Followed you"
-        case .reply:
-            return "Replied to one of your threads"
+        case .friendGoal:
+            return "Started a new goal: \(model.goal?.title ?? "")"
+        case .partnerGoal:
+            return "Started a new goal: \(model.goal?.title ?? "")"
+        case .friend:
+            return "Added you as a friend"
+        case .react:
+            return "Reacted to one of your goals"
+        case .evidence:
+            return "Submitted an evidence for \(model.goal?.title ?? "")"
         }
     }
     
-    private var isFollowed: Bool {
+    private var isFriend: Bool {
         return model.user?.isFriend ?? false
     }
     
@@ -55,12 +59,12 @@ struct ActivityRowView: View {
                 
                 Spacer()
                 
-                if model.type == .follow {
+                if model.type == .friend {
                     Button {
                         
                     } label: {
-                        Text(isFollowed ? "Following" : "Follow")
-                            .foregroundStyle(isFollowed ? Color(.systemGray4) : Color.theme.primaryText)
+                        Text(isFriend ? "Delete" : "Accept")
+                            .foregroundStyle(isFriend ? Color(.systemGray4) : Color.theme.primaryText)
                             .font(.subheadline)
                             .fontWeight(.semibold)
                             .frame(width: 100, height: 32)

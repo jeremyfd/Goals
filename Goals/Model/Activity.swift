@@ -26,9 +26,11 @@ struct Activity: Identifiable, Codable, Hashable {
 }
 
 enum ActivityType: Int, CaseIterable, Identifiable, Codable {
-    case like
-    case reply
-    case follow
+    case react
+    case friendGoal
+    case partnerGoal
+    case friend
+    case evidence
     
     var id: Int { return self.rawValue }
 }

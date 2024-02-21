@@ -19,7 +19,7 @@ struct ActivityView: View {
 
                     LazyVStack(spacing: 16) {
                         ForEach(viewModel.notifications) { activityModel in
-                            if activityModel.type != .follow {
+                            if activityModel.type != .friend {
                                 NavigationLink(value: activityModel) {
                                     ActivityRowView(model: activityModel)
                                 }

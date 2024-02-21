@@ -101,6 +101,9 @@ extension UserService {
             .collection("received-requests")
             .document(currentUid)
             .setData([:])
+        
+        ActivityService.uploadNotification(toUid: uid, type: .friend)
+        
     }
     
     // Accept a friend request
@@ -208,6 +211,8 @@ extension UserService {
             .collection("received-requests")
             .document(currentUid)
             .delete()
+        
+        async let _ = try await ActivityService.deleteNotification(toUid: uid, type: .friend)
     }
     
     // Delete a received friend request
