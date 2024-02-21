@@ -61,6 +61,30 @@ struct GoalService {
         return snapshot.documents.compactMap({ try? $0.data(as: Goal.self) })
     }
     
+    static func fetchPartnerGoalIDs(uid: String) async throws -> [String] {
+        let snapshot = try await FirestoreConstants.UserCollection
+            .document(uid)
+            .collection("user-feed-partner")
+            .getDocuments()
+
+        return snapshot.documents.map { $0.documentID }
+    }
+    
+    static func fetchFriendGoalIDs(uid: String) async throws -> [String] {
+        let snapshot = try await FirestoreConstants.UserCollection
+            .document(uid)
+            .collection("user-feed")
+            .getDocuments()
+
+        return snapshot.documents.map { $0.documentID }
+    }
+    
+    static func fetchGoalDetails(goalId: String) async throws -> Goal {
+        let snapshot = try await FirestoreConstants.GoalsCollection.document(goalId).getDocument()
+        guard let goal = try? snapshot.data(as: Goal.self) else { throw NSError() }
+        return goal
+    }
+    
     private static func updateUserFeedsAfterPost(goalId: String) async throws {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         

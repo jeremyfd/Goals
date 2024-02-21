@@ -30,6 +30,7 @@
 		4FE8D45E2B754E0800ECD64D /* AddDummyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE8D45D2B754E0800ECD64D /* AddDummyView.swift */; };
 		4FE8D4622B758DDF00ECD64D /* ExplanationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE8D4612B758DDF00ECD64D /* ExplanationView.swift */; };
 		4FE8D4662B758F5600ECD64D /* PublicChallengesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE8D4652B758F5600ECD64D /* PublicChallengesView.swift */; };
+		4FFC13AE2B860B58001D898D /* GoalViewCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FFC13AD2B860B58001D898D /* GoalViewCellViewModel.swift */; };
 		9600D9792B5B072000DAC807 /* Goal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9600D9782B5B072000DAC807 /* Goal.swift */; };
 		9600D97B2B5DA99D00DAC807 /* GoalCreationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9600D97A2B5DA99D00DAC807 /* GoalCreationViewModel.swift */; };
 		9600D97D2B5DA9CE00DAC807 /* GoalService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9600D97C2B5DA9CE00DAC807 /* GoalService.swift */; };
@@ -139,6 +140,7 @@
 		4FE8D45D2B754E0800ECD64D /* AddDummyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDummyView.swift; sourceTree = "<group>"; };
 		4FE8D4612B758DDF00ECD64D /* ExplanationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExplanationView.swift; sourceTree = "<group>"; };
 		4FE8D4652B758F5600ECD64D /* PublicChallengesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicChallengesView.swift; sourceTree = "<group>"; };
+		4FFC13AD2B860B58001D898D /* GoalViewCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalViewCellViewModel.swift; sourceTree = "<group>"; };
 		9600D9782B5B072000DAC807 /* Goal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Goal.swift; sourceTree = "<group>"; };
 		9600D97A2B5DA99D00DAC807 /* GoalCreationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalCreationViewModel.swift; sourceTree = "<group>"; };
 		9600D97C2B5DA9CE00DAC807 /* GoalService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalService.swift; sourceTree = "<group>"; };
@@ -273,6 +275,7 @@
 		4F6ED7732B7188F4000E4594 /* Goal */ = {
 			isa = PBXGroup;
 			children = (
+				4FFC13AC2B860B35001D898D /* ViewModel */,
 				4F6ED7742B7188FD000E4594 /* View */,
 			);
 			path = Goal;
@@ -401,6 +404,14 @@
 				4FE8D4652B758F5600ECD64D /* PublicChallengesView.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		4FFC13AC2B860B35001D898D /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				4FFC13AD2B860B58001D898D /* GoalViewCellViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		963592962B50A14500DD04B8 /* Components */ = {
@@ -1040,6 +1051,7 @@
 				96CB3EA62B3DBEDE00B3508D /* GoalsTabView.swift in Sources */,
 				9600D9792B5B072000DAC807 /* Goal.swift in Sources */,
 				4F6ED7852B72A3CA000E4594 /* FeedSelfGoalsView.swift in Sources */,
+				4FFC13AE2B860B58001D898D /* GoalViewCellViewModel.swift in Sources */,
 				9635929C2B50A20100DD04B8 /* PreviewProvider.swift in Sources */,
 				4F182FA32B7E6E220072EABE /* SubmitEvidenceView.swift in Sources */,
 				969F91FE2B3F2510004BECB1 /* ExpansionButtonView.swift in Sources */,

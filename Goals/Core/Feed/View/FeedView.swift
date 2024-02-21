@@ -31,7 +31,7 @@ struct FeedView: View {
                 VStack(alignment: .leading) {
                     
                     HStack(alignment: .center) {
-
+                        
                         Text("My Goals")
                             .font(.title)
                             .fontWeight(.bold)
@@ -50,9 +50,9 @@ struct FeedView: View {
                     
                     if let user = currentUser {
                         FeedSelfGoalsView(user: user)
-                        .padding(.horizontal)
+                            .padding(.horizontal)
                     }
-                  
+                    
                     Picker("", selection: $selectedTab) {
                         Text("My Contracts").tag(0)
                         Text("Friends Contracts").tag(1)
@@ -73,10 +73,25 @@ struct FeedView: View {
                     }
                     .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
                 }
-
+                
             )
         }
+        .onChange(of: selectedTab) { _ in
+            fetchDataBasedOnSelectedTab()
+        }
+        .onAppear {
+            fetchDataBasedOnSelectedTab()
+        }
     }
+    
+    func fetchDataBasedOnSelectedTab() {
+        if selectedTab == 0 {
+            viewModel.fetchDataForYourContracts()
+        } else if selectedTab == 1 {
+            viewModel.fetchDataForYourFriendsContracts()
+        }
+    }
+    
     
     func contentForYourContracts() -> some View {
         VStack {
@@ -89,11 +104,14 @@ struct FeedView: View {
                 Spacer()
             }
             
-            LazyVStack(spacing: 30){
-                ForEach(0 ... 10, id: \.self) { goal in
-                    EvidenceViewFeedView()
+            LazyVStack(spacing: 30) {
+                ForEach(viewModel.goalsWithEvidences, id: \.goal.id) { pair in
+                    ForEach(pair.evidences, id: \.id) { evidence in
+                        EvidenceViewFeedView(evidence: evidence, goal: pair.goal, currentUser: currentUser)
+                    }
                 }
             }
+            
         }
     }
     
@@ -108,11 +126,14 @@ struct FeedView: View {
                 Spacer()
             }
             
-            LazyVStack(spacing: 30){
-                ForEach(0 ... 10, id: \.self) { goal in
-                    EvidenceViewFeedView()
+            LazyVStack(spacing: 30) {
+                ForEach(viewModel.goalsWithEvidences, id: \.goal.id) { pair in
+                    ForEach(pair.evidences, id: \.id) { evidence in
+                        EvidenceViewFeedView(evidence: evidence, goal: pair.goal, currentUser: currentUser)
+                    }
                 }
             }
+            
         }
     }
 }

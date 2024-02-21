@@ -143,7 +143,7 @@ struct CurrentUserProfileView: View {
                                             .font(.headline)
                                     } else {
                                         ForEach(viewModel.goals) { goal in
-                                            GoalViewCell(goal: goal)
+                                            GoalViewCell(viewModel: GoalViewCellViewModel(goalId: goal.id), goal: goal, selectedImageURL: .constant(nil), isShowingImage: .constant(false))
                                         }
                                         .transition(.move(edge: .leading))
                                     }
