@@ -11,79 +11,61 @@ struct FriendsTabView: View {
     @StateObject private var viewModel = FriendsTabViewModel()
     @State private var selectedTab = "Friends"
     @FocusState private var isTextFieldFocused: Bool
-    @State private var selectedUser: User? // Add this line
-    @State private var isNavigationTriggered: Bool = false // Add this line
     
     var body: some View {
-            ZStack {
-                LinearGradient(
-                    gradient: Gradient(colors: [Color.white, Color.brown.opacity(0.9)]),
-                    startPoint: .bottom,
-                    endPoint: .top
-                )
-                .ignoresSafeArea()
-                
-                VStack {
-                    HStack {
-                        TextField("Add or search for friends", text: $viewModel.searchText)
-                            .autocapitalization(.none)
-                            .disableAutocorrection(true)
-                            .focused($isTextFieldFocused)
-                            .padding()
-                            .background(Color(.systemGray6))
-                            .cornerRadius(8)
-                        
-                        if !viewModel.searchText.isEmpty {
-                            Button("Cancel") {
-                                viewModel.searchText = ""
-                                isTextFieldFocused = false
-                            }
-                            .padding(.horizontal)
-                            .transition(.move(edge: .trailing))
-                            .animation(.default, value: viewModel.searchText)
-                        }
-                    }
-                    .padding(.horizontal)
+        ZStack {
+            LinearGradient(
+                gradient: Gradient(colors: [Color.white, Color.brown.opacity(0.9)]),
+                startPoint: .bottom,
+                endPoint: .top
+            )
+            .ignoresSafeArea()
+            
+            VStack {
+                HStack {
+                    TextField("Add or search for friends", text: $viewModel.searchText)
+                        .autocapitalization(.none)
+                        .disableAutocorrection(true)
+                        .focused($isTextFieldFocused)
+                        .padding()
+                        .background(Color(.systemGray6))
+                        .cornerRadius(8)
                     
-                    if viewModel.searchText.isEmpty {
-                        PillTabSwitcher(selectedTab: $selectedTab)
-                            .padding(.vertical)
-                        
-                        TabView(selection: $selectedTab) {
-                            FriendSuggestionsView().tag("Suggestions")
-                            CurrentFriendsView().tag("Friends")
-                            FriendRequestsView().tag("Requests")
+                    if !viewModel.searchText.isEmpty {
+                        Button("Cancel") {
+                            viewModel.searchText = ""
+                            isTextFieldFocused = false
                         }
-                        .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    } else {
-                        ScrollView {
-                            LazyVStack {
-                                ForEach(viewModel.searchResults, id: \.id) { user in
-                                    Button(action: {
-                                        self.selectedUser = user
-                                        self.isNavigationTriggered = true
-                                    }) {
-                                        UserCell(viewModel: UserCellViewModel(user: user))
-                                    }
-                                }
+                        .padding(.horizontal)
+                        .transition(.move(edge: .trailing))
+                        .animation(.default, value: viewModel.searchText)
+                    }
+                }
+                .padding(.horizontal)
+                
+                if viewModel.searchText.isEmpty {
+                    PillTabSwitcher(selectedTab: $selectedTab)
+                        .padding(.vertical)
+                    
+                    TabView(selection: $selectedTab) {
+                        FriendSuggestionsView().tag("Suggestions")
+                        CurrentFriendsView().tag("Friends")
+                        FriendRequestsView().tag("Requests")
+                    }
+                    .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                } else {
+                    ScrollView {
+                        LazyVStack {
+                            ForEach(viewModel.searchResults, id: \.id) { user in
+                                UserCell(viewModel: UserCellViewModel(user: user))
                             }
                         }
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
                     }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
             }
-            .background(
-                // Use optional binding to safely handle selectedUser
-                Group {
-                    if let selectedUser = selectedUser, isNavigationTriggered {
-                        NavigationLink(
-                            destination: UserProfileView(user: selectedUser),
-                            isActive: $isNavigationTriggered
-                        ) { EmptyView() }
-                    }
-                }
-            )
+        }
     }
 }
 

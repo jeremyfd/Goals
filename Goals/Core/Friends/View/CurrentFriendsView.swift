@@ -9,8 +9,6 @@ import SwiftUI
 
 struct CurrentFriendsView: View {
     @StateObject var viewModel = CurrentFriendsViewModel()
-    @State private var selectedUser: User? // Keeps track of the selected user
-    @State private var isNavigationTriggered: Bool = false // Controls navigation triggering
 
     var body: some View {
         ScrollView {
@@ -27,20 +25,8 @@ struct CurrentFriendsView: View {
                         UserCell(viewModel: UserCellViewModel(user: friend))
                     }
                 }
-
             }
         }
-        .background(
-            // Safely navigate to UserProfileView if selectedUser is not nil
-            Group {
-                if let user = selectedUser, isNavigationTriggered {
-                    NavigationLink(
-                        destination: UserProfileView(user: user),
-                        isActive: $isNavigationTriggered
-                    ) { EmptyView() }
-                }
-            }
-        )
     }
 }
 
