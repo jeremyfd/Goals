@@ -19,8 +19,7 @@ class ActivityViewModel: ObservableObject {
                 self.notifications = temp
             case .goals:
                 temp = notifications
-                self.notifications = notifications.filter({ $0.type == .friendGoal })
-                self.notifications = notifications.filter({ $0.type == .partnerGoal })
+                self.notifications = notifications.filter({ $0.type == .friendGoal || $0.type == .partnerGoal })
             }
         }
     }
