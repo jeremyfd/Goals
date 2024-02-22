@@ -11,9 +11,10 @@ struct FriendsTabView: View {
     @StateObject private var viewModel = FriendsTabViewModel()
     @State private var selectedTab = "Friends"
     @FocusState private var isTextFieldFocused: Bool
+    @State private var selectedUser: User? // Add this line
+    @State private var isNavigationTriggered: Bool = false // Add this line
     
     var body: some View {
-        NavigationStack {
             ZStack {
                 LinearGradient(
                     gradient: Gradient(colors: [Color.white, Color.brown.opacity(0.9)]),
@@ -59,22 +60,30 @@ struct FriendsTabView: View {
                         ScrollView {
                             LazyVStack {
                                 ForEach(viewModel.searchResults, id: \.id) { user in
-                                    NavigationLink(value: user) {
+                                    Button(action: {
+                                        self.selectedUser = user
+                                        self.isNavigationTriggered = true
+                                    }) {
                                         UserCell(viewModel: UserCellViewModel(user: user))
                                     }
                                 }
                             }
                         }
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .navigationDestination(for: User.self, destination: { user in
-                            UserProfileView(user: user)
-                        })
                     }
                 }
             }
-            
-        }
-        
+            .background(
+                // Use optional binding to safely handle selectedUser
+                Group {
+                    if let selectedUser = selectedUser, isNavigationTriggered {
+                        NavigationLink(
+                            destination: UserProfileView(user: selectedUser),
+                            isActive: $isNavigationTriggered
+                        ) { EmptyView() }
+                    }
+                }
+            )
     }
 }
 
