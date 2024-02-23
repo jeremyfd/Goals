@@ -73,13 +73,22 @@ class FeedViewModel: ObservableObject {
 
                 for goalID in goalIDs {
                     let goal = try await GoalService.fetchGoalDetails(goalId: goalID)
-                    let evidences = try await EvidenceService.fetchEvidences(forGoalId: goal.id)
+                    var evidences = try await EvidenceService.fetchEvidences(forGoalId: goal.id)
+                    evidences.sort(by: { $0.timestamp.dateValue() > $1.timestamp.dateValue() })
+                    print("DEBUG: Evidences for goal \(goalID) after sort: \(evidences.map { $0.timestamp.dateValue() })")
                     tempGoalsWithEvidences.append((goal, evidences))
                 }
 
                 DispatchQueue.main.async {
-                    self.goalsWithEvidences = tempGoalsWithEvidences
+                    self.goalsWithEvidences = tempGoalsWithEvidences.sorted {
+                        guard let firstEvidenceTimestamp0 = $0.1.first?.timestamp.dateValue(),
+                              let firstEvidenceTimestamp1 = $1.1.first?.timestamp.dateValue() else {
+                            return false
+                        }
+                        return firstEvidenceTimestamp0 > firstEvidenceTimestamp1
+                    }
                 }
+
             } catch {
                 print("Error fetching goals and evidences: \(error)")
             }
@@ -96,12 +105,20 @@ class FeedViewModel: ObservableObject {
 
                 for goalID in goalIDs {
                     let goal = try await GoalService.fetchGoalDetails(goalId: goalID)
-                    let evidences = try await EvidenceService.fetchEvidences(forGoalId: goal.id)
+                    var evidences = try await EvidenceService.fetchEvidences(forGoalId: goal.id)
+                    evidences.sort(by: { $0.timestamp.dateValue() > $1.timestamp.dateValue() })
+                    print("DEBUG: Evidences for goal \(goalID) after sort: \(evidences.map { $0.timestamp.dateValue() })")
                     tempGoalsWithEvidences.append((goal, evidences))
                 }
 
                 DispatchQueue.main.async {
-                    self.goalsWithEvidences = tempGoalsWithEvidences
+                    self.goalsWithEvidences = tempGoalsWithEvidences.sorted {
+                        guard let firstEvidenceTimestamp0 = $0.1.first?.timestamp.dateValue(),
+                              let firstEvidenceTimestamp1 = $1.1.first?.timestamp.dateValue() else {
+                            return false
+                        }
+                        return firstEvidenceTimestamp0 > firstEvidenceTimestamp1
+                    }
                 }
             } catch {
                 print("Error fetching goals and evidences: \(error)")
