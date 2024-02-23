@@ -17,14 +17,12 @@ struct FeedView: View {
     }
     
     @Namespace var animation
-    @State private var selectedTab: Int = 0
-//    private var gridLayout: [GridItem] = Array(repeating: .init(.flexible(), spacing: 0), count: 2)
     
     let columns: [GridItem] = [
-                GridItem(.flexible(), spacing: 0),
-                GridItem(.flexible(), spacing: 0)
-            ]
-
+        GridItem(.flexible(), spacing: 0),
+        GridItem(.flexible(), spacing: 0)
+    ]
+    
     var body: some View {
         NavigationStack {
             LinearGradient(
@@ -34,114 +32,64 @@ struct FeedView: View {
             )
             .ignoresSafeArea()
             .overlay(
-                VStack(alignment: .leading) {
-                    
-                    HStack(alignment: .center) {
+                ScrollView {
+                    VStack(alignment: .leading) {
                         
-                        Text("Phylax")
-                            .font(.title)
+                        HStack(alignment: .center) {
+                            Text("Phylax")
+                                .font(.title)
+                                .fontWeight(.bold)
+                                .padding(.leading)
+                            
+                            Spacer()
+                            
+                            NavigationLink(destination: ActivityView()) {
+                                Image(systemName: "heart")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 25, height: 25)
+                            }
+                            
+                            NavigationLink(destination: FriendsTabView()) {
+                                Image(systemName: "person.2")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 35, height: 35)
+                                    .padding(.horizontal)
+                            }
+                        }
+                        
+                        Text("Calendar - Last Day!")
+                            .font(.title3)
                             .fontWeight(.bold)
                             .padding(.leading)
                         
-                        Spacer()
-                        
-                        NavigationLink(destination: ActivityView()) {
-                            Image(systemName: "heart")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 25, height: 25)
-                        }
-
-                        NavigationLink(destination: FriendsTabView()) {
-                            Image(systemName: "person.2")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 35, height: 35)
-                                .padding(.horizontal)
-                        }
-                    }
-                    
-//                    if let user = currentUser {
-//                        FeedSelfGoalsView(user: user)
-//                            .padding(.horizontal)
-//                    }
-                    
-                    Text("Calendar - Last Day!")
-                        .font(.title3)
-                        .fontWeight(.bold)
-                        .padding(.leading)
-                    
-                    ScrollView (.horizontal, showsIndicators: false){
-                        LazyVGrid(columns: columns, spacing: 10) {
-                            ForEach(viewModel.goals, id: \.id) { goal in
-                                CalendarViewFeedView(goal: goal, currentUser: currentUser)
-                                    .padding(.leading, 8)
+                        ScrollView (.horizontal, showsIndicators: false){
+                            LazyVGrid(columns: columns, spacing: 10) {
+                                ForEach(viewModel.goals, id: \.id) { goal in
+                                    CalendarViewFeedView(goal: goal, currentUser: currentUser)
+                                        .padding(.leading, 8)
+                                }
                             }
                         }
-                    }
-                    
-                    Picker("", selection: $selectedTab) {
-                        Text("My Contracts").tag(0)
-                        Text("Friends Contracts").tag(1)
-                    }
-                    .pickerStyle(SegmentedPickerStyle())
-                    .padding(.horizontal)
-                    
-                    TabView(selection: $selectedTab) {
-                        ScrollView {
-                            contentForYourContracts()
-                        }
-                        .tag(0)
                         
-                        ScrollView {
-                            contentForFriendsContracts()
-                        }
-                        .tag(1)
+                        // Directly integrate the content for "My Contracts"
+                        contentForYourContracts()
+                        
                     }
-                    .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
                 }
-                
             )
         }
-        .onChange(of: selectedTab) { _ in
-            fetchDataBasedOnSelectedTab()
-        }
         .onAppear {
-            fetchDataBasedOnSelectedTab()
-        }
-    }
-    
-    func fetchDataBasedOnSelectedTab() {
-        if selectedTab == 0 {
             viewModel.fetchDataForYourContracts()
-        } else if selectedTab == 1 {
-            viewModel.fetchDataForYourFriendsContracts()
         }
     }
     
     func contentForYourContracts() -> some View {
         VStack {
-            HStack{
-                Text("Today")
-                    .font(.title3)
-                    .fontWeight(.bold)
-                    .padding(.leading)
-                Spacer()
-            }
             
-            LazyVStack(spacing: 30) {
-                ForEach(viewModel.goalsWithEvidences, id: \.goal.id) { pair in
-                    ForEach(pair.evidences, id: \.id) { evidence in
-                        EvidenceViewFeedView(evidence: evidence, goal: pair.goal, currentUser: currentUser)
-                    }
-                }
-            }
-            
-        }
-    }
-    
-    func contentForFriendsContracts() -> some View {
-        VStack {
+            FeedFilterView(selectedFilter: $viewModel.selectedFilter)
+                .padding(.vertical)
             
             HStack{
                 Text("Today")
@@ -158,7 +106,6 @@ struct FeedView: View {
                     }
                 }
             }
-            
         }
     }
 }

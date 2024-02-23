@@ -24,6 +24,10 @@ struct EvidenceViewFeedView: View {
         self.currentUser = currentUser
         _isEvidenceVerified = State(initialValue: evidence.verified)
     }
+    
+    var currentUserID: String? {
+            AuthService.shared.userSession?.uid
+        }
 
     var body: some View {
         VStack{
@@ -113,7 +117,7 @@ struct EvidenceViewFeedView: View {
             }
             .padding(.horizontal)
             
-            if !isEvidenceVerified {
+            if currentUserID == goal.partnerUid && !isEvidenceVerified {
                 Button {
                     // Use Task to perform asynchronous action
                     Task {

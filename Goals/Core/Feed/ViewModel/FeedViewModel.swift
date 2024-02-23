@@ -23,6 +23,36 @@ class FeedViewModel: ObservableObject {
         Task { try await fetchGoals() }
     }
     
+    @Published var selectedFilter: FeedFilterViewModel = .all {
+        didSet {
+            updateGoalsBasedOnFilter()
+        }
+    }
+    
+    private func updateGoalsBasedOnFilter() {
+        switch selectedFilter {
+        case .all:
+            // Fetch and set both friends' and partner goals
+            fetchDataForAllGoals()
+        case .partner:
+            // Fetch and set only partner goals
+            fetchDataForYourContracts()
+        }
+    }
+
+    func fetchDataForAllGoals() {
+        guard let uid = currentUser?.id else { return }
+
+        Task {
+            await fetchDataForYourFriendsContracts()
+            await fetchDataForYourContracts()
+            // Combine results from both sets and ensure there are no duplicates
+            let combinedSet = Set(self.goalsWithEvidences.map { $0.goal.id })
+            self.goalsWithEvidences = self.goalsWithEvidences.filter { combinedSet.contains($0.goal.id) }
+        }
+    }
+
+    
     private func setupSubscribers() {
         UserService.shared.$currentUser
             .sink { [weak self] user in

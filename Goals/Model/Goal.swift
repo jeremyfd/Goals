@@ -28,3 +28,10 @@ struct Goal: Identifiable, Codable, Hashable {
     var user: User?
     
 }
+
+enum GoalType: Int, CaseIterable, Identifiable, Codable {
+    case friendGoalFeed
+    case partnerGoalFeed
+    
+    var id: Int { return self.rawValue }
+}
