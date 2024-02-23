@@ -28,7 +28,7 @@ struct ExpandedGoalView: View {
         // Convert Firebase Timestamp to Date for the start date
         let startDate = goal.timestamp.dateValue()
         // Initialize the EvidenceSubViewModel with the converted start date and other goal details
-        _evidenceViewModel = StateObject(wrappedValue: EvidenceSubViewModel(goalId: goal.id, startDate: startDate, duration: goal.duration, frequency: goal.frequency))
+        _evidenceViewModel = StateObject(wrappedValue: EvidenceSubViewModel(goalId: goal.id, startDate: startDate, duration: goal.duration, frequency: goal.frequency, targetCount: goal.targetCount))
     }
     
     

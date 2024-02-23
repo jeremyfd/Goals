@@ -34,7 +34,9 @@ class DeveloperPreview: ObservableObject {
         frequency: 5,
         description: "I want to play Lalaland",
         duration: 1,
-        currentCount: 2)
+        currentCount: 2,
+        targetCount: 7,
+        tier: 1)
     
     let evidence = Evidence(
         goalID: "123",

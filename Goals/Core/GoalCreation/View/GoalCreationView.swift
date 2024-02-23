@@ -93,6 +93,7 @@ struct GoalCreationView: View {
                         }
                         
                         VStack (alignment: .leading, spacing: 15){
+                            Text("Tier 1:")
                             Text("It will take \(weeksToAchieveGoal) weeks to achieve the goal 7 times.")
                                 .fontWeight(.bold)
                             Text("You will not be able to delete this goal and your friends will keep you accountable to it.")

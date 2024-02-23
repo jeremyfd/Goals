@@ -16,21 +16,91 @@ class EvidenceSubViewModel: ObservableObject {
     let goalStartDate: Date
     let goalDuration: Int
     let goalFrequency: Int
+    let goalTarget: Int
     
     var currentUserID: String? {
             AuthService.shared.userSession?.uid
         }
 
-    init(goalId: String, startDate: Date, duration: Int, frequency: Int) {
+    init(goalId: String, startDate: Date, duration: Int, frequency: Int, targetCount: Int) {
         self.goalId = goalId
         self.goalStartDate = startDate
         self.goalDuration = duration
         self.goalFrequency = frequency
+        self.goalTarget = targetCount
         Task {
             await fetchEvidenceForGoal()
         }
     }
 
+    private func calculateSteps(with evidences: [Evidence]) {
+        var result: [Step] = []
+        let calendar = Calendar.current
+        let currentDate = Date()
+        let weeksSinceStart = calendar.dateComponents([.weekOfYear], from: goalStartDate, to: currentDate).weekOfYear ?? 0
+
+        // Determine the total number of completions needed and calculate the distribution of steps
+        let totalCompletionsNeeded = goalTarget
+        let completionsPerWeek = goalFrequency
+        let totalWeeksNeeded = Int(ceil(Double(totalCompletionsNeeded) / Double(completionsPerWeek)))
+
+        var stepsDistribution = [Int](repeating: completionsPerWeek, count: totalWeeksNeeded)
+        let totalStepsDistributed = stepsDistribution.reduce(0, +)
+        if totalStepsDistributed > totalCompletionsNeeded {
+            let extraSteps = totalStepsDistributed - totalCompletionsNeeded
+            stepsDistribution[stepsDistribution.count - 1] -= extraSteps
+        }
+
+        var cumulativeDayCount = 0
+        var lastCompletedDayGlobal: Int? = nil
+
+        for week in 0..<goalDuration {
+            let weekNumber = week + 1
+            let stepsThisWeek = week < stepsDistribution.count ? stepsDistribution[week] : 0
+
+            // Update last completed day in a global context
+            for day in 1...stepsThisWeek {
+                cumulativeDayCount += 1
+                if evidences.contains(where: {$0.weekNumber == weekNumber && $0.dayNumber == cumulativeDayCount}) {
+                    lastCompletedDayGlobal = cumulativeDayCount
+                }
+            }
+
+            for day in 1...stepsThisWeek {
+                let dayNumberForStep = cumulativeDayCount - stepsThisWeek + day
+                let evidenceSubmitted = evidences.contains { $0.weekNumber == weekNumber && $0.dayNumber == dayNumberForStep }
+                let status: StepStatus
+
+                if week < weeksSinceStart || (week == weeksSinceStart && dayNumberForStep <= (lastCompletedDayGlobal ?? 0)) {
+                    status = evidenceSubmitted ? .completed : .failed
+                } else if week == weeksSinceStart && dayNumberForStep == (lastCompletedDayGlobal ?? 0) + 1 {
+                    status = .readyToSubmit
+                } else if week == weeksSinceStart && dayNumberForStep > (lastCompletedDayGlobal ?? 0) + 1 {
+                    status = .completePreviousStep
+                } else if week > weeksSinceStart {
+                    status = .notStartedYet // This ensures future weeks are marked as not started
+                } else {
+                    status = .notStartedYet // Default case for any other situation
+                }
+
+                let evidenceForStep = evidences.first { $0.weekNumber == weekNumber && $0.dayNumber == dayNumberForStep }
+                let step = Step(weekNumber: weekNumber, dayNumber: dayNumberForStep, evidence: evidenceForStep, status: status)
+
+                result.append(step)
+            }
+        }
+
+        DispatchQueue.main.async {
+            self.steps = result
+        }
+    }
+
+    // Present evidence submission UI
+    func presentEvidenceSubmission(for step: Step) {
+        isSubmittingEvidence = true
+        // Implement UI presentation logic here, possibly using a sheet or navigation
+    }
+    
     // Asynchronously fetch evidences and calculate steps
     func fetchEvidenceForGoal() async {
         do {
@@ -43,70 +113,6 @@ class EvidenceSubViewModel: ObservableObject {
         } catch {
             print("DEBUG: Error fetching evidences: \(error)")
         }
-    }
-
-    private func calculateSteps(with evidences: [Evidence]) {
-//        print("DEBUG: Calculating steps with \(evidences.count) evidences")
-
-        var result: [Step] = []
-        let calendar = Calendar.current
-        let currentDate = Date()
-//        print("DEBUG: Current date: \(currentDate)")
-        let weeksSinceStart = calendar.dateComponents([.weekOfYear], from: goalStartDate, to: currentDate).weekOfYear ?? 0
-//        print("DEBUG: Weeks since start: \(weeksSinceStart)")
-
-
-        // Track the last day that was completed for accurate status assignment
-        var lastCompletedDay: Int? = nil
-        
-//        print("DEBUG: Fetched evidences: \(evidences)")
-
-        for week in 0..<goalDuration {
-            let weekNumber = week + 1
-            let isCurrentWeek = week == weeksSinceStart
-            
-//            print("DEBUG: Current week: \(weekNumber), Last completed day: \(String(describing: lastCompletedDay))")
-
-            for day in 1...goalFrequency {
-                let evidenceSubmitted = evidences.first { $0.weekNumber == weekNumber && $0.dayNumber == day } != nil
-                if evidenceSubmitted {
-                    lastCompletedDay = day
-//                    print("DEBUG: Evidence submitted for day \(day)")
-                }
-            }
-
-            for day in 1...goalFrequency {
-                let status: StepStatus
-                let evidenceSubmitted = evidences.first { $0.weekNumber == weekNumber && $0.dayNumber == day } != nil
-//                print("DEBUG: Calculating status for week \(weekNumber) day \(day)")
-
-                if week < weeksSinceStart || (isCurrentWeek && day <= (lastCompletedDay ?? 0)) {
-                    status = evidenceSubmitted ? .completed : .failed
-                } else if day == (lastCompletedDay ?? 0) + 1 && isCurrentWeek {
-                    status = .readyToSubmit
-                } else if day > (lastCompletedDay ?? 0) + 1 && isCurrentWeek {
-                    status = .completePreviousStep
-                } else {
-                    status = .notStartedYet
-                }
-
-                let evidenceForStep = evidences.first { $0.weekNumber == weekNumber && $0.dayNumber == day }
-                let step = Step(weekNumber: weekNumber, dayNumber: day, evidence: evidenceForStep, status: status)
-
-                result.append(step)
-            }
-        }
-
-        DispatchQueue.main.async {
-            self.steps = result
-        }
-    }
-
-
-    // Present evidence submission UI
-    func presentEvidenceSubmission(for step: Step) {
-        isSubmittingEvidence = true
-        // Implement UI presentation logic here, possibly using a sheet or navigation
     }
     
     func deleteEvidence(evidenceId: String) {

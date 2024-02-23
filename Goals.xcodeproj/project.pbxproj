@@ -656,8 +656,8 @@
 		96CB3EB12B3DBFC400B3508D /* GoalCreation */ = {
 			isa = PBXGroup;
 			children = (
-				96CB3EB32B3DBFCD00B3508D /* ViewModel */,
 				96CB3EB22B3DBFCA00B3508D /* View */,
+				96CB3EB32B3DBFCD00B3508D /* ViewModel */,
 			);
 			path = GoalCreation;
 			sourceTree = "<group>";

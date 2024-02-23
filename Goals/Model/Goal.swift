@@ -20,6 +20,8 @@ struct Goal: Identifiable, Codable, Hashable {
     let description: String?
     var duration: Int
     var currentCount: Int
+    var targetCount: Int
+    var tier: Int
     
     var id: String {
         return goalId ?? NSUUID().uuidString
