@@ -18,7 +18,13 @@ struct FeedView: View {
     
     @Namespace var animation
     @State private var selectedTab: Int = 0
+//    private var gridLayout: [GridItem] = Array(repeating: .init(.flexible(), spacing: 0), count: 2)
     
+    let columns: [GridItem] = [
+                GridItem(.flexible(), spacing: 0),
+                GridItem(.flexible(), spacing: 0)
+            ]
+
     var body: some View {
         NavigationStack {
             LinearGradient(
@@ -32,7 +38,7 @@ struct FeedView: View {
                     
                     HStack(alignment: .center) {
                         
-                        Text("My Goals")
+                        Text("Phylax")
                             .font(.title)
                             .fontWeight(.bold)
                             .padding(.leading)
@@ -55,9 +61,23 @@ struct FeedView: View {
                         }
                     }
                     
-                    if let user = currentUser {
-                        FeedSelfGoalsView(user: user)
-                            .padding(.horizontal)
+//                    if let user = currentUser {
+//                        FeedSelfGoalsView(user: user)
+//                            .padding(.horizontal)
+//                    }
+                    
+                    Text("Calendar - Last Day!")
+                        .font(.title3)
+                        .fontWeight(.bold)
+                        .padding(.leading)
+                    
+                    ScrollView (.horizontal, showsIndicators: false){
+                        LazyVGrid(columns: columns, spacing: 10) {
+                            ForEach(viewModel.goals, id: \.id) { goal in
+                                CalendarViewFeedView(goal: goal, currentUser: currentUser)
+                                    .padding(.leading, 8)
+                            }
+                        }
                     }
                     
                     Picker("", selection: $selectedTab) {
@@ -99,13 +119,11 @@ struct FeedView: View {
         }
     }
     
-    
     func contentForYourContracts() -> some View {
         VStack {
-            
             HStack{
                 Text("Today")
-                    .font(.title)
+                    .font(.title3)
                     .fontWeight(.bold)
                     .padding(.leading)
                 Spacer()
@@ -127,7 +145,7 @@ struct FeedView: View {
             
             HStack{
                 Text("Today")
-                    .font(.title)
+                    .font(.title3)
                     .fontWeight(.bold)
                     .padding(.leading)
                 Spacer()
@@ -145,6 +163,15 @@ struct FeedView: View {
     }
 }
 
-#Preview {
-    FeedView()
-}
+//#Preview {
+//    FeedView()
+//}
+
+//struct FeedView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        let viewModel = FeedViewModel()
+//        viewModel.currentUser = DeveloperPreview.shared.user // Set the current user with mock data
+//        viewModel.goalsWithEvidences = [(DeveloperPreview.shared.goal, [DeveloperPreview.shared.evidence])] // Set mock goals and evidences
+//        return FeedView(viewModel: viewModel) // Initialize your view with the view model
+//    }
+//}

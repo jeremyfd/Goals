@@ -40,6 +40,8 @@
 		4FFC13BF2B867F39001D898D /* ActivityFilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FFC13BE2B867F39001D898D /* ActivityFilterViewModel.swift */; };
 		4FFC13C12B867F4F001D898D /* ActivityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FFC13C02B867F4F001D898D /* ActivityViewModel.swift */; };
 		4FFC13C32B8680BC001D898D /* Timestamp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FFC13C22B8680BC001D898D /* Timestamp.swift */; };
+		4FFC13C52B879705001D898D /* BackgroundColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FFC13C42B879705001D898D /* BackgroundColors.swift */; };
+		4FFC13C72B87D13A001D898D /* CalendarViewFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FFC13C62B87D13A001D898D /* CalendarViewFeedView.swift */; };
 		9600D9792B5B072000DAC807 /* Goal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9600D9782B5B072000DAC807 /* Goal.swift */; };
 		9600D97B2B5DA99D00DAC807 /* GoalCreationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9600D97A2B5DA99D00DAC807 /* GoalCreationViewModel.swift */; };
 		9600D97D2B5DA9CE00DAC807 /* GoalService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9600D97C2B5DA9CE00DAC807 /* GoalService.swift */; };
@@ -159,6 +161,8 @@
 		4FFC13BE2B867F39001D898D /* ActivityFilterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityFilterViewModel.swift; sourceTree = "<group>"; };
 		4FFC13C02B867F4F001D898D /* ActivityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityViewModel.swift; sourceTree = "<group>"; };
 		4FFC13C22B8680BC001D898D /* Timestamp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timestamp.swift; sourceTree = "<group>"; };
+		4FFC13C42B879705001D898D /* BackgroundColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundColors.swift; sourceTree = "<group>"; };
+		4FFC13C62B87D13A001D898D /* CalendarViewFeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewFeedView.swift; sourceTree = "<group>"; };
 		9600D9782B5B072000DAC807 /* Goal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Goal.swift; sourceTree = "<group>"; };
 		9600D97A2B5DA99D00DAC807 /* GoalCreationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalCreationViewModel.swift; sourceTree = "<group>"; };
 		9600D97C2B5DA9CE00DAC807 /* GoalService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalService.swift; sourceTree = "<group>"; };
@@ -420,6 +424,7 @@
 			isa = PBXGroup;
 			children = (
 				4FE8D4652B758F5600ECD64D /* PublicChallengesView.swift */,
+				4FFC13C42B879705001D898D /* BackgroundColors.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -526,6 +531,7 @@
 			isa = PBXGroup;
 			children = (
 				969F91E92B3DFDBE004BECB1 /* EvidenceViewFeedView.swift */,
+				4FFC13C62B87D13A001D898D /* CalendarViewFeedView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -1091,6 +1097,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				969F92002B3F5895004BECB1 /* SelfCollapsedGoalViewCell.swift in Sources */,
+				4FFC13C52B879705001D898D /* BackgroundColors.swift in Sources */,
 				96F246F22B3826E8000CC323 /* UserService.swift in Sources */,
 				963592B82B59D6E900DD04B8 /* ImageUploader.swift in Sources */,
 				96EDC72C2B40E01D00AC2C38 /* FriendsTabViewModel.swift in Sources */,
@@ -1150,6 +1157,7 @@
 				963592B42B59D2D400DD04B8 /* EditProfileViewModel.swift in Sources */,
 				963592B62B59D40900DD04B8 /* CurrentUserProfileViewModel.swift in Sources */,
 				96F246F92B382928000CC323 /* User.swift in Sources */,
+				4FFC13C72B87D13A001D898D /* CalendarViewFeedView.swift in Sources */,
 				96EDC71F2B40A2EC00AC2C38 /* FriendsTabView.swift in Sources */,
 				4F6ED7922B7436A6000E4594 /* ExpandedGoalViewModel.swift in Sources */,
 				4F6ED77C2B726CB6000E4594 /* UserProfileView.swift in Sources */,
