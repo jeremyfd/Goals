@@ -683,8 +683,8 @@
 		96CB3EB62B3DC01E00B3508D /* Contract */ = {
 			isa = PBXGroup;
 			children = (
-				96CB3EB82B3DC02800B3508D /* ViewModel */,
 				96CB3EB72B3DC02200B3508D /* View */,
+				96CB3EB82B3DC02800B3508D /* ViewModel */,
 			);
 			path = Contract;
 			sourceTree = "<group>";

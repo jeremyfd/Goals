@@ -49,52 +49,6 @@ class FeedViewModel: ObservableObject {
             }
             .store(in: &cancellables)
     }
-        
-//    func fetchDataForYourContracts() {
-//        guard let uid = currentUser?.id else { return }
-//
-//        Task {
-//            do {
-//                let goalIDs = try await GoalService.fetchPartnerGoalIDs(uid: uid)
-//                var allEvidences: [(evidence: Evidence, goal: Goal)] = []
-//
-//                // Fetch all goals and their evidences
-//                for goalID in goalIDs {
-//                    let goal = try await GoalService.fetchGoalDetails(goalId: goalID)
-//                    let evidences = try await EvidenceService.fetchEvidences(forGoalId: goal.id)
-//                    // Append each evidence along with its associated goal to the flat list
-//                    for evidence in evidences {
-//                        allEvidences.append((evidence: evidence, goal: goal))
-//                    }
-//                }
-//
-//                // Sort all evidences by timestamp
-//                allEvidences.sort(by: { $0.evidence.timestamp.dateValue() > $1.evidence.timestamp.dateValue() })
-//
-//                // Optional: Regroup by goal if needed for display
-//                var tempGoalsWithEvidences: [Goal: [Evidence]] = [:]
-//                for (evidence, goal) in allEvidences {
-//                    tempGoalsWithEvidences[goal, default: []].append(evidence)
-//                }
-//
-//                // Convert back to the desired structure [(Goal, [Evidence])]
-//                let sortedGoalsWithEvidences = tempGoalsWithEvidences.map { ($0.key, $0.value) }.sorted {
-//                    guard let firstEvidenceTimestamp0 = $0.1.first?.timestamp.dateValue(),
-//                          let firstEvidenceTimestamp1 = $1.1.first?.timestamp.dateValue() else {
-//                        return false
-//                    }
-//                    return firstEvidenceTimestamp0 > firstEvidenceTimestamp1
-//                }
-//
-//                DispatchQueue.main.async {
-//                    self.goalsWithEvidences = sortedGoalsWithEvidences
-//                    print("DEBUG: Finished fetching contracts. Total contracts: \(self.goalsWithEvidences.count)")
-//                }
-//            } catch {
-//                print("Error fetching goals and evidences: \(error)")
-//            }
-//        }
-//    }
     
     func fetchDataForYourContracts() {
         guard let uid = currentUser?.id else { return }
@@ -125,8 +79,6 @@ class FeedViewModel: ObservableObject {
             }
         }
     }
-
-
 
     func fetchDataForYourFriendsContracts() {
         guard let uid = currentUser?.id else { return }

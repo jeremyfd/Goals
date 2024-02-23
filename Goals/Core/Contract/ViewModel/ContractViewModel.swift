@@ -6,71 +6,75 @@
 //
 
 import Foundation
+import Combine
+import SwiftUI
 import Firebase
 
 @MainActor
 class ContractViewModel: ObservableObject {
+    @Published var currentUser: User?
     @Published var goals = [Goal]()
     @Published var isLoading = false
-    
-    
+    private var cancellables = Set<AnyCancellable>()
+
     init() {
-//        print("DEBUG: ContractViewModel initialized")
-        Task { try await fetchGoals() }
+        setupSubscribers()
     }
-    
-    private func fetchGoalIDs() async -> [String] {
-        guard let uid = Auth.auth().currentUser?.uid else {
-            print("DEBUG: No current user UID found")
-            return []
-        }
-//        print("DEBUG: Current user UID: \(uid)")
-        isLoading = true
-        
-        let snapshot = try? await FirestoreConstants
-            .UserCollection
-            .document(uid)
-            .collection("user-feed")
-            .getDocuments()
-        
-        let ids = snapshot?.documents.map({ $0.documentID }) ?? []
-//        print("DEBUG: Fetched goal IDs: \(ids)")
-        return ids
-    }
-    
-    func fetchGoals() async {
-        do {
-//            print("DEBUG: Fetching goals")
-            let goalIDs = await fetchGoalIDs()
-//            print("DEBUG: Goal IDs fetched: \(goalIDs)")
 
-            var fetchedGoals = [Goal]()
-            try await withThrowingTaskGroup(of: Goal.self, body: { group in
-                for id in goalIDs {
-                    group.addTask { return try await GoalService.fetchGoal(goalId: id) }
-                }
-
-                for try await goal in group {
-                    let enrichedGoal = try await fetchGoalUserData(goal: goal)
-                    fetchedGoals.append(enrichedGoal)
-                }
-            })
-            self.goals = fetchedGoals.sorted(by: { $0.timestamp.dateValue() > $1.timestamp.dateValue() })
-            isLoading = false
-//            print("DEBUG: Finished fetching goals, total count: \(self.goals.count)")
-        } catch {
-            print("DEBUG: Error fetching goals: \(error)")
-            // Handle the error appropriately, maybe set an error state to show in UI
+    @Published var selectedFilter: FeedFilterViewModel = .all {
+        didSet {
+            updateGoalsBasedOnFilter()
+            print("DEBUG: Selected filter changed to \(selectedFilter)")
         }
     }
-    
-    private func fetchGoalUserData(goal: Goal) async throws -> Goal {
-        var result = goal
-    
-        async let user = try await UserService.fetchUser(withUid: goal.ownerUid)
-        result.user = try await user
-        
-        return result
+
+    private func updateGoalsBasedOnFilter() {
+        switch selectedFilter {
+        case .all:
+            fetchDataForYourFriendsContracts()
+        case .partner:
+            fetchDataForYourContracts()
+        }
+    }
+
+    private func setupSubscribers() {
+        UserService.shared.$currentUser
+            .sink { [weak self] user in
+                self?.currentUser = user
+            }
+            .store(in: &cancellables)
+    }
+
+    private func fetchData(goalIDsFetch: @escaping (String) async throws -> [String]) {
+        guard let uid = currentUser?.id else { return }
+
+        Task {
+            do {
+                let goalIDs = try await goalIDsFetch(uid)
+                var fetchedGoals = [Goal]()
+                for goalID in goalIDs {
+                    var goal = try await GoalService.fetchGoalDetails(goalId: goalID)
+                    // Fetch the user data for this goal, assuming a function to fetch a user by their UID.
+                    if let ownerUser = try? await UserService.fetchUser(withUid: goal.ownerUid) {
+                        goal.user = ownerUser
+                    }
+                    fetchedGoals.append(goal)
+                }
+                
+                self.goals = fetchedGoals.sorted(by: { $0.timestamp.dateValue() > $1.timestamp.dateValue() })
+                print("DEBUG: Finished fetching goals. Total goals: \(self.goals.count)")
+            } catch {
+                print("Error fetching goals: \(error)")
+            }
+        }
+    }
+
+
+    func fetchDataForYourContracts() {
+        fetchData(goalIDsFetch: GoalService.fetchPartnerGoalIDs)
+    }
+
+    func fetchDataForYourFriendsContracts() {
+        fetchData(goalIDsFetch: GoalService.fetchFriendGoalIDs)
     }
 }
-

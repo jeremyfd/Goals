@@ -28,6 +28,10 @@ struct CollapsedGoalViewCell: View {
                         
                         Text(goal.user?.username ?? "")
                     }
+                    .onAppear{
+                        print("CircularProfileImageView appeared with user: \(String(describing: goal.user))")
+                        print("User image URL: \(String(describing: goal.user?.profileImageUrl))")
+                    }
                         
                 }
                 .foregroundColor(.black)

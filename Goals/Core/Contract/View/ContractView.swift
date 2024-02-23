@@ -5,14 +5,12 @@
 //  Created by Work on 28/12/2023.
 //
 
-
 import SwiftUI
 
 struct ContractView: View {
     @StateObject var viewModel = ContractViewModel()
     
     @Namespace var animation
-    @State private var selectedTab: Int = 0
     
     var body: some View {
         NavigationStack {
@@ -24,33 +22,20 @@ struct ContractView: View {
             .ignoresSafeArea()
             .overlay(
                 VStack {
-                    Picker("", selection: $selectedTab) {
-                        Text("My Contracts").tag(0)
-                        Text("Friends Contracts").tag(1)
+                    // Directly display content for "My Contracts"
+                    ScrollView {                        
+                        contentForYourContracts()
                     }
-                    .pickerStyle(SegmentedPickerStyle())
-                    .padding(.horizontal)
-
-                    TabView(selection: $selectedTab) {
-                        ScrollView {
-                            contentForYourContracts()
-                        }
-                        .tag(0)
-                        
-                        
-                        ScrollView {
-                            contentForFriendsContracts()
-                        }
-                        .tag(1)
-                    }
-                    .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-                }
                     .refreshable {
-                        Task { try await viewModel.fetchGoals() }
+                        viewModel.fetchDataForYourFriendsContracts()
                     }
+                }
                 .navigationTitle("Contracts")
                 .navigationBarTitleDisplayMode(.inline)
             )
+        }
+        .onAppear {
+            viewModel.fetchDataForYourFriendsContracts()
         }
     }
 
@@ -58,25 +43,8 @@ struct ContractView: View {
         
         VStack {
             
-            HStack{
-                Text("Today")
-                    .font(.title)
-                    .fontWeight(.bold)
-                    .padding(.leading, 55)
-                Spacer()
-            }
-            .padding(.top)
-            
-            LazyVStack(spacing: 20){
-                ForEach(viewModel.goals) { goal in
-                    CollapsedGoalViewCell(goal: goal)
-                }
-            }
-        }
-    }
-
-    func contentForFriendsContracts() -> some View {
-        VStack {
+            FeedFilterView(selectedFilter: $viewModel.selectedFilter)
+                .padding(.vertical)
             
             HStack{
                 Text("Today")
@@ -85,7 +53,6 @@ struct ContractView: View {
                     .padding(.leading, 55)
                 Spacer()
             }
-            .padding(.top)
             
             LazyVStack(spacing: 20){
                 ForEach(viewModel.goals) { goal in
