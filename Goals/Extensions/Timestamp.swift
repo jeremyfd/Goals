@@ -16,4 +16,11 @@ extension Timestamp {
         formatter.unitsStyle = .abbreviated
         return formatter.string(from: self.dateValue(), to: Date()) ?? ""
     }
+    
+    func toDateTimeString() -> String {
+        let dateFormatter = DateFormatter()
+        // Customize the date format according to your needs
+        dateFormatter.dateFormat = "HH:mm dd/MM/yy"
+        return dateFormatter.string(from: self.dateValue())
+    }
 }

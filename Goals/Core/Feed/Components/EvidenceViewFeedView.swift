@@ -52,7 +52,7 @@ struct EvidenceViewFeedView: View {
                         Text("London")
                             .foregroundColor(.white)
                             .fontWeight(.bold)
-                        Text("15:26 26/12/23")
+                        Text(evidence.timestamp.toDateTimeString())
                             .foregroundColor(.white)
                             .fontWeight(.bold)
                     }
