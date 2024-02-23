@@ -65,8 +65,6 @@ struct EvidenceViewFeedView: View {
                             .fontWeight(.bold)
                             .padding(.horizontal)
                     }
-                    
-                    
                 }
                 .padding()
             }

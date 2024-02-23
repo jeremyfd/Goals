@@ -24,6 +24,7 @@ struct FeedView: View {
     ]
     
     var body: some View {
+        
         NavigationStack {
             LinearGradient(
                 gradient: Gradient(colors: [Color.white, Color.brown.opacity(0.9)]),
@@ -81,7 +82,8 @@ struct FeedView: View {
             )
         }
         .onAppear {
-            viewModel.fetchDataForYourContracts()
+            print("DEBUG: FeedView body is being redrawn")
+            viewModel.fetchDataForYourFriendsContracts()
         }
     }
     
@@ -100,11 +102,9 @@ struct FeedView: View {
             }
             
             LazyVStack(spacing: 30) {
-                ForEach(viewModel.goalsWithEvidences, id: \.goal.id) { pair in
-                    ForEach(pair.evidences, id: \.id) { evidence in
-                        EvidenceViewFeedView(evidence: evidence, goal: pair.goal, currentUser: currentUser)
-                    }
-                }
+                ForEach(viewModel.allEvidencesWithGoal, id: \.evidence.id) { evidenceWithGoal in
+                                   EvidenceViewFeedView(evidence: evidenceWithGoal.evidence, goal: evidenceWithGoal.goal, currentUser: currentUser)
+                               }
             }
         }
     }
