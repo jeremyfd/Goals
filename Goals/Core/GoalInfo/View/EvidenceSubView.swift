@@ -20,7 +20,7 @@ struct EvidenceSubView: View {
     var body: some View {
         ForEach(viewModel.steps, id: \.id) { step in
             VStack {
-                Text("Week \(step.weekNumber), Day \(step.dayNumber)")
+                Text("Week \(step.weekNumber), Day \(step.dayNumber) - Deadline: \(formatDate(step.deadline))")
                 stepStatusView(step: step)
             }
             .padding(.vertical, 5)
@@ -111,7 +111,13 @@ struct EvidenceSubView: View {
         }
     }
     
-    
+    func formatDate(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .short
+        return formatter.string(from: date)
+    }
+
     @ViewBuilder
     private func verificationOverlay(for evidence: Evidence) -> some View {
         if evidence.verified {

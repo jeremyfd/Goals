@@ -75,7 +75,7 @@ struct ExpandedGoalView: View {
                                         .aspectRatio(contentMode: .fit)
                                         .frame(width: 25, height: 25)
                                     
-                                    Text("Week 10")
+                                    Text("Tier \(goal.tier)")
                                         .font(.title3)
                                     
                                     Image(systemName: "chevron.down")
@@ -136,7 +136,7 @@ struct ExpandedGoalView: View {
                         
                         
                         
-                        if let description = goal.description {
+                        if let description = goal.description, !description.isEmpty {
                             VStack(alignment: .leading, spacing: 10) {
                                 Text("Description:")
                                     .font(.title2)
