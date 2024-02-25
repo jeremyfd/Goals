@@ -13,6 +13,10 @@ struct EvidenceSubView: View {
     let goal: Goal
     @ObservedObject var viewModel: EvidenceSubViewModel
     var onSubmitEvidence: (Int, Int) -> Void
+    @State private var countdowns: [UUID: String] = [:] // Assuming step.id is of type UUID
+    
+    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    @State private var timeNow = Date()
     
     @State private var isImageViewerPresented = false
     @State private var selectedImageURL: String?
@@ -20,12 +24,32 @@ struct EvidenceSubView: View {
     var body: some View {
         ForEach(viewModel.steps, id: \.id) { step in
             VStack {
-                Text("Week \(step.weekNumber), Day \(step.dayNumber) - Deadline: \(formatDate(step.deadline))")
+                // Separate the countdown text into its own view for clarity
+                if step.status != .completed {
+                    countdownTextView(stepId: step.id, weekNumber: step.weekNumber, dayNumber: step.dayNumber, deadline: step.deadline)
+                } else {
+                    // If the step is completed, show a simplified text without the countdown
+                    Text("Week \(step.weekNumber), Day \(step.dayNumber) - Deadline: \(formatDate(step.deadline))")
+                }
+
                 stepStatusView(step: step)
             }
             .padding(.vertical, 5)
         }
     }
+    
+    @ViewBuilder
+    private func countdownTextView(stepId: UUID, weekNumber: Int, dayNumber: Int, deadline: Date) -> some View {
+        Text("Week \(weekNumber), Day \(dayNumber) - Deadline: \(formatDate(deadline)) - Countdown: \(countdowns[stepId, default: "Calculating..."])")
+            .onReceive(timer) { _ in
+                self.timeNow = Date() // Updating the timeNow, though it might be unnecessary if only used for countdown
+                // This loop could potentially be moved outside or optimized to not run for every step view
+                for step in viewModel.steps where step.status != .completed {
+                    countdowns[step.id] = countdownString(to: step.deadline)
+                }
+            }
+    }
+
     
     @ViewBuilder
     private func stepStatusView(step: Step) -> some View {
@@ -134,3 +158,21 @@ struct EvidenceSubView: View {
         }
     }
 }
+
+extension EvidenceSubView {
+    func countdownString(to deadline: Date) -> String {
+        let now = Date()
+        if deadline > now {
+            let timeInterval = deadline.timeIntervalSince(now)
+            let hours = Int(timeInterval) / 3600
+            let minutes = Int(timeInterval) / 60 % 60
+            let seconds = Int(timeInterval) % 60
+            let countdownString = String(format: "%02i:%02i:%02i", hours, minutes, seconds)
+            return countdownString
+        } else {
+            return "Deadline has passed"
+        }
+    }
+
+}
+
