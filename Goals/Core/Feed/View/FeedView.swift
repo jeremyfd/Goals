@@ -82,7 +82,6 @@ struct FeedView: View {
             )
         }
         .onAppear {
-            print("DEBUG: FeedView body is being redrawn")
             viewModel.fetchDataForYourFriendsContracts()
         }
     }

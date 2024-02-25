@@ -176,3 +176,25 @@ extension EvidenceSubView {
 
 }
 
+//struct EvidenceSubView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        
+//        let mockGoalId = "mockGoalId"
+//               let mockStartDate = Date() // Use current date for simplicity
+//               let mockDuration = 30 // 30 days
+//               let mockFrequency = 3 // 3 times a week
+//               let mockTargetCount = 9 // 9 completions
+//        
+//        let viewModel = EvidenceSubViewModel(goalId: mockGoalId, startDate: mockStartDate, duration: mockDuration, frequency: mockFrequency, targetCount: mockTargetCount)
+//
+//        let goal = DeveloperPreview.shared.goal
+//        
+//        let onSubmitEvidence: (Int, Int) -> Void = { weekNumber, dayNumber in
+//            print("Submit evidence for week \(weekNumber), day \(dayNumber)")
+//        }
+//        
+//        // Return the EvidenceSubView configured with the preview data
+//        EvidenceSubView(goal: goal, viewModel: viewModel, onSubmitEvidence: onSubmitEvidence)
+//            .environmentObject(DeveloperPreview.shared) // If your view relies on EnvironmentObjects, set them here.
+//    }
+//}

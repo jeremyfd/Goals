@@ -97,8 +97,6 @@ class UserCellViewModel: ObservableObject {
         }
     }
     
-    
-    
     // Additional methods for other actions like rejecting a friend request
     func rejectFriendRequest() {
         Task {

@@ -27,7 +27,7 @@ class FeedViewModel: ObservableObject {
     @Published var selectedFilter: FeedFilterViewModel = .all {
         didSet {
             updateGoalsBasedOnFilter()
-            print("DEBUG: Selected filter changed to \(selectedFilter)")
+//            print("DEBUG: Selected filter changed to \(selectedFilter)")
         }
     }
     
@@ -60,9 +60,11 @@ class FeedViewModel: ObservableObject {
 
                 for goalID in goalIDs {
                     let goal = try await GoalService.fetchGoalDetails(goalId: goalID)
-                    let evidences = try await EvidenceService.fetchEvidences(forGoalId: goal.id)
+                    let enrichedGoal = try await fetchGoalUserData(goal: goal)
+
+                    let evidences = try await EvidenceService.fetchEvidences(forGoalId: enrichedGoal.id)
                     // Append each evidence along with its goal to the list
-                    allEvidencesWithGoal.append(contentsOf: evidences.map { (evidence: $0, goal: goal) })
+                    allEvidencesWithGoal.append(contentsOf: evidences.map { (evidence: $0, goal: enrichedGoal) })
                 }
 
                 // Sort all evidences by timestamp, regardless of their goal
@@ -72,7 +74,7 @@ class FeedViewModel: ObservableObject {
                     // Here, instead of setting goalsWithEvidences, you'll likely need to adjust your UI to work with this new structure
                     // For example, you might have a new @Published property for allEvidencesWithGoal
                     self.allEvidencesWithGoal = allEvidencesWithGoal
-                    print("DEBUG: Finished fetching evidences. Total evidences: \(self.allEvidencesWithGoal.count)")
+//                    print("DEBUG: Finished fetching evidences. Total evidences: \(self.allEvidencesWithGoal.count)")
                 }
             } catch {
                 print("Error fetching goals and evidences: \(error)")
@@ -90,9 +92,11 @@ class FeedViewModel: ObservableObject {
 
                 for goalID in goalIDs {
                     let goal = try await GoalService.fetchGoalDetails(goalId: goalID)
-                    let evidences = try await EvidenceService.fetchEvidences(forGoalId: goal.id)
+                    let enrichedGoal = try await fetchGoalUserData(goal: goal)
+
+                    let evidences = try await EvidenceService.fetchEvidences(forGoalId: enrichedGoal.id)
                     // Append each evidence along with its goal to the list
-                    allEvidencesWithGoal.append(contentsOf: evidences.map { (evidence: $0, goal: goal) })
+                    allEvidencesWithGoal.append(contentsOf: evidences.map { (evidence: $0, goal: enrichedGoal) })
                 }
 
                 // Sort all evidences by timestamp, regardless of their goal
@@ -102,7 +106,7 @@ class FeedViewModel: ObservableObject {
                     // Here, instead of setting goalsWithEvidences, you'll likely need to adjust your UI to work with this new structure
                     // For example, you might have a new @Published property for allEvidencesWithGoal
                     self.allEvidencesWithGoal = allEvidencesWithGoal
-                    print("DEBUG: Finished fetching evidences. Total evidences: \(self.allEvidencesWithGoal.count)")
+//                    print("DEBUG: Finished fetching evidences. Total evidences: \(self.allEvidencesWithGoal.count)")
                 }
             } catch {
                 print("Error fetching goals and evidences: \(error)")
@@ -129,7 +133,7 @@ class FeedViewModel: ObservableObject {
             })
             self.goals = fetchedGoals.sorted(by: { $0.timestamp.dateValue() > $1.timestamp.dateValue() })
             isLoading = false
-            print("DEBUG: Finished fetching goals, total count: \(self.goals.count)")
+//            print("DEBUG: Finished fetching goals, total count: \(self.goals.count)")
         } catch {
             print("DEBUG: Error fetching goals: \(error)")
             // Handle the error appropriately, maybe set an error state to show in UI

@@ -61,7 +61,20 @@ class ActivityViewModel: ObservableObject {
         
         if let goalId = notification.goalId {
             async let goalSnapshot = await FirestoreConstants.GoalsCollection.document(goalId).getDocument()
-            self.notifications[indexOfNotification].goal = try? await goalSnapshot.data(as: Goal.self)
+            if var goal = try? await goalSnapshot.data(as: Goal.self) {
+                // Enrich the goal with additional user data
+                goal = try await fetchGoalUserData(goal: goal)
+                self.notifications[indexOfNotification].goal = goal
+            }
         }
+    }
+    
+    private func fetchGoalUserData(goal: Goal) async throws -> Goal {
+        var result = goal
+    
+        async let user = try await UserService.fetchUser(withUid: goal.ownerUid)
+        result.user = try await user
+        
+        return result
     }
 }

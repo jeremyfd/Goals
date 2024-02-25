@@ -24,7 +24,7 @@ class ContractViewModel: ObservableObject {
     @Published var selectedFilter: FeedFilterViewModel = .all {
         didSet {
             updateGoalsBasedOnFilter()
-            print("DEBUG: Selected filter changed to \(selectedFilter)")
+//            print("DEBUG: Selected filter changed to \(selectedFilter)")
         }
     }
 
@@ -62,7 +62,7 @@ class ContractViewModel: ObservableObject {
                 }
                 
                 self.goals = fetchedGoals.sorted(by: { $0.timestamp.dateValue() > $1.timestamp.dateValue() })
-                print("DEBUG: Finished fetching goals. Total goals: \(self.goals.count)")
+//                print("DEBUG: Finished fetching goals. Total goals: \(self.goals.count)")
             } catch {
                 print("Error fetching goals: \(error)")
             }
