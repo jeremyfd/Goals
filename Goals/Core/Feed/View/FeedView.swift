@@ -65,14 +65,14 @@ struct FeedView: View {
                             .fontWeight(.bold)
                             .padding(.leading)
                         
-                        ScrollView (.horizontal, showsIndicators: false){
-                            LazyVGrid(columns: columns, spacing: 10) {
-                                ForEach(viewModel.goals, id: \.id) { goal in
-                                    CalendarViewFeedView(goal: goal, currentUser: currentUser)
-                                        .padding(.leading, 8)
-                                }
-                            }
-                        }
+//                        ScrollView (.horizontal, showsIndicators: false) {
+//                            LazyVGrid(columns: columns, spacing: 10) {
+//                                ForEach(viewModel.goals.filter { viewModel.isNextStepWithin24HForGoal($0) }, id: \.id) { goal in
+//                                    CalendarViewFeedView(goal: goal, currentUser: currentUser)
+//                                        .padding(.leading, 8)
+//                                }
+//                            }
+//                        }
                         
                         // Directly integrate the content for "My Contracts"
                         contentForYourContracts()
@@ -102,8 +102,8 @@ struct FeedView: View {
             
             LazyVStack(spacing: 30) {
                 ForEach(viewModel.allEvidencesWithGoal, id: \.evidence.id) { evidenceWithGoal in
-                                   EvidenceViewFeedView(evidence: evidenceWithGoal.evidence, goal: evidenceWithGoal.goal, currentUser: currentUser)
-                               }
+                    EvidenceViewFeedView(evidence: evidenceWithGoal.evidence, goal: evidenceWithGoal.goal, currentUser: currentUser)
+                }
             }
         }
     }

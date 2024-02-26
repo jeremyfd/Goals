@@ -95,16 +95,11 @@ class FeedViewModel: ObservableObject {
                     let enrichedGoal = try await fetchGoalUserData(goal: goal)
 
                     let evidences = try await EvidenceService.fetchEvidences(forGoalId: enrichedGoal.id)
-                    // Append each evidence along with its goal to the list
                     allEvidencesWithGoal.append(contentsOf: evidences.map { (evidence: $0, goal: enrichedGoal) })
                 }
-
-                // Sort all evidences by timestamp, regardless of their goal
                 allEvidencesWithGoal.sort(by: { $0.evidence.timestamp.dateValue() > $1.evidence.timestamp.dateValue() })
 
                 DispatchQueue.main.async {
-                    // Here, instead of setting goalsWithEvidences, you'll likely need to adjust your UI to work with this new structure
-                    // For example, you might have a new @Published property for allEvidencesWithGoal
                     self.allEvidencesWithGoal = allEvidencesWithGoal
 //                    print("DEBUG: Finished fetching evidences. Total evidences: \(self.allEvidencesWithGoal.count)")
                 }
@@ -167,4 +162,22 @@ class FeedViewModel: ObservableObject {
         
         return result
     }
+    
+//    func nextStepWithin24Hours(for goal: Goal) {
+//        // Assuming StepsCalculator is accessible and initialized somewhere within FeedViewModel
+//        let stepsCalculator = StepsCalculator() // Ideally, this should be initialized elsewhere and injected
+//        
+//        let evidences = [] // Fetch or receive as a parameter
+//        let steps = stepsCalculator.calculateSteps(goalStartDate: goal.startDate, goalDuration: goal.duration, goalFrequency: goal.frequency, goalTarget: goal.target, evidences: evidences)
+//        
+//        let calendar = Calendar.current
+//        let currentDate = Date()
+//        
+//        let nextStepWithin24Hours = steps.contains(where: { step in
+//            guard let deadline = step.deadline else { return false }
+//            let status = StepsCalculator.determineStepStatus(...) // Assuming it's adapted to be accessible
+//            let hoursUntilDeadline = calendar.dateComponents([.hour], from: currentDate, to: deadline).hour ?? 0
+//            return status == .readyToSubmit && hoursUntilDeadline <= 24
+//        })
+//    }
 }
