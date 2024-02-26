@@ -17,6 +17,11 @@ class FeedViewModel: ObservableObject {
     @Published var isLoading = false
     private var cancellables = Set<AnyCancellable>()
     @Published var allEvidencesWithGoal: [(evidence: Evidence, goal: Goal)] = []
+    
+    let stepsCalculator = StepsCalculator()
+
+    @Published var evidencesByDate: [Date: [(Evidence, Goal)]] = [:]
+    @Published var stepsByDate: [Date: [(Step, Goal)]] = [:]
 
     
     init() {
@@ -162,5 +167,54 @@ class FeedViewModel: ObservableObject {
         
         return result
     }
+    
+    // MARK: - Calendar View
+    
+    func fetchDataForYourFriendsContractsCalendar() {
+        guard let uid = currentUser?.id else { return }
 
+        Task {
+            do {
+                let goalIDs = try await GoalService.fetchFriendGoalIDs(uid: uid)
+                var allStepsWithGoal: [(step: Step, goal: Goal)] = []
+
+                for goalID in goalIDs {
+                    let goal = try await GoalService.fetchGoalDetails(goalId: goalID)
+                    let enrichedGoal = try await fetchGoalUserData(goal: goal)
+
+                    // Assume you have a way to determine these parameters from your goal object
+                    let goalStartDate = enrichedGoal.timestamp.dateValue() // Convert Timestamp to Date
+                    let goalDuration = enrichedGoal.duration // Example; adjust as needed
+                    let goalFrequency = enrichedGoal.frequency // Example; adjust as needed
+                    let goalTarget = enrichedGoal.targetCount // Example; adjust as needed
+
+                    let evidences = try await EvidenceService.fetchEvidences(forGoalId: enrichedGoal.id)
+                    let steps = stepsCalculator.calculateSteps(goalStartDate: goalStartDate, goalDuration: goalDuration, goalFrequency: goalFrequency, goalTarget: goalTarget, evidences: evidences)
+
+                    allStepsWithGoal.append(contentsOf: steps.map { (step: $0, goal: enrichedGoal) })
+                }
+
+                // Now you have all steps with their corresponding goal, you can organize them for the view
+                organizeStepsByDeadline(allStepsWithGoal)
+            } catch {
+                print("Error fetching goals and steps: \(error)")
+            }
+        }
+    }
+    
+    func organizeStepsByDeadline(_ stepsWithGoal: [(Step, Goal)]) {
+        var organizedData: [Date: [(Step, Goal)]] = [:]
+        for (step, goal) in stepsWithGoal {
+            let deadline = step.deadline
+            let deadlineStartOfDay = Calendar.current.startOfDay(for: deadline)
+            if organizedData[deadlineStartOfDay] == nil {
+                organizedData[deadlineStartOfDay] = [(step, goal)]
+            } else {
+                organizedData[deadlineStartOfDay]?.append((step, goal))
+            }
+        }
+        DispatchQueue.main.async {
+            self.stepsByDate = organizedData // Assuming you have a property to hold this data
+        }
+    }
 }

@@ -13,6 +13,7 @@ import Combine
 class AgendaViewModel: ObservableObject {
     @Published var currentUser: User?
     private var cancellables = Set<AnyCancellable>()
+    let stepsCalculator = StepsCalculator()
 
     @Published var evidencesByDate: [Date: [(Evidence, Goal)]] = [:]
     @Published var stepsByDate: [Date: [(Step, Goal)]] = [:]
@@ -29,10 +30,7 @@ class AgendaViewModel: ObservableObject {
             .store(in: &cancellables)
     }
 
-    // Assuming you have an instance of StepsCalculator available
-    let stepsCalculator = StepsCalculator()
-
-    func fetchDataForYourFriendsContracts() {
+    func fetchDataForYourFriendsContractsCalendar() {
         guard let uid = currentUser?.id else { return }
 
         Task {
@@ -64,7 +62,6 @@ class AgendaViewModel: ObservableObject {
         }
     }
 
-    
     private func fetchGoalUserData(goal: Goal) async throws -> Goal {
         var result = goal
     
@@ -104,6 +101,4 @@ class AgendaViewModel: ObservableObject {
             self.stepsByDate = organizedData // Assuming you have a property to hold this data
         }
     }
-
-
 }

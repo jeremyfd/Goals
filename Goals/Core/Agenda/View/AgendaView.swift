@@ -38,7 +38,7 @@ import SwiftUI
 
 struct AgendaView: View {
     @ObservedObject var viewModel = AgendaViewModel()
-
+    
     var body: some View {
         List {
             // Get today's date
@@ -53,26 +53,22 @@ struct AgendaView: View {
                 Section(header: Text("\(date, style: .date)")) {
                     ForEach(stepsForToday[date, default: []]
                         .map({ StepGoalTuple(step: $0.0, goal: $0.1) }), id: \.id) { stepGoalTuple in
-                        VStack(alignment: .leading) {
-                            Text(stepGoalTuple.goal.title)
-                                .font(.headline)
-                            // Assuming deadline is a Date object and you only want to show future deadlines or deadlines due today.
-                            // Uncomment and adjust if needed.
-                            // if calendar.isDate(stepGoalTuple.step.deadline, inSameDayAs: today) {
+                            VStack(alignment: .leading) {
+                                Text(stepGoalTuple.goal.title)
+                                    .font(.headline)
+                                
                                 Text("Week \(stepGoalTuple.step.weekNumber), Day \(stepGoalTuple.step.dayNumber)")
                                     .font(.subheadline)
-                            // }
+                            }
                         }
-                    }
                 }
             }
         }
         .onAppear {
-            viewModel.fetchDataForYourFriendsContracts()
+            viewModel.fetchDataForYourFriendsContractsCalendar()
         }
     }
 }
-
 
 // Define a new struct to encapsulate a Step and a Goal that conforms to Identifiable
 struct StepGoalTuple: Identifiable {
