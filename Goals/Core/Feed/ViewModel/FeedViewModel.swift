@@ -162,22 +162,5 @@ class FeedViewModel: ObservableObject {
         
         return result
     }
-    
-//    func nextStepWithin24Hours(for goal: Goal) {
-//        // Assuming StepsCalculator is accessible and initialized somewhere within FeedViewModel
-//        let stepsCalculator = StepsCalculator() // Ideally, this should be initialized elsewhere and injected
-//        
-//        let evidences = [] // Fetch or receive as a parameter
-//        let steps = stepsCalculator.calculateSteps(goalStartDate: goal.startDate, goalDuration: goal.duration, goalFrequency: goal.frequency, goalTarget: goal.target, evidences: evidences)
-//        
-//        let calendar = Calendar.current
-//        let currentDate = Date()
-//        
-//        let nextStepWithin24Hours = steps.contains(where: { step in
-//            guard let deadline = step.deadline else { return false }
-//            let status = StepsCalculator.determineStepStatus(...) // Assuming it's adapted to be accessible
-//            let hoursUntilDeadline = calendar.dateComponents([.hour], from: currentDate, to: deadline).hour ?? 0
-//            return status == .readyToSubmit && hoursUntilDeadline <= 24
-//        })
-//    }
+
 }
