@@ -75,11 +75,12 @@ struct FeedView: View {
                                 let stepsForToday = viewModel.stepsByDate.filter { date, _ in
                                     calendar.isDate(date, inSameDayAs: today)
                                 }
-                                
+                                let totalGoalsForToday = stepsForToday.values.flatMap { $0 }.count
+
                                 ForEach(stepsForToday.keys.sorted(by: >), id: \.self) { date in
                                     ForEach(stepsForToday[date, default: []]
                                         .map({ StepGoalTuple(step: $0.0, goal: $0.1) }), id: \.id) { stepGoalTuple in
-                                            VStack {
+                                            HStack{
                                                 NavigationLink {
                                                     ExpandedGoalView(goal: stepGoalTuple.goal)
                                                 } label: {
@@ -100,11 +101,15 @@ struct FeedView: View {
                                                     .cornerRadius(40)
                                                 }
                                             }
-                                            .padding(.leading, 8)
+                                            .padding(.leading, totalGoalsForToday > 1 ? 8 : UIScreen.main.bounds.width / 2 - ((UIScreen.main.bounds.width - 250) / 2))
+                                            .onAppear{
+                                                print("Count of stepsForToday.keys: \(totalGoalsForToday)")
+                                            }
                                         }
                                 }
                             }
                         }
+                        
                         
                         // Directly integrate the content for "My Contracts"
                         contentForYourContracts()
@@ -114,6 +119,10 @@ struct FeedView: View {
             )
         }
         .onAppear {
+            viewModel.fetchDataForYourFriendsContracts()
+            viewModel.fetchDataForYourFriendsContractsCalendar()
+        }
+        .refreshable {
             viewModel.fetchDataForYourFriendsContracts()
             viewModel.fetchDataForYourFriendsContractsCalendar()
         }
