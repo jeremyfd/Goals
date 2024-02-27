@@ -158,6 +158,48 @@ struct GoalService {
     
     static func incrementCurrentCountForGoal(goalId: String) async throws {
         let goalRef = FirestoreConstants.GoalsCollection.document(goalId)
+        var needToIncrementTier = false // Flag to track whether we need to increment the tier
+
+        // Synchronous transaction to increment currentCount
+        let transactionResult = try await Firestore.firestore().runTransaction({ (transaction, errorPointer) -> Any? in
+            let goalDocument: DocumentSnapshot
+            do {
+                goalDocument = try transaction.getDocument(goalRef)
+            } catch let fetchError {
+                errorPointer?.pointee = fetchError as NSError
+                return nil
+            }
+
+            guard let currentCount = goalDocument.data()?["currentCount"] as? Int,
+                  let targetCount = goalDocument.data()?["targetCount"] as? Int else {
+                return nil
+            }
+
+            // Increment currentCount
+            transaction.updateData(["currentCount": currentCount + 1], forDocument: goalRef)
+
+            // Check if we need to increment the tier after this update
+            if currentCount + 1 == targetCount {
+                needToIncrementTier = true
+            }
+
+            return nil
+        })
+
+        // After the transaction, check if we need to increment the tier
+        if needToIncrementTier {
+            // Asynchronously increment the tier
+            try await incrementTierForGoal(goalId: goalId)
+        }
+
+        // Handle any errors from the transaction
+        if let transactionError = transactionResult as? Error {
+            throw transactionError
+        }
+    }
+    
+    static func incrementTierForGoal(goalId: String) async throws {
+        let goalRef = FirestoreConstants.GoalsCollection.document(goalId)
         
         try await Firestore.firestore().runTransaction { transaction, errorPointer in
             let goalDocument: DocumentSnapshot
@@ -168,11 +210,11 @@ struct GoalService {
                 return nil
             }
 
-            guard let currentCount = goalDocument.data()?["currentCount"] as? Int else {
+            guard let tier = goalDocument.data()?["tier"] as? Int else {
                 return nil
             }
 
-            transaction.updateData(["currentCount": currentCount + 1], forDocument: goalRef)
+            transaction.updateData(["tier": tier + 1], forDocument: goalRef)
             return nil
         }
     }

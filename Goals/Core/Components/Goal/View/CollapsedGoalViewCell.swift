@@ -12,8 +12,8 @@ struct CollapsedGoalViewCell: View {
     
     var body: some View {
         
-        Button {
-            
+        NavigationLink {
+            ExpandedGoalView(goal: goal)
         } label: {
             HStack{
                 VStack(alignment: .leading, spacing: 5){
@@ -46,15 +46,12 @@ struct CollapsedGoalViewCell: View {
                         .foregroundColor(.black)
                         .padding(.trailing)
                     
-                    NavigationLink {
-                        ExpandedGoalView(goal: goal)
-                    } label: {
                         Image(systemName: "chevron.down")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 20, height: 20)
                             .foregroundColor(.black)
-                    }
+                    
                 }
                 .padding(.horizontal)
                 
