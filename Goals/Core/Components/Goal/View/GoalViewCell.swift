@@ -9,8 +9,8 @@ import SwiftUI
 import Kingfisher
 
 struct GoalViewCell: View {
-    @ObservedObject var viewModel: GoalViewCellViewModel
     let goal: Goal
+    @ObservedObject var viewModel: GoalViewCellViewModel
     @State private var showReactions = false
     @Binding var selectedImageURL: String?
     @State private var isShowingImage = false

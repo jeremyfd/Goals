@@ -110,7 +110,7 @@ struct UserProfileView: View {
                         .font(.headline)
                 } else {
                     ForEach(viewModel.goals) { goal in
-                        GoalViewCell(viewModel: GoalViewCellViewModel(goalId: goal.id), goal: goal, selectedImageURL: .constant(nil))
+                        GoalViewCell(goal: goal, viewModel: GoalViewCellViewModel(goalId: goal.id), selectedImageURL: .constant(nil))
                             .transition(.move(edge: .leading))
                     }
                 }

@@ -89,7 +89,6 @@ class EvidenceSubViewModel: ObservableObject {
     }
 }
 
-
 class StepsCalculator {
     
     func calculateSteps(goalStartDate: Date, goalDuration: Int, goalFrequency: Int, goalTarget: Int, evidences: [Evidence]) -> [Step] {

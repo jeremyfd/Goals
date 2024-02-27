@@ -218,4 +218,25 @@ struct GoalService {
             return nil
         }
     }
+    
+    static func incrementTargetCountForGoal(goalId: String) async throws {
+        let goalRef = FirestoreConstants.GoalsCollection.document(goalId)
+        
+        try await Firestore.firestore().runTransaction { transaction, errorPointer in
+            let goalDocument: DocumentSnapshot
+            do {
+                try goalDocument = transaction.getDocument(goalRef)
+            } catch let fetchError {
+                errorPointer?.pointee = fetchError as NSError
+                return nil
+            }
+
+            guard let targetCount = goalDocument.data()?["targetCount"] as? Int else {
+                return nil
+            }
+
+            transaction.updateData(["targetCount": targetCount + 7], forDocument: goalRef)
+            return nil
+        }
+    }
 }

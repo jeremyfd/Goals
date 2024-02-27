@@ -18,19 +18,20 @@ struct ExpandedGoalView: View {
     @State private var showActionSheet = false
     @State private var showAlert = false
     @State private var showingSubmitEvidenceView = false
+    @State private var showNextTierView = false
     @Environment(\.presentationMode) var presentationMode
     
     @State private var submitEvidenceSheetIdentifier: SubmitEvidenceSheetIdentifier?
-
+    
+    private var currentUser: User? {
+        return viewModel.currentUser
+    }
     
     init(goal: Goal) {
         self.goal = goal
-        // Convert Firebase Timestamp to Date for the start date
         let startDate = goal.timestamp.dateValue()
-        // Initialize the EvidenceSubViewModel with the converted start date and other goal details
         _evidenceViewModel = StateObject(wrappedValue: EvidenceSubViewModel(goalId: goal.id, startDate: startDate, duration: goal.duration, frequency: goal.frequency, targetCount: goal.targetCount))
     }
-    
     
     private func formatDate(_ timestamp: Timestamp) -> String {
         let dateFormatter = DateFormatter()
@@ -170,7 +171,7 @@ struct ExpandedGoalView: View {
                 EvidenceSubView(goal: goal, viewModel: evidenceViewModel) { weekNumber, dayNumber in
                     self.submitEvidenceSheetIdentifier = SubmitEvidenceSheetIdentifier(goalID: goal.id, weekNumber: weekNumber, dayNumber: dayNumber)
                 }
-
+                
                 .sheet(item: $submitEvidenceSheetIdentifier) { identifier in
                     SubmitEvidenceView(viewModel: SubmitEvidenceViewModel(goalID: identifier.goalID, weekNumber: identifier.weekNumber, dayNumber: identifier.dayNumber)) {
                         Task {
@@ -223,10 +224,19 @@ struct ExpandedGoalView: View {
                 secondaryButton: .cancel()
             )
         }
+        .refreshable {
+            Task {
+                    await viewModel.refreshGoalDetails(goalId: goal.id)
+                }
+        }
         
         .onAppear {
+            print("Current Count: \(goal.currentCount) + Target Count: \(goal.targetCount)")
             if viewModel.partnerUser == nil {
                 viewModel.fetchPartnerUser(partnerUid: goal.partnerUid)
+            }
+            if goal.currentCount == goal.targetCount && viewModel.currentUser?.id == goal.ownerUid {
+                showNextTierView = true
             }
         }
         .padding(.horizontal, 30)
@@ -240,6 +250,10 @@ struct ExpandedGoalView: View {
         )
         .sheet(isPresented: $showCalendarView) {
             CalendarView()
+        }
+        .sheet(isPresented: $showNextTierView) {
+            // Present NextTierView as a sheet
+            NextTierView(goal: goal)
         }
     }
 }

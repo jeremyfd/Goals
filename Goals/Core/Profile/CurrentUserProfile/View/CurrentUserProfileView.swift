@@ -12,11 +12,9 @@ struct CurrentUserProfileView: View {
     @State private var navigateToEditProfile = false
     @StateObject var viewModel = CurrentUserProfileViewModel()
     
-    
     private var currentUser: User? {
         return viewModel.currentUser
     }
-    
     
     var body: some View {
         NavigationStack {
@@ -131,7 +129,6 @@ struct CurrentUserProfileView: View {
                                     .fontWeight(.bold)
                                     .padding(.top, 5)
                             }
-                            
                         }
                         .padding(.top)
                         
@@ -143,7 +140,7 @@ struct CurrentUserProfileView: View {
                                             .font(.headline)
                                     } else {
                                         ForEach(viewModel.goals) { goal in
-                                            GoalViewCell(viewModel: GoalViewCellViewModel(goalId: goal.id), goal: goal, selectedImageURL: .constant(nil))
+                                            GoalViewCell(goal: goal, viewModel: GoalViewCellViewModel(goalId: goal.id), selectedImageURL: .constant(nil))
                                         }
                                         .transition(.move(edge: .leading))
                                         .padding(.trailing)
@@ -157,6 +154,11 @@ struct CurrentUserProfileView: View {
                     .padding(.leading)
                 }
                     .refreshable {
+                        if let user = viewModel.currentUser {
+                            viewModel.refreshUserGoals(for: user)
+                        }
+                    }
+                    .onAppear {
                         if let user = viewModel.currentUser {
                             viewModel.refreshUserGoals(for: user)
                         }

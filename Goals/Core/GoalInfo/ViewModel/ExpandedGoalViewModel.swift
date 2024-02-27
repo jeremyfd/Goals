@@ -6,9 +6,25 @@
 //
 
 import Foundation
+import Combine
 
 class ExpandedGoalViewModel: ObservableObject {
     @Published var partnerUser: User?
+    @Published var currentUser: User?
+    @Published var goal: Goal?
+    
+    private var cancellables = Set<AnyCancellable>()
+    
+    init() {
+        setupSubscribers()
+    }
+    
+    private func setupSubscribers() {
+        UserService.shared.$currentUser
+            .sink { [weak self] user in
+                self?.currentUser = user               
+            }.store(in: &cancellables)
+    }
     
     func fetchPartnerUser(partnerUid: String) {
         Task {
@@ -37,6 +53,19 @@ class ExpandedGoalViewModel: ObservableObject {
                     completion(.failure(error))
                 }
             }
+        }
+    }
+    
+    func refreshGoalDetails(goalId: String) async {
+        do {
+            let refreshedGoal = try await GoalService.fetchGoalDetails(goalId: goalId)
+            DispatchQueue.main.async {
+                self.goal = refreshedGoal
+                // Perform any other state updates needed in response to the refreshed goal
+            }
+        } catch {
+            print("Failed to refresh goal details:", error.localizedDescription)
+            // Handle errors, possibly by updating another @Published property to show an error message
         }
     }
 }

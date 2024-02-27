@@ -31,6 +31,11 @@ struct Goal: Identifiable, Codable, Hashable {
     
 }
 
+struct GoalCycle: Codable {
+    var startDate: Date
+    var tier: Int
+}
+
 enum GoalType: Int, CaseIterable, Identifiable, Codable {
     case friendGoalFeed
     case partnerGoalFeed

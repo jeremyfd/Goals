@@ -17,6 +17,8 @@
 		4F182FAA2B7FA1C50072EABE /* ImageViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F182FA92B7FA1C50072EABE /* ImageViewer.swift */; };
 		4F19B7EE2B8C0FBF008FEBA9 /* AgendaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F19B7ED2B8C0FBF008FEBA9 /* AgendaView.swift */; };
 		4F19B7F02B8C0FCB008FEBA9 /* AgendaViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F19B7EF2B8C0FCB008FEBA9 /* AgendaViewModel.swift */; };
+		4F19B7F22B8E0902008FEBA9 /* NextTierView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F19B7F12B8E0902008FEBA9 /* NextTierView.swift */; };
+		4F19B7F42B8E2DCB008FEBA9 /* NextTierViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F19B7F32B8E2DCB008FEBA9 /* NextTierViewModel.swift */; };
 		4F51D0972B88CA8200B66A47 /* FeedFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F51D0962B88CA8200B66A47 /* FeedFilterView.swift */; };
 		4F51D0992B88CAA800B66A47 /* FeedFilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F51D0982B88CAA800B66A47 /* FeedFilterViewModel.swift */; };
 		4F6ED7702B718715000E4594 /* UserContentListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6ED76F2B718715000E4594 /* UserContentListView.swift */; };
@@ -142,6 +144,8 @@
 		4F182FA92B7FA1C50072EABE /* ImageViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewer.swift; sourceTree = "<group>"; };
 		4F19B7ED2B8C0FBF008FEBA9 /* AgendaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgendaView.swift; sourceTree = "<group>"; };
 		4F19B7EF2B8C0FCB008FEBA9 /* AgendaViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgendaViewModel.swift; sourceTree = "<group>"; };
+		4F19B7F12B8E0902008FEBA9 /* NextTierView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextTierView.swift; sourceTree = "<group>"; };
+		4F19B7F32B8E2DCB008FEBA9 /* NextTierViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextTierViewModel.swift; sourceTree = "<group>"; };
 		4F51D0962B88CA8200B66A47 /* FeedFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedFilterView.swift; sourceTree = "<group>"; };
 		4F51D0982B88CAA800B66A47 /* FeedFilterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedFilterViewModel.swift; sourceTree = "<group>"; };
 		4F6ED76F2B718715000E4594 /* UserContentListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserContentListView.swift; sourceTree = "<group>"; };
@@ -330,8 +334,8 @@
 		4F6ED7732B7188F4000E4594 /* Goal */ = {
 			isa = PBXGroup;
 			children = (
-				4FFC13AC2B860B35001D898D /* ViewModel */,
 				4F6ED7742B7188FD000E4594 /* View */,
+				4FFC13AC2B860B35001D898D /* ViewModel */,
 			);
 			path = Goal;
 			sourceTree = "<group>";
@@ -584,6 +588,7 @@
 			children = (
 				4F6ED7912B7436A6000E4594 /* ExpandedGoalViewModel.swift */,
 				4F182FA02B7E6D900072EABE /* EvidenceSubViewModel.swift */,
+				4F19B7F32B8E2DCB008FEBA9 /* NextTierViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -593,6 +598,7 @@
 			children = (
 				969F91F12B3E0C08004BECB1 /* ExpandedGoalView.swift */,
 				4F182F9E2B7E6D730072EABE /* EvidenceSubView.swift */,
+				4F19B7F12B8E0902008FEBA9 /* NextTierView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1155,6 +1161,7 @@
 				4F51D0972B88CA8200B66A47 /* FeedFilterView.swift in Sources */,
 				96F246E62B3824E1000CC323 /* AuthService.swift in Sources */,
 				4F182FA62B7E6E5F0072EABE /* SubmitEvidenceViewModel.swift in Sources */,
+				4F19B7F22B8E0902008FEBA9 /* NextTierView.swift in Sources */,
 				96F246F62B38283A000CC323 /* FirestoreConstants.swift in Sources */,
 				96EDC7252B40A33600AC2C38 /* FriendRequestsView.swift in Sources */,
 				4FFC13C12B867F4F001D898D /* ActivityViewModel.swift in Sources */,
@@ -1179,6 +1186,7 @@
 				4F6ED7762B71890F000E4594 /* GoalViewCell.swift in Sources */,
 				96CB3EA12B38F24D00B3508D /* RegistrationView.swift in Sources */,
 				969F91F52B3ED598004BECB1 /* CalendarView.swift in Sources */,
+				4F19B7F42B8E2DCB008FEBA9 /* NextTierViewModel.swift in Sources */,
 				963592A42B542A0E00DD04B8 /* CurrentFriendsViewModel.swift in Sources */,
 				96EDC7152B408F9900AC2C38 /* CameraView.swift in Sources */,
 				4FFC13B12B86797E001D898D /* ActivityService.swift in Sources */,
