@@ -30,5 +30,26 @@ class NextTierViewModel: ObservableObject {
             }
         }
     }
+    
+    func addNewCycle(goalId: String, newTier: Int) {
+        isProcessing = true
+        operationSuccessful = nil // Reset the success state
+        Task {
+            do {
+                try await GoalService.updateGoalWithNewCycle(goalId: goalId, newTier: newTier)
+                DispatchQueue.main.async { [weak self] in
+                    self?.isProcessing = false
+                    self?.operationSuccessful = true
+                }
+            } catch {
+                DispatchQueue.main.async { [weak self] in
+                    self?.isProcessing = false
+                    self?.operationSuccessful = false
+                    print("Error updating goal with new cycle: \(error)")
+                }
+            }
+        }
+    }
+
 }
 

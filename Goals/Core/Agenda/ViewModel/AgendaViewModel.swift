@@ -46,10 +46,11 @@ class AgendaViewModel: ObservableObject {
                     let goalStartDate = enrichedGoal.timestamp.dateValue() // Convert Timestamp to Date
                     let goalDuration = enrichedGoal.duration // Example; adjust as needed
                     let goalFrequency = enrichedGoal.frequency // Example; adjust as needed
-                    let goalTarget = enrichedGoal.targetCount // Example; adjust as needed
+                    let goalTarget = enrichedGoal.targetCount
+                    let goalCycles = enrichedGoal.cycles
 
                     let evidences = try await EvidenceService.fetchEvidences(forGoalId: enrichedGoal.id)
-                    let steps = stepsCalculator.calculateSteps(goalStartDate: goalStartDate, goalDuration: goalDuration, goalFrequency: goalFrequency, goalTarget: goalTarget, evidences: evidences)
+                    let steps = stepsCalculator.calculateSteps(goalCycles: goalCycles, goalDuration: goalDuration, goalFrequency: goalFrequency, goalTarget: goalTarget, evidences: evidences)
 
                     allStepsWithGoal.append(contentsOf: steps.map { (step: $0, goal: enrichedGoal) })
                 }

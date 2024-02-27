@@ -24,6 +24,7 @@ struct NextTierView: View {
                 Text("It is however important to take breaks sometimes. Reflect on this past tier and how you are feeling.")
                 Button("Start Today") {
                     viewModel.incrementTargetCount(goalId: goal.id)
+                    viewModel.addNewCycle(goalId: goal.id, newTier: goal.tier)
                 }
                 .padding()
                 .background(Color.blue)
@@ -40,19 +41,6 @@ struct NextTierView: View {
             }
         }
         .padding()
-        .onChange(of: viewModel.operationSuccessful) { success in
-            if success == true {
-                Task {
-                        await goalViewModel.refreshGoalDetails(goalId: goal.id)
-                    }
-                if let user = userViewModel.currentUser {
-                    userViewModel.refreshUserGoals(for: user)
-                }
-                dismiss()
-            } else if success == false {
-                // Handle operation failure here, e.g., showing an alert
-            }
-        }
     }
 }
 

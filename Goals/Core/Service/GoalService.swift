@@ -11,13 +11,44 @@ import FirebaseFirestoreSwift
 
 struct GoalService {
     
-    static func uploadGoal(_ goal: Goal) async throws {
-        guard let goalData = try? Firestore.Encoder().encode(goal) else { return }
+    static func uploadGoal(_ goal: Goal) async throws -> String {
+        guard let goalData = try? Firestore.Encoder().encode(goal) else {
+            throw NSError(domain: "Error encoding goal", code: 0, userInfo: nil)
+        }
         let ref = try await FirestoreConstants.GoalsCollection.addDocument(data: goalData)
         try await updateUserFeedsAfterPost(goalId: ref.documentID)
         try await updatePartnerFeedAfterPost(goalId: ref.documentID, partnerUid: goal.partnerUid)
         
-        ActivityService.uploadNotification(toUid: goal.partnerUid, type: .friendGoal, goalId: ref.documentID)
+        Task {
+            await ActivityService.uploadNotification(toUid: goal.partnerUid, type: .friendGoal, goalId: ref.documentID)
+        }
+
+        return ref.documentID
+    }
+    
+    static func updateGoal(goalId: String, updatedGoal: Goal) async throws {
+        // Encode the updatedGoal object into a dictionary that Firestore can store
+        guard let goalData = try? Firestore.Encoder().encode(updatedGoal) else {
+            throw NSError(domain: "Error encoding updated goal", code: 0, userInfo: nil)
+        }
+        
+        // Update the document in Firestore
+        try await FirestoreConstants.GoalsCollection.document(goalId).setData(goalData, merge: true)
+    }
+    
+    static func updateGoalWithNewCycle(goalId: String, newTier: Int) async throws {
+        // Fetch the current goal
+        let goal = try await fetchGoalDetails(goalId: goalId)
+        
+        // Create a new cycle
+        let newCycle = GoalCycle(startDate: Date(), tier: newTier, goalID: goalId)
+        
+        // Update the goal's cycles
+        var updatedGoal = goal
+        updatedGoal.cycles.append(newCycle)
+        
+        // Use the existing function to save the updated goal back to Firestore
+        try await updateGoal(goalId: goalId, updatedGoal: updatedGoal)
     }
 
     private static func updatePartnerFeedAfterPost(goalId: String, partnerUid: String) async throws {

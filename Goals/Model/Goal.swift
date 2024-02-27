@@ -22,6 +22,7 @@ struct Goal: Identifiable, Codable, Hashable {
     var currentCount: Int
     var targetCount: Int
     var tier: Int
+    var cycles: [GoalCycle]
     
     var id: String {
         return goalId ?? NSUUID().uuidString
@@ -31,9 +32,10 @@ struct Goal: Identifiable, Codable, Hashable {
     
 }
 
-struct GoalCycle: Codable {
+struct GoalCycle: Codable, Hashable {
     var startDate: Date
     var tier: Int
+    var goalID: String
 }
 
 enum GoalType: Int, CaseIterable, Identifiable, Codable {

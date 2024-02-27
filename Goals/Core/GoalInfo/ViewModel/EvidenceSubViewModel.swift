@@ -35,9 +35,18 @@ class EvidenceSubViewModel: ObservableObject {
     }
     
     @MainActor
-    func calculateSteps(with evidences: [Evidence]) {
-        let calculatedSteps = stepsCalculator.calculateSteps(goalStartDate: goalStartDate, goalDuration: goalDuration, goalFrequency: goalFrequency, goalTarget: goalTarget, evidences: evidences)
-        self.steps = calculatedSteps
+    func calculateSteps(with evidences: [Evidence], for goalCycles: [GoalCycle]) {
+        // Assuming you need to handle multiple GoalCycles
+        goalCycles.forEach { goalCycle in
+            let calculatedSteps = stepsCalculator.calculateSteps(
+                goalCycles: goalCycles,
+                goalDuration: goalDuration,
+                goalFrequency: goalFrequency,
+                goalTarget: goalTarget,
+                evidences: evidences)
+            // Assuming you need to append or manage steps for multiple GoalCycles
+            self.steps.append(contentsOf: calculatedSteps)
+        }
     }
 
     // Present evidence submission UI
@@ -49,12 +58,16 @@ class EvidenceSubViewModel: ObservableObject {
     func fetchEvidenceForGoal() async {
         do {
             let evidences = try await EvidenceService.fetchEvidences(forGoalId: goalId)
-            await calculateSteps(with: evidences)
+            // Assuming you have a way to fetch or determine the relevant GoalCycles for the goalId
+            let goal = try await GoalService.fetchGoalDetails(goalId: goalId)
+            let goalCycles = goal.cycles
+            
+            await calculateSteps(with: evidences, for: goalCycles)
         } catch {
             print("DEBUG: Error fetching evidences: \(error)")
         }
     }
-    
+
     func deleteEvidence(evidenceId: String) {
         guard !evidenceId.isEmpty else { return }
         
@@ -91,39 +104,44 @@ class EvidenceSubViewModel: ObservableObject {
 
 class StepsCalculator {
     
-    func calculateSteps(goalStartDate: Date, goalDuration: Int, goalFrequency: Int, goalTarget: Int, evidences: [Evidence]) -> [Step] {
+    // Modify the function to accept GoalCycles
+    func calculateSteps(goalCycles: [GoalCycle], goalDuration: Int, goalFrequency: Int, goalTarget: Int, evidences: [Evidence]) -> [Step] {
         var result: [Step] = []
         let calendar = Calendar.current
         let currentDate = Date()
-        let weeksSinceStart = calendar.dateComponents([.weekOfYear], from: goalStartDate, to: currentDate).weekOfYear ?? 0
         
-        let completionsPerWeek = goalFrequency
-        let totalWeeksNeeded = Int(ceil(Double(goalTarget) / Double(completionsPerWeek)))
-        var stepsDistribution = [Int](repeating: completionsPerWeek, count: totalWeeksNeeded)
-        adjustStepsDistributionIfNeeded(&stepsDistribution, totalCompletionsNeeded: goalTarget)
-        
-        var lastCompletedDayGlobal: Int? = nil
-        
-        for week in 0..<goalDuration {
-            let stepsThisWeek = week < stepsDistribution.count ? stepsDistribution[week] : 0
-            let weekEndDate = calendar.date(byAdding: .day, value: 7 * (week + 1) - 1, to: goalStartDate)!
+        for goalCycle in goalCycles {
+            // Calculate weeks since start for each cycle
+            let weeksSinceStart = calendar.dateComponents([.weekOfYear], from: goalCycle.startDate, to: currentDate).weekOfYear ?? 0
             
-            for dayIndex in 0..<stepsThisWeek {
-                let dayNumberForStep = week * completionsPerWeek + dayIndex + 1
-                let evidenceSubmitted = evidences.contains(where: { $0.weekNumber == week + 1 && $0.dayNumber == dayNumberForStep })
-                if evidenceSubmitted {
-                    lastCompletedDayGlobal = dayNumberForStep
+            let completionsPerWeek = goalFrequency
+            let totalWeeksNeeded = Int(ceil(Double(goalTarget) / Double(completionsPerWeek)))
+            var stepsDistribution = [Int](repeating: completionsPerWeek, count: totalWeeksNeeded)
+            adjustStepsDistributionIfNeeded(&stepsDistribution, totalCompletionsNeeded: goalTarget)
+            
+            var lastCompletedDayGlobal: Int? = nil
+            
+            for week in 0..<goalDuration {
+                let stepsThisWeek = week < stepsDistribution.count ? stepsDistribution[week] : 0
+                let weekEndDate = calendar.date(byAdding: .day, value: 7 * (week + 1) - 1, to: goalCycle.startDate)!
+                
+                for dayIndex in 0..<stepsThisWeek {
+                    let dayNumberForStep = week * completionsPerWeek + dayIndex + 1
+                    let evidenceSubmitted = evidences.contains(where: { $0.weekNumber == week + 1 && $0.dayNumber == dayNumberForStep && $0.goalID == goalCycle.goalID }) // Ensure evidence matches goalCycle
+                    if evidenceSubmitted {
+                        lastCompletedDayGlobal = dayNumberForStep
+                    }
+                    
+                    // Calculate deadline by going backwards from the end of the week
+                    let daysBackward = stepsThisWeek - dayIndex - 1
+                    let stepDeadline = calculateStepDeadline(weekEndDate: weekEndDate, daysBackward: daysBackward)
+                    
+                    let status = determineStepStatus(week: week, dayNumberForStep: dayNumberForStep, evidenceSubmitted: evidenceSubmitted, weeksSinceStart: weeksSinceStart, lastCompletedDayGlobal: lastCompletedDayGlobal)
+                    
+                    let evidenceForStep = evidences.first(where: { $0.weekNumber == week + 1 && $0.dayNumber == dayNumberForStep && $0.goalID == goalCycle.goalID }) // Ensure evidence matches goalCycle
+                    let step = Step(id: UUID(), weekNumber: week + 1, dayNumber: dayNumberForStep, evidence: evidenceForStep, status: status, deadline: stepDeadline)
+                    result.append(step)
                 }
-                
-                // Calculate deadline by going backwards from the end of the week
-                let daysBackward = stepsThisWeek - dayIndex - 1
-                let stepDeadline = calculateStepDeadline(weekEndDate: weekEndDate, daysBackward: daysBackward)
-                
-                let status = determineStepStatus(week: week, dayNumberForStep: dayNumberForStep, evidenceSubmitted: evidenceSubmitted, weeksSinceStart: weeksSinceStart, lastCompletedDayGlobal: lastCompletedDayGlobal)
-                
-                let evidenceForStep = evidences.first(where: { $0.weekNumber == week + 1 && $0.dayNumber == dayNumberForStep })
-                let step = Step(weekNumber: week + 1, dayNumber: dayNumberForStep, evidence: evidenceForStep, status: status, deadline: stepDeadline)
-                result.append(step)
             }
         }
         

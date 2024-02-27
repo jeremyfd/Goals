@@ -36,7 +36,8 @@ class DeveloperPreview: ObservableObject {
         duration: 1,
         currentCount: 2,
         targetCount: 7,
-        tier: 1)
+        tier: 1,
+        cycles: [])
     
     let evidence = Evidence(
         goalID: "123",
