@@ -35,21 +35,6 @@ struct GoalService {
         // Update the document in Firestore
         try await FirestoreConstants.GoalsCollection.document(goalId).setData(goalData, merge: true)
     }
-    
-//    static func updateGoalWithNewCycle(goalId: String, newTier: Int) async throws {
-//        // Fetch the current goal
-//        let goal = try await fetchGoalDetails(goalId: goalId)
-//        
-//        // Create a new cycle
-//        let newCycle = GoalCycle(startDate: Date(), tier: newTier, goalID: goalId)
-//        
-//        // Update the goal's cycles
-//        var updatedGoal = goal
-//        updatedGoal.cycles.append(newCycle)
-//        
-//        // Use the existing function to save the updated goal back to Firestore
-//        try await updateGoal(goalId: goalId, updatedGoal: updatedGoal)
-//    }
 
     private static func updatePartnerFeedAfterPost(goalId: String, partnerUid: String) async throws {
         // Update the "user-feed-partner" for the partner user

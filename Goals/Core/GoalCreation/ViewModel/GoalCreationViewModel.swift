@@ -29,34 +29,34 @@ class GoalCreationViewModel: ObservableObject {
     ]
     
     func uploadGoal() async throws {
-            guard let uid = Auth.auth().currentUser?.uid else { return }
-            let goal = Goal(
-                ownerUid: uid,
-                partnerUid: partnerUID,
-                timestamp: Timestamp(),
-                title: title,
-                frequency: Int(frequency),
-                description: description,
-                duration: Int(duration),
-                currentCount: Int(currentCount),
-                targetCount: Int(targetCount),
-                tier: Int(tier))
-            
-            // Upload the goal and get the documentID of the newly created goal
-            let goalId = try await GoalService.uploadGoal(goal)
-            
-            // Create and upload a new cycle associated with the newly created goal
-            var cycle = Cycle(goalID: goalId, startDate: Date(), tier: 1)
-            let cycleId = try await CycleService.uploadCycle(cycle)
-            cycle.cycleId = cycleId
-            
-            let totalSteps = 7
-            let frequencyInt = Int(self.frequency)
-            let calendar = Calendar.current
-            
-            // Get the deadlines array based on the frequency
-            guard let frequencyDeadlines = deadlines[frequencyInt] else { return }
-            
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        let goal = Goal(
+            ownerUid: uid,
+            partnerUid: partnerUID,
+            timestamp: Timestamp(),
+            title: title,
+            frequency: Int(frequency),
+            description: description,
+            duration: Int(duration),
+            currentCount: Int(currentCount),
+            targetCount: Int(targetCount),
+            tier: Int(tier))
+        
+        // Upload the goal and get the documentID of the newly created goal
+        let goalId = try await GoalService.uploadGoal(goal)
+        
+        // Create and upload a new cycle associated with the newly created goal
+        var cycle = Cycle(goalID: goalId, startDate: Date(), tier: 1)
+        let cycleId = try await CycleService.uploadCycle(cycle)
+        cycle.cycleId = cycleId
+        
+        let totalSteps = 7
+        let frequencyInt = Int(self.frequency)
+        let calendar = Calendar.current
+        
+        // Get the deadlines array based on the frequency
+        guard let frequencyDeadlines = deadlines[frequencyInt] else { return }
+        
         for stepNumber in 1...totalSteps {
             // Use the step number to get the days to add from the deadlines array
             let daysToAdd = frequencyDeadlines[stepNumber - 1]
@@ -71,6 +71,6 @@ class GoalCreationViewModel: ObservableObject {
             let step = Step(cycleID: cycle.cycleId ?? "", goalID: cycle.goalID, weekNumber: (stepNumber - 1) / frequencyInt + 1, dayNumber: stepNumber, status: .readyToSubmit, deadline: stepDeadline, tier: cycle.tier)
             _ = try await StepService.uploadStep(step)
         }
-
-        }
+        
     }
+}

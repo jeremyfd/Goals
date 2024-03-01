@@ -24,7 +24,14 @@ struct NextTierView: View {
                 Text("It is however important to take breaks sometimes. Reflect on this past tier and how you are feeling.")
                 Button("Start Today") {
                     viewModel.incrementTargetCount(goalId: goal.id)
-                    viewModel.addNewCycle(goalId: goal.id, newTier: goal.tier)
+                    Task {
+                            do {
+                                try await viewModel.createNewCycleWithStartDate(for: goal.id, startDate: Date(), frequency: goal.frequency, tier: goal.tier)
+                            } catch {
+                                print("Failed to create new cycle: \(error)")
+                            }
+                        }
+                    dismiss()
                 }
                 .padding()
                 .background(Color.blue)
