@@ -22,7 +22,7 @@ struct FirestoreConstants {
     
     static let StepsCollection = Root.collection("steps")
     
-    static let EvidenceCollection = Root.collection("evidences")
+    static let EvidencesCollection = Root.collection("evidences")
     
     static let ActivityCollection = Root.collection("activity")
     

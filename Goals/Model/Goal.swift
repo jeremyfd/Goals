@@ -31,10 +31,6 @@ struct Goal: Identifiable, Codable, Hashable {
     
 }
 
-
-
-
-
 enum GoalType: Int, CaseIterable, Identifiable, Codable {
     case friendGoalFeed
     case partnerGoalFeed

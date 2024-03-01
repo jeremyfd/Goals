@@ -174,7 +174,7 @@ struct GoalService {
             // Optionally, throw a custom error if needed
         }
     }
-
+    
     private static func removeGoalFromPartnerFeeds(goalId: String, partnerUid: String) async throws {
         // Directly attempt to delete the goal from the partner's "user-feed-partner" without fetching the goal
         try await FirestoreConstants.UserCollection

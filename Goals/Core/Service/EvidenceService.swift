@@ -20,7 +20,7 @@ struct EvidenceService {
         newEvidence.imageUrl = imageUrl
         
         // Save the evidence document in Firestore
-        let ref = try await FirestoreConstants.EvidenceCollection.addDocument(from: newEvidence)
+        let ref = try await FirestoreConstants.EvidencesCollection.addDocument(from: newEvidence)
         var uploadedEvidence = newEvidence
         uploadedEvidence.evidenceId = ref.documentID // Directly assign to evidenceId
         
@@ -34,7 +34,7 @@ struct EvidenceService {
     }
     
     static func fetchEvidences(forGoalId goalId: String) async throws -> [Evidence] {
-            let querySnapshot = try await FirestoreConstants.EvidenceCollection.whereField("goalID", isEqualTo: goalId).getDocuments()
+            let querySnapshot = try await FirestoreConstants.EvidencesCollection.whereField("goalID", isEqualTo: goalId).getDocuments()
 //            print("DEBUG: Query snapshot documents: \(querySnapshot.documents)")
             
             let evidences: [Evidence] = querySnapshot.documents.compactMap { document -> Evidence? in
@@ -45,7 +45,7 @@ struct EvidenceService {
     
     static func updateEvidenceVerification(evidenceId: String, isVerified: Bool, goalId: String) async throws {
         // Update the evidence's verified status
-        try await FirestoreConstants.EvidenceCollection.document(evidenceId).updateData(["verified": isVerified])
+        try await FirestoreConstants.EvidencesCollection.document(evidenceId).updateData(["verified": isVerified])
         
         // If the evidence is being verified, increment the goal's currentCount
         if isVerified {
@@ -55,7 +55,7 @@ struct EvidenceService {
     
     static func deleteEvidence(evidenceId: String) async throws {
         // Fetch the document to get the imageUrl
-        let documentSnapshot = try await FirestoreConstants.EvidenceCollection.document(evidenceId).getDocument()
+        let documentSnapshot = try await FirestoreConstants.EvidencesCollection.document(evidenceId).getDocument()
         
         guard let evidence = try? documentSnapshot.data(as: Evidence.self) else {
             throw NSError(domain: "DeleteEvidenceError", code: 1, userInfo: [NSLocalizedDescriptionKey: "Failed to fetch evidence for deletion."])
@@ -71,6 +71,6 @@ struct EvidenceService {
         }
         
         // Proceed to delete the evidence document from Firestore
-        try await FirestoreConstants.EvidenceCollection.document(evidenceId).delete()
+        try await FirestoreConstants.EvidencesCollection.document(evidenceId).delete()
     }
 }

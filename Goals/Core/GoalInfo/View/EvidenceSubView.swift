@@ -1,13 +1,13 @@
+////
+////  EvidenceSubView.swift
+////  Goals
+////
+////  Created by Jeremy Daines on 15/02/2024.
+////
 //
-//  EvidenceSubView.swift
-//  Goals
+//import SwiftUI
+//import Kingfisher
 //
-//  Created by Jeremy Daines on 15/02/2024.
-//
-
-import SwiftUI
-import Kingfisher
-
 //
 //struct EvidenceSubView: View {
 //    let goal: Goal

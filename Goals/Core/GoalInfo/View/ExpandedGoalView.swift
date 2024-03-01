@@ -10,8 +10,8 @@ import Firebase
 
 struct ExpandedGoalView: View {
     let goal: Goal
+    
     @StateObject private var viewModel = ExpandedGoalViewModel()
-//    @StateObject private var evidenceViewModel: EvidenceSubViewModel
     @State private var showCalendarView = false
     @State private var isDescriptionExpanded: Bool = false
     @State private var navigateToUser: User? = nil
@@ -29,8 +29,6 @@ struct ExpandedGoalView: View {
     
     init(goal: Goal) {
         self.goal = goal
-        let startDate = goal.timestamp.dateValue()
-//        _evidenceViewModel = StateObject(wrappedValue: EvidenceSubViewModel(goalId: goal.id, startDate: startDate, duration: goal.duration, frequency: goal.frequency, targetCount: goal.targetCount))
     }
     
     private func formatDate(_ timestamp: Timestamp) -> String {
@@ -168,17 +166,56 @@ struct ExpandedGoalView: View {
                 }
                 .padding(.vertical)
                 
-//                EvidenceSubView(goal: goal, viewModel: evidenceViewModel) { weekNumber, dayNumber in
-//                    self.submitEvidenceSheetIdentifier = SubmitEvidenceSheetIdentifier(goalID: goal.id, weekNumber: weekNumber, dayNumber: dayNumber)
-//                }
-                
-                .sheet(item: $submitEvidenceSheetIdentifier) { identifier in
-//                    SubmitEvidenceView(viewModel: SubmitEvidenceViewModel(goalID: identifier.goalID, weekNumber: identifier.weekNumber, dayNumber: identifier.dayNumber)) {
-////                        Task {
-////                            await evidenceViewModel.fetchEvidenceForGoal()
-////                        }
-//                    }
+                VStack {
+                    if viewModel.isLoading {
+                        ProgressView()
+                            .onAppear { print("DEBUG: Showing ProgressView") }
+                    } else if viewModel.cycles.isEmpty {
+                        Text("No cycles available for this goal.")
+                            .onAppear { print("DEBUG: No cycles available") }
+                    } else {
+                        ForEach(viewModel.cycles) { cycle in
+                            VStack(alignment: .leading) {
+                                Text("Cycle Start Date: \(cycle.startDate.toDateTimeString())")
+                                    .font(.headline)
+                                    .onAppear { print("DEBUG: Displaying cycle with ID: \(cycle.id)") }
+                                ForEach(viewModel.steps.filter { $0.cycleID == cycle.id }.sorted(by: { $0.deadline < $1.deadline })) { step in
+                                    VStack {
+                                        Text("Step for Week \(step.weekNumber), Day \(step.dayNumber)")
+                                        if let evidence = viewModel.evidences.first(where: { $0.stepID == step.id }) {
+                                            VStack {
+                                                if let imageUrl = URL(string: evidence.imageUrl) {
+                                                    AsyncImage(url: imageUrl) { image in
+                                                        image.resizable()
+                                                    } placeholder: {
+                                                        ProgressView()
+                                                    }
+                                                    .frame(width: 100, height: 100)
+                                                }
+                                                Text(evidence.description ?? "No description")
+                                            }
+                                        } else {
+                                            Text("No evidence for this step.")
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
+                .onAppear {
+                    viewModel.goal = goal
+                    viewModel.fetchCyclesForCurrentGoal()
+                    viewModel.fetchStepsForCurrentGoal()
+                    viewModel.fetchEvidencesForCurrentGoal()
+                    print("DEBUG: View appeared, fetching cycles...")
+                }
+                
+                
+                //                .sheet(item: $submitEvidenceSheetIdentifier) { identifier in
+                //                    SubmitEvidenceView(viewModel: SubmitEvidenceViewModel(goalID: identifier.goalID, weekNumber: identifier.weekNumber, dayNumber: identifier.dayNumber)) {
+                //                    }
+                //                }
             }
             
             NavigationLink(destination: navigateToUser.map { UserProfileView(user: $0) }, isActive: Binding<Bool>(
@@ -226,8 +263,8 @@ struct ExpandedGoalView: View {
         }
         .refreshable {
             Task {
-                    await viewModel.refreshGoalDetails(goalId: goal.id)
-                }
+                await viewModel.refreshGoalDetails(goalId: goal.id)
+            }
         }
         
         .onAppear {
@@ -260,76 +297,4 @@ struct ExpandedGoalView: View {
 
 //#Preview {
 //    ExpandedGoalView()
-//}
-
-//
-//LazyVStack {
-//    
-//    Text("Week 1 - 1st January 2023")
-//        .font(.title2)
-//        .fontWeight(.bold)
-//        .padding(.top, 5)
-//    
-//    ForEach(0..<3) { _ in
-//        HStack {
-//            Image("gymphoto")
-//                .resizable()
-//                .scaledToFill()
-//                .frame(width: 110, height: 110)
-//                .cornerRadius(40)
-//            
-//            Image(systemName: "checkmark.circle.fill")
-//                .resizable()
-//                .aspectRatio(contentMode: .fit)
-//                .frame(width: 40, height: 40)
-//                .foregroundColor(.green)
-//                .background(Color.white)
-//                .clipShape(Circle())
-//                .offset(x: -40, y: 30)
-//            
-//            VStack(alignment: .leading) {
-//                Text("Monday 7th June")
-//                Text("20h13")
-//                Text("London")
-//            }
-//            .font(.subheadline)
-//            .padding(.leading, -30)
-//            
-//            Spacer()
-//        }
-//    }
-//    
-//    Text("Week 2 - 8th January 2023")
-//        .font(.title2)
-//        .fontWeight(.bold)
-//        .padding(.top, 5)
-//    
-//    ForEach(0..<3) { _ in
-//        HStack {
-//            Image("gymphoto")
-//                .resizable()
-//                .scaledToFill()
-//                .frame(width: 110, height: 110)
-//                .cornerRadius(40)
-//            
-//            Image(systemName: "checkmark.circle.fill")
-//                .resizable()
-//                .aspectRatio(contentMode: .fit)
-//                .frame(width: 40, height: 40)
-//                .foregroundColor(.green)
-//                .background(Color.white)
-//                .clipShape(Circle())
-//                .offset(x: -40, y: 30)
-//            
-//            VStack(alignment: .leading) {
-//                Text("Monday 7th June")
-//                Text("20h13")
-//                Text("London")
-//            }
-//            .font(.subheadline)
-//            .padding(.leading, -30)
-//            
-//            Spacer()
-//        }
-//    }
 //}

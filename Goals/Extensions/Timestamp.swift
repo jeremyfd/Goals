@@ -26,19 +26,10 @@ extension Timestamp {
 
 }
 
-//extension Date {
-//    // Calculate time remaining until this date
-//    func countdownString() -> String {
-//        let now = Date()
-//        if self > now {
-//            let formatter = DateComponentsFormatter()
-//            formatter.allowedUnits = [.hour, .minute, .second]
-//            formatter.unitsStyle = .positional
-//            formatter.zeroFormattingBehavior = [.pad]
-//            return formatter.string(from: now, to: self) ?? ""
-//        } else {
-//            return "Deadline has passed"
-//        }
-//    }
-//}
-
+extension Date {
+    func toDateTimeString() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH:mm dd/MM/yy"
+        return dateFormatter.string(from: self)
+    }
+}
