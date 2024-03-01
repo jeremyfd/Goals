@@ -17,12 +17,16 @@ class SubmitEvidenceViewModel: ObservableObject {
     
     // Properties needed for creating an evidence entry
     var goalID: String
+    var cycleID: String
+    var stepID: String
     var weekNumber: Int
-    var dayNumber: Int  // Renamed for clarity
+    var dayNumber: Int
     
     // Initialize with the required data
-    init(goalID: String, weekNumber: Int, dayNumber: Int) {
+    init(goalID: String, cycleID: String, stepID: String, weekNumber: Int, dayNumber: Int) {
         self.goalID = goalID
+        self.cycleID = cycleID
+        self.stepID = stepID
         self.weekNumber = weekNumber
         self.dayNumber = dayNumber
     }
@@ -49,6 +53,8 @@ class SubmitEvidenceViewModel: ObservableObject {
             // Directly pass image to EvidenceService without uploading it here
             var newEvidence = Evidence(
                 goalID: goalID,
+                cycleID: cycleID,
+                stepID: stepID,
                 ownerUid: Auth.auth().currentUser?.uid ?? "",
                 partnerUid: "",
                 timestamp: Timestamp(date: Date()),

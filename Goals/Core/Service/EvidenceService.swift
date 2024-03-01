@@ -32,7 +32,6 @@ struct EvidenceService {
         
         return uploadedEvidence
     }
-
     
     static func fetchEvidences(forGoalId goalId: String) async throws -> [Evidence] {
             let querySnapshot = try await FirestoreConstants.EvidenceCollection.whereField("goalID", isEqualTo: goalId).getDocuments()
@@ -53,7 +52,6 @@ struct EvidenceService {
             try await GoalService.incrementCurrentCountForGoal(goalId: goalId)
         }
     }
-
     
     static func deleteEvidence(evidenceId: String) async throws {
         // Fetch the document to get the imageUrl

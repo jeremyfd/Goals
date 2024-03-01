@@ -9,10 +9,12 @@ import Foundation
 import Firebase
 import FirebaseFirestoreSwift
 
-struct Evidence: Identifiable, Codable {
+struct Evidence: Identifiable, Codable, Hashable {
     @DocumentID var evidenceId: String?
     
     let goalID: String
+    let cycleID: String
+    let stepID: String
     let ownerUid: String
     let partnerUid: String
     let timestamp: Timestamp
@@ -29,21 +31,3 @@ struct Evidence: Identifiable, Codable {
     var user: User?
 }
 
-// Model to represent a step in achieving a goal
-struct Step: Identifiable {
-    var id = UUID() // Provides a unique identifier for each step
-    let weekNumber: Int // The week number of the step within the goal's duration
-    let dayNumber: Int // The day number within the specific week
-    var evidence: Evidence? // Optional evidence submitted for this step
-    var status: StepStatus // The current status of the step
-    var deadline: Date // Deadline for submitting evidence
-}
-
-// Enum to represent the status of each step
-enum StepStatus: String {
-    case readyToSubmit = "Ready to Submit"
-    case completed = "Completed"
-    case completePreviousStep = "Complete preivous step"
-    case failed = "Failed"
-    case notStartedYet = "Not Started Yet"
-}

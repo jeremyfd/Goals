@@ -36,20 +36,20 @@ struct GoalService {
         try await FirestoreConstants.GoalsCollection.document(goalId).setData(goalData, merge: true)
     }
     
-    static func updateGoalWithNewCycle(goalId: String, newTier: Int) async throws {
-        // Fetch the current goal
-        let goal = try await fetchGoalDetails(goalId: goalId)
-        
-        // Create a new cycle
-        let newCycle = GoalCycle(startDate: Date(), tier: newTier, goalID: goalId)
-        
-        // Update the goal's cycles
-        var updatedGoal = goal
-        updatedGoal.cycles.append(newCycle)
-        
-        // Use the existing function to save the updated goal back to Firestore
-        try await updateGoal(goalId: goalId, updatedGoal: updatedGoal)
-    }
+//    static func updateGoalWithNewCycle(goalId: String, newTier: Int) async throws {
+//        // Fetch the current goal
+//        let goal = try await fetchGoalDetails(goalId: goalId)
+//        
+//        // Create a new cycle
+//        let newCycle = GoalCycle(startDate: Date(), tier: newTier, goalID: goalId)
+//        
+//        // Update the goal's cycles
+//        var updatedGoal = goal
+//        updatedGoal.cycles.append(newCycle)
+//        
+//        // Use the existing function to save the updated goal back to Firestore
+//        try await updateGoal(goalId: goalId, updatedGoal: updatedGoal)
+//    }
 
     private static func updatePartnerFeedAfterPost(goalId: String, partnerUid: String) async throws {
         // Update the "user-feed-partner" for the partner user
@@ -138,6 +138,27 @@ struct GoalService {
         // First, attempt to fetch the goal to get the partnerUid
         let goalDocumentSnapshot = try await FirestoreConstants.GoalsCollection.document(goalId).getDocument()
         if let goal = try? goalDocumentSnapshot.data(as: Goal.self) {
+            // Fetch and delete all cycles associated with this goal
+            let cycles = try await CycleService.fetchCycles(forGoalId: goalId)
+            for cycle in cycles {
+                guard let cycleId = cycle.cycleId else { continue }
+                try await CycleService.deleteCycle(cycleId: cycleId)
+            }
+            
+            // Fetch and delete all evidences associated with this goal
+            let steps = try await StepService.fetchSteps(forGoalId: goalId)
+            for step in steps {
+                guard let stepId = step.stepId else { continue }
+                try await StepService.deleteStep(stepId: stepId)
+            }
+            
+            // Fetch and delete all evidences associated with this goal
+            let evidences = try await EvidenceService.fetchEvidences(forGoalId: goalId)
+            for evidence in evidences {
+                guard let evidenceId = evidence.evidenceId else { continue }
+                try await EvidenceService.deleteEvidence(evidenceId: evidenceId)
+            }
+            
             // Proceed with cleanup before deleting the goal document
             // Remove the goal from all user feeds
             try await removeGoalFromUserFeeds(goalId: goalId)
@@ -154,7 +175,6 @@ struct GoalService {
         }
     }
 
-    
     private static func removeGoalFromPartnerFeeds(goalId: String, partnerUid: String) async throws {
         // Directly attempt to delete the goal from the partner's "user-feed-partner" without fetching the goal
         try await FirestoreConstants.UserCollection

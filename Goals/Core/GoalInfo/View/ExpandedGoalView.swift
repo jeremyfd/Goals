@@ -11,7 +11,7 @@ import Firebase
 struct ExpandedGoalView: View {
     let goal: Goal
     @StateObject private var viewModel = ExpandedGoalViewModel()
-    @StateObject private var evidenceViewModel: EvidenceSubViewModel
+//    @StateObject private var evidenceViewModel: EvidenceSubViewModel
     @State private var showCalendarView = false
     @State private var isDescriptionExpanded: Bool = false
     @State private var navigateToUser: User? = nil
@@ -30,7 +30,7 @@ struct ExpandedGoalView: View {
     init(goal: Goal) {
         self.goal = goal
         let startDate = goal.timestamp.dateValue()
-        _evidenceViewModel = StateObject(wrappedValue: EvidenceSubViewModel(goalId: goal.id, startDate: startDate, duration: goal.duration, frequency: goal.frequency, targetCount: goal.targetCount))
+//        _evidenceViewModel = StateObject(wrappedValue: EvidenceSubViewModel(goalId: goal.id, startDate: startDate, duration: goal.duration, frequency: goal.frequency, targetCount: goal.targetCount))
     }
     
     private func formatDate(_ timestamp: Timestamp) -> String {
@@ -168,16 +168,16 @@ struct ExpandedGoalView: View {
                 }
                 .padding(.vertical)
                 
-                EvidenceSubView(goal: goal, viewModel: evidenceViewModel) { weekNumber, dayNumber in
-                    self.submitEvidenceSheetIdentifier = SubmitEvidenceSheetIdentifier(goalID: goal.id, weekNumber: weekNumber, dayNumber: dayNumber)
-                }
+//                EvidenceSubView(goal: goal, viewModel: evidenceViewModel) { weekNumber, dayNumber in
+//                    self.submitEvidenceSheetIdentifier = SubmitEvidenceSheetIdentifier(goalID: goal.id, weekNumber: weekNumber, dayNumber: dayNumber)
+//                }
                 
                 .sheet(item: $submitEvidenceSheetIdentifier) { identifier in
-                    SubmitEvidenceView(viewModel: SubmitEvidenceViewModel(goalID: identifier.goalID, weekNumber: identifier.weekNumber, dayNumber: identifier.dayNumber)) {
-                        Task {
-                            await evidenceViewModel.fetchEvidenceForGoal()
-                        }
-                    }
+//                    SubmitEvidenceView(viewModel: SubmitEvidenceViewModel(goalID: identifier.goalID, weekNumber: identifier.weekNumber, dayNumber: identifier.dayNumber)) {
+////                        Task {
+////                            await evidenceViewModel.fetchEvidenceForGoal()
+////                        }
+//                    }
                 }
             }
             
@@ -231,7 +231,6 @@ struct ExpandedGoalView: View {
         }
         
         .onAppear {
-            print("Current Count: \(goal.currentCount) + Target Count: \(goal.targetCount)")
             if viewModel.partnerUser == nil {
                 viewModel.fetchPartnerUser(partnerUid: goal.partnerUid)
             }

@@ -19,6 +19,10 @@
 		4F19B7F02B8C0FCB008FEBA9 /* AgendaViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F19B7EF2B8C0FCB008FEBA9 /* AgendaViewModel.swift */; };
 		4F19B7F22B8E0902008FEBA9 /* NextTierView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F19B7F12B8E0902008FEBA9 /* NextTierView.swift */; };
 		4F19B7F42B8E2DCB008FEBA9 /* NextTierViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F19B7F32B8E2DCB008FEBA9 /* NextTierViewModel.swift */; };
+		4F19B7F62B8FB5BA008FEBA9 /* StepService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F19B7F52B8FB5BA008FEBA9 /* StepService.swift */; };
+		4F19B7F82B8FE752008FEBA9 /* Cycle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F19B7F72B8FE752008FEBA9 /* Cycle.swift */; };
+		4F19B7FA2B8FE759008FEBA9 /* Step.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F19B7F92B8FE759008FEBA9 /* Step.swift */; };
+		4F19B7FC2B91AD19008FEBA9 /* CycleService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F19B7FB2B91AD19008FEBA9 /* CycleService.swift */; };
 		4F51D0972B88CA8200B66A47 /* FeedFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F51D0962B88CA8200B66A47 /* FeedFilterView.swift */; };
 		4F51D0992B88CAA800B66A47 /* FeedFilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F51D0982B88CAA800B66A47 /* FeedFilterViewModel.swift */; };
 		4F6ED7702B718715000E4594 /* UserContentListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6ED76F2B718715000E4594 /* UserContentListView.swift */; };
@@ -146,6 +150,10 @@
 		4F19B7EF2B8C0FCB008FEBA9 /* AgendaViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgendaViewModel.swift; sourceTree = "<group>"; };
 		4F19B7F12B8E0902008FEBA9 /* NextTierView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextTierView.swift; sourceTree = "<group>"; };
 		4F19B7F32B8E2DCB008FEBA9 /* NextTierViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextTierViewModel.swift; sourceTree = "<group>"; };
+		4F19B7F52B8FB5BA008FEBA9 /* StepService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepService.swift; sourceTree = "<group>"; };
+		4F19B7F72B8FE752008FEBA9 /* Cycle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cycle.swift; sourceTree = "<group>"; };
+		4F19B7F92B8FE759008FEBA9 /* Step.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step.swift; sourceTree = "<group>"; };
+		4F19B7FB2B91AD19008FEBA9 /* CycleService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CycleService.swift; sourceTree = "<group>"; };
 		4F51D0962B88CA8200B66A47 /* FeedFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedFilterView.swift; sourceTree = "<group>"; };
 		4F51D0982B88CAA800B66A47 /* FeedFilterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedFilterViewModel.swift; sourceTree = "<group>"; };
 		4F6ED76F2B718715000E4594 /* UserContentListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserContentListView.swift; sourceTree = "<group>"; };
@@ -939,11 +947,13 @@
 		96F246F02B3826DA000CC323 /* Service */ = {
 			isa = PBXGroup;
 			children = (
-				96F246F12B3826E8000CC323 /* UserService.swift */,
-				963592B72B59D6E900DD04B8 /* ImageUploader.swift */,
-				9600D97C2B5DA9CE00DAC807 /* GoalService.swift */,
-				4F182F9A2B7E4EA80072EABE /* EvidenceService.swift */,
 				4FFC13B02B86797E001D898D /* ActivityService.swift */,
+				4F19B7FB2B91AD19008FEBA9 /* CycleService.swift */,
+				4F182F9A2B7E4EA80072EABE /* EvidenceService.swift */,
+				9600D97C2B5DA9CE00DAC807 /* GoalService.swift */,
+				963592B72B59D6E900DD04B8 /* ImageUploader.swift */,
+				4F19B7F52B8FB5BA008FEBA9 /* StepService.swift */,
+				96F246F12B3826E8000CC323 /* UserService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -970,6 +980,8 @@
 			children = (
 				96F246F82B382928000CC323 /* User.swift */,
 				9600D9782B5B072000DAC807 /* Goal.swift */,
+				4F19B7F72B8FE752008FEBA9 /* Cycle.swift */,
+				4F19B7F92B8FE759008FEBA9 /* Step.swift */,
 				4F182F9C2B7E4ECC0072EABE /* Evidence.swift */,
 				4F182FA72B7F97130072EABE /* SubmitEvidenceSheetIdentifier.swift */,
 				4FFC13B22B867B59001D898D /* Activity.swift */,
@@ -1187,12 +1199,14 @@
 				96CB3EA12B38F24D00B3508D /* RegistrationView.swift in Sources */,
 				969F91F52B3ED598004BECB1 /* CalendarView.swift in Sources */,
 				4F19B7F42B8E2DCB008FEBA9 /* NextTierViewModel.swift in Sources */,
+				4F19B7F62B8FB5BA008FEBA9 /* StepService.swift in Sources */,
 				963592A42B542A0E00DD04B8 /* CurrentFriendsViewModel.swift in Sources */,
 				96EDC7152B408F9900AC2C38 /* CameraView.swift in Sources */,
 				4FFC13B12B86797E001D898D /* ActivityService.swift in Sources */,
 				4FFC13BB2B867F06001D898D /* ActivityRowView.swift in Sources */,
 				96F246FE2B382A96000CC323 /* FeedView.swift in Sources */,
 				4FE8D4662B758F5600ECD64D /* PublicChallengesView.swift in Sources */,
+				4F19B7F82B8FE752008FEBA9 /* Cycle.swift in Sources */,
 				4F6ED7902B741F0A000E4594 /* PartnerSearchViewModel.swift in Sources */,
 				4F6ED7872B72A4F8000E4594 /* FeedViewModel.swift in Sources */,
 				4FFC13B92B867EED001D898D /* ActivityFilterView.swift in Sources */,
@@ -1201,6 +1215,7 @@
 				4F19B7F02B8C0FCB008FEBA9 /* AgendaViewModel.swift in Sources */,
 				96CB3EB52B3DBFDE00B3508D /* GoalCreationView.swift in Sources */,
 				96CB3EAE2B3DBF7800B3508D /* CurrentUserProfileView.swift in Sources */,
+				4F19B7FA2B8FE759008FEBA9 /* Step.swift in Sources */,
 				96CB3EBA2B3DC03D00B3508D /* ContractView.swift in Sources */,
 				963592B42B59D2D400DD04B8 /* EditProfileViewModel.swift in Sources */,
 				963592B62B59D40900DD04B8 /* CurrentUserProfileViewModel.swift in Sources */,
@@ -1228,6 +1243,7 @@
 				96EDC71C2B40903100AC2C38 /* CameraManager.swift in Sources */,
 				96EDC7212B40A30200AC2C38 /* FriendSuggestionsView.swift in Sources */,
 				4FFC13C32B8680BC001D898D /* Timestamp.swift in Sources */,
+				4F19B7FC2B91AD19008FEBA9 /* CycleService.swift in Sources */,
 				96F246952B381F4D000CC323 /* GoalsApp.swift in Sources */,
 				96EDC7232B40A31F00AC2C38 /* CurrentFriendsView.swift in Sources */,
 				4F6ED77E2B726E3B000E4594 /* UserProfileViewModel.swift in Sources */,

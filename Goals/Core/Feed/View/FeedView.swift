@@ -65,51 +65,14 @@ struct FeedView: View {
                             .fontWeight(.bold)
                             .padding(.leading)
                         
-                        
-                        ScrollView(.horizontal, showsIndicators: false) {
+                        ScrollView (.horizontal, showsIndicators: false){
                             LazyVGrid(columns: columns, spacing: 10) {
-                                // Here, instead of using viewModel.goals, we filter for today's goals like in AgendaView
-                                let today = Date()
-                                let calendar = Calendar.current
-                                // Filter to include only today's date
-                                let stepsForToday = viewModel.stepsByDate.filter { date, _ in
-                                    calendar.isDate(date, inSameDayAs: today)
-                                }
-                                let totalGoalsForToday = stepsForToday.values.flatMap { $0 }.count
-
-                                ForEach(stepsForToday.keys.sorted(by: >), id: \.self) { date in
-                                    ForEach(stepsForToday[date, default: []]
-                                        .map({ StepGoalTuple(step: $0.0, goal: $0.1) }), id: \.id) { stepGoalTuple in
-                                            HStack{
-                                                NavigationLink {
-                                                    ExpandedGoalView(goal: stepGoalTuple.goal)
-                                                } label: {
-                                                    HStack {
-                                                        CircularProfileImageView(user: stepGoalTuple.goal.user, size: .small)
-                                                        
-                                                        Text(stepGoalTuple.goal.title)
-                                                            .fontWeight(.bold)
-                                                            .foregroundColor(.black)
-                                                        
-                                                        Spacer()
-                                                        
-                                                    }
-                                                    .padding(.horizontal, 8)
-                                                    .padding(.vertical, 1)
-                                                    .frame(width: UIScreen.main.bounds.width - 100, height: 50)
-                                                    .background(Color.white)
-                                                    .cornerRadius(40)
-                                                }
-                                            }
-                                            .padding(.leading, totalGoalsForToday > 1 ? 8 : UIScreen.main.bounds.width / 2 - ((UIScreen.main.bounds.width - 250) / 2))
-                                            .onAppear{
-                                                print("Count of stepsForToday.keys: \(totalGoalsForToday)")
-                                            }
-                                        }
+                                ForEach(viewModel.goals, id: \.id) { goal in
+                                    CalendarViewFeedView(goal: goal, currentUser: currentUser)
+                                        .padding(.leading, 8)
                                 }
                             }
                         }
-                        
                         
                         // Directly integrate the content for "My Contracts"
                         contentForYourContracts()
@@ -120,11 +83,6 @@ struct FeedView: View {
         }
         .onAppear {
             viewModel.fetchDataForYourFriendsContracts()
-            viewModel.fetchDataForYourFriendsContractsCalendar()
-        }
-        .refreshable {
-            viewModel.fetchDataForYourFriendsContracts()
-            viewModel.fetchDataForYourFriendsContractsCalendar()
         }
     }
     
@@ -144,8 +102,8 @@ struct FeedView: View {
             
             LazyVStack(spacing: 30) {
                 ForEach(viewModel.allEvidencesWithGoal, id: \.evidence.id) { evidenceWithGoal in
-                    EvidenceViewFeedView(evidence: evidenceWithGoal.evidence, goal: evidenceWithGoal.goal, currentUser: currentUser)
-                }
+                                   EvidenceViewFeedView(evidence: evidenceWithGoal.evidence, goal: evidenceWithGoal.goal, currentUser: currentUser)
+                               }
             }
         }
     }

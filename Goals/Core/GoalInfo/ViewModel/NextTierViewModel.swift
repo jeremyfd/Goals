@@ -36,7 +36,7 @@ class NextTierViewModel: ObservableObject {
         operationSuccessful = nil // Reset the success state
         Task {
             do {
-                try await GoalService.updateGoalWithNewCycle(goalId: goalId, newTier: newTier)
+//                try await GoalService.updateGoalWithNewCycle(goalId: goalId, newTier: newTier)
                 DispatchQueue.main.async { [weak self] in
                     self?.isProcessing = false
                     self?.operationSuccessful = true

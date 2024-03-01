@@ -33,7 +33,7 @@ struct GoalsTabView: View {
                 .onAppear { selectedTab = 2 }
                 .tag(2)
             
-            AgendaView()
+            PublicChallengesView()
                 .tabItem {
                     Image(systemName: selectedTab == 3 ? "trophy.fill" : "trophy")
                         .environment(\.symbolVariants, selectedTab == 3 ? .fill : .none)

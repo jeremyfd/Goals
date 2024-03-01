@@ -4,6 +4,12 @@
 //
 //  Created by Jeremy Daines on 06/02/2024.
 //
+//
+//  FeedViewModel.swift
+//  Goals
+//
+//  Created by Jeremy Daines on 06/02/2024.
+//
 
 import Foundation
 import Combine
@@ -17,11 +23,6 @@ class FeedViewModel: ObservableObject {
     @Published var isLoading = false
     private var cancellables = Set<AnyCancellable>()
     @Published var allEvidencesWithGoal: [(evidence: Evidence, goal: Goal)] = []
-    
-    let stepsCalculator = StepsCalculator()
-
-    @Published var evidencesByDate: [Date: [(Evidence, Goal)]] = [:]
-    @Published var stepsByDate: [Date: [(Step, Goal)]] = [:]
 
     
     init() {
@@ -100,11 +101,16 @@ class FeedViewModel: ObservableObject {
                     let enrichedGoal = try await fetchGoalUserData(goal: goal)
 
                     let evidences = try await EvidenceService.fetchEvidences(forGoalId: enrichedGoal.id)
+                    // Append each evidence along with its goal to the list
                     allEvidencesWithGoal.append(contentsOf: evidences.map { (evidence: $0, goal: enrichedGoal) })
                 }
+
+                // Sort all evidences by timestamp, regardless of their goal
                 allEvidencesWithGoal.sort(by: { $0.evidence.timestamp.dateValue() > $1.evidence.timestamp.dateValue() })
 
                 DispatchQueue.main.async {
+                    // Here, instead of setting goalsWithEvidences, you'll likely need to adjust your UI to work with this new structure
+                    // For example, you might have a new @Published property for allEvidencesWithGoal
                     self.allEvidencesWithGoal = allEvidencesWithGoal
 //                    print("DEBUG: Finished fetching evidences. Total evidences: \(self.allEvidencesWithGoal.count)")
                 }
@@ -166,56 +172,5 @@ class FeedViewModel: ObservableObject {
         result.user = try await user
         
         return result
-    }
-    
-    // MARK: - Calendar View
-    
-    func fetchDataForYourFriendsContractsCalendar() {
-        guard let uid = currentUser?.id else { return }
-
-        Task {
-            do {
-                let goalIDs = try await GoalService.fetchFriendGoalIDs(uid: uid)
-                var allStepsWithGoal: [(step: Step, goal: Goal)] = []
-
-                for goalID in goalIDs {
-                    let goal = try await GoalService.fetchGoalDetails(goalId: goalID)
-                    let enrichedGoal = try await fetchGoalUserData(goal: goal)
-
-                    // Assume you have a way to determine these parameters from your goal object
-                    let goalStartDate = enrichedGoal.timestamp.dateValue() // Convert Timestamp to Date
-                    let goalDuration = enrichedGoal.duration // Example; adjust as needed
-                    let goalFrequency = enrichedGoal.frequency // Example; adjust as needed
-                    let goalTarget = enrichedGoal.targetCount
-                    let goalCycles = enrichedGoal.cycles
-
-                    let evidences = try await EvidenceService.fetchEvidences(forGoalId: enrichedGoal.id)
-                    let steps = stepsCalculator.calculateSteps(goalCycles: goalCycles, goalDuration: goalDuration, goalFrequency: goalFrequency, goalTarget: goalTarget, evidences: evidences)
-
-                    allStepsWithGoal.append(contentsOf: steps.map { (step: $0, goal: enrichedGoal) })
-                }
-                
-                // Now you have all steps with their corresponding goal, you can organize them for the view
-                organizeStepsByDeadline(allStepsWithGoal)
-            } catch {
-                print("Error fetching goals and steps: \(error)")
-            }
-        }
-    }
-    
-    func organizeStepsByDeadline(_ stepsWithGoal: [(Step, Goal)]) {
-        var organizedData: [Date: [(Step, Goal)]] = [:]
-        for (step, goal) in stepsWithGoal {
-            let deadline = step.deadline
-            let deadlineStartOfDay = Calendar.current.startOfDay(for: deadline)
-            if organizedData[deadlineStartOfDay] == nil {
-                organizedData[deadlineStartOfDay] = [(step, goal)]
-            } else {
-                organizedData[deadlineStartOfDay]?.append((step, goal))
-            }
-        }
-        DispatchQueue.main.async {
-            self.stepsByDate = organizedData // Assuming you have a property to hold this data
-        }
     }
 }

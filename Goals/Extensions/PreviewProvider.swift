@@ -36,11 +36,12 @@ class DeveloperPreview: ObservableObject {
         duration: 1,
         currentCount: 2,
         targetCount: 7,
-        tier: 1,
-        cycles: [])
+        tier: 1)
     
     let evidence = Evidence(
         goalID: "123",
+        cycleID: "123",
+        stepID: "123",
         ownerUid: "123",
         partnerUid: "123",
         timestamp: Timestamp(),
