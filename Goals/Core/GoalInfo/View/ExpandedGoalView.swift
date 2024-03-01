@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Firebase
+import Kingfisher
 
 struct ExpandedGoalView: View {
     let goal: Goal
@@ -19,6 +20,10 @@ struct ExpandedGoalView: View {
     @State private var showAlert = false
     @State private var showingSubmitEvidenceView = false
     @State private var showNextTierView = false
+    @State private var isImageViewerPresented = false
+    @State private var selectedImageURL: String?
+    var onSubmitEvidence: ((Int, Int) -> Void)?
+
     @Environment(\.presentationMode) var presentationMode
     
     @State private var submitEvidenceSheetIdentifier: SubmitEvidenceSheetIdentifier?
@@ -181,23 +186,8 @@ struct ExpandedGoalView: View {
                                     .onAppear { print("DEBUG: Displaying cycle with ID: \(cycle.id)") }
                                 ForEach(viewModel.steps.filter { $0.cycleID == cycle.id }.sorted(by: { $0.deadline < $1.deadline })) { step in
                                     VStack {
-                                        Text("Step for Week \(step.weekNumber), Day \(step.dayNumber)")
-                                        if let evidence = viewModel.evidences.first(where: { $0.stepID == step.id }) {
-                                            VStack {
-                                                if let imageUrl = URL(string: evidence.imageUrl) {
-                                                    AsyncImage(url: imageUrl) { image in
-                                                        image.resizable()
-                                                    } placeholder: {
-                                                        ProgressView()
-                                                    }
-                                                    .frame(width: 100, height: 100)
-                                                }
-                                                Text(evidence.description ?? "No description")
-                                            }
-                                        } else {
-                                            Text("No evidence for this step.")
-                                        }
-                                    }
+                                        Text("Step for Week \(step.weekNumber), Day \(step.dayNumber), Deadline \(step.deadline)")
+                                        stepStatusView(step: step, allSteps: viewModel.steps)                                    }
                                 }
                             }
                         }
@@ -210,12 +200,12 @@ struct ExpandedGoalView: View {
                     viewModel.fetchEvidencesForCurrentGoal()
                     print("DEBUG: View appeared, fetching cycles...")
                 }
-                
-                
-                //                .sheet(item: $submitEvidenceSheetIdentifier) { identifier in
-                //                    SubmitEvidenceView(viewModel: SubmitEvidenceViewModel(goalID: identifier.goalID, weekNumber: identifier.weekNumber, dayNumber: identifier.dayNumber)) {
-                //                    }
-                //                }
+                .sheet(item: $submitEvidenceSheetIdentifier, onDismiss: {
+                    viewModel.fetchEvidencesForCurrentGoal()
+                }) { identifier in
+                    SubmitEvidenceView(viewModel: SubmitEvidenceViewModel(goalID: identifier.goalID, cycleID: identifier.cycleID, stepID: identifier.stepID, weekNumber: identifier.weekNumber, dayNumber: identifier.dayNumber)) {
+                    }
+                }
             }
             
             NavigationLink(destination: navigateToUser.map { UserProfileView(user: $0) }, isActive: Binding<Bool>(
@@ -292,7 +282,111 @@ struct ExpandedGoalView: View {
             NextTierView(goal: goal)
         }
     }
+    
+    @ViewBuilder
+    private func stepStatusView(step: Step, allSteps: [Step]) -> some View {
+        let isEvidenceSubmitted = viewModel.evidences.contains(where: { $0.stepID == step.id })
+        let isPastDeadline = Date() > step.deadline
+        let previousSteps = allSteps.filter { $0.deadline < step.deadline }
+        let arePreviousStepsCompleted = previousSteps.allSatisfy { previousStep in
+            viewModel.evidences.contains(where: { $0.stepID == previousStep.id })
+        }
+        
+        if viewModel.currentUserID == goal.ownerUid {
+            
+            if isEvidenceSubmitted {
+                // Show completed step view
+                completedStepView(step: step)
+            } else if !arePreviousStepsCompleted {
+                // If previous steps are not all completed, indicate that
+                Text("Complete previous step").foregroundColor(.gray)
+            } else if isPastDeadline {
+                // Show failed step if the deadline is past and no evidence submitted
+                Text("You failed this step").foregroundColor(.gray)
+            } else {
+                // This step is ready to submit evidence
+                Button("Submit Evidence") {
+                    self.submitEvidenceSheetIdentifier = SubmitEvidenceSheetIdentifier(goalID: goal.id, cycleID: step.cycleID, stepID: step.id, weekNumber: step.weekNumber, dayNumber: step.dayNumber)
+                }
+                .buttonStyle(.borderedProminent)
+            }
+        } else {
+            if isEvidenceSubmitted {
+                // Show completed step view
+                completedStepView(step: step)
+            } else if !arePreviousStepsCompleted {
+                // If previous steps are not all completed, indicate that
+                Text("No evidence yet").foregroundColor(.gray)
+            } else if isPastDeadline {
+                // Show failed step if the deadline is past and no evidence submitted
+                Text("They failed this step").foregroundColor(.gray)
+            }
+        }
+    }
+    
+    
+    
+    @ViewBuilder
+    private func completedStepView(step: Step) -> some View {
+        if let evidence = viewModel.evidences.first(where: { $0.stepID == step.id }) {
+            VStack {
+                KFImage(URL(string: evidence.imageUrl))
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 110, height: 110)
+                    .cornerRadius(40)
+                    .onTapGesture {
+                        self.selectedImageURL = evidence.imageUrl
+                        self.isImageViewerPresented = true
+                    }
+                    .overlay(verificationOverlay(for: evidence))
+                
+                // Delete button for evidence
+                if viewModel.currentUserID == goal.ownerUid {
+                    Button("Delete Evidence") {
+                        viewModel.deleteEvidence(evidenceId: evidence.evidenceId ?? "")
+                    }
+                    .foregroundColor(.red)
+                    .buttonStyle(.bordered)
+                }
+                
+                // Verify button for the goal's partner
+                if viewModel.currentUserID == goal.partnerUid && !evidence.verified {
+                    Button("Verify") {
+                        viewModel.verifyEvidence(evidenceId: evidence.evidenceId ?? "")
+                    }
+                    .foregroundColor(.green)
+                    .buttonStyle(.borderedProminent)
+                }
+                
+            }
+            .sheet(isPresented: $isImageViewerPresented) {
+                ImageViewer(imageURL: $selectedImageURL, isPresented: $isImageViewerPresented)
+            }
+        } else {
+            Text("No Evidence").foregroundColor(.gray)
+        }
+    }
+    
+    @ViewBuilder
+    private func verificationOverlay(for evidence: Evidence) -> some View {
+        if evidence.verified {
+            Image(systemName: "checkmark.circle.fill")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 40, height: 40)
+                .foregroundColor(.green)
+                .background(Color.white)
+                .clipShape(Circle())
+                .offset(x: 40, y: 30)
+        } else {
+            EmptyView()
+        }
+    }
 }
+
+
+
 
 
 //#Preview {

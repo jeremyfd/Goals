@@ -17,6 +17,7 @@ class ExpandedGoalViewModel: ObservableObject {
     @Published var steps: [Step] = []
     @Published var evidences: [Evidence] = []
     @Published var isLoading: Bool = false
+    @Published var isSubmittingEvidence = false
     
     private var cancellables = Set<AnyCancellable>()
     
@@ -30,6 +31,10 @@ class ExpandedGoalViewModel: ObservableObject {
                 self?.currentUser = user               
             }.store(in: &cancellables)
     }
+    
+        var currentUserID: String? {
+            AuthService.shared.userSession?.uid
+        }
     
     func fetchPartnerUser(partnerUid: String) {
         Task {
@@ -121,15 +126,60 @@ class ExpandedGoalViewModel: ObservableObject {
             print("Goal ID is not available")
             return
         }
+        print("DEBUG: Fetching evidences for goal ID: \(goalId)")
         Task {
             do {
                 let fetchedEvidences = try await EvidenceService.fetchEvidences(forGoalId: goalId)
                 DispatchQueue.main.async {
                     self.evidences = fetchedEvidences
+                    print("DEBUG: Fetched evidences: \(fetchedEvidences.count)")
                 }
             } catch {
                 print("Error fetching steps for goal: \(error.localizedDescription)")
             }
         }
     }
+    
+    func deleteEvidence(evidenceId: String) {
+        guard !evidenceId.isEmpty else { return }
+        
+        Task {
+            do {
+                // Delete the evidence document and its associated image
+                try await EvidenceService.deleteEvidence(evidenceId: evidenceId)
+                // Fetch the updated list of evidences after deletion
+                await fetchEvidencesForCurrentGoal()
+            } catch {
+                print("Error deleting evidence: \(error.localizedDescription)")
+                // Handle the error, e.g., show an error message to the user
+            }
+        }
+    }
+    
+    func verifyEvidence(evidenceId: String) {
+        guard !evidenceId.isEmpty else { return }
+        guard let goalId = goal?.id else {
+            print("Goal ID is not available")
+            return
+        }
+        
+        Task {
+            do {
+                // Update the evidence's verification status to true and increment the goal's current count
+                try await EvidenceService.updateEvidenceVerification(evidenceId: evidenceId, isVerified: true, goalId: goalId)
+                // Refresh the evidence list to reflect the change
+                await fetchEvidencesForCurrentGoal()
+                // Optionally, if you have UI elements depending on the goal's currentCount, trigger their update here
+            } catch {
+                print("Error verifying evidence: \(error.localizedDescription)")
+                // Handle the error, e.g., show an error message to the user
+            }
+        }
+    }
+    
+        func presentEvidenceSubmission(for step: Step) {
+            isSubmittingEvidence = true
+            // Implement UI presentation logic here, possibly using a sheet or navigation
+        }
+    
 }

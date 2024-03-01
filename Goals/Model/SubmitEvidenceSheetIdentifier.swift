@@ -10,6 +10,8 @@ import Foundation
 struct SubmitEvidenceSheetIdentifier: Identifiable {
     let id: UUID = UUID()
     var goalID: String
+    var cycleID: String
+    var stepID: String
     var weekNumber: Int
     var dayNumber: Int
 }

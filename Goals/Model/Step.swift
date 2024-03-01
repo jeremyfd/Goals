@@ -28,7 +28,6 @@ struct Step: Identifiable, Hashable, Codable {
 enum StepStatus: String, Codable {
     case readyToSubmit = "Ready to Submit"
     case completed = "Completed"
-    case completePreviousStep = "Complete previous step" // Note the typo in "previous"
+    case completePreviousStep = "Complete previous step"
     case failed = "Failed"
-    case notStartedYet = "Not Started Yet"
 }
