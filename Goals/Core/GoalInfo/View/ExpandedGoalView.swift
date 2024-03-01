@@ -320,6 +320,8 @@ struct ExpandedGoalView: View {
             } else if isPastDeadline {
                 // Show failed step if the deadline is past and no evidence submitted
                 Text("They failed this step").foregroundColor(.gray)
+            } else {
+                Text("No evidence yet").foregroundColor(.gray)
             }
         }
     }
