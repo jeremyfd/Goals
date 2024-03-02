@@ -28,6 +28,7 @@ struct StepService {
         }
         return steps
     }
+    
     static func updateStepStatus(stepId: String, status: StepStatus) async throws {
         // Update the step's status
         try await FirestoreConstants.StepsCollection.document(stepId).updateData(["status": status.rawValue])

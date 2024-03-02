@@ -297,7 +297,10 @@ struct ExpandedGoalView: View {
         .sheet(isPresented: $showCalendarView) {
             CalendarView()
         }
-        .sheet(isPresented: $showNextTierView) {
+        .sheet(isPresented: $showNextTierView, onDismiss: {
+            viewModel.fetchCyclesForCurrentGoal();
+            viewModel.fetchStepsForCurrentGoal()
+        }) {
             // Present NextTierView as a sheet
             NextTierView(goal: goal)
         }
