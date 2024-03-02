@@ -37,7 +37,6 @@ struct EvidenceViewFeedView: View {
                     .resizable()
                     .scaledToFill()
                     .frame(width: UIScreen.main.bounds.width - 40, height: UIScreen.main.bounds.height/2)
-                    .cornerRadius(20)
                     .overlay(
                         LinearGradient(gradient: Gradient(colors: [.clear, .black]), startPoint: .center, endPoint: .bottom)
                             .edgesIgnoringSafeArea(.all)
@@ -64,12 +63,15 @@ struct EvidenceViewFeedView: View {
                             .foregroundColor(.white)
                             .fontWeight(.bold)
                             .padding(.horizontal)
+                            .frame(width: 130, height: 42)
+                            .background(Color.green)
+                            .cornerRadius(21)
                     }
                 }
                 .padding()
             }
             .frame(width: UIScreen.main.bounds.width - 40, height: UIScreen.main.bounds.height/2)
-            .cornerRadius(40)
+            .cornerRadius(30)
             .sheet(isPresented: $isImageViewerPresented) {
                 ImageViewer(imageURL: $selectedImageURL, isPresented: $isImageViewerPresented)
             }

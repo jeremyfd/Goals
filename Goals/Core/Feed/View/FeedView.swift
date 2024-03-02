@@ -103,14 +103,31 @@ struct FeedView: View {
                 Spacer()
             }
             
-            LazyVStack(spacing: 30) {
-                ForEach(viewModel.allEvidencesWithGoal, id: \.evidence.id) { evidenceWithGoal in
-                    EvidenceViewFeedView(evidence: evidenceWithGoal.evidence, goal: evidenceWithGoal.goal, currentUser: currentUser)
+            LazyVStack(spacing: 20) {
+                ForEach(viewModel.sortedGroupedEvidencesKeys, id: \.self) { date in
+                    Section(header: Text(date, formatter: DateFormatter.mediumDateFormatter).font(.title3).fontWeight(.bold).padding(.leading)) {
+                        ForEach(viewModel.groupedEvidences[date] ?? [], id: \.evidence.id) { evidenceWithGoal in
+                            EvidenceViewFeedView(evidence: evidenceWithGoal.evidence, goal: evidenceWithGoal.goal, currentUser: viewModel.currentUser)
+                        }
+                    }
                 }
             }
+            .padding(.bottom)
         }
     }
 }
+
+extension DateFormatter {
+    static let mediumDateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .none
+        return formatter
+    }()
+}
+
+
+
 
 //#Preview {
 //    FeedView()

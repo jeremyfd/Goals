@@ -23,6 +23,14 @@ class FeedViewModel: ObservableObject {
     @Published var isLoading = false
     private var cancellables = Set<AnyCancellable>()
     @Published var allEvidencesWithGoal: [(evidence: Evidence, goal: Goal)] = []
+    
+    var groupedEvidences: [Date: [(evidence: Evidence, goal: Goal)]] {
+            Dictionary(grouping: allEvidencesWithGoal, by: { Calendar.current.startOfDay(for: $0.evidence.timestamp.dateValue()) })
+        }
+        
+        var sortedGroupedEvidencesKeys: [Date] {
+            groupedEvidences.keys.sorted(by: { $0 > $1 })
+        }
 
     
     init() {
@@ -173,4 +181,5 @@ class FeedViewModel: ObservableObject {
         
         return result
     }
+        
 }

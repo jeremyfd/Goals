@@ -25,6 +25,8 @@
 		4F19B7FC2B91AD19008FEBA9 /* CycleService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F19B7FB2B91AD19008FEBA9 /* CycleService.swift */; };
 		4F51D0972B88CA8200B66A47 /* FeedFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F51D0962B88CA8200B66A47 /* FeedFilterView.swift */; };
 		4F51D0992B88CAA800B66A47 /* FeedFilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F51D0982B88CAA800B66A47 /* FeedFilterViewModel.swift */; };
+		4F6CE9FA2B934D72002DA338 /* ReactionsButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6CE9F92B934D72002DA338 /* ReactionsButtonsView.swift */; };
+		4F6CE9FC2B934DD0002DA338 /* UserReactionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6CE9FB2B934DD0002DA338 /* UserReactionsView.swift */; };
 		4F6ED7702B718715000E4594 /* UserContentListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6ED76F2B718715000E4594 /* UserContentListView.swift */; };
 		4F6ED7722B71871F000E4594 /* UserContentListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6ED7712B71871F000E4594 /* UserContentListViewModel.swift */; };
 		4F6ED7762B71890F000E4594 /* GoalViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6ED7752B71890F000E4594 /* GoalViewCell.swift */; };
@@ -156,6 +158,8 @@
 		4F19B7FB2B91AD19008FEBA9 /* CycleService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CycleService.swift; sourceTree = "<group>"; };
 		4F51D0962B88CA8200B66A47 /* FeedFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedFilterView.swift; sourceTree = "<group>"; };
 		4F51D0982B88CAA800B66A47 /* FeedFilterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedFilterViewModel.swift; sourceTree = "<group>"; };
+		4F6CE9F92B934D72002DA338 /* ReactionsButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactionsButtonsView.swift; sourceTree = "<group>"; };
+		4F6CE9FB2B934DD0002DA338 /* UserReactionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserReactionsView.swift; sourceTree = "<group>"; };
 		4F6ED76F2B718715000E4594 /* UserContentListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserContentListView.swift; sourceTree = "<group>"; };
 		4F6ED7712B71871F000E4594 /* UserContentListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserContentListViewModel.swift; sourceTree = "<group>"; };
 		4F6ED7752B71890F000E4594 /* GoalViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalViewCell.swift; sourceTree = "<group>"; };
@@ -640,6 +644,8 @@
 			children = (
 				969F91FD2B3F2510004BECB1 /* ExpansionButtonView.swift */,
 				4F182FA92B7FA1C50072EABE /* ImageViewer.swift */,
+				4F6CE9F92B934D72002DA338 /* ReactionsButtonsView.swift */,
+				4F6CE9FB2B934DD0002DA338 /* UserReactionsView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -1164,6 +1170,7 @@
 				9600D9792B5B072000DAC807 /* Goal.swift in Sources */,
 				4F6ED7852B72A3CA000E4594 /* FeedSelfGoalsView.swift in Sources */,
 				4FFC13AE2B860B58001D898D /* GoalViewCellViewModel.swift in Sources */,
+				4F6CE9FC2B934DD0002DA338 /* UserReactionsView.swift in Sources */,
 				9635929C2B50A20100DD04B8 /* PreviewProvider.swift in Sources */,
 				4F182FA32B7E6E220072EABE /* SubmitEvidenceView.swift in Sources */,
 				4FFC13B72B867ED1001D898D /* ActivityView.swift in Sources */,
@@ -1195,6 +1202,7 @@
 				9600D97B2B5DA99D00DAC807 /* GoalCreationViewModel.swift in Sources */,
 				969F91EA2B3DFDBE004BECB1 /* EvidenceViewFeedView.swift in Sources */,
 				4FE8D45E2B754E0800ECD64D /* AddDummyView.swift in Sources */,
+				4F6CE9FA2B934D72002DA338 /* ReactionsButtonsView.swift in Sources */,
 				4F6ED7762B71890F000E4594 /* GoalViewCell.swift in Sources */,
 				96CB3EA12B38F24D00B3508D /* RegistrationView.swift in Sources */,
 				969F91F52B3ED598004BECB1 /* CalendarView.swift in Sources */,
