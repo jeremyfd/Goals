@@ -69,7 +69,7 @@ struct FeedView: View {
                             LazyVGrid(columns: columns, spacing: 10) {
                                 ForEach(viewModel.goals, id: \.id) { goal in
                                     CalendarViewFeedView(goal: goal, currentUser: currentUser)
-                                        .padding(.leading, 8)
+                                        .padding(.leading, viewModel.goals.count > 1 ? 8 : UIScreen.main.bounds.width / 2 - ((UIScreen.main.bounds.width - 250) / 2))
                                 }
                             }
                         }
