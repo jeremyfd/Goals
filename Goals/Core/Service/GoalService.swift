@@ -43,7 +43,6 @@ struct GoalService {
             .collection("user-feed-partner")
             .document(goalId).setData([:])
     }
-
     
     static func fetchGoals() async throws -> [Goal] {
         let snapshot = try await FirestoreConstants

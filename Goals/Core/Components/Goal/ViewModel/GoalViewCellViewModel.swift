@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import Firebase
+import Combine
 
 class GoalViewCellViewModel: ObservableObject {
     let goalId: String
@@ -27,6 +29,18 @@ class GoalViewCellViewModel: ObservableObject {
         } catch {
             print("DEBUG: Error fetching evidences: \(error)")
             // Consider error handling strategy here
+        }
+    }
+    
+    func uploadReaction(type: String) async {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        let reaction = Reaction(goalID: goalId, type: type, ownerUid: uid)
+
+        do {
+            let reactionId = try await ReactionService.uploadReaction(reaction)
+            print("DEBUG: Uploaded reaction with ID: \(reactionId)")
+        } catch {
+            print("DEBUG: Error uploading reaction: \(error)")
         }
     }
 }

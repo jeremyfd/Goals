@@ -24,6 +24,8 @@ struct FirestoreConstants {
     
     static let EvidencesCollection = Root.collection("evidences")
     
+    static let ReactionsCollection = Root.collection("reactions")
+    
     static let ActivityCollection = Root.collection("activity")
     
 }

@@ -75,9 +75,9 @@ struct GoalViewCell: View {
                 }
                 .matchedGeometryEffect(id: "collapsedScroll", in: animation)
                 
-//                if showReactions {
-//                    ReactionButtonsView(viewModel: viewModel)
-//                }
+                if showReactions {
+                    ReactionButtonsView(goalID: goal.id, viewModel: viewModel)
+                }
                 
                 HStack {
                     ExpansionButtonView(isExpanded: $showReactions)

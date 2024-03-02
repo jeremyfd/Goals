@@ -11,18 +11,22 @@ import Kingfisher
 struct EvidenceViewFeedView: View {
     @State private var isShowingExpandedGoalView = false
     @State private var isImageViewerPresented = false
+    @State private var showReactions = false
     @State private var selectedImageURL: String?
     var evidence: Evidence
     var goal: Goal
     var currentUser: User?
     @State private var isEvidenceVerified: Bool
     
+    @StateObject private var viewModel: GoalViewCellViewModel
+
     // Initialize isEvidenceVerified with evidence.verified in the initializer
     init(evidence: Evidence, goal: Goal, currentUser: User?) {
         self.evidence = evidence
         self.goal = goal
         self.currentUser = currentUser
         _isEvidenceVerified = State(initialValue: evidence.verified)
+        _viewModel = StateObject(wrappedValue: GoalViewCellViewModel(goalId: goal.id))
     }
     
     var currentUserID: String? {
@@ -76,6 +80,16 @@ struct EvidenceViewFeedView: View {
                 ImageViewer(imageURL: $selectedImageURL, isPresented: $isImageViewerPresented)
             }
             
+            if showReactions {
+                HStack {
+                    ReactionButtonsView(goalID: goal.id, viewModel: viewModel)
+                }
+                .padding(.horizontal)
+                .padding(.vertical, 5)
+                .frame(width: UIScreen.main.bounds.width - 40, height: 50)
+                .background(Color.white)
+                .cornerRadius(40)
+            }
             
             NavigationLink {
                 ExpandedGoalView(goal: goal)
@@ -95,13 +109,17 @@ struct EvidenceViewFeedView: View {
                     
                     Spacer()
                     
-                    Image(systemName: "heart")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 20, height: 20)
-                        .foregroundColor(.black)
-                        .padding(.horizontal)
-                    
+                    Button {
+                        showReactions.toggle()
+                    } label: {
+                        Image(systemName: "heart")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 20, height: 20)
+                            .foregroundColor(.black)
+                            .padding(.horizontal)
+                    }
+
                     Image(systemName: "chevron.right")
                         .resizable()
                         .aspectRatio(contentMode: .fit)

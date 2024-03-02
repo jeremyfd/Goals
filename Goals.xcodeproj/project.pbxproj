@@ -27,6 +27,8 @@
 		4F51D0992B88CAA800B66A47 /* FeedFilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F51D0982B88CAA800B66A47 /* FeedFilterViewModel.swift */; };
 		4F6CE9FA2B934D72002DA338 /* ReactionsButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6CE9F92B934D72002DA338 /* ReactionsButtonsView.swift */; };
 		4F6CE9FC2B934DD0002DA338 /* UserReactionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6CE9FB2B934DD0002DA338 /* UserReactionsView.swift */; };
+		4F6CE9FE2B93D452002DA338 /* Reaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6CE9FD2B93D452002DA338 /* Reaction.swift */; };
+		4F6CEA002B93D62C002DA338 /* ReactionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6CE9FF2B93D62C002DA338 /* ReactionService.swift */; };
 		4F6ED7702B718715000E4594 /* UserContentListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6ED76F2B718715000E4594 /* UserContentListView.swift */; };
 		4F6ED7722B71871F000E4594 /* UserContentListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6ED7712B71871F000E4594 /* UserContentListViewModel.swift */; };
 		4F6ED7762B71890F000E4594 /* GoalViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6ED7752B71890F000E4594 /* GoalViewCell.swift */; };
@@ -160,6 +162,8 @@
 		4F51D0982B88CAA800B66A47 /* FeedFilterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedFilterViewModel.swift; sourceTree = "<group>"; };
 		4F6CE9F92B934D72002DA338 /* ReactionsButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactionsButtonsView.swift; sourceTree = "<group>"; };
 		4F6CE9FB2B934DD0002DA338 /* UserReactionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserReactionsView.swift; sourceTree = "<group>"; };
+		4F6CE9FD2B93D452002DA338 /* Reaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reaction.swift; sourceTree = "<group>"; };
+		4F6CE9FF2B93D62C002DA338 /* ReactionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactionService.swift; sourceTree = "<group>"; };
 		4F6ED76F2B718715000E4594 /* UserContentListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserContentListView.swift; sourceTree = "<group>"; };
 		4F6ED7712B71871F000E4594 /* UserContentListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserContentListViewModel.swift; sourceTree = "<group>"; };
 		4F6ED7752B71890F000E4594 /* GoalViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalViewCell.swift; sourceTree = "<group>"; };
@@ -358,6 +362,8 @@
 				4F6ED7752B71890F000E4594 /* GoalViewCell.swift */,
 				969F91FF2B3F5895004BECB1 /* SelfCollapsedGoalViewCell.swift */,
 				969F91EC2B3E0687004BECB1 /* CollapsedGoalViewCell.swift */,
+				969F91FD2B3F2510004BECB1 /* ExpansionButtonView.swift */,
+				4F6CE9F92B934D72002DA338 /* ReactionsButtonsView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -642,9 +648,7 @@
 		969F91FC2B3F2500004BECB1 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				969F91FD2B3F2510004BECB1 /* ExpansionButtonView.swift */,
 				4F182FA92B7FA1C50072EABE /* ImageViewer.swift */,
-				4F6CE9F92B934D72002DA338 /* ReactionsButtonsView.swift */,
 				4F6CE9FB2B934DD0002DA338 /* UserReactionsView.swift */,
 			);
 			path = Components;
@@ -960,6 +964,7 @@
 				963592B72B59D6E900DD04B8 /* ImageUploader.swift */,
 				4F19B7F52B8FB5BA008FEBA9 /* StepService.swift */,
 				96F246F12B3826E8000CC323 /* UserService.swift */,
+				4F6CE9FF2B93D62C002DA338 /* ReactionService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -991,6 +996,7 @@
 				4F182F9C2B7E4ECC0072EABE /* Evidence.swift */,
 				4F182FA72B7F97130072EABE /* SubmitEvidenceSheetIdentifier.swift */,
 				4FFC13B22B867B59001D898D /* Activity.swift */,
+				4F6CE9FD2B93D452002DA338 /* Reaction.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1162,9 +1168,11 @@
 				963592B82B59D6E900DD04B8 /* ImageUploader.swift in Sources */,
 				96EDC72C2B40E01D00AC2C38 /* FriendsTabViewModel.swift in Sources */,
 				96CB3EA32B38F28300B3508D /* RegistrationViewModel.swift in Sources */,
+				4F6CE9FE2B93D452002DA338 /* Reaction.swift in Sources */,
 				4F182F9D2B7E4ECC0072EABE /* Evidence.swift in Sources */,
 				4F182FA12B7E6D900072EABE /* EvidenceSubViewModel.swift in Sources */,
 				96F246EF2B382657000CC323 /* AuthError.swift in Sources */,
+				4F6CEA002B93D62C002DA338 /* ReactionService.swift in Sources */,
 				963592A02B5420C200DD04B8 /* UserCellViewModel.swift in Sources */,
 				96CB3EA62B3DBEDE00B3508D /* GoalsTabView.swift in Sources */,
 				9600D9792B5B072000DAC807 /* Goal.swift in Sources */,
