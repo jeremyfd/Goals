@@ -95,17 +95,18 @@ struct FeedView: View {
             FeedFilterView(selectedFilter: $viewModel.selectedFilter)
                 .padding(.vertical)
             
-            HStack{
-                Text("Today")
-                    .font(.title3)
-                    .fontWeight(.bold)
-                    .padding(.leading)
-                Spacer()
-            }
-            
             LazyVStack(spacing: 20) {
                 ForEach(viewModel.sortedGroupedEvidencesKeys, id: \.self) { date in
-                    Section(header: Text(date, formatter: DateFormatter.mediumDateFormatter).font(.title3).fontWeight(.bold).padding(.leading)) {
+                    Section(header:
+                                HStack {
+                        Text(date, formatter: DateFormatter.mediumDateFormatter)
+                            .font(.title2)
+                            .fontWeight(.bold)
+                            .padding(.leading)
+                        Spacer()
+                    }
+                    )
+                    {
                         ForEach(viewModel.groupedEvidences[date] ?? [], id: \.evidence.id) { evidenceWithGoal in
                             EvidenceViewFeedView(evidence: evidenceWithGoal.evidence, goal: evidenceWithGoal.goal, currentUser: viewModel.currentUser)
                         }
