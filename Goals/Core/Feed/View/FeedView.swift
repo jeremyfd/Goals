@@ -60,16 +60,19 @@ struct FeedView: View {
                             }
                         }
                         
-                        Text("Calendar - Last Day!")
-                            .font(.title3)
-                            .fontWeight(.bold)
-                            .padding(.leading)
-                        
-                        ScrollView (.horizontal, showsIndicators: false){
-                            LazyVGrid(columns: columns, spacing: 10) {
-                                ForEach(viewModel.goals, id: \.id) { goal in
-                                    CalendarViewFeedView(goal: goal, currentUser: currentUser)
-                                        .padding(.leading, viewModel.goals.count > 1 ? 8 : UIScreen.main.bounds.width / 2 - ((UIScreen.main.bounds.width - 250) / 2))
+                        if !viewModel.goals.isEmpty {
+                            
+                            Text("Calendar - Last Day!")
+                                .font(.title3)
+                                .fontWeight(.bold)
+                                .padding(.leading)
+                            
+                            ScrollView (.horizontal, showsIndicators: false){
+                                LazyVGrid(columns: columns, spacing: 10) {
+                                    ForEach(viewModel.goals, id: \.id) { goal in
+                                        CalendarViewFeedView(goal: goal, currentUser: currentUser)
+                                            .padding(.leading, viewModel.goals.count > 1 ? 8 : UIScreen.main.bounds.width / 2 - ((UIScreen.main.bounds.width - 250) / 2))
+                                    }
                                 }
                             }
                         }
@@ -102,8 +105,8 @@ struct FeedView: View {
             
             LazyVStack(spacing: 30) {
                 ForEach(viewModel.allEvidencesWithGoal, id: \.evidence.id) { evidenceWithGoal in
-                                   EvidenceViewFeedView(evidence: evidenceWithGoal.evidence, goal: evidenceWithGoal.goal, currentUser: currentUser)
-                               }
+                    EvidenceViewFeedView(evidence: evidenceWithGoal.evidence, goal: evidenceWithGoal.goal, currentUser: currentUser)
+                }
             }
         }
     }

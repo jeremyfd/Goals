@@ -37,7 +37,7 @@ struct EvidenceViewFeedView: View {
                     .resizable()
                     .scaledToFill()
                     .frame(width: UIScreen.main.bounds.width - 40, height: UIScreen.main.bounds.height/2)
-                    .cornerRadius(40)
+                    .cornerRadius(20)
                     .overlay(
                         LinearGradient(gradient: Gradient(colors: [.clear, .black]), startPoint: .center, endPoint: .bottom)
                             .edgesIgnoringSafeArea(.all)
