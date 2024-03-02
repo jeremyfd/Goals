@@ -23,7 +23,7 @@ struct ExpandedGoalView: View {
     @State private var isImageViewerPresented = false
     @State private var selectedImageURL: String?
     var onSubmitEvidence: ((Int, Int) -> Void)?
-
+    
     @Environment(\.presentationMode) var presentationMode
     
     @State private var submitEvidenceSheetIdentifier: SubmitEvidenceSheetIdentifier?
@@ -39,8 +39,13 @@ struct ExpandedGoalView: View {
     private func formatDate(_ timestamp: Timestamp) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .medium
-        //        dateFormatter.dateFormat = "dd/MM/yyyy"
         return dateFormatter.string(from: timestamp.dateValue())
+    }
+    
+    private func formatDate(_ date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .medium
+        return dateFormatter.string(from: date)
     }
     
     var body: some View {
@@ -174,20 +179,35 @@ struct ExpandedGoalView: View {
                 VStack {
                     if viewModel.isLoading {
                         ProgressView()
-                            .onAppear { print("DEBUG: Showing ProgressView") }
                     } else if viewModel.cycles.isEmpty {
                         Text("No cycles available for this goal.")
-                            .onAppear { print("DEBUG: No cycles available") }
                     } else {
                         ForEach(viewModel.cycles) { cycle in
-                            VStack(alignment: .leading) {
-                                Text("Cycle Start Date: \(cycle.startDate.toDateTimeString())")
-                                    .font(.headline)
-                                    .onAppear { print("DEBUG: Displaying cycle with ID: \(cycle.id)") }
+                            LazyVStack(alignment: .leading) {
+                                VStack(alignment: .leading) {
+                                    Text("Tier \(cycle.tier)")
+                                        .font(.title)
+                                        .fontWeight(.bold)
+                                    Text("Start Date: \(formatDate(cycle.startDate))")
+                                        .font(.title2)
+                                        .fontWeight(.bold)
+                                }
+                                .padding(.bottom)
+                                
                                 ForEach(viewModel.steps.filter { $0.cycleID == cycle.id }.sorted(by: { $0.deadline < $1.deadline })) { step in
-                                    VStack {
-                                        Text("Step for Week \(step.weekNumber), Day \(step.dayNumber), Deadline \(step.deadline)")
-                                        stepStatusView(step: step, allSteps: viewModel.steps)                                    }
+                                    HStack {
+                                        stepStatusView(step: step, allSteps: viewModel.steps)
+                                            .frame(width: 150, height: 175)
+                                        
+                                        VStack(alignment: .leading) {
+                                            Text("Day \(step.dayNumber)")
+                                                .fontWeight(.bold)
+                                            Text("Week \(step.weekNumber)")
+                                                .fontWeight(.bold)
+                                            Text("Deadline: \(formatDate(step.deadline))")
+                                        }
+                                        .padding(.bottom)
+                                    }
                                 }
                             }
                         }

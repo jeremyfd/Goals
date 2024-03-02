@@ -29,7 +29,7 @@ extension Timestamp {
 extension Date {
     func toDateTimeString() -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "HH:mm dd/MM/yy"
+        dateFormatter.dateFormat = "dd/MM/yy"
         return dateFormatter.string(from: self)
     }
 }
