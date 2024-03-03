@@ -6,6 +6,7 @@
 //
 
 import Firebase
+import FirebaseAuth
 
 class AuthService {
     @Published var userSession: FirebaseAuth.User?

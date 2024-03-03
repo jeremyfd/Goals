@@ -82,11 +82,11 @@ struct EvidenceViewFeedView: View {
             
             if showReactions {
                 HStack {
-                    ReactionButtonsView(goalID: goal.id, viewModel: viewModel)
+                    ReactionButtonsView(goalID: goal.id, ownerUid: goal.ownerUid, viewModel: viewModel)
                 }
                 .padding(.horizontal)
                 .padding(.vertical, 5)
-                .frame(width: UIScreen.main.bounds.width - 40, height: 50)
+                .frame(width: UIScreen.main.bounds.width - 40, height: 100)
                 .background(Color.white)
                 .cornerRadius(40)
             }

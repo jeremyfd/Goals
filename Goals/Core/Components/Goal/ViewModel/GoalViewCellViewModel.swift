@@ -12,11 +12,16 @@ import Combine
 class GoalViewCellViewModel: ObservableObject {
     let goalId: String
     @Published var evidences: [Evidence] = [] // Store fetched evidences
+    @Published var reactionUsernames: [String: [String]] = [:] // Maps reaction types to usernames
+    @Published var reactionCounts: [String: [String: Int]] = [:] // Maps reaction types to user names and their reaction counts
+    
+    let uid = Auth.auth().currentUser?.uid
 
     init(goalId: String) {
         self.goalId = goalId
         Task {
             await fetchEvidenceForGoal()
+            await fetchReactionsForGoal()
         }
     }
 
@@ -41,6 +46,30 @@ class GoalViewCellViewModel: ObservableObject {
             print("DEBUG: Uploaded reaction with ID: \(reactionId)")
         } catch {
             print("DEBUG: Error uploading reaction: \(error)")
+        }
+    }
+    
+    func fetchReactionsForGoal() async {
+        do {
+            let fetchedReactions = try await ReactionService.fetchReactions(forGoalId: goalId)
+            var tempReactionCounts: [String: [String: Int]] = [:]
+            
+            for reaction in fetchedReactions {
+                let user = try await UserService.fetchUser(withUid: reaction.ownerUid)
+                let username = user.username
+                
+                if tempReactionCounts[reaction.type] != nil {
+                    tempReactionCounts[reaction.type]?[username, default: 0] += 1
+                } else {
+                    tempReactionCounts[reaction.type] = [username: 1]
+                }
+            }
+            
+            DispatchQueue.main.async {
+                self.reactionCounts = tempReactionCounts
+            }
+        } catch {
+            print("DEBUG: Error fetching reactions or user data: \(error)")
         }
     }
 }

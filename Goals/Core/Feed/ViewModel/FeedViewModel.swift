@@ -58,8 +58,6 @@ class FeedViewModel: ObservableObject {
         UserService.shared.$currentUser
             .sink { [weak self] user in
                 self?.currentUser = user
-                // Optionally, you can initiate data fetching here if you want to auto-load data when the user is set
-                // self?.fetchDataForYourContracts()
             }
             .store(in: &cancellables)
     }

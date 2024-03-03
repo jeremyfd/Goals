@@ -143,6 +143,13 @@ struct GoalService {
                 try await EvidenceService.deleteEvidence(evidenceId: evidenceId)
             }
             
+            // Fetch and delete all reactions associated with this goal
+            let reactions = try await ReactionService.fetchReactions(forGoalId: goalId)
+            for reaction in reactions {
+                guard let reactionId = reaction.reactionId else { continue }
+                try await ReactionService.deleteReaction(reactionId: reactionId)
+            }
+            
             // Proceed with cleanup before deleting the goal document
             // Remove the goal from all user feeds
             try await removeGoalFromUserFeeds(goalId: goalId)

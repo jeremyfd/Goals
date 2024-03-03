@@ -79,7 +79,7 @@ class NextTierViewModel: ObservableObject {
             let stepDeadline = calendar.date(bySettingHour: 23, minute: 59, second: 59, of: preliminaryDeadline)!
             
             // Create the step with the updated weekNumber and stepNumber
-            let step = Step(cycleID: cycle.cycleId ?? "", goalID: cycle.goalID, weekNumber: currentWeekNumber, dayNumber: currentDayNumber, status: .readyToSubmit, deadline: stepDeadline, tier: cycle.tier)
+            let step = Step(cycleID: cycle.cycleId ?? "", goalID: cycle.goalID, weekNumber: currentWeekNumber, dayNumber: currentDayNumber, deadline: stepDeadline, tier: cycle.tier)
             _ = try await StepService.uploadStep(step)
             
             currentDayNumber += 1

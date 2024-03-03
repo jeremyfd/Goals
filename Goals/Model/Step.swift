@@ -16,7 +16,6 @@ struct Step: Identifiable, Hashable, Codable {
     var goalID: String
     let weekNumber: Int
     let dayNumber: Int
-    var status: StepStatus
     var deadline: Date
     var tier: Int
     

@@ -76,7 +76,8 @@ struct GoalViewCell: View {
                 .matchedGeometryEffect(id: "collapsedScroll", in: animation)
                 
                 if showReactions {
-                    ReactionButtonsView(goalID: goal.id, viewModel: viewModel)
+                    ReactionButtonsView(goalID: goal.id, ownerUid: goal.ownerUid, viewModel: viewModel)
+                        .padding(.vertical, -10)
                 }
                 
                 HStack {
