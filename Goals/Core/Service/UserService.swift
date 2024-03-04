@@ -25,17 +25,32 @@ class UserService {
     
     @MainActor
     func fetchCurrentUser(completion: @escaping (Bool, Error?) -> Void) async {
+        guard let uid = Auth.auth().currentUser?.uid else {
+            completion(false, CustomError.userNotLoggedIn) // Define CustomError as needed
+            return
+        }
+        
         do {
-            guard let uid = Auth.auth().currentUser?.uid else { return }
             let snapshot = try await FirestoreConstants.UserCollection.document(uid).getDocument()
-            let user = try snapshot.data(as: User.self)
+            let user: User? = try snapshot.data(as: User.self)
+            if let unwrappedUser = user {
+                self.currentUser = unwrappedUser
+                completion(true, nil)
+            } else {
+                completion(false, CustomError.userNotFound)
+            }
+
             self.currentUser = user
             completion(true, nil)
+        } catch let error as DecodingError {
+            print("Decoding error: \(error)")
+            completion(false, error)
         } catch {
             print("Error fetching user: \(error)")
             completion(false, error)
         }
     }
+
     
     static func fetchUser(withUid uid: String) async throws -> User {
         if let nsData = userCache.object(forKey: uid as NSString) {
@@ -321,3 +336,10 @@ extension UserService {
     }
 }
 
+
+enum CustomError: Error {
+    case userNotLoggedIn
+    case userNotFound
+    case decodingError
+    case unknownError
+}

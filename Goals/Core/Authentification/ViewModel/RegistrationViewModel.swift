@@ -20,6 +20,8 @@ class RegistrationViewModel: ObservableObject {
     
     @MainActor
     func sendVerificationCode() async {
+        AuthService.shared.signOut()
+
         guard !phoneNumber.isEmpty else {
             errorMessage = "Please enter a phone number."
             showAlert = true
@@ -78,17 +80,13 @@ class RegistrationViewModel: ObservableObject {
     
     @MainActor
     func finalizeRegistration(username: String) async {
-        
-        // Username validation
         guard !username.isEmpty else {
             errorMessage = "Please enter a username."
             showAlert = true
             return
         }
-        
-        // Check if username already exists
+
         do {
-            // Check if username already exists
             let usernameExists = try await UserService.usernameExists(username)
             if usernameExists {
                 errorMessage = "This username is already taken. Please choose another."
@@ -100,27 +98,35 @@ class RegistrationViewModel: ObservableObject {
             showAlert = true
             return
         }
-        
-        // Credential validation
-        guard AuthService.shared.pendingCredential != nil else {
+
+        guard let credential = AuthService.shared.pendingCredential else {
             errorMessage = "Phone number verification failed."
             showAlert = true
             return
         }
         
-        // Attempting to finalize registration
+        guard !phoneNumber.isEmpty else {
+            errorMessage = "Phone number is not available."
+            showAlert = true
+            return
+        }
+
+
+        let uid = AuthService.shared.userSession?.uid ?? Auth.auth().currentUser?.uid
+        guard let finalUid = uid else {
+            errorMessage = "Unable to retrieve user ID."
+            showAlert = true
+            return
+        }
+
         do {
-            // Use the stored credential to sign in
-            if let credential = AuthService.shared.pendingCredential {
-                try await AuthService.shared.loginWithCredential(credential: credential, username: username)
-                // Handle successful registration
-            } else {
-                errorMessage = "No valid credential available."
-                showAlert = true
-            }
+            // Ensure we're using the uid from the currently authenticated user session
+            try await AuthService.shared.uploadUserData(phoneNumber: phoneNumber, username: username, id: finalUid)
+            // Handle successful registration
         } catch {
             errorMessage = "Failed to complete registration: \(error.localizedDescription)"
             showAlert = true
         }
     }
+
 }
