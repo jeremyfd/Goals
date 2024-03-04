@@ -6,17 +6,22 @@
 //
 
 import SwiftUI
+import Combine
 
 struct LoginView: View {
     @StateObject var viewModel = LoginViewModel()
+    @StateObject var phoneNumberViewModel = PhoneNumberAuthViewModel()
+    
     @State private var isCodeSent = false
     @State private var isSendingCode = false
-
+    
+    @State private var cancellables: Set<AnyCancellable> = []
+    
     var body: some View {
         NavigationStack {
             VStack(spacing: 20) {
                 Spacer()
-
+                
                 Text("Phylax")
                     .font(.title)
                     .fontWeight(.bold)
@@ -26,14 +31,17 @@ struct LoginView: View {
                     .font(.title)
                     .fontWeight(.bold)
                     .padding(.bottom)
-
+                
                 VStack(spacing: 15) {
                     if !isCodeSent {
                         // Phone number field
-                        TextField("Enter your phone number", text: $viewModel.phoneNumber)
-                            .keyboardType(.phonePad)
-                            .modifier(ThreadsTextFieldModifier())
+                        PhoneNumberView(viewModel: phoneNumberViewModel)
                             .padding(.horizontal)
+                            .onAppear {
+                                if cancellables.isEmpty {
+                                    setupCombinePipeline()
+                                }
+                            }
                         
                         // Send verification code button
                         Button(action: {
@@ -41,8 +49,8 @@ struct LoginView: View {
                             Task {
                                 await viewModel.sendVerificationCode()
                                 if viewModel.errorMessage == nil {
-                                         isCodeSent = true
-                                     }
+                                    isCodeSent = true
+                                }
                                 isSendingCode = false
                             }
                         }) {
@@ -59,7 +67,7 @@ struct LoginView: View {
                             .foregroundColor(Color.theme.primaryBackground)
                             .background(RoundedRectangle(cornerRadius: 10).fill(Color.black)) // Background to fill the button
                         }
-                        .disabled(viewModel.phoneNumber.isEmpty || isSendingCode)
+                        .disabled(phoneNumberViewModel.phoneNumber.isEmpty || isSendingCode)
                     } else {
                         VStack{
                             Text("A code has been sent to \(viewModel.phoneNumber).")
@@ -74,7 +82,7 @@ struct LoginView: View {
                             .fontWeight(.bold)
                             .foregroundColor(Color.theme.primaryText)
                         }
-
+                        
                         // Verification code field
                         TextField("Verification Code", text: $viewModel.verificationCode)
                             .keyboardType(.numberPad)
@@ -100,7 +108,7 @@ struct LoginView: View {
                         }
                         .disabled(viewModel.verificationCode.isEmpty)
                     }
-
+                    
                     NavigationLink(destination: RegistrationView().navigationBarBackButtonHidden(true)) {
                         HStack(spacing: 3) {
                             Text("Don't have an account?")
@@ -122,6 +130,24 @@ struct LoginView: View {
                 )
             }
         }
+    }
+    
+    // Define a method to set up the Combine pipeline
+    private func setupCombinePipeline() {
+        phoneNumberViewModel.$phoneNumber
+            .combineLatest(phoneNumberViewModel.$selectedCountry)
+            .map { phoneNumber, selectedCountry in
+                let fullNumber = selectedCountry.dialCode + phoneNumber.filter("0123456789".contains)
+                print("DEBUG: Full phone number in map: \(fullNumber)")
+                return fullNumber
+            }
+            .removeDuplicates()
+            .handleEvents(receiveOutput: { fullNumber in
+                print("DEBUG: Full phone number before assignment: \(fullNumber)")
+            })
+            .receive(on: RunLoop.main)
+            .assign(to: \.phoneNumber, on: viewModel)
+            .store(in: &cancellables)
     }
 }
 

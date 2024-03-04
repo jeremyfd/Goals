@@ -6,12 +6,17 @@
 //
 
 import SwiftUI
+import Combine
 
 struct RegistrationView: View {
     @StateObject var viewModel = RegistrationViewModel()
+    @StateObject var phoneNumberViewModel = PhoneNumberAuthViewModel()
+
     @State private var isCodeSent = false
     @State private var isCodeVerified = false
     @Environment(\.dismiss) var dismiss
+    
+    @State private var cancellables: Set<AnyCancellable> = []
     
     var body: some View {
         VStack(spacing: 20) {
@@ -31,10 +36,13 @@ struct RegistrationView: View {
             VStack(spacing: 15) {
                 // Only show the phone number field initially
                 if !isCodeSent {
-                    TextField("Enter your phone number", text: $viewModel.phoneNumber)
-                        .keyboardType(.phonePad)
-                        .modifier(ThreadsTextFieldModifier())
+                    PhoneNumberView(viewModel: phoneNumberViewModel)
                         .padding(.horizontal)
+                        .onAppear {
+                            if cancellables.isEmpty {
+                                setupCombinePipeline()
+                            }
+                        }
                 }
                 
                 // Once the code is sent, show the verification code field
@@ -125,6 +133,24 @@ struct RegistrationView: View {
             return viewModel.username.isEmpty
         }
         return viewModel.phoneNumber.isEmpty
+    }
+    
+    // Define a method to set up the Combine pipeline
+    private func setupCombinePipeline() {
+        phoneNumberViewModel.$phoneNumber
+            .combineLatest(phoneNumberViewModel.$selectedCountry)
+            .map { phoneNumber, selectedCountry in
+                let fullNumber = selectedCountry.dialCode + phoneNumber.filter("0123456789".contains)
+                print("DEBUG: Full phone number in map: \(fullNumber)")
+                return fullNumber
+            }
+            .removeDuplicates()
+            .handleEvents(receiveOutput: { fullNumber in
+                print("DEBUG: Full phone number before assignment: \(fullNumber)")
+            })
+            .receive(on: RunLoop.main)
+            .assign(to: \.phoneNumber, on: viewModel)
+            .store(in: &cancellables)
     }
 }
 

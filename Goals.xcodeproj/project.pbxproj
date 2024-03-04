@@ -40,6 +40,10 @@
 		4F6ED78E2B741EF4000E4594 /* PartnerSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6ED78D2B741EF4000E4594 /* PartnerSearchView.swift */; };
 		4F6ED7902B741F0A000E4594 /* PartnerSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6ED78F2B741F0A000E4594 /* PartnerSearchViewModel.swift */; };
 		4F6ED7922B7436A6000E4594 /* ExpandedGoalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6ED7912B7436A6000E4594 /* ExpandedGoalViewModel.swift */; };
+		4F91AB6F2B95C50B00F1F4D4 /* PhoneNumberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F91AB6E2B95C50B00F1F4D4 /* PhoneNumberView.swift */; };
+		4F91AB712B95C56600F1F4D4 /* CountrySelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F91AB702B95C56600F1F4D4 /* CountrySelectionView.swift */; };
+		4F91AB732B95C5B600F1F4D4 /* Country.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F91AB722B95C5B600F1F4D4 /* Country.swift */; };
+		4F91AB752B95C5E700F1F4D4 /* PhoneNumberViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F91AB742B95C5E700F1F4D4 /* PhoneNumberViewModel.swift */; };
 		4FE8D45C2B754C7600ECD64D /* AddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE8D45B2B754C7600ECD64D /* AddView.swift */; };
 		4FE8D45E2B754E0800ECD64D /* AddDummyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE8D45D2B754E0800ECD64D /* AddDummyView.swift */; };
 		4FE8D4622B758DDF00ECD64D /* ExplanationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE8D4612B758DDF00ECD64D /* ExplanationView.swift */; };
@@ -175,6 +179,10 @@
 		4F6ED78D2B741EF4000E4594 /* PartnerSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnerSearchView.swift; sourceTree = "<group>"; };
 		4F6ED78F2B741F0A000E4594 /* PartnerSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnerSearchViewModel.swift; sourceTree = "<group>"; };
 		4F6ED7912B7436A6000E4594 /* ExpandedGoalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandedGoalViewModel.swift; sourceTree = "<group>"; };
+		4F91AB6E2B95C50B00F1F4D4 /* PhoneNumberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneNumberView.swift; sourceTree = "<group>"; };
+		4F91AB702B95C56600F1F4D4 /* CountrySelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountrySelectionView.swift; sourceTree = "<group>"; };
+		4F91AB722B95C5B600F1F4D4 /* Country.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Country.swift; sourceTree = "<group>"; };
+		4F91AB742B95C5E700F1F4D4 /* PhoneNumberViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneNumberViewModel.swift; sourceTree = "<group>"; };
 		4FE8D45B2B754C7600ECD64D /* AddView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddView.swift; sourceTree = "<group>"; };
 		4FE8D45D2B754E0800ECD64D /* AddDummyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDummyView.swift; sourceTree = "<group>"; };
 		4FE8D4612B758DDF00ECD64D /* ExplanationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExplanationView.swift; sourceTree = "<group>"; };
@@ -449,6 +457,16 @@
 				4F6ED78D2B741EF4000E4594 /* PartnerSearchView.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		4F91AB6D2B95C4DF00F1F4D4 /* Country Code */ = {
+			isa = PBXGroup;
+			children = (
+				4F91AB6E2B95C50B00F1F4D4 /* PhoneNumberView.swift */,
+				4F91AB702B95C56600F1F4D4 /* CountrySelectionView.swift */,
+				4F91AB742B95C5E700F1F4D4 /* PhoneNumberViewModel.swift */,
+			);
+			path = "Country Code";
 			sourceTree = "<group>";
 		};
 		4FE8D45F2B758DC200ECD64D /* Explanation */ = {
@@ -911,6 +929,7 @@
 		96F246E32B3824A9000CC323 /* Authentification */ = {
 			isa = PBXGroup;
 			children = (
+				4F91AB6D2B95C4DF00F1F4D4 /* Country Code */,
 				96F247012B382E01000CC323 /* Protocols */,
 				96F246ED2B38264A000CC323 /* Model */,
 				96F246E82B382515000CC323 /* ViewModel */,
@@ -997,6 +1016,7 @@
 				4F182FA72B7F97130072EABE /* SubmitEvidenceSheetIdentifier.swift */,
 				4FFC13B22B867B59001D898D /* Activity.swift */,
 				4F6CE9FD2B93D452002DA338 /* Reaction.swift */,
+				4F91AB722B95C5B600F1F4D4 /* Country.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1166,6 +1186,7 @@
 				4FFC13C52B879705001D898D /* BackgroundColors.swift in Sources */,
 				96F246F22B3826E8000CC323 /* UserService.swift in Sources */,
 				963592B82B59D6E900DD04B8 /* ImageUploader.swift in Sources */,
+				4F91AB732B95C5B600F1F4D4 /* Country.swift in Sources */,
 				96EDC72C2B40E01D00AC2C38 /* FriendsTabViewModel.swift in Sources */,
 				96CB3EA32B38F28300B3508D /* RegistrationViewModel.swift in Sources */,
 				4F6CE9FE2B93D452002DA338 /* Reaction.swift in Sources */,
@@ -1186,6 +1207,7 @@
 				9635929A2B50A19F00DD04B8 /* CircularProfileImageView.swift in Sources */,
 				969F91F22B3E0C08004BECB1 /* ExpandedGoalView.swift in Sources */,
 				4F51D0972B88CA8200B66A47 /* FeedFilterView.swift in Sources */,
+				4F91AB752B95C5E700F1F4D4 /* PhoneNumberViewModel.swift in Sources */,
 				96F246E62B3824E1000CC323 /* AuthService.swift in Sources */,
 				4F182FA62B7E6E5F0072EABE /* SubmitEvidenceViewModel.swift in Sources */,
 				4F19B7F22B8E0902008FEBA9 /* NextTierView.swift in Sources */,
@@ -1228,12 +1250,14 @@
 				4FFC13B92B867EED001D898D /* ActivityFilterView.swift in Sources */,
 				4F19B7EE2B8C0FBF008FEBA9 /* AgendaView.swift in Sources */,
 				4F182FA82B7F97130072EABE /* SubmitEvidenceSheetIdentifier.swift in Sources */,
+				4F91AB6F2B95C50B00F1F4D4 /* PhoneNumberView.swift in Sources */,
 				4F19B7F02B8C0FCB008FEBA9 /* AgendaViewModel.swift in Sources */,
 				96CB3EB52B3DBFDE00B3508D /* GoalCreationView.swift in Sources */,
 				96CB3EAE2B3DBF7800B3508D /* CurrentUserProfileView.swift in Sources */,
 				4F19B7FA2B8FE759008FEBA9 /* Step.swift in Sources */,
 				96CB3EBA2B3DC03D00B3508D /* ContractView.swift in Sources */,
 				963592B42B59D2D400DD04B8 /* EditProfileViewModel.swift in Sources */,
+				4F91AB712B95C56600F1F4D4 /* CountrySelectionView.swift in Sources */,
 				963592B62B59D40900DD04B8 /* CurrentUserProfileViewModel.swift in Sources */,
 				96F246F92B382928000CC323 /* User.swift in Sources */,
 				4FFC13C72B87D13A001D898D /* CalendarViewFeedView.swift in Sources */,
