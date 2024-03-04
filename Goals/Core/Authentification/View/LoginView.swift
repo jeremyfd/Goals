@@ -23,7 +23,7 @@ struct LoginView: View {
                 Spacer()
                 
                 Text("Phylax")
-                    .font(.title)
+                    .font(.system(size: 45))
                     .fontWeight(.bold)
                     .padding(.bottom)
                 
