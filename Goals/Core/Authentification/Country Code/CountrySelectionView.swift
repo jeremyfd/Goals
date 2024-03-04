@@ -71,7 +71,9 @@ struct CountryRow: View {
             HStack {
                 Text(country.flag)
                 Text(country.name)
+                    .foregroundColor(.black)
                 Text(country.dialCode)
+                    .foregroundColor(.black)
             }
         }
 //        .buttonStyle(PlainButtonStyle()) // To avoid list row highlighting

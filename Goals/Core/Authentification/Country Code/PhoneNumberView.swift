@@ -31,8 +31,10 @@ struct CountryPickerButton: View {
             HStack {
                 Text(viewModel.selectedCountry.flag)
                     .font(.system(size: 24))
+                    .foregroundColor(.black)
                 Text(viewModel.selectedCountry.dialCode)
                     .font(.system(size: 18))
+                    .foregroundColor(.black)
                 Image(systemName: "chevron.down")
                     .foregroundColor(.black)
             }
@@ -59,6 +61,6 @@ struct PhoneNumberTextField: View {
         TextField("Phone Number", text: $viewModel.phoneNumber)
             .padding(.trailing)
             .keyboardType(.phonePad)
-            .textFieldStyle(RoundedBorderTextFieldStyle())
+            .cornerRadius(20)
     }
 }

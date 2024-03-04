@@ -21,7 +21,7 @@ class PhoneNumberAuthViewModel: ObservableObject {
     init() {
         // Load the saved country or default to the first country
         let savedCountryCode = UserDefaults.standard.string(forKey: "SelectedCountryCode")
-        print("DEBUG: Loaded country code from UserDefaults: \(savedCountryCode ?? "nil")")
+//        print("DEBUG: Loaded country code from UserDefaults: \(savedCountryCode ?? "nil")")
         if let code = savedCountryCode,
            let savedCountry = countries.first(where: { $0.regionCode == code }) {
             selectedCountry = savedCountry
@@ -47,7 +47,7 @@ class PhoneNumberAuthViewModel: ObservableObject {
     
     func saveSelectedCountry() {
         UserDefaults.standard.set(selectedCountry.regionCode, forKey: "SelectedCountryCode")
-        print("DEBUG: Saved country: \(selectedCountry.regionCode)")
+//        print("DEBUG: Saved country: \(selectedCountry.regionCode)")
     }
     
     func changeSelectedCountry(to newCountry: Country) {

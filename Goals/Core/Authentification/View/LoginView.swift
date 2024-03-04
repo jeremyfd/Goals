@@ -138,12 +138,12 @@ struct LoginView: View {
             .combineLatest(phoneNumberViewModel.$selectedCountry)
             .map { phoneNumber, selectedCountry in
                 let fullNumber = selectedCountry.dialCode + phoneNumber.filter("0123456789".contains)
-                print("DEBUG: Full phone number in map: \(fullNumber)")
+//                print("DEBUG: Full phone number in map: \(fullNumber)")
                 return fullNumber
             }
             .removeDuplicates()
             .handleEvents(receiveOutput: { fullNumber in
-                print("DEBUG: Full phone number before assignment: \(fullNumber)")
+//                print("DEBUG: Full phone number before assignment: \(fullNumber)")
             })
             .receive(on: RunLoop.main)
             .assign(to: \.phoneNumber, on: viewModel)
