@@ -53,6 +53,18 @@ class CurrentUserProfileViewModel: ObservableObject {
     func refreshUserGoals(for user: User) {
         fetchUserGoals(for: user)
     }
+    
+    func refreshCurrentUser() async {
+        await UserService.shared.fetchCurrentUser { [weak self] success, error in
+            if success {
+                // Handle successful refresh, if needed
+            } else if let error = error {
+                // Handle error, possibly using an error message in the UI
+                print("Error refreshing current user: \(error)")
+            }
+        }
+    }
+
 
     func noContentText() -> String {
         guard let user = currentUser else {

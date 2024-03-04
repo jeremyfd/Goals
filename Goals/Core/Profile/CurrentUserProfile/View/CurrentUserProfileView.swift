@@ -171,6 +171,19 @@ struct CurrentUserProfileView: View {
         .sheet(isPresented: $showCalendarView) {
             CalendarView()
         }
+        .refreshable {
+            Task {
+                await viewModel.refreshCurrentUser()
+            }
+        }
+        .onChange(of: navigateToEditProfile) { isPresenting in
+            if !isPresenting {
+                // Assuming EditProfileView was dismissed, refresh user
+                Task {
+                    await viewModel.refreshCurrentUser()
+                }
+            }
+        }
     }
 }
 
