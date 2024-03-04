@@ -130,7 +130,7 @@ extension UserService {
             .document(currentUid)
             .setData([:])
         
-        ActivityService.uploadNotification(toUid: uid, type: .friend)
+        await ActivityService.uploadNotification(toUid: uid, type: .friend)
         
     }
     

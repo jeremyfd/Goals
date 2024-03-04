@@ -27,8 +27,7 @@ struct Goal: Identifiable, Codable, Hashable {
         return goalId ?? NSUUID().uuidString
     }
     
-    var user: User?
-    
+    var user: User?    
 }
 
 enum GoalType: Int, CaseIterable, Identifiable, Codable {

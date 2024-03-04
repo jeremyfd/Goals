@@ -10,11 +10,27 @@ import Firebase
 import FirebaseFirestoreSwift
 
 struct ReactionService {
+        
+        static func uploadReaction(_ reaction: Reaction) async throws -> String {
+            print("DEBUG: Starting to upload reaction")
+            let ref = try await FirestoreConstants.ReactionsCollection.addDocument(from: reaction)
+            let documentID = ref.documentID
+            print("DEBUG: Reaction uploaded with ID: \(documentID)")
+            
+            // Fetch the goal to get partnerUid
+            print("DEBUG: Fetching goal for reaction with goalID: \(reaction.goalID)")
+            let goal = try await GoalService.fetchGoal(goalId: reaction.goalID)
+            print("DEBUG: Fetched goal with partnerUid: \(goal.partnerUid)")
+            
+            // Send notification
+            print("DEBUG: Sending notification to ownerUid: \(goal.ownerUid)")
+            await ActivityService.uploadNotification(toUid: goal.ownerUid, type: .react, goalId: goal.id)
+            print("DEBUG: Notification sent")
+            
+            return documentID
+        }
     
-    static func uploadReaction(_ reaction: Reaction) async throws -> String {
-        let ref = try await FirestoreConstants.ReactionsCollection.addDocument(from: reaction)
-        return ref.documentID
-    }
+
     
     static func fetchReactions(forGoalId goalId: String) async throws -> [Reaction] {
         let querySnapshot = try await FirestoreConstants.ReactionsCollection.whereField("goalID", isEqualTo: goalId).getDocuments()

@@ -70,15 +70,22 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         print("Firebase registration token: \(String(describing: fcmToken))")
         if let fcmToken = fcmToken {
-            print("DEBUG: Received FCM token: \(fcmToken)")
-        } else {
-            print("DEBUG: FCM token is nil.")
+            // Assuming you have a user signed in and a way to identify their document
+            let userId = Auth.auth().currentUser?.uid ?? ""
+            // Use the UserCollection reference from FirestoreConstants
+            let userRef = FirestoreConstants.UserCollection.document(userId)
+            userRef.setData(["fcmToken": fcmToken], merge: true) { error in
+                if let error = error {
+                    // If there's an error, print it
+                    print("Error updating FCM token in Firestore: \(error.localizedDescription)")
+                } else {
+                    // If the operation is successful, print a confirmation message
+                    print("FCM token successfully updated in Firestore for user \(userId)")
+                }
+            }
         }
-        let dataDict: [String: String] = ["token": fcmToken ?? ""]
-        NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: dataDict)
-        // TODO: If necessary, send the token to your application server.
     }
-    
+
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         print("DEBUG: Failed to register for remote notifications with error: \(error)")
     }

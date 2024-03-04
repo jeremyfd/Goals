@@ -28,7 +28,7 @@ struct EvidenceService {
         let goal = try await GoalService.fetchGoal(goalId: evidence.goalID)
         
         // Now that you have the goal, you can get the partnerUid and use it for the notification
-        ActivityService.uploadNotification(toUid: goal.partnerUid, type: .evidence, goalId: goal.id)
+        await ActivityService.uploadNotification(toUid: goal.partnerUid, type: .evidence, goalId: goal.id)
         
         return uploadedEvidence
     }

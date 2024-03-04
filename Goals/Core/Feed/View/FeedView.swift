@@ -27,7 +27,7 @@ struct FeedView: View {
         
         NavigationStack {
             LinearGradient(
-                gradient: Gradient(colors: [Color.white, Color.brown.opacity(0.9)]),
+                gradient: Gradient(colors: [Color.black, Color.brown.opacity(0.9)]),
                 startPoint: .bottom,
                 endPoint: .top
             )

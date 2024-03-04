@@ -9,6 +9,7 @@ import Firebase
 import FirebaseFirestoreSwift
 
 struct ActivityService {
+    
     static func fetchUserActivity() async throws -> [Activity] {
         guard let uid = Auth.auth().currentUser?.uid else { return [] }
         
@@ -22,20 +23,28 @@ struct ActivityService {
         return snapshot.documents.compactMap({ try? $0.data(as: Activity.self) })
     }
     
-    static func uploadNotification(toUid uid: String, type: ActivityType, goalId: String? = nil) {
-        guard let currentUid = Auth.auth().currentUser?.uid else { return }
-        guard uid != currentUid else { return }
+    static func uploadNotification(toUid uid: String, type: ActivityType, goalId: String? = nil) async {
+        guard let currentUid = Auth.auth().currentUser?.uid else {
+            print("Current user uid not found")
+            return
+        }
+        guard uid != currentUid else {
+            print("Cannot send notification to self")
+            return
+        }
         
-        let model = Activity(
-            type: type,
-            senderUid: currentUid,
-            timestamp: Timestamp(),
-            goalId: goalId
-        )
+        let model = Activity(type: type, senderUid: currentUid, timestamp: Timestamp(), goalId: goalId)
+        guard let data = try? Firestore.Encoder().encode(model) else {
+            print("Failed to encode activity model")
+            return
+        }
         
-        guard let data = try? Firestore.Encoder().encode(model) else { return }
-        
-        FirestoreConstants.ActivityCollection.document(uid).collection("user-notifications").addDocument(data: data)
+        do {
+            try await FirestoreConstants.ActivityCollection.document(uid).collection("user-notifications").addDocument(data: data)
+            print("Activity notification uploaded for uid: \(uid)")
+        } catch {
+            print("Failed to upload activity notification: \(error.localizedDescription)")
+        }
     }
     
     static func deleteNotification(toUid uid: String, type: ActivityType, goalId: String? = nil) async throws {
