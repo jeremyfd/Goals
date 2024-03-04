@@ -61,6 +61,5 @@ struct PhoneNumberTextField: View {
         TextField("Phone Number", text: $viewModel.phoneNumber)
             .padding(.trailing)
             .keyboardType(.phonePad)
-            .cornerRadius(20)
     }
 }
