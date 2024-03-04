@@ -42,6 +42,7 @@ struct CurrentUserProfileView: View {
                                 Text("@\(currentUser?.username ?? "")")
                                     .font(.body)
                             }
+                            .padding(.leading, 5)
                             
                             Spacer()
                             

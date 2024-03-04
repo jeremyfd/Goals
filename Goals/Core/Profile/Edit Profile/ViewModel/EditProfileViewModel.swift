@@ -39,4 +39,15 @@ class EditProfileViewModel: ObservableObject {
         try await UserService.shared.updateUserProfileImage(withImageUrl: imageUrl)
     }
     
+    func updateUserData(withNewName name: String) async throws {
+        // Update the name if it's different from the current one
+        if let uiImage = uiImage {
+            try await updateProfileImage(uiImage)
+        }
+        
+        if name != UserService.shared.currentUser?.fullName {
+            try await UserService.shared.updateUserName(withNewName: name)
+        }
+    }
+    
 }

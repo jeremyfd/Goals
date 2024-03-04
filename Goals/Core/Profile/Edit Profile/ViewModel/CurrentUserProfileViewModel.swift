@@ -8,6 +8,7 @@
 import Foundation
 import Combine
 
+@MainActor
 class CurrentUserProfileViewModel: ObservableObject {
     @Published var currentUser: User?
     @Published var goals = [Goal]()
@@ -20,6 +21,7 @@ class CurrentUserProfileViewModel: ObservableObject {
     
     private func setupSubscribers() {
         UserService.shared.$currentUser
+            .receive(on: DispatchQueue.main) // Ensure the subscriber's closure runs on the main thread.
             .sink { [weak self] user in
                 self?.currentUser = user
                 // Fetch user goals whenever the current user changes.
@@ -28,6 +30,7 @@ class CurrentUserProfileViewModel: ObservableObject {
                 }
             }.store(in: &cancellables)
     }
+
     
     private func fetchUserGoals(for user: User) {
         Task {
@@ -61,4 +64,5 @@ class CurrentUserProfileViewModel: ObservableObject {
         
         return "\(name) \(nextWord) created any goals yet."
     }
+
 }

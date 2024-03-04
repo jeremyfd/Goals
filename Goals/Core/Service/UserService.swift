@@ -23,6 +23,19 @@ class UserService {
         UserService.shared.currentUser = user
     }
     
+    func updateUserName(withNewName name: String) async throws {
+        guard let uid = Auth.auth().currentUser?.uid else { throw CustomError.userNotLoggedIn }
+        
+        let updateField = ["fullName": name]
+        try await FirestoreConstants.UserCollection.document(uid).updateData(updateField)
+        
+        // Update the local current user's name
+        if var currentUser = currentUser {
+            currentUser.fullName = name
+            self.currentUser = currentUser
+        }
+    }
+    
     @MainActor
     func fetchCurrentUser(completion: @escaping (Bool, Error?) -> Void) async {
         guard let uid = Auth.auth().currentUser?.uid else {
@@ -327,14 +340,16 @@ extension UserService {
 extension UserService {
     
     @MainActor
-    func updateUserProfileImage (withImageUrl imageUrl: String) async throws {
+    func updateUserProfileImage(withImageUrl imageUrl: String) async throws {
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
         try await Firestore.firestore().collection("users").document(currentUid).updateData([
             "profileImageUrl": imageUrl
         ])
+        
         self.currentUser?.profileImageUrl = imageUrl
     }
 }
+
 
 
 enum CustomError: Error {

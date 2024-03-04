@@ -56,6 +56,7 @@ class FeedViewModel: ObservableObject {
 
     private func setupSubscribers() {
         UserService.shared.$currentUser
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] user in
                 self?.currentUser = user
             }

@@ -7,40 +7,50 @@
 
 import SwiftUI
 import PhotosUI
-
 struct EditProfileView: View {
     let user: User
-    @State private var newFullName = ""
+    @State private var updatedName = "" // New state for the updated name
     @StateObject var viewModel = EditProfileViewModel()
     @Environment(\.presentationMode) var presentation
     
     var body: some View {
         NavigationView {
-            Form {
-                Section(header: Text("Edit Profile")) {
-                    
+            VStack {
+                VStack {
                     PhotosPicker(selection: $viewModel.selectedImage) {
                         if let image = viewModel.profileImage {
-                            image
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width: ProfileImageSize.small.dimension, height: ProfileImageSize.small.dimension)
-                                .clipShape(Circle())
-                                .foregroundColor(Color(.systemGray4))
+                            VStack {
+                                image
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: ProfileImageSize.xxLarge.dimension, height: ProfileImageSize.xxLarge.dimension)
+                                    .clipShape(Circle())
+                                    .foregroundColor(Color(.systemGray4))
+                                Text("Change Profile Picture")
+                            }
+                            
                         } else {
-                            CircularProfileImageView(user: user, size: .small)
+                            VStack {
+                                CircularProfileImageView(user: user, size: .xxLarge)
+                                Text("Change Profile Picture")
+                            }
                         }
                     }
+                    .padding()
                     
-                    Button(action: {
-                        // Show an image picker to select a new profile picture
-                        // You can implement this part using UIImagePickerController or other methods.
-                    }) {
-                        Text("Change Profile Picture")
+                    Divider()
+                    
+                    HStack {
+                        Text("Name")
+                            .fontWeight(.bold)
+                        TextField("Full Name", text: $updatedName) // TextField for name update
+                            .autocapitalization(.words)
+                            .padding(.leading)
                     }
+                    .padding()
                 }
                 
-                Text(user.fullName ?? "")
+                Spacer()
             }
             .navigationBarTitle("Edit Profile", displayMode: .inline)
             .navigationBarItems(
@@ -49,13 +59,18 @@ struct EditProfileView: View {
                 },
                 trailing: Button("Save") {
                     Task {
-                        try await viewModel.updateUserData()
+                        // Pass the updated name to the view model
+                        try await viewModel.updateUserData(withNewName: updatedName)
                         self.presentation.wrappedValue.dismiss()
                     }
                 }
             )
         }
         .navigationBarBackButtonHidden(true)
+        // Pre-fill the TextField with the current full name
+        .onAppear {
+            self.updatedName = user.fullName ?? ""
+        }
     }
 }
 

@@ -26,17 +26,17 @@ struct AddView: View {
                     .cornerRadius(20)
             })
             
-            Button(action: {
-                
-            }, label: {
-                Text("Submit Evidence")
-                    .fontWeight(.bold)
-                    .padding()
-                    .frame(maxWidth: .infinity) // Make button width to match the parent container
-                    .background(Color.gray) // Grey background
-                    .foregroundColor(.white) // White text
-                    .cornerRadius(20)
-            })
+//            Button(action: {
+//                
+//            }, label: {
+//                Text("Submit Evidence")
+//                    .fontWeight(.bold)
+//                    .padding()
+//                    .frame(maxWidth: .infinity) // Make button width to match the parent container
+//                    .background(Color.gray) // Grey background
+//                    .foregroundColor(.white) // White text
+//                    .cornerRadius(20)
+//            })
             
             Spacer()
         }
