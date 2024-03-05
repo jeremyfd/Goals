@@ -18,11 +18,7 @@ struct CurrentUserProfileView: View {
     
     var body: some View {
         NavigationStack {
-            LinearGradient(
-                gradient: Gradient(colors: [Color.white, Color.brown.opacity(0.9)]),
-                startPoint: .bottom,
-                endPoint: .top
-            )
+            LinearGradientView()
             .ignoresSafeArea()
             .overlay(
                 ScrollView {

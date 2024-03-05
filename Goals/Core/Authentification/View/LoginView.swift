@@ -17,6 +17,8 @@ struct LoginView: View {
     
     @State private var cancellables: Set<AnyCancellable> = []
     
+    @Environment(\.colorScheme) var colorScheme
+    
     var body: some View {
         NavigationStack {
             VStack(spacing: 20) {
@@ -60,14 +62,16 @@ struct LoginView: View {
                                         .tint(Color.theme.primaryBackground)
                                 } else {
                                     Text("Send Verification Code")
+                                        .fontWeight(.bold)
                                 }
                             }
-                            .frame(minWidth: 0, maxWidth: .infinity) // Adjusted to fill the width
+                            .frame(minWidth: 0, maxWidth: .infinity)
                             .padding()
-                            .foregroundColor(Color.theme.primaryBackground)
-                            .background(RoundedRectangle(cornerRadius: 10).fill(Color.black)) // Background to fill the button
+                            .foregroundColor(colorScheme == .light ? Color.white : Color.black)
+                            .background(RoundedRectangle(cornerRadius: 10).fill(colorScheme == .light ? Color.black : Color.white ))
                         }
                         .disabled(phoneNumberViewModel.phoneNumber.isEmpty || isSendingCode)
+                        
                     } else {
                         VStack{
                             Text("A code has been sent to \(viewModel.phoneNumber).")
@@ -101,10 +105,10 @@ struct LoginView: View {
                                     Text("Login")
                                 }
                             }
-                            .frame(minWidth: 0, maxWidth: .infinity) // Adjusted to fill the width
+                            .frame(minWidth: 0, maxWidth: .infinity)
                             .padding()
-                            .foregroundColor(Color.theme.primaryBackground)
-                            .background(RoundedRectangle(cornerRadius: 10).fill(Color.black)) // Background to fill the button
+                            .foregroundColor(colorScheme == .light ? Color.white : Color.black)
+                            .background(RoundedRectangle(cornerRadius: 10).fill(colorScheme == .light ? Color.black : Color.white ))
                         }
                         .disabled(viewModel.verificationCode.isEmpty)
                     }

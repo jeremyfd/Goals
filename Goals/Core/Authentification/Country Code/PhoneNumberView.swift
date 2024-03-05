@@ -34,9 +34,9 @@ struct CountryPickerButton: View {
                     .foregroundColor(.black)
                 Text(viewModel.selectedCountry.dialCode)
                     .font(.system(size: 18))
-                    .foregroundColor(.black)
+                    .foregroundColor(Color.theme.primaryText)
                 Image(systemName: "chevron.down")
-                    .foregroundColor(.black)
+                .foregroundColor(Color.theme.primaryText)
             }
             .padding(.horizontal, 5)
             .frame(height: 44)
@@ -61,5 +61,6 @@ struct PhoneNumberTextField: View {
         TextField("Phone Number", text: $viewModel.phoneNumber)
             .padding(.trailing)
             .keyboardType(.phonePad)
+            .foregroundColor(Color.theme.primaryText)
     }
 }

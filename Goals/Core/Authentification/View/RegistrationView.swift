@@ -15,8 +15,10 @@ struct RegistrationView: View {
     @State private var isCodeSent = false
     @State private var isCodeVerified = false
     @Environment(\.dismiss) var dismiss
+    @Environment(\.colorScheme) var colorScheme
     
     @State private var cancellables: Set<AnyCancellable> = []
+    
     
     var body: some View {
         VStack(spacing: 20) {
@@ -88,8 +90,8 @@ struct RegistrationView: View {
                      }
                      .frame(minWidth: 0, maxWidth: .infinity)
                      .padding()
-                     .foregroundColor(Color.theme.primaryBackground)
-                     .background(RoundedRectangle(cornerRadius: 10).fill(Color.black))
+                     .foregroundColor(colorScheme == .light ? Color.white : Color.black)
+                     .background(RoundedRectangle(cornerRadius: 10).fill(colorScheme == .light ? Color.black : Color.white ))
                  }
                  .modifier(ThreadsButtonModifier())
                  .disabled(getButtonDisabledState())

@@ -288,11 +288,7 @@ struct ExpandedGoalView: View {
         .padding(.horizontal, 30)
         .padding(.top, -10)
         .background(
-            LinearGradient(
-                gradient: Gradient(colors: [Color.white, Color.brown.opacity(0.9)]),
-                startPoint: .bottom,
-                endPoint: .top
-            )
+            LinearGradientView()
         )
         .sheet(isPresented: $showCalendarView) {
             CalendarView()
