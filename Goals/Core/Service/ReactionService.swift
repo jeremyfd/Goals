@@ -24,7 +24,7 @@ struct ReactionService {
             
             // Send notification
             print("DEBUG: Sending notification to ownerUid: \(goal.ownerUid)")
-            await ActivityService.uploadNotification(toUid: goal.ownerUid, type: .react, goalId: goal.id)
+            await ActivityService.uploadNotification(toUid: goal.ownerUid, type: .react, goalId: goal.id, reactionType: reaction.type)
             print("DEBUG: Notification sent")
             
             return documentID

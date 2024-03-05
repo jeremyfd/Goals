@@ -23,7 +23,7 @@ struct ActivityService {
         return snapshot.documents.compactMap({ try? $0.data(as: Activity.self) })
     }
     
-    static func uploadNotification(toUid uid: String, type: ActivityType, goalId: String? = nil) async {
+    static func uploadNotification(toUid uid: String, type: ActivityType, goalId: String? = nil, reactionType: String? = nil) async {
         guard let currentUid = Auth.auth().currentUser?.uid else {
             print("Current user uid not found")
             return
@@ -33,7 +33,8 @@ struct ActivityService {
             return
         }
         
-        let model = Activity(type: type, senderUid: currentUid, timestamp: Timestamp(), goalId: goalId)
+        // Include the reactionType in the model if available
+        let model = Activity(type: type, senderUid: currentUid, timestamp: Timestamp(), goalId: goalId, reactionType: reactionType)
         guard let data = try? Firestore.Encoder().encode(model) else {
             print("Failed to encode activity model")
             return
@@ -41,11 +42,12 @@ struct ActivityService {
         
         do {
             try await FirestoreConstants.ActivityCollection.document(uid).collection("user-notifications").addDocument(data: data)
-            print("Activity notification uploaded for uid: \(uid)")
+            print("Activity notification uploaded for uid: \(uid) with reaction type: \(reactionType ?? "N/A")")
         } catch {
             print("Failed to upload activity notification: \(error.localizedDescription)")
         }
     }
+
     
     static func deleteNotification(toUid uid: String, type: ActivityType, goalId: String? = nil) async throws {
         guard let currentUid = Auth.auth().currentUser?.uid else { return }

@@ -20,6 +20,8 @@ struct Activity: Identifiable, Codable, Hashable {
     var goal: Goal?
     var isFriend: Bool?
     
+    var reactionType: String?
+    
     var id: String {
         return activityModelId ?? NSUUID().uuidString
     }

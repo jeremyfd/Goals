@@ -19,7 +19,8 @@ struct ActivityRowView: View {
         case .friend:
             return "Added you as a friend"
         case .react:
-            return "Reacted to one of your goals"
+            let reactionTypeText = model.reactionType ?? "Reacted"
+            return "Reacted \(reactionTypeText) to one of your goals"
         case .evidence:
             return "Submitted an evidence for \(model.goal?.title ?? "")"
         }

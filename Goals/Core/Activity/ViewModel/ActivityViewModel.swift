@@ -32,7 +32,9 @@ class ActivityViewModel: ObservableObject {
     
     private func fetchNotificationData() async throws {
         self.isLoading = true
-        self.notifications = try await ActivityService.fetchUserActivity()
+        let fetchedNotifications = try await ActivityService.fetchUserActivity()
+        print("DEBUG: Fetched \(fetchedNotifications.count) notifications")
+        self.notifications = fetchedNotifications
         self.isLoading = false
     }
     
@@ -62,13 +64,26 @@ class ActivityViewModel: ObservableObject {
         if let goalId = notification.goalId {
             async let goalSnapshot = await FirestoreConstants.GoalsCollection.document(goalId).getDocument()
             if var goal = try? await goalSnapshot.data(as: Goal.self) {
-                // Enrich the goal with additional user data
                 goal = try await fetchGoalUserData(goal: goal)
                 self.notifications[indexOfNotification].goal = goal
             }
         }
+        
+        if notification.type == .react, let goalId = notification.goalId {
+            let reactions = try await ReactionService.fetchReactions(forGoalId: goalId)
+            print("DEBUG: Found \(reactions.count) reactions for goalId \(goalId) for notification \(notification.id)")
+
+            // Since each Activity already has the correct reaction type, we don't need to fetch it again.
+            // The logic here is simplified.
+            if let reactionType = notification.reactionType {
+                print("DEBUG: Activity \(notification.id) already has reaction type '\(reactionType)'")
+                self.notifications[indexOfNotification].reactionType = reactionType
+            } else {
+                print("DEBUG: No reaction type set for Activity \(notification.id)")
+            }
+        }
     }
-    
+
     private func fetchGoalUserData(goal: Goal) async throws -> Goal {
         var result = goal
     
