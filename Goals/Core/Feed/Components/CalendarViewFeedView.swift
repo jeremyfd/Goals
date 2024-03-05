@@ -23,19 +23,25 @@ struct CalendarViewFeedView: View {
                 ExpandedGoalView(goal: goal)
             } label: {
                 HStack{
-                    
-//                    CircularProfileImageView(user: goal.user, size: .small)
-                    
+                                        
                     Text(goal.title)
+                        .font(.headline)
                         .fontWeight(.bold)
                         .foregroundColor(.black)
-                        .padding(.horizontal)
+                        .padding(.leading)
                     
-//                    Spacer()
+                    Text("-")
+                        .font(.headline)
+                        .fontWeight(.bold)
+                        .foregroundColor(.black)
                     
+                    Text("Day \(goal.currentCount + 1)")
+                        .font(.headline)
+                        .fontWeight(.bold)
+                        .foregroundColor(.black)
+                        .padding(.trailing)
+                                        
                 }
-//                .padding(.horizontal, 8)
-//                .padding(.vertical, 1)
                 .frame(height: 40)
                 .background(Color.white)
                 .cornerRadius(40)
@@ -43,5 +49,3 @@ struct CalendarViewFeedView: View {
         
     }
 }
-
-//                .frame(width: UIScreen.main.bounds.width - 175, height: 40)

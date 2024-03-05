@@ -82,7 +82,8 @@ struct FeedView: View {
                                         }, label: {
                                             
                                             HStack {
-                                                Text("Create Goal +")
+                                                Text("Add Goal +")
+                                                    .font(.headline)
                                                     .fontWeight(.bold)
                                                     .padding()
                                                     .frame(height: 40)

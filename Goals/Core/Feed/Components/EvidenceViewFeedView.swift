@@ -13,6 +13,8 @@ struct EvidenceViewFeedView: View {
     @State private var isImageViewerPresented = false
     @State private var showReactions = false
     @State private var selectedImageURL: String?
+    @Environment(\.colorScheme) var colorScheme
+    
     var evidence: Evidence
     var goal: Goal
     var currentUser: User?
@@ -42,7 +44,7 @@ struct EvidenceViewFeedView: View {
                     .scaledToFill()
                     .frame(width: UIScreen.main.bounds.width - 40, height: UIScreen.main.bounds.height/2)
                     .overlay(
-                        LinearGradient(gradient: Gradient(colors: [.clear, .black]), startPoint: .center, endPoint: .bottom)
+                        LinearGradient(gradient: Gradient(colors: [.clear, colorScheme == .light ? Color.black : Color.gray]), startPoint: .center, endPoint: .bottom)
                             .edgesIgnoringSafeArea(.all)
                     )
                     .onTapGesture {
@@ -158,7 +160,6 @@ struct EvidenceViewFeedView: View {
                     HStack{
                         Text("Confirm?")
                             .font(.title2)
-                            .foregroundColor(.black)
                             .fontWeight(.bold)
                     }
                     .padding(.horizontal)

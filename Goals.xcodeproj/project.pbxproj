@@ -15,8 +15,6 @@
 		4F182FA62B7E6E5F0072EABE /* SubmitEvidenceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F182FA52B7E6E5F0072EABE /* SubmitEvidenceViewModel.swift */; };
 		4F182FA82B7F97130072EABE /* SubmitEvidenceSheetIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F182FA72B7F97130072EABE /* SubmitEvidenceSheetIdentifier.swift */; };
 		4F182FAA2B7FA1C50072EABE /* ImageViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F182FA92B7FA1C50072EABE /* ImageViewer.swift */; };
-		4F19B7EE2B8C0FBF008FEBA9 /* AgendaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F19B7ED2B8C0FBF008FEBA9 /* AgendaView.swift */; };
-		4F19B7F02B8C0FCB008FEBA9 /* AgendaViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F19B7EF2B8C0FCB008FEBA9 /* AgendaViewModel.swift */; };
 		4F19B7F22B8E0902008FEBA9 /* NextTierView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F19B7F12B8E0902008FEBA9 /* NextTierView.swift */; };
 		4F19B7F42B8E2DCB008FEBA9 /* NextTierViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F19B7F32B8E2DCB008FEBA9 /* NextTierViewModel.swift */; };
 		4F19B7F62B8FB5BA008FEBA9 /* StepService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F19B7F52B8FB5BA008FEBA9 /* StepService.swift */; };
@@ -45,6 +43,10 @@
 		4F91AB732B95C5B600F1F4D4 /* Country.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F91AB722B95C5B600F1F4D4 /* Country.swift */; };
 		4F91AB752B95C5E700F1F4D4 /* PhoneNumberViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F91AB742B95C5E700F1F4D4 /* PhoneNumberViewModel.swift */; };
 		4FAA0C172B9735AA0031C639 /* LinearGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FAA0C162B9735AA0031C639 /* LinearGradientView.swift */; };
+		4FAA0C1C2B979B350031C639 /* ContactsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FAA0C1B2B979B350031C639 /* ContactsViewModel.swift */; };
+		4FAA0C1E2B979B4E0031C639 /* ContactsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FAA0C1D2B979B4E0031C639 /* ContactsView.swift */; };
+		4FAA0C312B97A7C60031C639 /* PhoneNumberKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4FAA0C302B97A7C60031C639 /* PhoneNumberKit */; };
+		4FAA0C352B97A7C60031C639 /* PhoneNumberKit-Static in Frameworks */ = {isa = PBXBuildFile; productRef = 4FAA0C342B97A7C60031C639 /* PhoneNumberKit-Static */; };
 		4FE8D45C2B754C7600ECD64D /* AddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE8D45B2B754C7600ECD64D /* AddView.swift */; };
 		4FE8D45E2B754E0800ECD64D /* AddDummyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE8D45D2B754E0800ECD64D /* AddDummyView.swift */; };
 		4FE8D4622B758DDF00ECD64D /* ExplanationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE8D4612B758DDF00ECD64D /* ExplanationView.swift */; };
@@ -146,6 +148,19 @@
 		96F2470B2B3832A3000CC323 /* ThreadsTextFieldModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F2470A2B3832A3000CC323 /* ThreadsTextFieldModifier.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		4FAA0C272B97A4600031C639 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		4F182F9A2B7E4EA80072EABE /* EvidenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvidenceService.swift; sourceTree = "<group>"; };
 		4F182F9C2B7E4ECC0072EABE /* Evidence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Evidence.swift; sourceTree = "<group>"; };
@@ -155,8 +170,6 @@
 		4F182FA52B7E6E5F0072EABE /* SubmitEvidenceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmitEvidenceViewModel.swift; sourceTree = "<group>"; };
 		4F182FA72B7F97130072EABE /* SubmitEvidenceSheetIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmitEvidenceSheetIdentifier.swift; sourceTree = "<group>"; };
 		4F182FA92B7FA1C50072EABE /* ImageViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewer.swift; sourceTree = "<group>"; };
-		4F19B7ED2B8C0FBF008FEBA9 /* AgendaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgendaView.swift; sourceTree = "<group>"; };
-		4F19B7EF2B8C0FCB008FEBA9 /* AgendaViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgendaViewModel.swift; sourceTree = "<group>"; };
 		4F19B7F12B8E0902008FEBA9 /* NextTierView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextTierView.swift; sourceTree = "<group>"; };
 		4F19B7F32B8E2DCB008FEBA9 /* NextTierViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextTierViewModel.swift; sourceTree = "<group>"; };
 		4F19B7F52B8FB5BA008FEBA9 /* StepService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepService.swift; sourceTree = "<group>"; };
@@ -186,6 +199,8 @@
 		4F91AB742B95C5E700F1F4D4 /* PhoneNumberViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneNumberViewModel.swift; sourceTree = "<group>"; };
 		4F91AB762B9626B600F1F4D4 /* Goals.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Goals.entitlements; sourceTree = "<group>"; };
 		4FAA0C162B9735AA0031C639 /* LinearGradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinearGradientView.swift; sourceTree = "<group>"; };
+		4FAA0C1B2B979B350031C639 /* ContactsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsViewModel.swift; sourceTree = "<group>"; };
+		4FAA0C1D2B979B4E0031C639 /* ContactsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsView.swift; sourceTree = "<group>"; };
 		4FE8D45B2B754C7600ECD64D /* AddView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddView.swift; sourceTree = "<group>"; };
 		4FE8D45D2B754E0800ECD64D /* AddDummyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDummyView.swift; sourceTree = "<group>"; };
 		4FE8D4612B758DDF00ECD64D /* ExplanationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExplanationView.swift; sourceTree = "<group>"; };
@@ -278,6 +293,8 @@
 				96F246AC2B3821D1000CC323 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
 				96F246B22B3821D1000CC323 /* FirebaseAuth in Frameworks */,
 				96F246B62B3821D1000CC323 /* FirebaseCrashlytics in Frameworks */,
+				4FAA0C312B97A7C60031C639 /* PhoneNumberKit in Frameworks */,
+				4FAA0C352B97A7C60031C639 /* PhoneNumberKit-Static in Frameworks */,
 				96F246D62B3821D2000CC323 /* FirebaseRemoteConfigSwift in Frameworks */,
 				96F246C82B3821D2000CC323 /* FirebaseInAppMessaging-Beta in Frameworks */,
 				96F246BA2B3821D2000CC323 /* FirebaseDatabaseSwift in Frameworks */,
@@ -320,7 +337,6 @@
 		4F19B7EB2B8C0FAA008FEBA9 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				4F19B7EF2B8C0FCB008FEBA9 /* AgendaViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -328,7 +344,6 @@
 		4F19B7EC2B8C0FAF008FEBA9 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				4F19B7ED2B8C0FBF008FEBA9 /* AgendaView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -470,6 +485,31 @@
 				4F91AB742B95C5E700F1F4D4 /* PhoneNumberViewModel.swift */,
 			);
 			path = "Country Code";
+			sourceTree = "<group>";
+		};
+		4FAA0C182B979B0D0031C639 /* Contacts */ = {
+			isa = PBXGroup;
+			children = (
+				4FAA0C1A2B979B1B0031C639 /* View */,
+				4FAA0C192B979B150031C639 /* ViewModel */,
+			);
+			path = Contacts;
+			sourceTree = "<group>";
+		};
+		4FAA0C192B979B150031C639 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				4FAA0C1B2B979B350031C639 /* ContactsViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		4FAA0C1A2B979B1B0031C639 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				4FAA0C1D2B979B4E0031C639 /* ContactsView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		4FE8D45F2B758DC200ECD64D /* Explanation */ = {
@@ -906,6 +946,7 @@
 		96F246E22B38249A000CC323 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				4FAA0C182B979B0D0031C639 /* Contacts */,
 				4FFC13AF2B86794F001D898D /* Activity */,
 				4F19B7EA2B8C0F9E008FEBA9 /* Agenda */,
 				96F246E32B3824A9000CC323 /* Authentification */,
@@ -1092,6 +1133,7 @@
 				96F2468D2B381F4D000CC323 /* Sources */,
 				96F2468E2B381F4D000CC323 /* Frameworks */,
 				96F2468F2B381F4D000CC323 /* Resources */,
+				4FAA0C272B97A4600031C639 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1127,6 +1169,8 @@
 				96F246D72B3821D2000CC323 /* FirebaseStorage */,
 				96F246D92B3821D2000CC323 /* FirebaseStorageCombine-Community */,
 				96F246DC2B3821F4000CC323 /* Kingfisher */,
+				4FAA0C302B97A7C60031C639 /* PhoneNumberKit */,
+				4FAA0C342B97A7C60031C639 /* PhoneNumberKit-Static */,
 			);
 			productName = Goals;
 			productReference = 96F246912B381F4D000CC323 /* Phylax.app */;
@@ -1159,6 +1203,7 @@
 			packageReferences = (
 				96F246A42B3821D1000CC323 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				96F246DB2B3821F4000CC323 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				4FAA0C2F2B97A7C60031C639 /* XCRemoteSwiftPackageReference "PhoneNumberKit" */,
 			);
 			productRefGroup = 96F246922B381F4D000CC323 /* Products */;
 			projectDirPath = "";
@@ -1202,6 +1247,7 @@
 				963592A02B5420C200DD04B8 /* UserCellViewModel.swift in Sources */,
 				96CB3EA62B3DBEDE00B3508D /* GoalsTabView.swift in Sources */,
 				9600D9792B5B072000DAC807 /* Goal.swift in Sources */,
+				4FAA0C1E2B979B4E0031C639 /* ContactsView.swift in Sources */,
 				4F6ED7852B72A3CA000E4594 /* FeedSelfGoalsView.swift in Sources */,
 				4FFC13AE2B860B58001D898D /* GoalViewCellViewModel.swift in Sources */,
 				4F6CE9FC2B934DD0002DA338 /* UserReactionsView.swift in Sources */,
@@ -1224,6 +1270,7 @@
 				4FFC13B32B867B59001D898D /* Activity.swift in Sources */,
 				4F6ED7702B718715000E4594 /* UserContentListView.swift in Sources */,
 				4F51D0992B88CAA800B66A47 /* FeedFilterViewModel.swift in Sources */,
+				4FAA0C1C2B979B350031C639 /* ContactsViewModel.swift in Sources */,
 				4FE8D4622B758DDF00ECD64D /* ExplanationView.swift in Sources */,
 				96EDC71A2B40900A00AC2C38 /* CameraPreview.swift in Sources */,
 				96F247062B3831C1000CC323 /* Color.swift in Sources */,
@@ -1253,10 +1300,8 @@
 				4F6ED7902B741F0A000E4594 /* PartnerSearchViewModel.swift in Sources */,
 				4F6ED7872B72A4F8000E4594 /* FeedViewModel.swift in Sources */,
 				4FFC13B92B867EED001D898D /* ActivityFilterView.swift in Sources */,
-				4F19B7EE2B8C0FBF008FEBA9 /* AgendaView.swift in Sources */,
 				4F182FA82B7F97130072EABE /* SubmitEvidenceSheetIdentifier.swift in Sources */,
 				4F91AB6F2B95C50B00F1F4D4 /* PhoneNumberView.swift in Sources */,
-				4F19B7F02B8C0FCB008FEBA9 /* AgendaViewModel.swift in Sources */,
 				96CB3EB52B3DBFDE00B3508D /* GoalCreationView.swift in Sources */,
 				96CB3EAE2B3DBF7800B3508D /* CurrentUserProfileView.swift in Sources */,
 				4F19B7FA2B8FE759008FEBA9 /* Step.swift in Sources */,
@@ -1433,6 +1478,7 @@
 				INFOPLIST_FILE = Goals/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSCameraUsageDescription = "To take pictures of evidence.";
+				INFOPLIST_KEY_NSContactsUsageDescription = "To find friends already on the app";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "To store the evidences";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -1467,6 +1513,7 @@
 				INFOPLIST_FILE = Goals/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSCameraUsageDescription = "To take pictures of evidence.";
+				INFOPLIST_KEY_NSContactsUsageDescription = "To find friends already on the app";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "To store the evidences";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -1510,6 +1557,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		4FAA0C2F2B97A7C60031C639 /* XCRemoteSwiftPackageReference "PhoneNumberKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/marmelroy/PhoneNumberKit.git";
+			requirement = {
+				kind = exactVersion;
+				version = 3.7.8;
+			};
+		};
 		96F246A42B3821D1000CC323 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
@@ -1529,6 +1584,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		4FAA0C302B97A7C60031C639 /* PhoneNumberKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4FAA0C2F2B97A7C60031C639 /* XCRemoteSwiftPackageReference "PhoneNumberKit" */;
+			productName = PhoneNumberKit;
+		};
+		4FAA0C342B97A7C60031C639 /* PhoneNumberKit-Static */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4FAA0C2F2B97A7C60031C639 /* XCRemoteSwiftPackageReference "PhoneNumberKit" */;
+			productName = "PhoneNumberKit-Static";
+		};
 		96F246A52B3821D1000CC323 /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 96F246A42B3821D1000CC323 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
