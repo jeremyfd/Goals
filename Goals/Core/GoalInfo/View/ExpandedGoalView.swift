@@ -93,7 +93,6 @@ struct ExpandedGoalView: View {
                                         .frame(width: 15, height: 15)
                                     
                                 }
-                                .foregroundStyle(Color.black)
                             })
                             
                         }

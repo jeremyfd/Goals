@@ -11,6 +11,8 @@ import SwiftUI
 
 struct FeedView: View {
     @StateObject var viewModel = FeedViewModel()
+    @State private var showGoalCreationView = false
+    @Environment(\.colorScheme) var colorScheme
     
     private var currentUser: User? {
         return viewModel.currentUser
@@ -27,58 +29,82 @@ struct FeedView: View {
         
         NavigationStack {
             LinearGradientView()
-            .ignoresSafeArea()
-            .overlay(
-                ScrollView {
-                    VStack(alignment: .leading) {
-                        
-                        HStack(alignment: .center) {
-                            Text("Phylax")
-                                .font(.title)
-                                .fontWeight(.bold)
-                                .padding(.leading)
+                .ignoresSafeArea()
+                .overlay(
+                    ScrollView {
+                        VStack(alignment: .leading) {
                             
-                            Spacer()
-                            
-                            NavigationLink(destination: ActivityView()) {
-                                Image(systemName: "heart")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 25, height: 25)
-                            }
-                            
-                            NavigationLink(destination: FriendsTabView()) {
-                                Image(systemName: "person.2")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 35, height: 35)
-                                    .padding(.horizontal)
-                            }
-                        }
-                        
-                        if !viewModel.goals.isEmpty {
-                            
-                            Text("Calendar - Last Day!")
-                                .font(.title3)
-                                .fontWeight(.bold)
-                                .padding(.leading)
-                            
-                            ScrollView (.horizontal, showsIndicators: false){
-                                LazyVGrid(columns: columns, spacing: 10) {
-                                    ForEach(viewModel.goals, id: \.id) { goal in
-                                        CalendarViewFeedView(goal: goal, currentUser: currentUser)
-                                            .padding(.leading, viewModel.goals.count > 1 ? 8 : UIScreen.main.bounds.width / 2 - ((UIScreen.main.bounds.width - 250) / 2))
-                                    }
+                            HStack(alignment: .center) {
+                                Text("Phylax")
+                                    .font(.title)
+                                    .fontWeight(.bold)
+                                    .padding(.leading)
+                                
+                                Spacer()
+                                
+                                NavigationLink(destination: ActivityView()) {
+                                    Image(systemName: "heart")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 25, height: 25)
+                                }
+                                
+                                NavigationLink(destination: FriendsTabView()) {
+                                    Image(systemName: "person.2")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 35, height: 35)
+                                        .padding(.horizontal)
                                 }
                             }
+                            
+                            Text("My Goals")
+                                .font(.title2)
+                                .fontWeight(.bold)
+                                .padding(.leading)
+                            
+                            if !viewModel.goals.isEmpty {
+                                
+                                ScrollView (.horizontal, showsIndicators: false){
+                                    LazyVGrid(columns: columns, spacing: 10) {
+                                        ForEach(viewModel.goals, id: \.id) { goal in
+                                            CalendarViewFeedView(goal: goal, currentUser: currentUser)
+                                                .padding(.leading, viewModel.goals.count > 1 ? 8 : UIScreen.main.bounds.width / 2 - ((UIScreen.main.bounds.width - 250) / 2))
+                                        }
+                                    }
+                                }
+                            } else {
+                                
+                                Button(action: {
+                                    showGoalCreationView = true
+                                }, label: {
+                                    Text("Create Goal")
+                                        .fontWeight(.bold)
+                                        .padding()
+                                        .frame(width: UIScreen.main.bounds.width - 150, height: 40)
+                                        .foregroundColor(Color.black)
+                                        .background(Color.white)
+                                        .cornerRadius(40)
+                                })
+                                .padding(.leading)
+                            }
+                            
+                            Text("My Friends Goals")
+                                .font(.title2)
+                                .fontWeight(.bold)
+                                .padding(.leading)
+                                .padding(.top)
+
+                            
+                            // Directly integrate the content for "My Contracts"
+                            contentForYourContracts()
+                            
                         }
-                        
-                        // Directly integrate the content for "My Contracts"
-                        contentForYourContracts()
-                        
                     }
-                }
-            )
+                )
+        }
+        .sheet(isPresented: $showGoalCreationView) {
+            GoalCreationView()
         }
         .onAppear {
             viewModel.fetchDataForYourFriendsContracts()
@@ -89,29 +115,60 @@ struct FeedView: View {
         VStack {
             
             FeedFilterView(selectedFilter: $viewModel.selectedFilter)
-                .padding(.vertical)
+                .padding(.bottom)
             
-            LazyVStack(spacing: 20) {
-                ForEach(viewModel.sortedGroupedEvidencesKeys, id: \.self) { date in
-                    Section(header:
-                                HStack {
-                        Text(date, formatter: DateFormatter.mediumDateFormatter)
-                            .font(.title2)
+            if viewModel.sortedGroupedEvidencesKeys.isEmpty {
+                // Show a message when there are no evidences
+                VStack {
+                    Text("No evidences yet")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                        .padding(.top, 20)
+                    
+                    VStack {
+                        Text("Add more Friends:")
+                            .font(.headline)
                             .fontWeight(.bold)
-                            .padding(.leading)
-                        Spacer()
+                            .padding(.top, 20)
+                        
+                        HStack {
+                            Text("Click on this icon at the top ")
+                                .font(.headline)
+                                .fontWeight(.bold)
+                            
+                            Image(systemName: "person.2")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 30, height: 30)
+                        }
+                        .padding(.top, -5)
                     }
-                    )
-                    {
-                        ForEach(viewModel.groupedEvidences[date] ?? [], id: \.evidence.id) { evidenceWithGoal in
-                            EvidenceViewFeedView(evidence: evidenceWithGoal.evidence, goal: evidenceWithGoal.goal, currentUser: viewModel.currentUser)
+                }
+                
+            } else {
+                LazyVStack(spacing: 20) {
+                    ForEach(viewModel.sortedGroupedEvidencesKeys, id: \.self) { date in
+                        Section(header:
+                                    HStack {
+                            Text(date, formatter: DateFormatter.mediumDateFormatter)
+                                .font(.title2)
+                                .fontWeight(.bold)
+                                .padding(.leading)
+                            Spacer()
+                        }
+                        )
+                        {
+                            ForEach(viewModel.groupedEvidences[date] ?? [], id: \.evidence.id) { evidenceWithGoal in
+                                EvidenceViewFeedView(evidence: evidenceWithGoal.evidence, goal: evidenceWithGoal.goal, currentUser: viewModel.currentUser)
+                            }
                         }
                     }
                 }
+                .padding(.bottom)
             }
-            .padding(.bottom)
         }
     }
+
 }
 
 extension DateFormatter {

@@ -10,7 +10,9 @@ import SwiftUI
 struct CurrentUserProfileView: View {
     @State private var showCalendarView = false
     @State private var navigateToEditProfile = false
+    @State private var showGoalCreationView = false
     @StateObject var viewModel = CurrentUserProfileViewModel()
+    @Environment(\.colorScheme) var colorScheme
     
     private var currentUser: User? {
         return viewModel.currentUser
@@ -133,8 +135,25 @@ struct CurrentUserProfileView: View {
                             VStack {
                                 LazyVStack {
                                     if viewModel.goals.isEmpty {
-                                        Text(viewModel.noContentText())
-                                            .font(.headline)
+                                                                                    
+                                            VStack(alignment: .center) {
+                                                Text(viewModel.noContentText())
+                                                    .font(.headline)
+                                                
+                                                Button(action: {
+                                                    showGoalCreationView = true
+                                                }, label: {
+                                                    Text("Create Goal")
+                                                        .fontWeight(.bold)
+                                                        .padding()
+                                                        .frame(width: UIScreen.main.bounds.width - 150, height: 40)
+                                                        .foregroundColor(Color.black)
+                                                        .background(Color.white )
+                                                        .cornerRadius(40)
+                                                })
+                                            }
+                                            .padding(.trailing)
+                                            
                                     } else {
                                         ForEach(viewModel.goals) { goal in
                                             GoalViewCell(goal: goal, viewModel: GoalViewCellViewModel(goalId: goal.id), selectedImageURL: .constant(nil))
@@ -166,6 +185,9 @@ struct CurrentUserProfileView: View {
         }
         .sheet(isPresented: $showCalendarView) {
             CalendarView()
+        }
+        .sheet(isPresented: $showGoalCreationView) {
+            GoalCreationView()
         }
         .refreshable {
             Task {

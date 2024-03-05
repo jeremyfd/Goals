@@ -44,7 +44,7 @@ struct AddView: View {
         .padding()
         .onDisappear { tabIndex = 0 }
         .sheet(isPresented: $showGoalCreationView) {
-            GoalCreationView(tabIndex: $tabIndex)
+            GoalCreationView()
         }
     }
 }

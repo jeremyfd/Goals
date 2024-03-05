@@ -10,7 +10,6 @@ import SwiftUI
 struct GoalCreationView: View {
     @StateObject var viewModel = GoalCreationViewModel()
     @Environment(\.dismiss) var dismiss
-    @Binding var tabIndex: Int
     @State private var showingPartnerSearch = false
     
     var weeksToAchieveGoal: Int {
@@ -127,7 +126,6 @@ struct GoalCreationView: View {
                     }
                 }
             }
-            //            .onDisappear { tabIndex = 0 }
             .navigationTitle("New Goal")
             .navigationBarTitleDisplayMode(.inline)
             .sheet(isPresented: $showingPartnerSearch) {
