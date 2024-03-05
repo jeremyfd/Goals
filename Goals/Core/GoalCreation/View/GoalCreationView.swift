@@ -20,11 +20,7 @@ struct GoalCreationView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                LinearGradient(
-                    gradient: Gradient(colors: [Color.white, Color.brown.opacity(0.9)]),
-                    startPoint: .bottom,
-                    endPoint: .top
-                )
+                LinearGradientView()
                 .ignoresSafeArea()
                 
                 ScrollView {
