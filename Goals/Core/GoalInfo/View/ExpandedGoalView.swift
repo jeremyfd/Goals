@@ -327,7 +327,6 @@ struct ExpandedGoalView: View {
                 Button("Submit Evidence") {
                     self.submitEvidenceSheetIdentifier = SubmitEvidenceSheetIdentifier(goalID: goal.id, cycleID: step.cycleID, stepID: step.id, weekNumber: step.weekNumber, dayNumber: step.dayNumber)
                 }
-                .buttonStyle(.borderedProminent)
             }
         } else {
             if isEvidenceSubmitted {
