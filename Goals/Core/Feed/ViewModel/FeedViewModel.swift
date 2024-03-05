@@ -59,6 +59,7 @@ class FeedViewModel: ObservableObject {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] user in
                 self?.currentUser = user
+                print("DEBUG: Current user updated: \(String(describing: user))")
             }
             .store(in: &cancellables)
     }
@@ -87,7 +88,7 @@ class FeedViewModel: ObservableObject {
                     // Here, instead of setting goalsWithEvidences, you'll likely need to adjust your UI to work with this new structure
                     // For example, you might have a new @Published property for allEvidencesWithGoal
                     self.allEvidencesWithGoal = allEvidencesWithGoal
-//                    print("DEBUG: Finished fetching evidences. Total evidences: \(self.allEvidencesWithGoal.count)")
+                    print("DEBUG: Finished fetching user contracts. Total evidences: \(self.allEvidencesWithGoal.count)")
                 }
             } catch {
                 print("Error fetching goals and evidences: \(error)")
@@ -119,7 +120,7 @@ class FeedViewModel: ObservableObject {
                     // Here, instead of setting goalsWithEvidences, you'll likely need to adjust your UI to work with this new structure
                     // For example, you might have a new @Published property for allEvidencesWithGoal
                     self.allEvidencesWithGoal = allEvidencesWithGoal
-//                    print("DEBUG: Finished fetching evidences. Total evidences: \(self.allEvidencesWithGoal.count)")
+                    print("DEBUG: Finished fetching evidences. Total evidences: \(self.allEvidencesWithGoal.count)")
                 }
             } catch {
                 print("Error fetching goals and evidences: \(error)")
@@ -129,26 +130,18 @@ class FeedViewModel: ObservableObject {
 
     func fetchGoals() async {
         do {
-//            print("DEBUG: Fetching goals")
-            let goalIDs = await fetchGoalIDs()
-//            print("DEBUG: Goal IDs fetched: \(goalIDs)")
-
-            var fetchedGoals = [Goal]()
-            try await withThrowingTaskGroup(of: Goal.self, body: { group in
-                for id in goalIDs {
-                    group.addTask { return try await GoalService.fetchGoal(goalId: id) }
-                }
-
-                for try await goal in group {
-                    let enrichedGoal = try await fetchGoalUserData(goal: goal)
-                    fetchedGoals.append(enrichedGoal)
-                }
-            })
-            self.goals = fetchedGoals.sorted(by: { $0.timestamp.dateValue() > $1.timestamp.dateValue() })
-            isLoading = false
-//            print("DEBUG: Finished fetching goals, total count: \(self.goals.count)")
+            guard let uid = Auth.auth().currentUser?.uid else {
+                print("DEBUG: No current user UID found")
+                return
+            }
+            print("DEBUG: Fetching goals for user UID: \(uid)")
+            let fetchedGoals = try await GoalService.fetchUserGoals(uid: uid)
+            DispatchQueue.main.async {
+                self.goals = fetchedGoals
+                print("DEBUG: Fetched \(fetchedGoals.count) goals for the current user.")
+            }
         } catch {
-            print("DEBUG: Error fetching goals: \(error)")
+            print("DEBUG: Error fetching goals for the current user: \(error)")
             // Handle the error appropriately, maybe set an error state to show in UI
         }
     }

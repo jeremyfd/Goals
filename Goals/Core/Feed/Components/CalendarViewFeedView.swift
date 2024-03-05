@@ -18,30 +18,30 @@ struct CalendarViewFeedView: View {
     }
     
     var body: some View {
-        VStack{
             
             NavigationLink {
                 ExpandedGoalView(goal: goal)
             } label: {
                 HStack{
                     
-                    CircularProfileImageView(user: goal.user, size: .small)
+//                    CircularProfileImageView(user: goal.user, size: .small)
                     
                     Text(goal.title)
                         .fontWeight(.bold)
                         .foregroundColor(.black)
+                        .padding(.horizontal)
                     
-                    Spacer()
+//                    Spacer()
                     
-                    Text("24:19 left")
-                        .padding(.leading)
                 }
-                .padding(.horizontal, 8)
-                .padding(.vertical, 1)
-                .frame(width: UIScreen.main.bounds.width - 100, height: 50)
+//                .padding(.horizontal, 8)
+//                .padding(.vertical, 1)
+                .frame(height: 40)
                 .background(Color.white)
                 .cornerRadius(40)
             }
-        }
+        
     }
 }
+
+//                .frame(width: UIScreen.main.bounds.width - 175, height: 40)

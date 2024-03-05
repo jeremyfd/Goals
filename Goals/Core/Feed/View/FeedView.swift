@@ -66,25 +66,50 @@ struct FeedView: View {
                             if !viewModel.goals.isEmpty {
                                 
                                 ScrollView (.horizontal, showsIndicators: false){
-                                    LazyVGrid(columns: columns, spacing: 10) {
-                                        ForEach(viewModel.goals, id: \.id) { goal in
-                                            CalendarViewFeedView(goal: goal, currentUser: currentUser)
-                                                .padding(.leading, viewModel.goals.count > 1 ? 8 : UIScreen.main.bounds.width / 2 - ((UIScreen.main.bounds.width - 250) / 2))
+                                    HStack {
+//                                        LazyVGrid(columns: columns, spacing: 10) {
+                                        LazyHStack {
+                                            ForEach(viewModel.goals, id: \.id) { goal in
+                                                CalendarViewFeedView(goal: goal, currentUser: currentUser)
+                                                //                                                    .padding(.leading, viewModel.goals.count > 1 ? 8 : UIScreen.main.bounds.width / 2 - ((UIScreen.main.bounds.width - 200) / 2))
+                                            }
                                         }
+                                            .padding(.leading)
+//                                        }
+                                        
+                                        Button(action: {
+                                            showGoalCreationView = true
+                                        }, label: {
+                                            
+                                            HStack {
+                                                Text("Create Goal +")
+                                                    .fontWeight(.bold)
+                                                    .padding()
+                                                    .frame(height: 40)
+                                                    .foregroundColor(Color.black)
+                                                    .background(Color.white)
+                                                    .cornerRadius(40)
+                                            }
+                                        })
+//                                        .padding(.leading, -80)
                                     }
                                 }
+                                
                             } else {
                                 
                                 Button(action: {
                                     showGoalCreationView = true
                                 }, label: {
-                                    Text("Create Goal")
-                                        .fontWeight(.bold)
-                                        .padding()
-                                        .frame(width: UIScreen.main.bounds.width - 150, height: 40)
-                                        .foregroundColor(Color.black)
-                                        .background(Color.white)
-                                        .cornerRadius(40)
+                                    HStack {
+                                        Text("Create Goal +")
+                                            .fontWeight(.bold)
+                                            .padding()
+                                            .frame(width: UIScreen.main.bounds.width - 150, height: 40)
+                                            .foregroundColor(Color.black)
+                                            .background(Color.white)
+                                            .cornerRadius(40)
+
+                                    }
                                 })
                                 .padding(.leading)
                             }
@@ -103,8 +128,14 @@ struct FeedView: View {
                     }
                 )
         }
-        .sheet(isPresented: $showGoalCreationView) {
+        .sheet(isPresented: $showGoalCreationView, onDismiss: {
+            Task { try await viewModel.fetchGoals() }
+        }) {
             GoalCreationView()
+        }
+        .refreshable {
+            Task { try await viewModel.fetchGoals() }
+            viewModel.fetchDataForYourFriendsContracts()
         }
         .onAppear {
             viewModel.fetchDataForYourFriendsContracts()
