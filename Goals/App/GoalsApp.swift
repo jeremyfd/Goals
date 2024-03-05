@@ -68,23 +68,22 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     }
     
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-        print("Firebase registration token: \(String(describing: fcmToken))")
-        if let fcmToken = fcmToken {
-            // Assuming you have a user signed in and a way to identify their document
-            let userId = Auth.auth().currentUser?.uid ?? ""
-            // Use the UserCollection reference from FirestoreConstants
-            let userRef = FirestoreConstants.UserCollection.document(userId)
-            userRef.setData(["fcmToken": fcmToken], merge: true) { error in
-                if let error = error {
-                    // If there's an error, print it
-                    print("Error updating FCM token in Firestore: \(error.localizedDescription)")
-                } else {
-                    // If the operation is successful, print a confirmation message
-                    print("FCM token successfully updated in Firestore for user \(userId)")
-                }
+        guard let fcmToken = fcmToken, let userId = Auth.auth().currentUser?.uid, !userId.isEmpty else {
+            print("Firebase registration token received, but no user is logged in to associate it with.")
+            // Optionally, you can store the fcmToken and associate it with the user upon login.
+            return
+        }
+        
+        let userRef = FirestoreConstants.UserCollection.document(userId)
+        userRef.setData(["fcmToken": fcmToken], merge: true) { error in
+            if let error = error {
+                print("Error updating FCM token in Firestore: \(error.localizedDescription)")
+            } else {
+                print("FCM token successfully updated in Firestore for user \(userId)")
             }
         }
     }
+
 
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         print("DEBUG: Failed to register for remote notifications with error: \(error)")
