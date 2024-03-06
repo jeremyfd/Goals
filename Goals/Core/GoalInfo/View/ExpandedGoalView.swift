@@ -174,6 +174,8 @@ struct ExpandedGoalView: View {
                         .padding(.top, 5)
                 }
                 .padding(.vertical)
+                .padding(.horizontal, 30)
+
                 
                 VStack {
                     if viewModel.isLoading {
@@ -192,26 +194,30 @@ struct ExpandedGoalView: View {
                                         .fontWeight(.bold)
                                 }
                                 .padding(.bottom)
-                                
+                                .padding(.horizontal, 30)
+
                                 ForEach(viewModel.steps.filter { $0.cycleID == cycle.id }.sorted(by: { $0.deadline < $1.deadline })) { step in
                                     HStack {
                                         stepStatusView(step: step, allSteps: viewModel.steps)
-                                            .frame(width: 150, height: 175)
+                                            .frame(width: 180, height: 180)
+                                            .padding()
                                         
                                         VStack(alignment: .leading) {
                                             Text("Day \(step.dayNumber)")
                                                 .fontWeight(.bold)
                                             Text("Week \(step.weekNumber)")
                                                 .fontWeight(.bold)
-                                            Text("Deadline: \(formatDate(step.deadline))")
+                                            Text("Deadline:")
+                                            Text("\(formatDate(step.deadline))")
                                         }
-                                        .padding(.bottom)
                                     }
+                                    .padding(.bottom)
                                 }
                             }
                         }
                     }
                 }
+
                 .onAppear {
                     viewModel.goal = goal
                     viewModel.fetchCyclesForCurrentGoal()
@@ -284,7 +290,7 @@ struct ExpandedGoalView: View {
                 showNextTierView = true
             }
         }
-        .padding(.horizontal, 30)
+//        .padding(.horizontal, 30)
         .padding(.top, -10)
         .background(
             LinearGradientView()
@@ -345,6 +351,9 @@ struct ExpandedGoalView: View {
     
     
     
+    @State private var showingDeleteConfirmation = false
+    @State private var evidenceIdToDelete: String?
+
     @ViewBuilder
     private func completedStepView(step: Step) -> some View {
         if let evidence = viewModel.evidences.first(where: { $0.stepID == step.id }) {
@@ -352,8 +361,8 @@ struct ExpandedGoalView: View {
                 KFImage(URL(string: evidence.imageUrl))
                     .resizable()
                     .scaledToFill()
-                    .frame(width: 110, height: 110)
-                    .cornerRadius(40)
+                    .frame(width: 170, height: 170)
+                    .cornerRadius(20)
                     .onTapGesture {
                         self.selectedImageURL = evidence.imageUrl
                         self.isImageViewerPresented = true
@@ -362,11 +371,15 @@ struct ExpandedGoalView: View {
                 
                 // Delete button for evidence
                 if viewModel.currentUserID == goal.ownerUid {
-                    Button("Delete Evidence") {
-                        viewModel.deleteEvidence(evidenceId: evidence.evidenceId ?? "")
+                    Button("Delete") {
+                        self.evidenceIdToDelete = evidence.evidenceId // Step 2: Set the evidence ID to delete
+                        self.showingDeleteConfirmation = true // Trigger the alert
                     }
-                    .foregroundColor(.red)
-                    .buttonStyle(.bordered)
+                    .padding(.horizontal)
+                    .padding(.vertical, 5)
+                    .foregroundColor(.white)
+                    .background(Color.red)
+                    .cornerRadius(20)
                 }
                 
                 // Verify button for the goal's partner
@@ -374,18 +387,33 @@ struct ExpandedGoalView: View {
                     Button("Verify") {
                         viewModel.verifyEvidence(evidenceId: evidence.evidenceId ?? "")
                     }
-                    .foregroundColor(.green)
-                    .buttonStyle(.borderedProminent)
+                    .fontWeight(.bold)
+                    .frame(width: 170)
+                    .padding(.vertical, 10)
+                    .foregroundColor(.white)
+                    .background(Color.green)
+                    .cornerRadius(20)
                 }
                 
             }
             .sheet(isPresented: $isImageViewerPresented) {
                 ImageViewer(imageURL: $selectedImageURL, isPresented: $isImageViewerPresented)
             }
+            .alert("Are you sure?", isPresented: $showingDeleteConfirmation) { // Step 3: Use the alert modifier
+                Button("Delete", role: .destructive) {
+                    if let evidenceId = self.evidenceIdToDelete {
+                        viewModel.deleteEvidence(evidenceId: evidenceId)
+                    }
+                }
+                Button("Cancel", role: .cancel) {}
+            } message: {
+                Text("This will permanently remove the evidence.")
+            }
         } else {
             Text("No Evidence").foregroundColor(.gray)
         }
     }
+
     
     @ViewBuilder
     private func verificationOverlay(for evidence: Evidence) -> some View {
@@ -393,11 +421,11 @@ struct ExpandedGoalView: View {
             Image(systemName: "checkmark.circle.fill")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .frame(width: 40, height: 40)
+                .frame(width: 50, height: 50)
                 .foregroundColor(.green)
                 .background(Color.white)
                 .clipShape(Circle())
-                .offset(x: 40, y: 30)
+                .offset(x: 60, y: 60)
         } else {
             EmptyView()
         }

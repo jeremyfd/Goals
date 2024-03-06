@@ -21,7 +21,7 @@ struct FeedFilterView: View {
                         .frame(width: 130, height: 42)
                         .overlay {
                             RoundedRectangle(cornerRadius: 10)
-                                .stroke(Color(.systemGray4), lineWidth: 1)
+                                .stroke(filter == selectedFilter ? Color.theme.primaryBackground : Color.theme.primaryText, lineWidth: 1)
                         }
                         .background(filter == selectedFilter ? Color.theme.primaryText : .clear)
                         .cornerRadius(10)

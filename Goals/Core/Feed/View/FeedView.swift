@@ -19,11 +19,7 @@ struct FeedView: View {
     }
     
     @Namespace var animation
-    
-    let columns: [GridItem] = [
-        GridItem(.flexible(), spacing: 0),
-        GridItem(.flexible(), spacing: 0)
-    ]
+
     
     var body: some View {
         
@@ -67,15 +63,13 @@ struct FeedView: View {
                                 
                                 ScrollView (.horizontal, showsIndicators: false){
                                     HStack {
-//                                        LazyVGrid(columns: columns, spacing: 10) {
                                         LazyHStack {
                                             ForEach(viewModel.goals, id: \.id) { goal in
                                                 CalendarViewFeedView(goal: goal, currentUser: currentUser)
-                                                //                                                    .padding(.leading, viewModel.goals.count > 1 ? 8 : UIScreen.main.bounds.width / 2 - ((UIScreen.main.bounds.width - 200) / 2))
+
                                             }
                                         }
                                             .padding(.leading)
-//                                        }
                                         
                                         Button(action: {
                                             showGoalCreationView = true
@@ -92,7 +86,6 @@ struct FeedView: View {
                                                     .cornerRadius(40)
                                             }
                                         })
-//                                        .padding(.leading, -80)
                                     }
                                 }
                                 
@@ -147,7 +140,6 @@ struct FeedView: View {
         VStack {
             
             FeedFilterView(selectedFilter: $viewModel.selectedFilter)
-                .padding(.bottom)
             
             if viewModel.sortedGroupedEvidencesKeys.isEmpty {
                 // Show a message when there are no evidences
@@ -188,6 +180,7 @@ struct FeedView: View {
                                 .padding(.leading)
                             Spacer()
                         }
+                            .padding(.top)
                         )
                         {
                             ForEach(viewModel.groupedEvidences[date] ?? [], id: \.evidence.id) { evidenceWithGoal in

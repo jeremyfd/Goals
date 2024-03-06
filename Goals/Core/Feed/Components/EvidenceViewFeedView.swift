@@ -86,11 +86,11 @@ struct EvidenceViewFeedView: View {
                 HStack {
                     ReactionButtonsView(goalID: goal.id, ownerUid: goal.ownerUid, viewModel: viewModel)
                 }
-                .padding(.horizontal)
+                .padding(.leading)
                 .padding(.vertical, 5)
                 .frame(width: UIScreen.main.bounds.width - 40, height: 100)
                 .background(Color.white)
-                .cornerRadius(40)
+                .cornerRadius(30)
             }
             
             NavigationLink {
