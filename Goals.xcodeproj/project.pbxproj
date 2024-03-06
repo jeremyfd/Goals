@@ -42,6 +42,7 @@
 		4F91AB712B95C56600F1F4D4 /* CountrySelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F91AB702B95C56600F1F4D4 /* CountrySelectionView.swift */; };
 		4F91AB732B95C5B600F1F4D4 /* Country.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F91AB722B95C5B600F1F4D4 /* Country.swift */; };
 		4F91AB752B95C5E700F1F4D4 /* PhoneNumberViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F91AB742B95C5E700F1F4D4 /* PhoneNumberViewModel.swift */; };
+		4F93B1052B98A6490066AE17 /* FirstPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F93B1042B98A6490066AE17 /* FirstPageView.swift */; };
 		4FAA0C172B9735AA0031C639 /* LinearGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FAA0C162B9735AA0031C639 /* LinearGradientView.swift */; };
 		4FAA0C1C2B979B350031C639 /* ContactsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FAA0C1B2B979B350031C639 /* ContactsViewModel.swift */; };
 		4FAA0C1E2B979B4E0031C639 /* ContactsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FAA0C1D2B979B4E0031C639 /* ContactsView.swift */; };
@@ -198,6 +199,7 @@
 		4F91AB722B95C5B600F1F4D4 /* Country.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Country.swift; sourceTree = "<group>"; };
 		4F91AB742B95C5E700F1F4D4 /* PhoneNumberViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneNumberViewModel.swift; sourceTree = "<group>"; };
 		4F91AB762B9626B600F1F4D4 /* Goals.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Goals.entitlements; sourceTree = "<group>"; };
+		4F93B1042B98A6490066AE17 /* FirstPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstPageView.swift; sourceTree = "<group>"; };
 		4FAA0C162B9735AA0031C639 /* LinearGradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinearGradientView.swift; sourceTree = "<group>"; };
 		4FAA0C1B2B979B350031C639 /* ContactsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsViewModel.swift; sourceTree = "<group>"; };
 		4FAA0C1D2B979B4E0031C639 /* ContactsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsView.swift; sourceTree = "<group>"; };
@@ -997,6 +999,7 @@
 			children = (
 				96F246E92B38252A000CC323 /* LoginView.swift */,
 				96CB3EA02B38F24D00B3508D /* RegistrationView.swift */,
+				4F93B1042B98A6490066AE17 /* FirstPageView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1254,6 +1257,7 @@
 				9635929C2B50A20100DD04B8 /* PreviewProvider.swift in Sources */,
 				4F182FA32B7E6E220072EABE /* SubmitEvidenceView.swift in Sources */,
 				4FFC13B72B867ED1001D898D /* ActivityView.swift in Sources */,
+				4F93B1052B98A6490066AE17 /* FirstPageView.swift in Sources */,
 				969F91FE2B3F2510004BECB1 /* ExpansionButtonView.swift in Sources */,
 				9635929A2B50A19F00DD04B8 /* CircularProfileImageView.swift in Sources */,
 				969F91F22B3E0C08004BECB1 /* ExpandedGoalView.swift in Sources */,

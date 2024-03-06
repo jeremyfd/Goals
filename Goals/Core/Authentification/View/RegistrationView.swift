@@ -98,9 +98,7 @@ struct RegistrationView: View {
              }
              .padding(.horizontal)
             
-            Button(action: {
-                dismiss()
-            }) {
+            NavigationLink(destination: LoginView().navigationBarBackButtonHidden(true)) {
                 HStack(spacing: 3) {
                     Text("Already have an account?")
                     Text("Sign In").fontWeight(.semibold)
@@ -108,7 +106,18 @@ struct RegistrationView: View {
                 .foregroundColor(Color.theme.primaryText)
                 .font(.body)
             }
-            .padding(.vertical, 16)
+            
+//            Button(action: {
+//                dismiss()
+//            }) {
+//                HStack(spacing: 3) {
+//                    Text("Already have an account?")
+//                    Text("Sign In").fontWeight(.semibold)
+//                }
+//                .foregroundColor(Color.theme.primaryText)
+//                .font(.body)
+//            }
+//            .padding(.vertical, 16)
             
             Spacer()
         }

@@ -13,7 +13,7 @@ struct ContentView: View {
     var body: some View {
         Group {
             if viewModel.userSession == nil || !viewModel.isUserProfileComplete {
-                LoginView()
+                FirstPageView()
             } else {
                 GoalsTabView()
             }
