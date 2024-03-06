@@ -35,8 +35,14 @@ class FeedViewModel: ObservableObject {
     
     init() {
         setupSubscribers()
-        Task { try await fetchGoals() }
+        Task {
+            try await fetchGoals()
+            await MainActor.run {
+                fetchDataForYourFriendsContracts()
+            }
+        }
     }
+
     
     @Published var selectedFilter: FeedFilterViewModel = .all {
         didSet {
@@ -59,7 +65,7 @@ class FeedViewModel: ObservableObject {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] user in
                 self?.currentUser = user
-                print("DEBUG: Current user updated: \(String(describing: user))")
+//                print("DEBUG: Current user updated: \(String(describing: user))")
             }
             .store(in: &cancellables)
     }

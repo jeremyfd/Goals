@@ -122,6 +122,9 @@ struct FeedView: View {
                     }
                 )
         }
+        .onAppear {
+            viewModel.fetchDataForYourFriendsContracts()
+        }
         .sheet(isPresented: $showGoalCreationView, onDismiss: {
             Task { try await viewModel.fetchGoals() }
         }) {
@@ -131,9 +134,7 @@ struct FeedView: View {
             Task { try await viewModel.fetchGoals() }
             viewModel.fetchDataForYourFriendsContracts()
         }
-        .onAppear {
-            viewModel.fetchDataForYourFriendsContracts()
-        }
+
     }
     
     func contentForYourContracts() -> some View {
