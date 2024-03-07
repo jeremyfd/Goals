@@ -128,7 +128,7 @@ struct StepRowView: View {
                         .fontWeight(.bold)
                     HStack {
                         Text("@\(goal.goal.user?.username ?? "Unknown")")
-                        Text("Tier: \(step.tier)")
+                        Text("Tier \(step.tier)")
                     }
                 }
                 .foregroundStyle(Color.black)

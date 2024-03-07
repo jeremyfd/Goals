@@ -18,6 +18,8 @@ struct Step: Identifiable, Hashable, Codable {
     let dayNumber: Int
     var deadline: Date
     var tier: Int
+    var isSubmitted: Bool
+    var isVerified: Bool
     
     var id: String {
         return stepId ?? NSUUID().uuidString

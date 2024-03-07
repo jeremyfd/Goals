@@ -29,9 +29,14 @@ struct StepService {
         return steps
     }
     
-    static func updateStepStatus(stepId: String, status: StepStatus) async throws {
+    static func updateStepSubmission(stepId: String, status: StepStatus) async throws {
         // Update the step's status
-        try await FirestoreConstants.StepsCollection.document(stepId).updateData(["status": status.rawValue])
+        try await FirestoreConstants.StepsCollection.document(stepId).updateData(["isSubmitted": status.rawValue])
+    }
+    
+    static func updateStepVerification(stepId: String, status: StepStatus) async throws {
+        // Update the step's status
+        try await FirestoreConstants.StepsCollection.document(stepId).updateData(["isVerified": status.rawValue])
     }
     
     static func deleteStep(stepId: String) async throws {

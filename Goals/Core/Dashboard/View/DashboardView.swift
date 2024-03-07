@@ -31,34 +31,24 @@ struct DashboardView: View {
                                     }
                                 }
                                 
-                                //                            Spacer()
-                                
                                 Text("Evidence Rankings")
                                     .font(.title2)
                                     .fontWeight(.bold)
                                     .foregroundStyle(Color.gray)
                                 
-//                                NavigationLink(destination: RegistrationView().navigationBarBackButtonHidden(true)) {
-//                                    HStack(spacing: 3) {
-//                                        Text("Evidence Rankings")
-//                                            .font(.title2)
-//                                            .fontWeight(.bold)
-//                                    }
-//                                    
-//                                }
                             }
                         }
                         .padding(.bottom)
                         
                         VStack(alignment: .leading) {
-                            Text("Calendar")
+                            Text("Schedule")
                                 .font(.title)
                                 .fontWeight(.bold)
                             
                             HStack{
                                 NavigationLink(destination: ScheduleView()) {
                                     HStack(spacing: 3) {
-                                        Text("CalendarView")
+                                        Text("ScheduleView")
                                             .font(.title2)
                                             .fontWeight(.bold)
                                     }
