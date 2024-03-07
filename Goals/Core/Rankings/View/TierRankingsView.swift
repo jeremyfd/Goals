@@ -1,5 +1,5 @@
 //
-//  ContractView.swift
+//  TierRankingsView.swift
 //  Goals
 //
 //  Created by Work on 28/12/2023.
@@ -7,16 +7,13 @@
 
 import SwiftUI
 
-struct ContractView: View {
-    @StateObject var viewModel = ContractViewModel()
+struct TierRankingsView: View {
+    @StateObject var viewModel = TierRankingsViewModel()
     @Namespace var animation
-    @State private var sortAscending: Bool = true // State variable to toggle sort order
+    @State private var sortAscending: Bool = true
     
     var body: some View {
-        NavigationStack {
-            LinearGradientView()
-            .ignoresSafeArea()
-            .overlay(
+
                 VStack {
                     
                     FeedFilterView(selectedFilter: $viewModel.selectedFilter)
@@ -45,10 +42,8 @@ struct ContractView: View {
                         viewModel.fetchDataForYourFriendsContracts()
                     }
                 }
-                    .navigationTitle("Contracts")
+                    .navigationTitle("Tier Rankings")
                     .navigationBarTitleDisplayMode(.inline)
-            )
-        }
         .onAppear {
             viewModel.fetchDataForYourFriendsContracts()
         }
@@ -84,5 +79,5 @@ struct ContractView: View {
 }
 
 #Preview {
-    ContractView()
+    TierRankingsView()
 }

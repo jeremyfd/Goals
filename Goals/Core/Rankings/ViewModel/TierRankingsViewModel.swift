@@ -1,5 +1,5 @@
 //
-//  ContractViewModel.swift
+//  TierRankingsViewModel.swift
 //  Goals
 //
 //  Created by Work on 21/01/2024.
@@ -11,7 +11,7 @@ import SwiftUI
 import Firebase
 
 @MainActor
-class ContractViewModel: ObservableObject {
+class TierRankingsViewModel: ObservableObject {
     @Published var currentUser: User?
     @Published var goals = [Goal]()
     @Published var isLoading = false

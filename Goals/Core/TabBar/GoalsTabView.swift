@@ -20,7 +20,7 @@ struct GoalsTabView: View {
                 .onAppear { selectedTab = 0 }
                 .tag(0)
             
-            ContractView()
+            DashboardView()
                 .tabItem {
                     Image(systemName: selectedTab == 1 ? "list.bullet.clipboard.fill" : "list.bullet.clipboard")
                         .environment(\.symbolVariants, selectedTab == 1 ? .fill : .none)

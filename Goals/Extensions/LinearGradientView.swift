@@ -14,7 +14,7 @@ struct LinearGradientView: View {
     var body: some View {
         LinearGradient(
             gradient: Gradient(colors:
-                colorScheme == .light ? [Color.white, Color.brown.opacity(0.9)] : [Color.black, Color.brown.opacity(0.9)]
+                colorScheme == .light ? [Color.white, Color.orange.opacity(0.9)] : [Color.black, Color.orange.opacity(0.9)]
             ),
             startPoint: .bottom,
             endPoint: .top
