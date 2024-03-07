@@ -29,14 +29,22 @@ struct StepService {
         return steps
     }
     
-    static func updateStepSubmission(stepId: String, status: StepStatus) async throws {
-        // Update the step's status
-        try await FirestoreConstants.StepsCollection.document(stepId).updateData(["isSubmitted": status.rawValue])
+    static func updateStepSubmission(stepId: String, isSubmitted: Bool) async throws {
+        do {
+            try await FirestoreConstants.StepsCollection.document(stepId).updateData(["isSubmitted": isSubmitted])
+        } catch {
+            print("DEBUG: Failed to update submission status for step with ID: \(stepId). Error: \(error.localizedDescription)")
+            throw error
+        }
     }
-    
-    static func updateStepVerification(stepId: String, status: StepStatus) async throws {
-        // Update the step's status
-        try await FirestoreConstants.StepsCollection.document(stepId).updateData(["isVerified": status.rawValue])
+
+    static func updateStepVerification(stepId: String, isVerified: Bool) async throws {
+        do {
+            try await FirestoreConstants.StepsCollection.document(stepId).updateData(["isVerified": isVerified])
+        } catch {
+            print("DEBUG: Failed to update verification status for step with ID: \(stepId). Error: \(error.localizedDescription)")
+            throw error
+        }
     }
     
     static func deleteStep(stepId: String) async throws {

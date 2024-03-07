@@ -123,6 +123,7 @@ struct FeedView: View {
                 )
         }
         .onAppear {
+            Task { try await viewModel.fetchGoals() }
             viewModel.fetchDataForYourFriendsContracts()
         }
         .sheet(isPresented: $showGoalCreationView, onDismiss: {

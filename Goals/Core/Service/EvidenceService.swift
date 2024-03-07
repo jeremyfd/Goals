@@ -30,6 +30,8 @@ struct EvidenceService {
         // Now that you have the goal, you can get the partnerUid and use it for the notification
         await ActivityService.uploadNotification(toUid: goal.partnerUid, type: .evidence, goalId: goal.id)
         
+        try await StepService.updateStepSubmission(stepId: evidence.stepID, isSubmitted: true)
+        
         return uploadedEvidence
     }
     
@@ -47,11 +49,21 @@ struct EvidenceService {
         // Update the evidence's verified status
         try await FirestoreConstants.EvidencesCollection.document(evidenceId).updateData(["verified": isVerified])
         
-        // If the evidence is being verified, increment the goal's currentCount
         if isVerified {
+            // Fetch the evidence to get the stepID
+            let documentSnapshot = try await FirestoreConstants.EvidencesCollection.document(evidenceId).getDocument()
+            guard let evidence = try? documentSnapshot.data(as: Evidence.self) else {
+                throw NSError(domain: "VerificationError", code: 1, userInfo: [NSLocalizedDescriptionKey: "Failed to fetch evidence for verification."])
+            }
+            
+            // Update the isVerified for the corresponding step to true
+            try await StepService.updateStepVerification(stepId: evidence.stepID, isVerified: true)
+
+            // If the evidence is being verified, increment the goal's currentCount
             try await GoalService.incrementCurrentCountForGoal(goalId: goalId)
         }
     }
+
     
     static func deleteEvidence(evidenceId: String) async throws {
         // Fetch the document to get the imageUrl
@@ -72,5 +84,9 @@ struct EvidenceService {
         
         // Proceed to delete the evidence document from Firestore
         try await FirestoreConstants.EvidencesCollection.document(evidenceId).delete()
+        
+        try await StepService.updateStepSubmission(stepId: evidence.stepID, isSubmitted: false)
+        try await StepService.updateStepVerification(stepId: evidence.stepID, isVerified: false)
+       
     }
 }
