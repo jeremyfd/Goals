@@ -175,11 +175,14 @@ struct FeedView: View {
                     ForEach(viewModel.sortedGroupedEvidencesKeys, id: \.self) { date in
                         Section(header:
                                     HStack {
+                            Spacer()
+
                             Text(date, formatter: DateFormatter.mediumDateFormatter)
                                 .font(.title2)
                                 .fontWeight(.bold)
-                                .padding(.leading)
-                            Spacer()
+                                .padding(.trailing)
+                                .padding(.trailing)
+
                         }
                             .padding(.top)
                         )

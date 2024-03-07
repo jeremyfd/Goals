@@ -22,6 +22,7 @@ struct ScheduleView: View {
     var body: some View {
         ScrollView {
             FeedFilterView(selectedFilter: $viewModel.selectedFilter)
+                .padding(.top)
             
             Button(action: {
                 sortAscending.toggle()
@@ -71,12 +72,16 @@ struct StepsSectionView: View {
     
     var body: some View {
         Section(header: HStack {
+
             Text(date, formatter: DateFormatter.shortDate)
                 .font(.title3)
                 .fontWeight(.bold)
-                .padding(.horizontal)
                 .padding(.top)
+                .padding(.leading)
+                .padding(.leading)
+            
             Spacer()
+
         }) {
             ForEach(steps, id: \.id) { step in
                 // Find the goal tuple that contains the current step
@@ -165,7 +170,7 @@ struct StepRowView: View {
 
 private extension Date {
     func startOfDay() -> Date {
-        return Calendar.current.startOfDay(for: self)
+        return Calendar.current.startOfDay(for: self) - 1
     }
 }
 

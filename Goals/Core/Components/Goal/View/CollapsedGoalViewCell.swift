@@ -40,13 +40,13 @@ struct CollapsedGoalViewCell: View {
                 Spacer()
                 
                 HStack {
-                    Text("Week 2")
+                    Text("Day \(goal.currentCount + 1)")
                         .font(.title3)
                         .fontWeight(.bold)
                         .foregroundColor(.black)
                         .padding(.trailing)
                     
-                        Image(systemName: "chevron.down")
+                        Image(systemName: "chevron.right")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 20, height: 20)
@@ -60,7 +60,7 @@ struct CollapsedGoalViewCell: View {
             .padding(.vertical, 5)
             .frame(width: UIScreen.main.bounds.width - 40)
             .background(Color.white)
-            .cornerRadius(20)
+            .cornerRadius(30)
         }
         .padding(.horizontal)
         

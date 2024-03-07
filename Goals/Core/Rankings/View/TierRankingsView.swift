@@ -13,37 +13,39 @@ struct TierRankingsView: View {
     @State private var sortAscending: Bool = true
     
     var body: some View {
-
-                VStack {
+        
+        VStack {
+            
+            FeedFilterView(selectedFilter: $viewModel.selectedFilter)
+                .padding(.top)
+            
+            Button(action: {
+                sortAscending.toggle()
+            }) {
+                HStack {
+                    Spacer()
                     
-                    FeedFilterView(selectedFilter: $viewModel.selectedFilter)
+                    Text("Sort")
+                        .fontWeight(.bold)
+                    Image(systemName: "arrow.up.arrow.down")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 25, height: 25)
                     
-                    Button(action: {
-                        sortAscending.toggle()
-                    }) {
-                        HStack {
-                            Spacer()
-                            
-                            Text("Sort")
-                                .fontWeight(.bold)
-                            Image(systemName: "arrow.up.arrow.down")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 25, height: 25)
-                            
-                        }
-                        .padding(.trailing)
-                    }
-                    
-                    ScrollView {
-                        contentForYourContracts()
-                    }
-                    .refreshable {
-                        viewModel.fetchDataForYourFriendsContracts()
-                    }
                 }
-                    .navigationTitle("Tier Rankings")
-                    .navigationBarTitleDisplayMode(.inline)
+                .padding(.trailing)
+            }
+            
+            ScrollView {
+                contentForYourContracts()
+            }
+            .refreshable {
+                viewModel.fetchDataForYourFriendsContracts()
+            }
+        }
+        .background(LinearGradientView())
+        .navigationTitle("Tier Rankings")
+        .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             viewModel.fetchDataForYourFriendsContracts()
         }
@@ -59,13 +61,13 @@ struct TierRankingsView: View {
             ForEach(sortedKeys, id: \.self) { key in
                 
                 Section(header:
-                    HStack {
-                        Text("Tier \(key)")
-                            .font(.title)
-                            .fontWeight(.bold)
-                            .padding(.leading, 15) // Adjust padding as needed
-                        Spacer() // Pushes the text to the left
-                    }
+                            HStack {
+                    Text("Tier \(key)")
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .padding(.leading, 15) // Adjust padding as needed
+                    Spacer() // Pushes the text to the left
+                }
                 ) {
                     LazyVStack(spacing: 20) {
                         ForEach(groupedGoals[key] ?? []) { goal in
