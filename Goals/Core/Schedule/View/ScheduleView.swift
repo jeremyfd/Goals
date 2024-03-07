@@ -136,6 +136,10 @@ struct StepRowView: View {
                 
                 Spacer()
                 
+                Circle()
+                    .fill(step.isSubmitted ? (step.isVerified ? Color.green : Color.orange) : Color.red)
+                    .frame(width: 15, height: 15)
+                
                 Button {
                     // Toggle ID or nil
                     showingReactionsForStepID = showingReactionsForStepID == step.id ? nil : step.id
