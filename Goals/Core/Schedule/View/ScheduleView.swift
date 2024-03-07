@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ScheduleView: View {
     @StateObject var viewModel = ScheduleViewModel()
-    @State private var showReactions = false
+    @State private var showingReactionsForStepID: String? = nil
     @Namespace var animation
     @State private var sortAscending: Bool = true
     
@@ -39,9 +39,8 @@ struct ScheduleView: View {
                 .padding(.trailing)
             }
             
-//            ScrollView {
                 contentForYourContracts()
-//            }
+            
             .refreshable {
                 viewModel.fetchDataForYourFriendsContracts()
             }
@@ -55,79 +54,114 @@ struct ScheduleView: View {
     }
     
     func contentForYourContracts() -> some View {
-        LazyVStack{
+        LazyVStack {
             ForEach(sortedStepsByDate, id: \.date) { date, steps in
-                Section(header:
-                            HStack {
-                    Text(date, formatter: DateFormatter.shortDate)
-                        .font(.title3)
-                        .fontWeight(.bold)
-                        .padding(.horizontal)
-                        .padding(.top)
-                    Spacer()
-                }
-                ) {
-                    ForEach(steps, id: \.id) { step in
-                        if let goalWithSteps = viewModel.goals.first(where: { $0.goal.id == step.goalID }) {
-                            
-                            if showReactions {
-                                let cellViewModel = GoalViewCellViewModel(goalId: goalWithSteps.goal.id)
+                StepsSectionView(date: date, steps: steps, showingReactionsForStepID: $showingReactionsForStepID, viewModel: viewModel)
+            }
+        }
+        .padding(.bottom)
+    }
+}
 
-                                    ReactionButtonsView(
-                                        goalID: goalWithSteps.goal.id,
-                                        ownerUid: goalWithSteps.goal.ownerUid,
-                                        viewModel: cellViewModel
-                                    )
-                                .padding(.leading)
-                                .padding(.vertical, 5)
-                                .frame(width: UIScreen.main.bounds.width - 40, height: 100)
-                                .background(Color.white)
-                                .cornerRadius(30)
-                            }
-                            
-                            HStack {
-                                VStack(alignment: .leading) {
-                                    Text("\(goalWithSteps.goal.title)")
-                                        .fontWeight(.bold)
-                                    HStack {
-                                        Text("@\(goalWithSteps.goal.user?.username ?? "Unknown")")
-                                        Text("Tier: \(step.tier)")
-                                    }
-                                }
-                                .foregroundStyle(Color.black)
-                                .padding()
-                                
-                                Spacer()
-                                
-                                Button {
-                                    showReactions.toggle()
-                                } label: {
-                                    Image(systemName: "heart")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: 20, height: 20)
-                                        .foregroundColor(.black)
-                                        .padding(.horizontal)
-                                }
-                                
-                                Image(systemName: "chevron.right")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 20, height: 20)
-                                    .foregroundColor(.black)
-                            }
-                            .padding(.horizontal)
-                            .padding(.vertical, 5)
-                            .frame(width: UIScreen.main.bounds.width - 40, height: 50)
-                            .background(Color.white)
-                            .cornerRadius(40)
-                        }
-                    }
+struct StepsSectionView: View {
+    var date: Date
+    var steps: [Step]
+    @Binding var showingReactionsForStepID: String?
+    var viewModel: ScheduleViewModel
+    
+    var body: some View {
+        Section(header: HStack {
+            Text(date, formatter: DateFormatter.shortDate)
+                .font(.title3)
+                .fontWeight(.bold)
+                .padding(.horizontal)
+                .padding(.top)
+            Spacer()
+        }) {
+            ForEach(steps, id: \.id) { step in
+                // Find the goal tuple that contains the current step
+                if let goalTuple = viewModel.goals.first(where: { $0.steps.contains(where: { $0.id == step.id }) }) {
+                    StepRowView(step: step, goal: goalTuple, showingReactionsForStepID: $showingReactionsForStepID, viewModel: viewModel)
                 }
             }
         }
     }
 }
+
+
+struct StepRowView: View {
+    var step: Step
+    var goal: (goal: Goal, steps: [Step]) // Pass the whole tuple
+    @Binding var showingReactionsForStepID: String? // Use String for ID
+    var viewModel: ScheduleViewModel
+    
+    var body: some View {
+        
+        NavigationLink {
+            ExpandedGoalView(goal: goal.goal)
+        } label: {
+        VStack {
+            // Compare strings directly
+            if showingReactionsForStepID == step.id {
+                let cellViewModel = GoalViewCellViewModel(goalId: goal.goal.id)
+                
+                ReactionButtonsView(
+                    goalID: goal.goal.id,
+                    ownerUid: goal.goal.ownerUid,
+                    viewModel: cellViewModel
+                )
+                .padding(.leading)
+                .padding(.vertical, 5)
+                .frame(width: UIScreen.main.bounds.width - 40, height: 100)
+                .background(Color.white)
+                .cornerRadius(30)
+            }
+            
+            HStack {
+                VStack(alignment: .leading) {
+                    Text("\(goal.goal.title)")
+                        .fontWeight(.bold)
+                    HStack {
+                        Text("@\(goal.goal.user?.username ?? "Unknown")")
+                        Text("Tier: \(step.tier)")
+                    }
+                }
+                .foregroundStyle(Color.black)
+                .padding()
+                
+                Spacer()
+                
+                Button {
+                    // Toggle ID or nil
+                    showingReactionsForStepID = showingReactionsForStepID == step.id ? nil : step.id
+                } label: {
+                    Image(systemName: "heart")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 20, height: 20)
+                        .foregroundColor(.black)
+                        .padding(.horizontal)
+                }
+                
+                Image(systemName: "chevron.right")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 20, height: 20)
+                    .foregroundColor(.black)
+            }
+            .padding(.horizontal)
+            .padding(.vertical, 5)
+            .frame(width: UIScreen.main.bounds.width - 40, height: 50)
+            .background(Color.white)
+            .cornerRadius(40)
+        }
+    }
+    }
+}
+
+
+
+
 
 private extension Date {
     func startOfDay() -> Date {
