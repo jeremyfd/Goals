@@ -58,20 +58,28 @@ struct TierRankingsView: View {
             let groupedGoals = Dictionary(grouping: viewModel.goals) { $0.tier }
             let sortedKeys = groupedGoals.keys.sorted(by: sortAscending ? (<) : (>))
             
-            ForEach(sortedKeys, id: \.self) { key in
-                
-                Section(header:
-                            HStack {
-                    Text("Tier \(key)")
-                        .font(.title)
-                        .fontWeight(.bold)
-                        .padding(.leading, 15) // Adjust padding as needed
-                    Spacer() // Pushes the text to the left
-                }
-                ) {
-                    LazyVStack(spacing: 20) {
-                        ForEach(groupedGoals[key] ?? []) { goal in
-                            CollapsedGoalViewCell(goal: goal)
+            if sortedKeys.isEmpty {
+                // Display "No goals yet" message when there are no goals
+                Text("No goals yet")
+                    .font(.title2)
+                    .fontWeight(.bold)
+                    .padding()
+            } else {
+                ForEach(sortedKeys, id: \.self) { key in
+                    
+                    Section(header:
+                                HStack {
+                        Text("Tier \(key)")
+                            .font(.title)
+                            .fontWeight(.bold)
+                            .padding(.leading, 15) // Adjust padding as needed
+                        Spacer() // Pushes the text to the left
+                    }
+                    ) {
+                        LazyVStack(spacing: 20) {
+                            ForEach(groupedGoals[key] ?? []) { goal in
+                                CollapsedGoalViewCell(goal: goal)
+                            }
                         }
                     }
                 }

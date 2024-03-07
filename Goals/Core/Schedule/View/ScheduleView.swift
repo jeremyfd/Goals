@@ -38,6 +38,7 @@ struct ScheduleView: View {
                         .frame(width: 25, height: 25)
                 }
                 .padding(.trailing)
+                .padding(.bottom, -10)
             }
             
                 contentForYourContracts()
@@ -55,13 +56,27 @@ struct ScheduleView: View {
     }
     
     func contentForYourContracts() -> some View {
-        LazyVStack {
-            ForEach(sortedStepsByDate, id: \.date) { date, steps in
-                StepsSectionView(date: date, steps: steps, showingReactionsForStepID: $showingReactionsForStepID, viewModel: viewModel)
+        // Check if there are any steps across all dates
+        let areThereAnySteps = !sortedStepsByDate.flatMap { $0.steps }.isEmpty
+
+        return Group {
+            if areThereAnySteps {
+                LazyVStack {
+                    ForEach(sortedStepsByDate, id: \.date) { date, steps in
+                        StepsSectionView(date: date, steps: steps, showingReactionsForStepID: $showingReactionsForStepID, viewModel: viewModel)
+                    }
+                }
+                .padding(.bottom)
+            } else {
+                // Display "No steps to show" message when there are no steps across all dates
+                Text("No steps to show")
+                    .font(.title2)
+                    .fontWeight(.bold)
+                    .padding()
             }
         }
-        .padding(.bottom)
     }
+
 }
 
 struct StepsSectionView: View {
@@ -71,6 +86,7 @@ struct StepsSectionView: View {
     var viewModel: ScheduleViewModel
     
     var body: some View {
+        
         Section(header: HStack {
 
             Text(date, formatter: DateFormatter.shortDate)
@@ -84,7 +100,6 @@ struct StepsSectionView: View {
 
         }) {
             ForEach(steps, id: \.id) { step in
-                // Find the goal tuple that contains the current step
                 if let goalTuple = viewModel.goals.first(where: { $0.steps.contains(where: { $0.id == step.id }) }) {
                     StepRowView(step: step, goal: goalTuple, showingReactionsForStepID: $showingReactionsForStepID, viewModel: viewModel)
                 }

@@ -62,7 +62,6 @@ struct CollapsedGoalViewCell: View {
             .background(Color.white)
             .cornerRadius(30)
         }
-        .padding(.horizontal)
         
     }
 }
