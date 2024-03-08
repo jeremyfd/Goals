@@ -12,7 +12,9 @@ struct ContentView: View {
 
     var body: some View {
         Group {
-            if viewModel.userSession == nil || !viewModel.isUserProfileComplete {
+            if viewModel.isLoading {
+                LoadingView()
+            } else if viewModel.userSession == nil || !viewModel.isUserProfileComplete {
                 FirstPageView()
             } else {
                 GoalsTabView()
@@ -20,6 +22,7 @@ struct ContentView: View {
         }
     }
 }
+
 
 #Preview {
     ContentView()

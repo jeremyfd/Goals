@@ -11,7 +11,8 @@ import FirebaseAuth
 class ContentViewModel: ObservableObject {
     @Published var userSession: FirebaseAuth.User?
     @Published var currentUser: User?
-    
+    @Published var isLoading = true // Add this line to track loading state
+
     private var cancellables = Set<AnyCancellable>()
     
     init() {
@@ -20,13 +21,20 @@ class ContentViewModel: ObservableObject {
     
     private func setupSubscribers() {
         AuthService.shared.$userSession
+            .receive(on: DispatchQueue.main) // Ensure updates are received on the main thread
             .sink { [weak self] session in
-                self?.userSession = session
+                guard let self = self else { return } // Safely unwrap self
+                self.userSession = session
+                self.isLoading = true
                 if let userID = session?.uid {
-                    // Fetch the user data whenever the session updates
-                    Task { [weak self] in
-                        await self?.fetchUserData(userID: userID)
+                    Task {
+                        await self.fetchUserData(userID: userID)
+                        await MainActor.run { // Ensure UI updates are on the main thread
+                            self.isLoading = false
+                        }
                     }
+                } else {
+                    self.isLoading = false
                 }
             }
             .store(in: &cancellables)
@@ -41,13 +49,14 @@ class ContentViewModel: ObservableObject {
     }
     
     @MainActor
-        private func fetchUserData(userID: String) async {
-            do {
-                let user = try await UserService.fetchUser(withUid: userID)
-                self.currentUser = user
-            } catch {
-                print("Error fetching user: \(error)")
-                self.currentUser = nil
-            }
+    private func fetchUserData(userID: String) async {
+        do {
+            let user = try await UserService.fetchUser(withUid: userID)
+            self.currentUser = user
+        } catch {
+            print("Error fetching user: \(error)")
+            self.currentUser = nil
         }
+    }
 }
+
