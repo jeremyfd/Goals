@@ -76,7 +76,7 @@ struct EvidenceService {
         // Since imageUrl is non-optional, you can directly use it
         do {
             try await ImageUploader.deleteImage(withURL: evidence.imageUrl)
-            print("DEBUG: Successfully deleted image from storage")
+//            print("DEBUG: Successfully deleted image from storage")
         } catch {
             print("DEBUG: Failed to delete image from storage, \(error.localizedDescription)")
             // Handle the error as needed. Depending on your requirements, you might log this error or throw it.

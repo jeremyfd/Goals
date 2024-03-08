@@ -196,7 +196,6 @@ struct CurrentUserProfileView: View {
         }
         .onChange(of: navigateToEditProfile) { isPresenting in
             if !isPresenting {
-                // Assuming EditProfileView was dismissed, refresh user
                 Task {
                     await viewModel.refreshCurrentUser()
                 }

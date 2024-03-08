@@ -49,7 +49,7 @@ struct ImageUploader {
         
         do {
             try await ref.delete()
-            print("DEBUG: Successfully deleted image")
+//            print("DEBUG: Successfully deleted image")
         } catch let error {
             print("DEBUG: Failed to delete image \(error.localizedDescription)")
             throw error

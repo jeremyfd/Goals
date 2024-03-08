@@ -84,7 +84,7 @@ class ExpandedGoalViewModel: ObservableObject {
             print("Goal ID is not available")
             return
         }
-        print("DEBUG: Fetching cycles for goal ID: \(goalId)")
+//        print("DEBUG: Fetching cycles for goal ID: \(goalId)")
         Task {
             isLoading = true
             do {
@@ -92,7 +92,7 @@ class ExpandedGoalViewModel: ObservableObject {
                 DispatchQueue.main.async {
                     self.cycles = fetchedCycles
                     self.isLoading = false
-                    print("DEBUG: Fetched cycles: \(fetchedCycles.count), updating viewModel.cycles")
+//                    print("DEBUG: Fetched cycles: \(fetchedCycles.count), updating viewModel.cycles")
                 }
             } catch {
                 DispatchQueue.main.async {
@@ -107,13 +107,13 @@ class ExpandedGoalViewModel: ObservableObject {
             print("Goal ID is not available")
             return
         }
-        print("DEBUG: Fetching steps for goal ID: \(goalId)")
+//        print("DEBUG: Fetching steps for goal ID: \(goalId)")
         Task {
             do {
                 let fetchedSteps = try await StepService.fetchSteps(forGoalId: goalId)
                 DispatchQueue.main.async {
                     self.steps = fetchedSteps
-                    print("DEBUG: Fetched steps: \(fetchedSteps.count)")
+//                    print("DEBUG: Fetched steps: \(fetchedSteps.count)")
                 }
             } catch {
                 print("Error fetching steps for goal: \(error.localizedDescription)")
@@ -126,13 +126,13 @@ class ExpandedGoalViewModel: ObservableObject {
             print("Goal ID is not available")
             return
         }
-        print("DEBUG: Fetching evidences for goal ID: \(goalId)")
+//        print("DEBUG: Fetching evidences for goal ID: \(goalId)")
         Task {
             do {
                 let fetchedEvidences = try await EvidenceService.fetchEvidences(forGoalId: goalId)
                 DispatchQueue.main.async {
                     self.evidences = fetchedEvidences
-                    print("DEBUG: Fetched evidences: \(fetchedEvidences.count)")
+//                    print("DEBUG: Fetched evidences: \(fetchedEvidences.count)")
                 }
             } catch {
                 print("Error fetching steps for goal: \(error.localizedDescription)")
@@ -183,3 +183,4 @@ class ExpandedGoalViewModel: ObservableObject {
         }
     
 }
+

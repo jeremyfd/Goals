@@ -122,18 +122,12 @@ struct GoalService {
         // First, attempt to fetch the goal to get the partnerUid
         let goalDocumentSnapshot = try await FirestoreConstants.GoalsCollection.document(goalId).getDocument()
         if let goal = try? goalDocumentSnapshot.data(as: Goal.self) {
-            // Fetch and delete all cycles associated with this goal
-            let cycles = try await CycleService.fetchCycles(forGoalId: goalId)
-            for cycle in cycles {
-                guard let cycleId = cycle.cycleId else { continue }
-                try await CycleService.deleteCycle(cycleId: cycleId)
-            }
             
-            // Fetch and delete all evidences associated with this goal
-            let steps = try await StepService.fetchSteps(forGoalId: goalId)
-            for step in steps {
-                guard let stepId = step.stepId else { continue }
-                try await StepService.deleteStep(stepId: stepId)
+            // Fetch and delete all reactions associated with this goal
+            let reactions = try await ReactionService.fetchReactions(forGoalId: goalId)
+            for reaction in reactions {
+                guard let reactionId = reaction.reactionId else { continue }
+                try await ReactionService.deleteReaction(reactionId: reactionId)
             }
             
             // Fetch and delete all evidences associated with this goal
@@ -143,13 +137,20 @@ struct GoalService {
                 try await EvidenceService.deleteEvidence(evidenceId: evidenceId)
             }
             
-            // Fetch and delete all reactions associated with this goal
-            let reactions = try await ReactionService.fetchReactions(forGoalId: goalId)
-            for reaction in reactions {
-                guard let reactionId = reaction.reactionId else { continue }
-                try await ReactionService.deleteReaction(reactionId: reactionId)
+            // Fetch and delete all evidences associated with this goal
+            let steps = try await StepService.fetchSteps(forGoalId: goalId)
+            for step in steps {
+                guard let stepId = step.stepId else { continue }
+                try await StepService.deleteStep(stepId: stepId)
             }
             
+            // Fetch and delete all cycles associated with this goal
+            let cycles = try await CycleService.fetchCycles(forGoalId: goalId)
+            for cycle in cycles {
+                guard let cycleId = cycle.cycleId else { continue }
+                try await CycleService.deleteCycle(cycleId: cycleId)
+            }
+
             // Proceed with cleanup before deleting the goal document
             // Remove the goal from all user feeds
             try await removeGoalFromUserFeeds(goalId: goalId)

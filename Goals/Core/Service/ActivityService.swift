@@ -42,7 +42,7 @@ struct ActivityService {
         
         do {
             try await FirestoreConstants.ActivityCollection.document(uid).collection("user-notifications").addDocument(data: data)
-            print("Activity notification uploaded for uid: \(uid) with reaction type: \(reactionType ?? "N/A")")
+//            print("Activity notification uploaded for uid: \(uid) with reaction type: \(reactionType ?? "N/A")")
         } catch {
             print("Failed to upload activity notification: \(error.localizedDescription)")
         }
