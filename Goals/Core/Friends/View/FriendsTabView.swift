@@ -86,7 +86,7 @@ struct PillTabSwitcher: View {
                     }
             }
         }
-        .background(Color.gray.opacity(0.2))
+        .background(Color.white.opacity(0.4))
         .clipShape(Capsule())
     }
 }
