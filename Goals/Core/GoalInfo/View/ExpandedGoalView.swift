@@ -324,9 +324,9 @@ struct ExpandedGoalView: View {
             } else if !arePreviousStepsCompleted {
                 // If previous steps are not all completed, indicate that
                 Text("Complete previous step").foregroundColor(.gray)
-            } else if isPastDeadline {
-                // Show failed step if the deadline is past and no evidence submitted
-                Text("You failed this step").foregroundColor(.gray)
+//            } else if isPastDeadline {
+//                // Show failed step if the deadline is past and no evidence submitted
+//                Text("You failed this step").foregroundColor(.gray)
             } else {
                 // This step is ready to submit evidence
                 Button("Submit Evidence") {

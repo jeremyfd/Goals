@@ -20,7 +20,7 @@ struct ImageViewer: View {
                 if let urlString = imageURL, let url = URL(string: urlString) {
                     KFImage(url)
                         .resizable()
-                        .aspectRatio(contentMode: .fill)
+                        .aspectRatio(contentMode: .fit)
                         .frame(
                             width: max(geometry.size.width - 40, 0),
                             height: max((geometry.size.width - 40) * 4 / 3, 0)

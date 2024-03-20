@@ -41,16 +41,13 @@ struct EvidenceViewFeedView: View {
             ZStack(alignment: .bottom) {
                 KFImage(URL(string: evidence.imageUrl))
                     .resizable()
-                    .scaledToFill()
+                    .scaledToFit()
                     .frame(width: UIScreen.main.bounds.width - 40, height: UIScreen.main.bounds.height/2)
                     .overlay(
                         LinearGradient(gradient: Gradient(colors: [.clear, colorScheme == .light ? Color.black : Color.gray]), startPoint: .center, endPoint: .bottom)
                             .edgesIgnoringSafeArea(.all)
                     )
-                    .onTapGesture {
-                        self.selectedImageURL = evidence.imageUrl
-                        self.isImageViewerPresented = true
-                    }
+                    .clipShape(Rectangle())
                 
                 HStack {
                     VStack(alignment: .leading) {
@@ -77,6 +74,11 @@ struct EvidenceViewFeedView: View {
                 .padding()
             }
             .frame(width: UIScreen.main.bounds.width - 40, height: UIScreen.main.bounds.height/2)
+            .clipShape(Rectangle())
+            .onTapGesture {
+                self.selectedImageURL = evidence.imageUrl
+                self.isImageViewerPresented = true
+            }
             .cornerRadius(30)
             .sheet(isPresented: $isImageViewerPresented) {
                 ImageViewer(imageURL: $selectedImageURL, isPresented: $isImageViewerPresented)
