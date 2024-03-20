@@ -38,7 +38,6 @@ struct AddView: View {
 //                    .cornerRadius(20)
 //            })
             
-            Spacer()
         }
         .background(Color.clear)
         .padding()

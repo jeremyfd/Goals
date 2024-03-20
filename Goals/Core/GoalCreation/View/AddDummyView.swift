@@ -15,10 +15,10 @@ struct AddDummyView: View {
         VStack { }
         .onAppear { presented = true }
         .sheet(isPresented: $presented) {
-            AddView(tabIndex: $tabIndex)
-                .presentationDetents([.height(200)])
-                .presentationBackground(.clear)
+            GoalCreationView()
+                .onDisappear { tabIndex = 0 }
         }
+        
     }
 }
 
