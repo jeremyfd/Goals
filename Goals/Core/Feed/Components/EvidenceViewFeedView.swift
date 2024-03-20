@@ -172,6 +172,9 @@ struct EvidenceViewFeedView: View {
             }
 
         }
+//        .padding(.vertical)
+//        .background(Color.white.opacity(0.5))
+//        .cornerRadius(30)
     }
 }
 

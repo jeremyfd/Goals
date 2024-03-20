@@ -97,11 +97,11 @@ struct CurrentUserProfileView: View {
                         VStack(alignment: .leading, spacing: 5) {
                             
                             HStack {
-                                Text("Goals completed:")
+                                Text("Live Goals:")
                                     .font(.title2)
                                     .padding(.top, 5)
                                 
-                                Text("5 goals")
+                                Text("10 Goals")
                                     .font(.title2)
                                     .fontWeight(.bold)
                                     .padding(.top, 5)
@@ -117,17 +117,7 @@ struct CurrentUserProfileView: View {
                                     .fontWeight(.bold)
                                     .padding(.top, 5)
                             }
-                            
-                            HStack {
-                                Text("Live Goals:")
-                                    .font(.title2)
-                                    .padding(.top, 5)
-                                
-                                Text("10 Goals")
-                                    .font(.title2)
-                                    .fontWeight(.bold)
-                                    .padding(.top, 5)
-                            }
+
                         }
                         .padding(.top)
                         

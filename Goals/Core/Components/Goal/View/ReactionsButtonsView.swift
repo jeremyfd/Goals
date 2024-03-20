@@ -13,7 +13,7 @@ struct ReactionButtonsView: View {
     @ObservedObject var viewModel: GoalViewCellViewModel
     @State private var disabledButtons: [String: Bool] = [:]
     
-    private let reactions = ["wow!", "almost there!", "never give up!", "you are crushing this!"]
+    private let reactions = ["Wow!", "Almost there!", "Don't give up!", "You are crushing this!"]
     
     var body: some View {
         VStack {

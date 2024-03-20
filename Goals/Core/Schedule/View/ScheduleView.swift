@@ -48,7 +48,7 @@ struct ScheduleView: View {
             }
         }
         .background(LinearGradientView())
-        .navigationTitle("Tier Rankings")
+        .navigationTitle("Schedule View")
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             viewModel.fetchDataForYourFriendsContracts()
@@ -189,7 +189,7 @@ struct StepRowView: View {
 
 private extension Date {
     func startOfDay() -> Date {
-        return Calendar.current.startOfDay(for: self) - 1
+        return Calendar.current.startOfDay(for: self)
     }
 }
 

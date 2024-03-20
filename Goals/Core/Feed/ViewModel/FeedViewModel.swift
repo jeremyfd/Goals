@@ -140,17 +140,37 @@ class FeedViewModel: ObservableObject {
                 print("DEBUG: No current user UID found")
                 return
             }
-            print("DEBUG: Fetching goals for user UID: \(uid)")
             let fetchedGoals = try await GoalService.fetchUserGoals(uid: uid)
+
+            // Initialize an array to hold enriched goals
+            var enrichedGoals = [Goal]()
+            
+            // Fetch user data for each goal and enrich the goal with it
+            for goal in fetchedGoals {
+                do {
+                    // Fetch user data
+                    let user = try await UserService.fetchUser(withUid: goal.ownerUid)
+                    // Create a new Goal instance with user data added
+                    var enrichedGoal = goal
+                    enrichedGoal.user = user
+                    // Append the enriched goal to the array
+                    enrichedGoals.append(enrichedGoal)
+                } catch {
+                    print("DEBUG: Error fetching user for goal: \(goal.id), error: \(error)")
+                }
+            }
+
             DispatchQueue.main.async {
-                self.goals = fetchedGoals
-                print("DEBUG: Fetched \(fetchedGoals.count) goals for the current user.")
+                // Update your goals property with the enriched goals
+                self.goals = enrichedGoals
+                print("DEBUG: Fetched and enriched \(enrichedGoals.count) goals with user data.")
             }
         } catch {
             print("DEBUG: Error fetching goals for the current user: \(error)")
             // Handle the error appropriately, maybe set an error state to show in UI
         }
     }
+
     
     private func fetchGoalIDs() async -> [String] {
         guard let uid = Auth.auth().currentUser?.uid else {
