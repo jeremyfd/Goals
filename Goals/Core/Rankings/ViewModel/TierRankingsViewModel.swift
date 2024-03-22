@@ -54,15 +54,16 @@ class TierRankingsViewModel: ObservableObject {
                 var fetchedGoals = [Goal]()
                 for goalID in goalIDs {
                     var goal = try await GoalService.fetchGoalDetails(goalId: goalID)
-                    // Fetch the user data for this goal, assuming a function to fetch a user by their UID.
                     if let ownerUser = try? await UserService.fetchUser(withUid: goal.ownerUid) {
                         goal.user = ownerUser
                     }
                     fetchedGoals.append(goal)
                 }
                 
-                self.goals = fetchedGoals.sorted(by: { $0.timestamp.dateValue() > $1.timestamp.dateValue() })
-//                print("DEBUG: Finished fetching goals. Total goals: \(self.goals.count)")
+                // No need to sort by timestamp unless you want the newest goals first within the same progress level
+                self.goals = fetchedGoals.sorted {
+                    ($0.tier, $0.currentCount) > ($1.tier, $1.currentCount)
+                }
             } catch {
                 print("Error fetching goals: \(error)")
             }
@@ -75,6 +76,35 @@ class TierRankingsViewModel: ObservableObject {
     }
 
     func fetchDataForYourFriendsContracts() {
-        fetchData(goalIDsFetch: GoalService.fetchFriendGoalIDs)
+        guard let uid = currentUser?.id else { return }
+
+        Task {
+            do {
+                // Fetch goal IDs from the current user's friends
+                let friendGoalIDs = try await GoalService.fetchFriendGoalIDs(uid: uid)
+                // Fetch goal IDs from the current user
+                let userGoalIDs = try await GoalService.fetchUserGoalIDs(uid: uid)
+                
+                // Combine both sets of goal IDs
+                let combinedGoalIDs = Array(Set(friendGoalIDs + userGoalIDs))
+                
+                var fetchedGoals = [Goal]()
+                for goalID in combinedGoalIDs {
+                    var goal = try await GoalService.fetchGoalDetails(goalId: goalID)
+                    if let ownerUser = try? await UserService.fetchUser(withUid: goal.ownerUid) {
+                        goal.user = ownerUser
+                    }
+                    fetchedGoals.append(goal)
+                }
+                
+                // Sorting the combined list of goals
+                self.goals = fetchedGoals.sorted {
+                    ($0.tier, $0.currentCount) > ($1.tier, $1.currentCount)
+                }
+            } catch {
+                print("Error fetching goals: \(error)")
+            }
+        }
     }
+
 }

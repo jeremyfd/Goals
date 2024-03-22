@@ -56,9 +56,9 @@ struct CollapsedGoalViewCell: View {
                 .padding(.horizontal)
                 
             }
-            .padding(.horizontal)
-            .padding(.vertical, 5)
-            .frame(width: UIScreen.main.bounds.width - 40)
+//            .padding(.horizontal)
+//            .padding(.vertical, 5)
+            .frame(width: UIScreen.main.bounds.width - 80)
             .background(Color.white)
             .cornerRadius(30)
         }

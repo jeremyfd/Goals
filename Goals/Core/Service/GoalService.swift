@@ -96,6 +96,14 @@ struct GoalService {
         return snapshot.documents.map { $0.documentID }
     }
     
+    static func fetchUserGoalIDs(uid: String) async throws -> [String] {
+        let snapshot = try await FirestoreConstants.GoalsCollection
+            .whereField("ownerUid", isEqualTo: uid)
+            .getDocuments()
+
+        return snapshot.documents.map { $0.documentID }
+    }
+    
     static func fetchGoalDetails(goalId: String) async throws -> Goal {
         let snapshot = try await FirestoreConstants.GoalsCollection.document(goalId).getDocument()
         guard let goal = try? snapshot.data(as: Goal.self) else { throw NSError() }
