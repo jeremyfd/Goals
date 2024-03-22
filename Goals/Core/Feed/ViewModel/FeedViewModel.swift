@@ -94,7 +94,7 @@ class FeedViewModel: ObservableObject {
                     // Here, instead of setting goalsWithEvidences, you'll likely need to adjust your UI to work with this new structure
                     // For example, you might have a new @Published property for allEvidencesWithGoal
                     self.allEvidencesWithGoal = allEvidencesWithGoal
-                    print("DEBUG: Finished fetching user contracts. Total evidences: \(self.allEvidencesWithGoal.count)")
+//                    print("DEBUG: Finished fetching user contracts. Total evidences: \(self.allEvidencesWithGoal.count)")
                 }
             } catch {
                 print("Error fetching goals and evidences: \(error)")
@@ -126,7 +126,7 @@ class FeedViewModel: ObservableObject {
                     // Here, instead of setting goalsWithEvidences, you'll likely need to adjust your UI to work with this new structure
                     // For example, you might have a new @Published property for allEvidencesWithGoal
                     self.allEvidencesWithGoal = allEvidencesWithGoal
-                    print("DEBUG: Finished fetching evidences. Total evidences: \(self.allEvidencesWithGoal.count)")
+//                    print("DEBUG: Finished fetching evidences. Total evidences: \(self.allEvidencesWithGoal.count)")
                 }
             } catch {
                 print("Error fetching goals and evidences: \(error)")
@@ -163,7 +163,7 @@ class FeedViewModel: ObservableObject {
             DispatchQueue.main.async {
                 // Update your goals property with the enriched goals
                 self.goals = enrichedGoals
-                print("DEBUG: Fetched and enriched \(enrichedGoals.count) goals with user data.")
+//                print("DEBUG: Fetched and enriched \(enrichedGoals.count) goals with user data.")
             }
         } catch {
             print("DEBUG: Error fetching goals for the current user: \(error)")

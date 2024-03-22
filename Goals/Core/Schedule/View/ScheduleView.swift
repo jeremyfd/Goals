@@ -14,9 +14,13 @@ struct ScheduleView: View {
     @State private var sortAscending: Bool = true
     
     private var sortedStepsByDate: [(date: Date, steps: [Step])] {
-        Dictionary(grouping: viewModel.goals.flatMap { $0.steps }) { $0.deadline.startOfDay() }
+        // Get the start of today to compare deadlines
+        let startOfToday = Date().startOfDay()
+
+        return Dictionary(grouping: viewModel.goals.flatMap { $0.steps }) { $0.deadline.startOfDay() }
             .sorted { sortAscending ? $0.key < $1.key : $0.key > $1.key }
             .map { ($0.key, $0.value) }
+            .filter { $0.date >= startOfToday || Calendar.current.isDateInYesterday($0.date) }
     }
     
     var body: some View {
@@ -41,24 +45,25 @@ struct ScheduleView: View {
                 .padding(.bottom, -10)
             }
             
-                contentForYourContracts()
+            contentForYourContracts()
             
-            .refreshable {
-                viewModel.fetchDataForYourFriendsContracts()
-            }
+                .refreshable {
+                    viewModel.fetchDataForYourFriendsContracts()
+                }
         }
         .background(LinearGradientView())
         .navigationTitle("Schedule View")
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             viewModel.fetchDataForYourFriendsContracts()
+            print("DEBUG: ScheduleView appeared and fetchDataForYourFriendsContracts called")
         }
     }
     
     func contentForYourContracts() -> some View {
         // Check if there are any steps across all dates
         let areThereAnySteps = !sortedStepsByDate.flatMap { $0.steps }.isEmpty
-
+        
         return Group {
             if areThereAnySteps {
                 LazyVStack {
@@ -76,7 +81,7 @@ struct ScheduleView: View {
             }
         }
     }
-
+    
 }
 
 struct StepsSectionView: View {
@@ -88,22 +93,38 @@ struct StepsSectionView: View {
     var body: some View {
         
         Section(header: HStack {
-
-            Text(date, formatter: DateFormatter.shortDate)
-                .font(.title3)
+            
+            Text(dateLabel(for: date))
+                .font(dateLabel(for: date) == "Today - Last Chance!" ? .title : .title3)
                 .fontWeight(.bold)
                 .padding(.top)
                 .padding(.leading)
                 .padding(.leading)
+
             
             Spacer()
-
+            
         }) {
             ForEach(steps, id: \.id) { step in
                 if let goalTuple = viewModel.goals.first(where: { $0.steps.contains(where: { $0.id == step.id }) }) {
                     StepRowView(step: step, goal: goalTuple, showingReactionsForStepID: $showingReactionsForStepID, viewModel: viewModel)
                 }
             }
+
+        }
+        .onAppear {
+            print("DEBUG: StepsSectionView for date \(date) appeared with \(steps.count) steps")
+        }
+    }
+    
+    private func dateLabel(for date: Date) -> String {
+        let calendar = Calendar.current
+        if calendar.isDateInToday(date) {
+            return "Today - Last Chance!"
+        } else if calendar.isDateInYesterday(date) {
+            return "Yesterday"
+        } else {
+            return DateFormatter.shortDate.string(from: date)
         }
     }
 }
@@ -120,66 +141,73 @@ struct StepRowView: View {
         NavigationLink {
             ExpandedGoalView(goal: goal.goal)
         } label: {
-        VStack {
-            // Compare strings directly
-            if showingReactionsForStepID == step.id {
-                let cellViewModel = GoalViewCellViewModel(goalId: goal.goal.id)
-                
-                ReactionButtonsView(
-                    goalID: goal.goal.id,
-                    ownerUid: goal.goal.ownerUid,
-                    viewModel: cellViewModel
-                )
-                .padding(.leading)
-                .padding(.vertical, 5)
-                .frame(width: UIScreen.main.bounds.width - 40, height: 100)
-                .background(Color.white)
-                .cornerRadius(30)
-            }
-            
-            HStack {
-                VStack(alignment: .leading) {
-                    Text("\(goal.goal.title)")
-                        .fontWeight(.bold)
-                    HStack {
-                        Text("@\(goal.goal.user?.username ?? "Unknown")")
-                        Text("Tier \(step.tier)")
+            VStack {
+                // Compare strings directly
+                if showingReactionsForStepID == step.id {
+                    let cellViewModel = GoalViewCellViewModel(goalId: goal.goal.id)
+                    
+                    ReactionButtonsView(
+                        goalID: goal.goal.id,
+                        ownerUid: goal.goal.ownerUid,
+                        viewModel: cellViewModel
+                    )
+                    .padding(.leading)
+                    .padding(.vertical, 5)
+                    .frame(width: UIScreen.main.bounds.width - 40, height: 100)
+                    .background(Color.white)
+                    .cornerRadius(30)
+                    .onAppear{
+                        print("DEBUG: ReactionButtonView appeared")
                     }
                 }
-                .foregroundStyle(Color.black)
-                .padding()
                 
-                Spacer()
-                
-                Circle()
-                    .fill(step.isSubmitted ? (step.isVerified ? Color.green : Color.orange) : Color.red)
-                    .frame(width: 15, height: 15)
-                
-                Button {
-                    // Toggle ID or nil
-                    showingReactionsForStepID = showingReactionsForStepID == step.id ? nil : step.id
-                } label: {
-                    Image(systemName: "heart")
+                HStack {
+                    VStack(alignment: .leading) {
+                        Text("\(goal.goal.title)")
+                            .fontWeight(.bold)
+                        HStack {
+                            Text("@\(goal.goal.user?.username ?? "Unknown")")
+                            Text("Tier \(step.tier)")
+                        }
+                    }
+                    .foregroundStyle(Color.black)
+                    .padding()
+                    
+                    Spacer()
+                    
+                    Circle()
+                        .fill(step.isSubmitted ? (step.isVerified ? Color.green : Color.orange) : Color.red)
+                        .frame(width: 15, height: 15)
+                    
+                    Button {
+                        // Toggle ID or nil
+                        showingReactionsForStepID = showingReactionsForStepID == step.id ? nil : step.id
+                        print("DEBUG: Toggled showingReactionsForStepID to: \(String(describing: showingReactionsForStepID))")
+                    } label: {
+                        Image(systemName: "heart")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 20, height: 20)
+                            .foregroundColor(.black)
+                            .padding(.horizontal)
+                    }
+                    
+                    Image(systemName: "chevron.right")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 20, height: 20)
                         .foregroundColor(.black)
-                        .padding(.horizontal)
                 }
-                
-                Image(systemName: "chevron.right")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 20, height: 20)
-                    .foregroundColor(.black)
+                .padding(.horizontal)
+                .padding(.vertical, 5)
+                .frame(width: UIScreen.main.bounds.width - 40, height: 50)
+                .background(Color.white)
+                .cornerRadius(40)
             }
-            .padding(.horizontal)
-            .padding(.vertical, 5)
-            .frame(width: UIScreen.main.bounds.width - 40, height: 50)
-            .background(Color.white)
-            .cornerRadius(40)
         }
-    }
+        .onAppear {
+            print("DEBUG: StepRowView for step ID \(step.id) appeared")
+        }
     }
 }
 
