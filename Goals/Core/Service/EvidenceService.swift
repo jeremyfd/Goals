@@ -59,11 +59,14 @@ struct EvidenceService {
             // Update the isVerified for the corresponding step to true
             try await StepService.updateStepVerification(stepId: evidence.stepID, isVerified: true)
 
-            // If the evidence is being verified, increment the goal's currentCount
+            // Fetch the goal to increment its currentCount and to send a notification
+            let goal = try await GoalService.fetchGoal(goalId: goalId)
             try await GoalService.incrementCurrentCountForGoal(goalId: goalId)
+
+            // Send a notification to the goal owner from the partner
+            await ActivityService.uploadNotification(toUid: goal.ownerUid, type: .evidenceVerified, goalId: goal.id)
         }
     }
-
     
     static func deleteEvidence(evidenceId: String) async throws {
         // Fetch the document to get the imageUrl

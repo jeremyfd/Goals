@@ -23,6 +23,8 @@ struct ActivityRowView: View {
             return "Reacted \(reactionTypeText) to one of your goals"
         case .evidence:
             return "Submitted an evidence for \(model.goal?.title ?? "")"
+        case .evidenceVerified:
+            return "Verified an evidence for \(model.goal?.title ?? "")"
         }
     }
     

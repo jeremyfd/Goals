@@ -67,6 +67,11 @@ exports.sendUserNotification = functions.firestore
             console.log(`Activity message for friend: ${activityMessage}`);
             break;
         }
+        case 5: {
+            activityMessage = `Verified evidence for ${goalTitle}`;
+            console.log(`Activity message for friend: ${activityMessage}`);
+            break;
+        }
         default: {
             console.log(`Unhandled activity type: ${activity.type}`); // Debug log for unhandled types
         }
