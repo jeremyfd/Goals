@@ -12,18 +12,36 @@ import FirebaseFirestoreSwift
 struct GoalService {
     
     static func uploadGoal(_ goal: Goal) async throws -> String {
+        // Encode the goal object into data suitable for Firestore
         guard let goalData = try? Firestore.Encoder().encode(goal) else {
             throw NSError(domain: "Error encoding goal", code: 0, userInfo: nil)
         }
+        
+        // Add the goal document to Firestore and get its ID
         let ref = try await FirestoreConstants.GoalsCollection.addDocument(data: goalData)
+        
+        // Update feeds for the user and the partner
         try await updateUserFeedsAfterPost(goalId: ref.documentID)
         try await updatePartnerFeedAfterPost(goalId: ref.documentID, partnerUid: goal.partnerUid)
         
-        Task {
-            await ActivityService.uploadNotification(toUid: goal.partnerUid, type: .friendGoal, goalId: ref.documentID)
-        }
+        // Send a notification to all friends of the goal's creator about the new goal
+        try await notifyFriendsAboutNewGoal(goalId: ref.documentID, ownerUid: goal.ownerUid)
+        
+        // Send a special notification to the partner about being assigned to the new goal
+        try await ActivityService.uploadNotification(toUid: goal.partnerUid, type: .partnerGoal, goalId: ref.documentID)
 
         return ref.documentID
+    }
+    
+    private static func notifyFriendsAboutNewGoal(goalId: String, ownerUid: String) async throws {
+        // Fetch friends of the goal's creator
+        let friendsSnapshot = try await FirestoreConstants.FriendsCollection.document(ownerUid).collection("user-friends").getDocuments()
+        
+        // Iterate through the friends and send a notification about the new goal
+        for friendDocument in friendsSnapshot.documents {
+            let friendUid = friendDocument.documentID
+            await ActivityService.uploadNotification(toUid: friendUid, type: .friendGoal, goalId: goalId)
+        }
     }
     
     static func updateGoal(goalId: String, updatedGoal: Goal) async throws {

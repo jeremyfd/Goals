@@ -15,7 +15,7 @@ struct ActivityRowView: View {
         case .friendGoal:
             return "Started a new goal: \(model.goal?.title ?? "")"
         case .partnerGoal:
-            return "Started a new goal: \(model.goal?.title ?? "")"
+            return "Assigned you as Phylax for a new goal: \(model.goal?.title ?? "")"
         case .friend:
             return "Added you as a friend"
         case .react:
