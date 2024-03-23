@@ -18,6 +18,7 @@ struct ActivityBadgeView: View {
         case .partnerGoal: return Color(.systemBlue)
         case .evidence: return Color(.systemBlue)
         case .evidenceVerified: return Color(.systemBlue)
+        case .friendRequestAccepted: return Color(.systemBlue)
         }
     }
     
@@ -29,6 +30,7 @@ struct ActivityBadgeView: View {
         case .partnerGoal: return "plus.circle"
         case .evidence: return "plus.circle"
         case .evidenceVerified: return "plus.circle"
+        case .friendRequestAccepted: return "plus.circle"
         }
     }
     

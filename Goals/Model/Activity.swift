@@ -34,6 +34,7 @@ enum ActivityType: Int, CaseIterable, Identifiable, Codable {
     case friend
     case evidence
     case evidenceVerified
+    case friendRequestAccepted
     
     var id: Int { return self.rawValue }
 }

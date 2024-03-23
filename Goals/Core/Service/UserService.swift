@@ -162,6 +162,8 @@ extension UserService {
         
         // Await all operations to complete
         _ = try await (addFriendForCurrentUser, addFriendForOtherUser, removeRequest, updateFeedForCurrentUser, updateFeedForOtherUser)
+        
+        await ActivityService.uploadNotification(toUid: uid, type: .friendRequestAccepted, goalId: nil)
     }
 
 

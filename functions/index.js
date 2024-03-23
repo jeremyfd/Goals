@@ -72,6 +72,11 @@ exports.sendUserNotification = functions.firestore
             console.log(`Activity message for friend: ${activityMessage}`);
             break;
         }
+        case 6: {
+            activityMessage = `Accepted your friend request!`;
+            console.log(`Activity message for friend: ${activityMessage}`);
+            break;
+        }
         default: {
             console.log(`Unhandled activity type: ${activity.type}`); // Debug log for unhandled types
         }

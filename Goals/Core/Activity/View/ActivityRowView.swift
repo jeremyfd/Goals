@@ -25,6 +25,8 @@ struct ActivityRowView: View {
             return "Submitted an evidence for \(model.goal?.title ?? "")"
         case .evidenceVerified:
             return "Verified an evidence for \(model.goal?.title ?? "")"
+        case .friendRequestAccepted:
+            return "Accepted your friend request!"
         }
     }
     
