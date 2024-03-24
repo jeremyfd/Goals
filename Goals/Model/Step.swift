@@ -21,6 +21,7 @@ struct Step: Identifiable, Hashable, Codable {
     var tier: Int
     var isSubmitted: Bool
     var isVerified: Bool
+    var description: String?
     
     var id: String {
         return stepId ?? NSUUID().uuidString

@@ -13,6 +13,7 @@ struct SubmitEvidenceView: View {
     @State private var isPickerPresented = false
     @Environment(\.presentationMode) var presentationMode
     @State private var isSubmitting = false
+    @State private var stepDescription: String = ""
     var onSubmissionSuccess: () -> Void
     
     var body: some View {
@@ -23,6 +24,12 @@ struct SubmitEvidenceView: View {
                         .resizable()
                         .scaledToFit()
                         .frame(maxWidth: 300, maxHeight: 300)
+                    
+                    TextField("Step Description", text: $stepDescription)
+                        .padding()
+                        .background(Color(.systemGray6))
+                        .cornerRadius(8)
+                        .padding(.bottom)
                     
                     Button("Choose a different picture") {
                         isPickerPresented = true
@@ -43,7 +50,7 @@ struct SubmitEvidenceView: View {
                             print("DEBUG: Submitting evidence for step")
                             isSubmitting = true // Indicate submission started
                             Task {
-                                await viewModel.submitEvidence { success in
+                                await viewModel.submitEvidence(stepDescription: stepDescription) { success in
                                     DispatchQueue.main.async { // Ensure UI updates are on the main thread
                                         isSubmitting = false // Reset submission state
                                         if success {
@@ -75,6 +82,8 @@ struct SubmitEvidenceView: View {
                     .foregroundColor(.white)
                     .cornerRadius(20)
                 }
+                
+                
             }
             .navigationTitle("Select & Submit")
             .navigationBarTitleDisplayMode(.inline)

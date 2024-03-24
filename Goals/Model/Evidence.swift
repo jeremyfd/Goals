@@ -22,7 +22,6 @@ struct Evidence: Identifiable, Codable, Hashable {
     let weekNumber: Int
     let dayNumber: Int
     var imageUrl: String
-    let description: String?
     
     var id: String {
         return evidenceId ?? NSUUID().uuidString

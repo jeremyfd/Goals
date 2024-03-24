@@ -55,4 +55,13 @@ struct StepService {
             throw error
         }
     }
+    
+    static func updateStepDescription(stepId: String, description: String) async throws {
+        do {
+            try await FirestoreConstants.StepsCollection.document(stepId).updateData(["description": description])
+        } catch {
+            print("DEBUG: Failed to update description for step with ID: \(stepId). Error: \(error.localizedDescription)")
+            throw error
+        }
+    }
 }

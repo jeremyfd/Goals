@@ -43,7 +43,7 @@ class SubmitEvidenceViewModel: ObservableObject {
     }
     
     // Method to submit the evidence using EvidenceService
-    func submitEvidence(completion: @escaping (Bool) -> Void) async {
+    func submitEvidence(stepDescription: String, completion: @escaping (Bool) -> Void) async {
         guard let image = uiImage else {
             completion(false)
             return
@@ -61,15 +61,17 @@ class SubmitEvidenceViewModel: ObservableObject {
                 verified: false,
                 weekNumber: weekNumber,
                 dayNumber: dayNumber,
-                imageUrl: "", // Temporarily empty, will be set in EvidenceService
-                description: ""
+                imageUrl: ""
             )
             
             // Upload the evidence (and the image within the service)
             _ = try await EvidenceService.uploadEvidence(newEvidence, image: image)
+            
+            try await StepService.updateStepDescription(stepId: stepID, description: stepDescription)
+
             completion(true)
         } catch {
-            print("Failed to submit evidence: \(error.localizedDescription)")
+            print("Failed to submit evidence and update step description: \(error.localizedDescription)")
             completion(false)
         }
     }
