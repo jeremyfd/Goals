@@ -58,7 +58,8 @@ class NextTierViewModel: ObservableObject {
 
         let totalSteps = 7
         let frequencyInt = Int(self.frequency)
-        let calendar = Calendar.current
+        var calendar = Calendar.current
+        calendar.timeZone = TimeZone.current
         
         // Fetch all steps for the goal to find the last weekNumber and stepNumber
         let existingSteps = try await StepService.fetchSteps(forGoalId: goalId)
@@ -81,7 +82,11 @@ class NextTierViewModel: ObservableObject {
             // Calculate the preliminary deadline date using the new start date
             let preliminaryDeadline = calendar.date(byAdding: .day, value: daysToAdd - 1, to: cycle.startDate)!
             // Set the deadline to one second before midnight
-            let stepDeadline = calendar.date(bySettingHour: 23, minute: 59, second: 59, of: preliminaryDeadline)!
+            var components = calendar.dateComponents([.year, .month, .day], from: preliminaryDeadline)
+             components.hour = 23
+             components.minute = 59
+             components.second = 59
+             let stepDeadline = calendar.date(from: components)!
             
             // Create the step with the updated weekNumber and stepNumber
             let step = Step(

@@ -52,19 +52,23 @@ class GoalCreationViewModel: ObservableObject {
         
         let totalSteps = 7
         let frequencyInt = Int(self.frequency)
-        let calendar = Calendar.current
+        var calendar = Calendar.current
+        calendar.timeZone = TimeZone.current
         
         // Get the deadlines array based on the frequency
         guard let frequencyDeadlines = deadlines[frequencyInt] else { return }
         
         for stepNumber in 1...totalSteps {
-            // Use the step number to get the days to add from the deadlines array
             let daysToAdd = frequencyDeadlines[stepNumber - 1]
-            // Calculate the preliminary deadline date
             let preliminaryDeadline = calendar.date(byAdding: .day, value: daysToAdd - 1, to: cycle.startDate)!
-            // Set the deadline to one second before midnight
-            let stepDeadline = calendar.date(bySettingHour: 23, minute: 59, second: 59, of: preliminaryDeadline)!
-            
+
+            var components = calendar.dateComponents([.year, .month, .day], from: preliminaryDeadline)
+            components.hour = 23
+            components.minute = 59
+            components.second = 59
+            // Create a new date from components in the user's timezone
+            let stepDeadline = calendar.date(from: components)!
+
             print("DEBUG: Day \(stepNumber): Deadline - \(stepDeadline), Tier - \(cycle.tier)")
             
             // Assuming the existence of a Step object and StepService.uploadStep method to save the step
