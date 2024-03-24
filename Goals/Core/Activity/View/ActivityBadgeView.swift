@@ -19,6 +19,8 @@ struct ActivityBadgeView: View {
         case .evidence: return Color(.systemBlue)
         case .evidenceVerified: return Color(.systemBlue)
         case .friendRequestAccepted: return Color(.systemBlue)
+        case .nextTierReached: return Color(.systemBlue)
+        case .selfNextTierReached: return Color(.systemBlue)
         }
     }
     
@@ -31,6 +33,8 @@ struct ActivityBadgeView: View {
         case .evidence: return "plus.circle"
         case .evidenceVerified: return "plus.circle"
         case .friendRequestAccepted: return "plus.circle"
+        case .nextTierReached: return "plus.circle"
+        case .selfNextTierReached: return "plus.circle"
         }
     }
     
@@ -54,8 +58,8 @@ struct ActivityBadgeView: View {
     }
 }
 
-struct ActivityBadgeView_Previews: PreviewProvider {
-    static var previews: some View {
-        ActivityBadgeView(type: .react)
-    }
-}
+//struct ActivityBadgeView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ActivityBadgeView(type: .react)
+//    }
+//}

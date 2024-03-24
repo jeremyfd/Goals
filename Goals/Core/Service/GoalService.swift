@@ -270,10 +270,10 @@ struct GoalService {
     static func incrementTierForGoal(goalId: String) async throws {
         let goalRef = FirestoreConstants.GoalsCollection.document(goalId)
         
-        try await Firestore.firestore().runTransaction { transaction, errorPointer in
+        let ownerId: String = try await Firestore.firestore().runTransaction { transaction, errorPointer in
             let goalDocument: DocumentSnapshot
             do {
-                try goalDocument = transaction.getDocument(goalRef)
+                goalDocument = try transaction.getDocument(goalRef)
             } catch let fetchError {
                 errorPointer?.pointee = fetchError as NSError
                 return nil
@@ -284,7 +284,29 @@ struct GoalService {
             }
 
             transaction.updateData(["tier": tier + 1], forDocument: goalRef)
-            return nil
+
+            // Assuming `ownerUid` is a field in the goal document.
+            guard let ownerUid = goalDocument.data()?["ownerUid"] as? String else {
+                errorPointer?.pointee = NSError(domain: "Goal document missing ownerUid", code: 0, userInfo: nil)
+                return nil
+            }
+            
+            return ownerUid
+        } as! String
+        
+        if !ownerId.isEmpty {
+            await ActivityService.uploadNotification(toUid: ownerId, type: .selfNextTierReached, goalId: goalId, senderUid: ownerId)
+        }
+
+        try await notifyFriendsAboutTierReached(goalId: goalId, ownerUid: ownerId)
+    }
+    
+    private static func notifyFriendsAboutTierReached(goalId: String, ownerUid: String) async throws {
+        let friendsSnapshot = try await FirestoreConstants.FriendsCollection.document(ownerUid).collection("user-friends").getDocuments()
+        
+        for friendDocument in friendsSnapshot.documents {
+            let friendUid = friendDocument.documentID
+            await ActivityService.uploadNotification(toUid: friendUid, type: .nextTierReached, goalId: goalId, senderUid: ownerUid)
         }
     }
     

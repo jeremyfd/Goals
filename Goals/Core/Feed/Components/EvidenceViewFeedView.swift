@@ -114,8 +114,8 @@ struct EvidenceViewFeedView: View {
                             .fontWeight(.bold)
                         
                         HStack{
-                            Text(goal.user?.username ?? "")
-                            Text("Week 2")
+                            Text("@\(goal.user?.username ?? "")")
+                            Text("Tier \(goal.tier)")
                         }
                     }
                     .foregroundColor(.black)

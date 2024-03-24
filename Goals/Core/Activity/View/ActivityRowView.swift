@@ -27,6 +27,10 @@ struct ActivityRowView: View {
             return "Verified an evidence for \(model.goal?.title ?? "")"
         case .friendRequestAccepted:
             return "Accepted your friend request!"
+        case .nextTierReached:
+            return "Reached Tier \(String(describing: model.goal?.tier)) for \(model.goal?.title ?? "")"
+        case .selfNextTierReached:
+            return "Reached Tier \(String(describing: model.goal?.tier)) for \(model.goal?.title ?? "")"
         }
     }
     

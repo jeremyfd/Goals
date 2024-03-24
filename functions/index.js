@@ -11,6 +11,8 @@ exports.sendUserNotification = functions.firestore
     console.log(`Activity received: `, activity);
     
     let goalTitle = ''; // Placeholder for goal title
+    let goalTier = ''; // Placeholder for goal tier
+
     if (activity.goalId) {
         try {
             // Fetch the goal document using the goalId from the activity
@@ -18,6 +20,8 @@ exports.sendUserNotification = functions.firestore
             const goalSnapshot = await goalRef.get();
             const goal = goalSnapshot.data();
             goalTitle = goal ? goal.title : 'a goal'; // Use the goal title or a fallback string
+            goalTier = goal ? goal.tier : ''; // Fetch the tier number
+
         } catch (error) {
             console.error(`Error fetching goal: ${error}`);
             // Optionally, handle the error, for example by using a default title
@@ -74,6 +78,16 @@ exports.sendUserNotification = functions.firestore
         }
         case 6: {
             activityMessage = `Accepted your friend request!`;
+            console.log(`Activity message for friend: ${activityMessage}`);
+            break;
+        }
+        case 7: {
+            activityMessage = `Has reached Tier ${goalTier} for ${goalTitle}!!`;
+            console.log(`Activity message for friend: ${activityMessage}`);
+            break;
+        }
+        case 8: {
+            activityMessage = `You reached Tier ${goalTier} for ${goalTitle}. Congratulations!!`;
             console.log(`Activity message for friend: ${activityMessage}`);
             break;
         }
@@ -170,4 +184,70 @@ exports.checkStepDeadlines = functions.pubsub.schedule('every 1 hours').onRun(as
             }
         }
     });
+});
+
+
+// eslint-disable-next-line no-unused-vars
+exports.remindPartnersToVerifySteps = functions.pubsub.schedule('every 1 hours').onRun(async (context) => {
+    const now = new Date();
+    const evidenceRef = admin.firestore().collection('evidence');
+    const stepsRef = admin.firestore().collection('steps');
+    const usersRef = admin.firestore().collection('users');
+
+    // Fetch all evidences that are not verified
+    const evidencesSnapshot = await evidenceRef.where('verified', '==', false).get();
+    const stepEvidences = {};
+
+    // Group evidences by stepID
+    evidencesSnapshot.forEach(doc => {
+        const evidence = doc.data();
+        if (!stepEvidences[evidence.stepID]) {
+            stepEvidences[evidence.stepID] = [];
+        }
+        stepEvidences[evidence.stepID].push(evidence);
+    });
+
+    // Process each step
+    for (const stepID in stepEvidences) {
+        let sendNotification = false;
+
+        // Check if any evidence for the step was submitted more than 24 hours ago
+        for (const evidence of stepEvidences[stepID]) {
+            const evidenceTimestamp = evidence.timestamp.toDate();
+            if (now - evidenceTimestamp > 24 * 60 * 60 * 1000) { // 24 hours in milliseconds
+                sendNotification = true;
+                break;
+            }
+        }
+
+        if (sendNotification) {
+            // Fetch the step to get goalID and ownerUid
+            const stepSnapshot = await stepsRef.doc(stepID).get();
+            const step = stepSnapshot.data();
+            if (!step) continue; // Skip if step not found
+
+            // Fetch the goal and user details
+            const goalSnapshot = await stepsRef.doc(step.goalID).get();
+            const goal = goalSnapshot.data();
+            const partnerSnapshot = await usersRef.doc(step.ownerUid).get();
+            const partner = partnerSnapshot.data();
+
+            if (partner && partner.fcmToken) {
+                const message = {
+                    notification: {
+                        title: `Verification Reminder for ${goal.title}`,
+                        body: `You have evidences awaiting verification!`,
+                    },
+                    token: partner.fcmToken,
+                };
+
+                try {
+                    await admin.messaging().send(message);
+                    console.log(`Successfully sent reminder for step ${stepID}`);
+                } catch (error) {
+                    console.error(`Error sending reminder for step ${stepID}:`, error);
+                }
+            }
+        }
+    }
 });
