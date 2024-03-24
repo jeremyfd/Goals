@@ -111,24 +111,42 @@ exports.sendUserNotification = functions.firestore
     }
 });
 
+
+
 // eslint-disable-next-line no-unused-vars
-exports.checkStepDeadlines = functions.pubsub.schedule('every 60 minutes').onRun(async (context) => {
+exports.checkStepDeadlines = functions.pubsub.schedule('every 1 hours').onRun(async (context) => {
     // Current date and time
     const now = new Date();
-    // Date and time for 15 hours from now
-    const fifteenHoursLater = new Date(now.getTime() + (15 * 60 * 60 * 1000));
+    const goalsRef = admin.firestore().collection('goals');
 
     // Reference to the steps collection
     const stepsRef = admin.firestore().collection('steps');
 
-    // Fetch steps whose deadline is within the next 15 hours
-    const stepsSnapshot = await stepsRef.get();
+    // Fetch all steps that have not been submitted
+    const stepsSnapshot = await stepsRef.where('isSubmitted', '==', false).get();
 
     stepsSnapshot.forEach(async (doc) => {
         const step = doc.data();
         const stepDeadline = step.deadline.toDate(); // Convert Firestore Timestamp to JavaScript Date
 
-        if (stepDeadline <= fifteenHoursLater && stepDeadline > now) {
+        // Calculate the time difference between now and the step's deadline
+        const timeDiff = stepDeadline.getTime() - now.getTime();
+        // Convert time difference to hours
+        const hoursDiff = timeDiff / (1000 * 60 * 60);
+
+        // Check if the deadline is exactly 15 hours from now
+        if (hoursDiff <= 15 && hoursDiff > 14) {
+            // Fetch the goal title
+            const goalSnapshot = await goalsRef.doc(step.goalID).get();
+            const goal = goalSnapshot.data();
+
+            if (!goal) {
+                console.log(`Goal details not found for ID ${step.goalID}`);
+                return null;
+            }
+
+            const goalTitle = goal.title;
+
             // Lookup the user associated with the step
             const userRef = admin.firestore().collection('users').doc(step.ownerUid);
             const userSnapshot = await userRef.get();
@@ -138,8 +156,8 @@ exports.checkStepDeadlines = functions.pubsub.schedule('every 60 minutes').onRun
             if (user && user.fcmToken) {
                 const message = {
                     notification: {
-                        title: 'Step Deadline Approaching',
-                        body: `Your step with deadline ${stepDeadline} is almost due.`,
+                        title: goalTitle,
+                        body: `Last day to submit evidence for Day ${step.dayNumber}.`,
                     },
                     token: user.fcmToken,
                 };
