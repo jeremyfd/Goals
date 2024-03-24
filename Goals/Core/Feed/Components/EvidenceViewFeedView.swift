@@ -50,13 +50,23 @@ struct EvidenceViewFeedView: View {
                     .clipShape(Rectangle())
                 
                 HStack {
+                    
                     VStack(alignment: .leading) {
-                        Text("London")
-                            .foregroundColor(.white)
-                            .fontWeight(.bold)
+                        if let stepDescription = viewModel.stepDescription {
+                            Text(stepDescription)
+                                .foregroundColor(.white)
+                                .fontWeight(.bold)
+                        } else {
+                            // Placeholder or loading state
+                            Text("")
+                                .foregroundColor(.white)
+                        }
                         Text(evidence.timestamp.toDateTimeString())
                             .foregroundColor(.white)
                             .fontWeight(.bold)
+                    }
+                    .onAppear {
+                        viewModel.fetchStepDescription(stepID: evidence.stepID)
                     }
                     
                     Spacer()
@@ -174,9 +184,6 @@ struct EvidenceViewFeedView: View {
             }
 
         }
-//        .padding(.vertical)
-//        .background(Color.white.opacity(0.5))
-//        .cornerRadius(30)
     }
 }
 

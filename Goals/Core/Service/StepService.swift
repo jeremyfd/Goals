@@ -29,6 +29,15 @@ struct StepService {
         return steps
     }
     
+    static func fetchStep(stepId: String) async throws -> Step {
+        let documentSnapshot = try await FirestoreConstants.StepsCollection.document(stepId).getDocument()
+        
+        let step = try documentSnapshot.data(as: Step.self)
+        
+        return step
+    }
+
+    
     static func updateStepSubmission(stepId: String, isSubmitted: Bool) async throws {
         do {
             try await FirestoreConstants.StepsCollection.document(stepId).updateData(["isSubmitted": isSubmitted])

@@ -14,6 +14,7 @@ class GoalViewCellViewModel: ObservableObject {
     @Published var evidences: [Evidence] = [] // Store fetched evidences
     @Published var reactionUsernames: [String: [String]] = [:] // Maps reaction types to usernames
     @Published var reactionCounts: [String: [String: Int]] = [:] // Maps reaction types to user names and their reaction counts
+    @Published var stepDescription: String?
     
     let uid = Auth.auth().currentUser?.uid
 
@@ -70,6 +71,19 @@ class GoalViewCellViewModel: ObservableObject {
             }
         } catch {
             print("DEBUG: Error fetching reactions or user data: \(error)")
+        }
+    }
+    
+    func fetchStepDescription(stepID: String) {
+        Task {
+            do {
+                let step = try await StepService.fetchStep(stepId: stepID)
+                DispatchQueue.main.async {
+                    self.stepDescription = step.description
+                }
+            } catch {
+                print("Error fetching step description: \(error.localizedDescription)")
+            }
         }
     }
 }
