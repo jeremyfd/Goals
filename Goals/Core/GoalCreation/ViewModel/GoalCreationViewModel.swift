@@ -68,7 +68,15 @@ class GoalCreationViewModel: ObservableObject {
             print("DEBUG: Day \(stepNumber): Deadline - \(stepDeadline), Tier - \(cycle.tier)")
             
             // Assuming the existence of a Step object and StepService.uploadStep method to save the step
-            let step = Step(cycleID: cycle.cycleId ?? "", goalID: cycle.goalID, weekNumber: (stepNumber - 1) / frequencyInt + 1, dayNumber: stepNumber, deadline: stepDeadline, tier: cycle.tier, isSubmitted: false, isVerified: false)
+            let step = Step(ownerUid: uid,
+                            cycleID: cycle.cycleId ?? "",
+                            goalID: cycle.goalID,
+                            weekNumber: (stepNumber - 1) / frequencyInt + 1,
+                            dayNumber: stepNumber,
+                            deadline: stepDeadline,
+                            tier: cycle.tier,
+                            isSubmitted: false,
+                            isVerified: false)
             _ = try await StepService.uploadStep(step)
         }
         

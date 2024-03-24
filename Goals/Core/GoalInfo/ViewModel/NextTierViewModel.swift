@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Firebase
 
 class NextTierViewModel: ObservableObject {
     @Published var isProcessing = false
@@ -43,6 +44,10 @@ class NextTierViewModel: ObservableObject {
     }
     
     func createNewCycleWithStartDate(for goalId: String, startDate: Date, frequency: Int, tier: Int) async throws {
+        
+        guard let uid = Auth.auth().currentUser?.uid else { throw NSError(domain: "NoUserLoggedIn", code: -1, userInfo: nil) }
+
+        
         self.frequency = frequency
         self.tier = tier
 
@@ -79,7 +84,16 @@ class NextTierViewModel: ObservableObject {
             let stepDeadline = calendar.date(bySettingHour: 23, minute: 59, second: 59, of: preliminaryDeadline)!
             
             // Create the step with the updated weekNumber and stepNumber
-            let step = Step(cycleID: cycle.cycleId ?? "", goalID: cycle.goalID, weekNumber: currentWeekNumber, dayNumber: currentDayNumber, deadline: stepDeadline, tier: cycle.tier, isSubmitted: false, isVerified: false)
+            let step = Step(
+                ownerUid: uid,
+                cycleID: cycle.cycleId ?? "",
+                goalID: cycle.goalID,
+                weekNumber: currentWeekNumber,
+                dayNumber: currentDayNumber,
+                deadline: stepDeadline,
+                tier: cycle.tier,
+                isSubmitted: false,
+                isVerified: false)
             _ = try await StepService.uploadStep(step)
             
             currentDayNumber += 1

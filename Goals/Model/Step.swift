@@ -12,6 +12,7 @@ import FirebaseFirestoreSwift
 struct Step: Identifiable, Hashable, Codable {
     @DocumentID var stepId: String?
     
+    var ownerUid: String
     var cycleID: String
     var goalID: String
     let weekNumber: Int
