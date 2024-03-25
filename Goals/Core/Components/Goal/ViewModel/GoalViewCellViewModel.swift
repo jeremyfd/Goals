@@ -11,7 +11,7 @@ import Combine
 
 class GoalViewCellViewModel: ObservableObject {
     let goalId: String
-    @Published var evidences: [Evidence] = [] // Store fetched evidences
+    @Published var evidencesByStep: [String: [Evidence]] = [:] // Maps step IDs to their evidences
     @Published var reactionUsernames: [String: [String]] = [:] // Maps reaction types to usernames
     @Published var reactionCounts: [String: [String: Int]] = [:] // Maps reaction types to user names and their reaction counts
     @Published var stepDescription: String?
@@ -30,11 +30,15 @@ class GoalViewCellViewModel: ObservableObject {
         do {
             let fetchedEvidences = try await EvidenceService.fetchEvidences(forGoalId: goalId)
             DispatchQueue.main.async { // Ensure UI updates are on the main thread
-                self.evidences = fetchedEvidences
+                // Organize evidences by step ID
+                var evidencesByStepTemp: [String: [Evidence]] = [:]
+                for evidence in fetchedEvidences {
+                    evidencesByStepTemp[evidence.stepID, default: []].append(evidence)
+                }
+                self.evidencesByStep = evidencesByStepTemp
             }
         } catch {
             print("DEBUG: Error fetching evidences: \(error)")
-            // Consider error handling strategy here
         }
     }
     

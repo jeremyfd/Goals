@@ -10,9 +10,15 @@ import PhotosUI
 import Firebase
 
 class SubmitEvidenceViewModel: ObservableObject {
-    @Published private(set) var uiImage: UIImage?
-    @Published var selectedImage: PhotosPickerItem? {
-        didSet { Task { await loadImage(fromItem: selectedImage) } }
+    @Published private(set) var uiImages: [UIImage] = []
+    @Published var selectedImages: [PhotosPickerItem] = [] {
+        didSet {
+            Task {
+                for item in selectedImages {
+                    await loadImage(fromItem: item)
+                }
+            }
+        }
     }
     
     // Properties needed for creating an evidence entry
@@ -36,21 +42,18 @@ class SubmitEvidenceViewModel: ObservableObject {
         guard let item = item,
               let data = try? await item.loadTransferable(type: Data.self),
               let image = UIImage(data: data) else {
-            self.uiImage = nil
             return
         }
-        self.uiImage = image
+        self.uiImages.append(image)
     }
     
-    // Method to submit the evidence using EvidenceService
     func submitEvidence(stepDescription: String, completion: @escaping (Bool) -> Void) async {
-        guard let image = uiImage else {
+        guard !uiImages.isEmpty else {
             completion(false)
             return
         }
 
         do {
-            // Directly pass image to EvidenceService without uploading it here
             var newEvidence = Evidence(
                 goalID: goalID,
                 cycleID: cycleID,
@@ -61,11 +64,11 @@ class SubmitEvidenceViewModel: ObservableObject {
                 verified: false,
                 weekNumber: weekNumber,
                 dayNumber: dayNumber,
-                imageUrl: ""
+                imageUrl: "" // Initially empty, will be set during upload
             )
             
-            // Upload the evidence (and the image within the service)
-            _ = try await EvidenceService.uploadEvidence(newEvidence, image: image)
+            // Upload the evidence (and the images within the service)
+            let _ = try await EvidenceService.uploadEvidence(newEvidence, images: uiImages)
             
             try await StepService.updateStepDescription(stepId: stepID, description: stepDescription)
 

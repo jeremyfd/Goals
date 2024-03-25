@@ -19,78 +19,84 @@ struct SubmitEvidenceView: View {
     var body: some View {
         NavigationView {
             VStack {
-                if let selectedImage = viewModel.uiImage {
-                    Image(uiImage: selectedImage)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(maxWidth: 300, maxHeight: 300)
-                    
-                    TextField("Step Description", text: $stepDescription)
-                        .padding()
-                        .background(Color(.systemGray6))
-                        .cornerRadius(8)
-                        .padding(.bottom)
-                    
-                    Button("Choose a different picture") {
-                        isPickerPresented = true
+                ScrollView(.horizontal, showsIndicators: false) { // Horizontal ScrollView
+                    LazyHStack {
+                        ForEach(viewModel.uiImages, id: \.self) { image in
+                            Image(uiImage: image)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(maxWidth: 300, maxHeight: 300)
+                                .cornerRadius(10)
+                                .shadow(radius: 5)
+                        }
                     }
-                    .fontWeight(.bold)
+                    .padding(.horizontal)
+                }
+                .frame(height: 300)
+                .background(Color.gray.opacity(0.1))
+                .cornerRadius(12)
+                .padding(.vertical)
+
+                TextField("Step Description", text: $stepDescription)
                     .padding()
-                    .frame(maxWidth: .infinity)
-                    .background(Color.gray)
-                    .foregroundColor(.white)
-                    .cornerRadius(20)
-                    
-                    if isSubmitting {
-                        ProgressView()
-                            .scaleEffect(1.5)
-                            .padding()
-                    } else {
-                        Button("Submit Evidence") {
-                            print("DEBUG: Submitting evidence for step")
-                            isSubmitting = true // Indicate submission started
-                            Task {
-                                await viewModel.submitEvidence(stepDescription: stepDescription) { success in
-                                    DispatchQueue.main.async { // Ensure UI updates are on the main thread
-                                        isSubmitting = false // Reset submission state
-                                        if success {
-                                            presentationMode.wrappedValue.dismiss()
-                                            self.onSubmissionSuccess()
-                                        } else {
-                                            // Handle failure, e.g., by showing an alert
-                                        }
+                    .background(Color(.systemGray6))
+                    .cornerRadius(8)
+                    .padding(.bottom)
+
+                Button("Select pictures") { // Updated for multiple selections
+                    isPickerPresented = true
+                }
+                .fontWeight(.bold)
+                .padding()
+                .frame(maxWidth: .infinity)
+                .background(Color.blue) // Changed for better visibility
+                .foregroundColor(.white)
+                .cornerRadius(20)
+
+                if isSubmitting {
+                    ProgressView()
+                        .scaleEffect(1.5)
+                        .padding()
+                } else {
+                    Button("Submit Evidence") {
+                        print("DEBUG: Submitting evidence for step")
+                        isSubmitting = true
+                        Task {
+                            await viewModel.submitEvidence(stepDescription: stepDescription) { success in
+                                DispatchQueue.main.async {
+                                    isSubmitting = false
+                                    if success {
+                                        presentationMode.wrappedValue.dismiss()
+                                        onSubmissionSuccess()
+                                    } else {
+                                        // Handle failure, e.g., by showing an alert
                                     }
                                 }
                             }
                         }
-                        .fontWeight(.bold)
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(Color.gray)
-                        .foregroundColor(.white)
-                        .cornerRadius(20)
-                        .disabled(isSubmitting) // Disable button during submission
-                    }
-                } else {
-                    Button("Select picture") {
-                        isPickerPresented = true
                     }
                     .fontWeight(.bold)
                     .padding()
                     .frame(maxWidth: .infinity)
-                    .background(Color.gray)
+                    .background(Color.blue) // Changed for consistency
                     .foregroundColor(.white)
                     .cornerRadius(20)
+                    .disabled(isSubmitting)
                 }
-                
-                
             }
             .navigationTitle("Select & Submit")
             .navigationBarTitleDisplayMode(.inline)
-            .photosPicker(isPresented: $isPickerPresented, selection: $viewModel.selectedImage, matching: .images, photoLibrary: .shared())
+            .photosPicker(
+                isPresented: $isPickerPresented,
+                selection: $viewModel.selectedImages, // Use the updated property
+                maxSelectionCount: nil, 
+                matching: .images,
+                photoLibrary: .shared() // Allow multiple selections
+            )
         }
     }
 }
+
 
 
 //struct SubmitEvidenceView_Previews: PreviewProvider {

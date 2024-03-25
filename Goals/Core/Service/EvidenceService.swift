@@ -11,28 +11,31 @@ import FirebaseFirestoreSwift
 
 struct EvidenceService {
     
-    static func uploadEvidence(_ evidence: Evidence, image: UIImage) async throws -> Evidence {
-        guard let imageUrl = try await ImageUploader.uploadImage(image: image, type: .evidence) else {
-            throw NSError(domain: "UploadError", code: 0, userInfo: [NSLocalizedDescriptionKey: "Failed to upload evidence image"])
+    static func uploadEvidence(_ evidence: Evidence, images: [UIImage]) async throws -> [Evidence] {
+        var uploadedEvidences: [Evidence] = []
+        for image in images {
+            guard let imageUrl = try await ImageUploader.uploadImage(image: image, type: .evidence) else {
+                throw NSError(domain: "UploadError", code: 0, userInfo: [NSLocalizedDescriptionKey: "Failed to upload evidence image"])
+            }
+            
+            var newEvidence = evidence
+            newEvidence.imageUrl = imageUrl
+            
+            // Save the evidence document in Firestore and adjust as per your application needs
+            let ref = try await FirestoreConstants.EvidencesCollection.addDocument(from: newEvidence)
+            var uploadedEvidence = newEvidence
+            uploadedEvidence.evidenceId = ref.documentID
+            
+            // Assuming each image results in a new piece of evidence
+            uploadedEvidences.append(uploadedEvidence)
         }
         
-        var newEvidence = evidence
-        newEvidence.imageUrl = imageUrl
-        
-        // Save the evidence document in Firestore
-        let ref = try await FirestoreConstants.EvidencesCollection.addDocument(from: newEvidence)
-        var uploadedEvidence = newEvidence
-        uploadedEvidence.evidenceId = ref.documentID // Directly assign to evidenceId
-        
-        // Fetch the associated goal using the goalID from the evidence
+        // Example: Notify only once after all uploads, adjust based on your app's logic
         let goal = try await GoalService.fetchGoal(goalId: evidence.goalID)
-        
-        // Now that you have the goal, you can get the partnerUid and use it for the notification
         await ActivityService.uploadNotification(toUid: goal.partnerUid, type: .evidence, goalId: goal.id)
-        
         try await StepService.updateStepSubmission(stepId: evidence.stepID, isSubmitted: true)
         
-        return uploadedEvidence
+        return uploadedEvidences
     }
     
     static func fetchEvidences(forGoalId goalId: String) async throws -> [Evidence] {
