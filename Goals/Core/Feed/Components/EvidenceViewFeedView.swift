@@ -78,6 +78,25 @@ struct EvidenceViewFeedView: View {
             // Reactions and other goal-specific functionalities can continue to use GoalViewCellViewModel
             ReactionButtonsView(goalID: goal.id, ownerUid: goal.ownerUid, viewModel: viewModel)
             
+            NavigationLink {
+                ExpandedGoalView(goal: goal)
+            } label: {
+                HStack{
+                    VStack(alignment: .leading){
+                        Text(goal.title)
+                            .fontWeight(.bold)
+                        
+                        HStack{
+                            Text("@\(goal.user?.username ?? "")")
+                            Text("Tier \(goal.tier)")
+                            Text("Step \(step.dayNumber)")
+                        }
+                    }
+                    .foregroundColor(.black)
+                    .padding(.horizontal)
+                }
+            }
+            
             // Other UI elements as needed
         }
         .onAppear {

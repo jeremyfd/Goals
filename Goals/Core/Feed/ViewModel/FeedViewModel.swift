@@ -73,18 +73,25 @@ class FeedViewModel: ObservableObject {
         Task {
             do {
                 let goalIDs = try await GoalService.fetchPartnerGoalIDs(uid: uid)
-                var allStepsWithEvidences: [(step: Step, evidences: [Evidence])] = []
+                var tempAllStepsWithEvidences: [(step: Step, evidences: [Evidence], goal: Goal)] = []
 
                 for goalID in goalIDs {
+                    let goal = try await GoalService.fetchGoal(goalId: goalID)
+                    // Enrich the goal with user data
+                    let enrichedGoal = try await fetchGoalUserData(goal: goal)
                     let steps = try await StepService.fetchSteps(forGoalId: goalID)
                     let submittedSteps = steps.filter { $0.isSubmitted }
 
                     for step in submittedSteps {
                         let evidences = try await EvidenceService.fetchEvidences(forStepId: step.id)
                         if !evidences.isEmpty {
-                            allStepsWithEvidences.append((step: step, evidences: evidences))
+                            tempAllStepsWithEvidences.append((step: step, evidences: evidences, goal: enrichedGoal))
                         }
                     }
+                }
+
+                DispatchQueue.main.async {
+                    self.allStepsWithEvidences = tempAllStepsWithEvidences
                 }
 
             } catch {
@@ -102,21 +109,20 @@ class FeedViewModel: ObservableObject {
                 var tempAllStepsWithEvidences: [(step: Step, evidences: [Evidence], goal: Goal)] = []
 
                 for goalID in goalIDs {
-                    // Use fetchGoal here to fetch the specific Goal for the current goalID
                     let goal = try await GoalService.fetchGoal(goalId: goalID)
+                    // Enrich the goal with user data
+                    let enrichedGoal = try await fetchGoalUserData(goal: goal)
                     let steps = try await StepService.fetchSteps(forGoalId: goalID)
                     let submittedSteps = steps.filter { $0.isSubmitted }
 
                     for step in submittedSteps {
                         let evidences = try await EvidenceService.fetchEvidences(forStepId: step.id)
                         if !evidences.isEmpty {
-                            // Append the tuple including the fetched goal
-                            tempAllStepsWithEvidences.append((step: step, evidences: evidences, goal: goal))
+                            tempAllStepsWithEvidences.append((step: step, evidences: evidences, goal: enrichedGoal))
                         }
                     }
                 }
-                
-                // Ensure to perform UI updates on the main thread
+
                 DispatchQueue.main.async {
                     self.allStepsWithEvidences = tempAllStepsWithEvidences
                 }
@@ -126,6 +132,7 @@ class FeedViewModel: ObservableObject {
             }
         }
     }
+
 
 
 
