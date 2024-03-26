@@ -28,13 +28,13 @@ class ExpandedGoalViewModel: ObservableObject {
     private func setupSubscribers() {
         UserService.shared.$currentUser
             .sink { [weak self] user in
-                self?.currentUser = user               
+                self?.currentUser = user
             }.store(in: &cancellables)
     }
     
-        var currentUserID: String? {
-            AuthService.shared.userSession?.uid
-        }
+    var currentUserID: String? {
+        AuthService.shared.userSession?.uid
+    }
     
     func fetchPartnerUser(partnerUid: String) {
         Task {
@@ -84,7 +84,7 @@ class ExpandedGoalViewModel: ObservableObject {
             print("Goal ID is not available")
             return
         }
-//        print("DEBUG: Fetching cycles for goal ID: \(goalId)")
+        //        print("DEBUG: Fetching cycles for goal ID: \(goalId)")
         Task {
             isLoading = true
             do {
@@ -92,7 +92,7 @@ class ExpandedGoalViewModel: ObservableObject {
                 DispatchQueue.main.async {
                     self.cycles = fetchedCycles
                     self.isLoading = false
-//                    print("DEBUG: Fetched cycles: \(fetchedCycles.count), updating viewModel.cycles")
+                    //                    print("DEBUG: Fetched cycles: \(fetchedCycles.count), updating viewModel.cycles")
                 }
             } catch {
                 DispatchQueue.main.async {
@@ -107,13 +107,13 @@ class ExpandedGoalViewModel: ObservableObject {
             print("Goal ID is not available")
             return
         }
-//        print("DEBUG: Fetching steps for goal ID: \(goalId)")
+        //        print("DEBUG: Fetching steps for goal ID: \(goalId)")
         Task {
             do {
                 let fetchedSteps = try await StepService.fetchSteps(forGoalId: goalId)
                 DispatchQueue.main.async {
                     self.steps = fetchedSteps
-//                    print("DEBUG: Fetched steps: \(fetchedSteps.count)")
+                    //                    print("DEBUG: Fetched steps: \(fetchedSteps.count)")
                 }
             } catch {
                 print("Error fetching steps for goal: \(error.localizedDescription)")
@@ -126,13 +126,13 @@ class ExpandedGoalViewModel: ObservableObject {
             print("Goal ID is not available")
             return
         }
-//        print("DEBUG: Fetching evidences for goal ID: \(goalId)")
+        //        print("DEBUG: Fetching evidences for goal ID: \(goalId)")
         Task {
             do {
                 let fetchedEvidences = try await EvidenceService.fetchEvidences(forGoalId: goalId)
                 DispatchQueue.main.async {
                     self.evidences = fetchedEvidences
-//                    print("DEBUG: Fetched evidences: \(fetchedEvidences.count)")
+                    //                    print("DEBUG: Fetched evidences: \(fetchedEvidences.count)")
                 }
             } catch {
                 print("Error fetching steps for goal: \(error.localizedDescription)")
@@ -158,29 +158,37 @@ class ExpandedGoalViewModel: ObservableObject {
     
     func verifyEvidence(evidenceId: String) {
         guard !evidenceId.isEmpty else { return }
-        guard let goalId = goal?.id else {
-            print("Goal ID is not available")
-            return
-        }
         
+        // First, fetch the corresponding evidence to get its stepID
         Task {
             do {
-                // Update the evidence's verification status to true and increment the goal's current count
-                try await EvidenceService.updateEvidenceVerification(evidenceId: evidenceId, isVerified: true, goalId: goalId)
-                // Refresh the evidence list to reflect the change
+                // Fetch the evidence to get the stepID. Assuming you have a function to fetch a specific evidence.
+                // If such a function doesn't exist, you'll need to implement it based on your data structure.
+                let evidence = try await EvidenceService.fetchEvidence(evidenceId: evidenceId)
+                let stepId = evidence.stepID
+                guard let goalId = goal?.id else {
+                    print("Goal ID is not available")
+                    return
+                }
+                
+                // Now that we have the stepID, we can proceed to verify it
+                try await StepService.updateStepVerification(stepId: stepId, isVerified: true, goalId: goalId)
+                // Since the structure and the purpose of fetching evidences might differ, ensure you adjust the next steps accordingly.
+                // For example, you might want to refresh steps or evidences in your view model here.
                 await fetchEvidencesForCurrentGoal()
-                // Optionally, if you have UI elements depending on the goal's currentCount, trigger their update here
+                // Consider updating UI elements or the model state as needed.
+                
             } catch {
-                print("Error verifying evidence: \(error.localizedDescription)")
+                print("Error verifying evidence (linked to step): \(error.localizedDescription)")
                 // Handle the error, e.g., show an error message to the user
             }
         }
     }
     
-        func presentEvidenceSubmission(for step: Step) {
-            isSubmittingEvidence = true
-            // Implement UI presentation logic here, possibly using a sheet or navigation
-        }
+    func presentEvidenceSubmission(for step: Step) {
+        isSubmittingEvidence = true
+        // Implement UI presentation logic here, possibly using a sheet or navigation
+    }
     
 }
 

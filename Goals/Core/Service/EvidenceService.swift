@@ -39,36 +39,29 @@ struct EvidenceService {
     }
     
     static func fetchEvidences(forGoalId goalId: String) async throws -> [Evidence] {
-            let querySnapshot = try await FirestoreConstants.EvidencesCollection.whereField("goalID", isEqualTo: goalId).getDocuments()
-//            print("DEBUG: Query snapshot documents: \(querySnapshot.documents)")
-            
-            let evidences: [Evidence] = querySnapshot.documents.compactMap { document -> Evidence? in
-                try? document.data(as: Evidence.self)
-            }
-            return evidences
-        }
-    
-    static func updateEvidenceVerification(evidenceId: String, isVerified: Bool, goalId: String) async throws {
-        // Update the evidence's verified status
-        try await FirestoreConstants.EvidencesCollection.document(evidenceId).updateData(["verified": isVerified])
+        let querySnapshot = try await FirestoreConstants.EvidencesCollection.whereField("goalID", isEqualTo: goalId).getDocuments()
+        //            print("DEBUG: Query snapshot documents: \(querySnapshot.documents)")
         
-        if isVerified {
-            // Fetch the evidence to get the stepID
-            let documentSnapshot = try await FirestoreConstants.EvidencesCollection.document(evidenceId).getDocument()
-            guard let evidence = try? documentSnapshot.data(as: Evidence.self) else {
-                throw NSError(domain: "VerificationError", code: 1, userInfo: [NSLocalizedDescriptionKey: "Failed to fetch evidence for verification."])
-            }
-            
-            // Update the isVerified for the corresponding step to true
-            try await StepService.updateStepVerification(stepId: evidence.stepID, isVerified: true)
-
-            // Fetch the goal to increment its currentCount and to send a notification
-            let goal = try await GoalService.fetchGoal(goalId: goalId)
-            try await GoalService.incrementCurrentCountForGoal(goalId: goalId)
-
-            // Send a notification to the goal owner from the partner
-            await ActivityService.uploadNotification(toUid: goal.ownerUid, type: .evidenceVerified, goalId: goal.id)
+        let evidences: [Evidence] = querySnapshot.documents.compactMap { document -> Evidence? in
+            try? document.data(as: Evidence.self)
         }
+        return evidences
+    }
+    
+    static func fetchEvidences(forStepId stepId: String) async throws -> [Evidence] {
+        let querySnapshot = try await FirestoreConstants.EvidencesCollection.whereField("stepID", isEqualTo: stepId).getDocuments()
+        //            print("DEBUG: Query snapshot documents: \(querySnapshot.documents)")
+        
+        let evidences: [Evidence] = querySnapshot.documents.compactMap { document -> Evidence? in
+            try? document.data(as: Evidence.self)
+        }
+        return evidences
+    }
+    
+    static func fetchEvidence(evidenceId: String) async throws -> Evidence {
+        let documentSnapshot = try await FirestoreConstants.EvidencesCollection.document(evidenceId).getDocument()
+        let evidence = try documentSnapshot.data(as: Evidence.self)
+        return evidence
     }
     
     static func deleteEvidence(evidenceId: String) async throws {
@@ -82,7 +75,7 @@ struct EvidenceService {
         // Since imageUrl is non-optional, you can directly use it
         do {
             try await ImageUploader.deleteImage(withURL: evidence.imageUrl)
-//            print("DEBUG: Successfully deleted image from storage")
+            //            print("DEBUG: Successfully deleted image from storage")
         } catch {
             print("DEBUG: Failed to delete image from storage, \(error.localizedDescription)")
             // Handle the error as needed. Depending on your requirements, you might log this error or throw it.
@@ -92,7 +85,31 @@ struct EvidenceService {
         try await FirestoreConstants.EvidencesCollection.document(evidenceId).delete()
         
         try await StepService.updateStepSubmission(stepId: evidence.stepID, isSubmitted: false)
-        try await StepService.updateStepVerification(stepId: evidence.stepID, isVerified: false)
-       
+        try await StepService.updateStepVerification(stepId: evidence.stepID, isVerified: false, goalId: evidence.goalID)
+        
     }
 }
+
+
+//    static func updateEvidenceVerification(evidenceId: String, isVerified: Bool, goalId: String) async throws {
+//        // Update the evidence's verified status
+//        try await FirestoreConstants.EvidencesCollection.document(evidenceId).updateData(["verified": isVerified])
+//
+//        if isVerified {
+//            // Fetch the evidence to get the stepID
+//            let documentSnapshot = try await FirestoreConstants.EvidencesCollection.document(evidenceId).getDocument()
+//            guard let evidence = try? documentSnapshot.data(as: Evidence.self) else {
+//                throw NSError(domain: "VerificationError", code: 1, userInfo: [NSLocalizedDescriptionKey: "Failed to fetch evidence for verification."])
+//            }
+//
+//            // Update the isVerified for the corresponding step to true
+//            try await StepService.updateStepVerification(stepId: evidence.stepID, isVerified: true)
+//
+//            // Fetch the goal to increment its currentCount and to send a notification
+//            let goal = try await GoalService.fetchGoal(goalId: goalId)
+//            try await GoalService.incrementCurrentCountForGoal(goalId: goalId)
+//
+//            // Send a notification to the goal owner from the partner
+//            await ActivityService.uploadNotification(toUid: goal.ownerUid, type: .evidenceVerified, goalId: goal.id)
+//        }
+//    }

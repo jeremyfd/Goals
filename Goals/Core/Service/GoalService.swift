@@ -267,6 +267,36 @@ struct GoalService {
         }
     }
     
+    static func decrementCurrentCountForGoal(goalId: String) async throws {
+        let goalRef = FirestoreConstants.GoalsCollection.document(goalId)
+
+        // Synchronous transaction to increment currentCount
+        let transactionResult = try await Firestore.firestore().runTransaction({ (transaction, errorPointer) -> Any? in
+            let goalDocument: DocumentSnapshot
+            do {
+                goalDocument = try transaction.getDocument(goalRef)
+            } catch let fetchError {
+                errorPointer?.pointee = fetchError as NSError
+                return nil
+            }
+
+            guard let currentCount = goalDocument.data()?["currentCount"] as? Int,
+                  let targetCount = goalDocument.data()?["targetCount"] as? Int else {
+                return nil
+            }
+
+            // Increment currentCount
+            transaction.updateData(["currentCount": currentCount - 1], forDocument: goalRef)
+
+            return nil
+        })
+
+        // Handle any errors from the transaction
+        if let transactionError = transactionResult as? Error {
+            throw transactionError
+        }
+    }
+    
     static func incrementTierForGoal(goalId: String) async throws {
         let goalRef = FirestoreConstants.GoalsCollection.document(goalId)
         

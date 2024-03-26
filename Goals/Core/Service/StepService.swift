@@ -47,9 +47,19 @@ struct StepService {
         }
     }
 
-    static func updateStepVerification(stepId: String, isVerified: Bool) async throws {
+    static func updateStepVerification(stepId: String, isVerified: Bool, goalId: String) async throws {
         do {
+            // Update the step's verification status
             try await FirestoreConstants.StepsCollection.document(stepId).updateData(["isVerified": isVerified])
+            
+            if isVerified {
+                // Fetch the goal to increment its currentCount and to send a notification
+                let goal = try await GoalService.fetchGoal(goalId: goalId)
+                try await GoalService.incrementCurrentCountForGoal(goalId: goalId)
+
+                // Send a notification to the goal owner from the partner
+                await ActivityService.uploadNotification(toUid: goal.ownerUid, type: .evidenceVerified, goalId: goal.id)
+            }
         } catch {
             print("DEBUG: Failed to update verification status for step with ID: \(stepId). Error: \(error.localizedDescription)")
             throw error

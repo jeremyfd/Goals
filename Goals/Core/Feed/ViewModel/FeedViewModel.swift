@@ -4,12 +4,7 @@
 //
 //  Created by Jeremy Daines on 06/02/2024.
 //
-//
-//  FeedViewModel.swift
-//  Goals
-//
-//  Created by Jeremy Daines on 06/02/2024.
-//
+
 
 import Foundation
 import Combine
@@ -23,7 +18,9 @@ class FeedViewModel: ObservableObject {
     @Published var isLoading = false
     private var cancellables = Set<AnyCancellable>()
     @Published var allEvidencesWithGoal: [(evidence: Evidence, goal: Goal)] = []
-    
+    // Adjust the tuple to include the Goal object
+    @Published var allStepsWithEvidences: [(step: Step, evidences: [Evidence], goal: Goal)] = []
+
     var groupedEvidences: [Date: [(evidence: Evidence, goal: Goal)]] {
             Dictionary(grouping: allEvidencesWithGoal, by: { Calendar.current.startOfDay(for: $0.evidence.timestamp.dateValue()) })
         }
@@ -76,28 +73,22 @@ class FeedViewModel: ObservableObject {
         Task {
             do {
                 let goalIDs = try await GoalService.fetchPartnerGoalIDs(uid: uid)
-                var allEvidencesWithGoal: [(evidence: Evidence, goal: Goal)] = []
+                var allStepsWithEvidences: [(step: Step, evidences: [Evidence])] = []
 
                 for goalID in goalIDs {
-                    let goal = try await GoalService.fetchGoalDetails(goalId: goalID)
-                    let enrichedGoal = try await fetchGoalUserData(goal: goal)
+                    let steps = try await StepService.fetchSteps(forGoalId: goalID)
+                    let submittedSteps = steps.filter { $0.isSubmitted }
 
-                    let evidences = try await EvidenceService.fetchEvidences(forGoalId: enrichedGoal.id)
-                    // Append each evidence along with its goal to the list
-                    allEvidencesWithGoal.append(contentsOf: evidences.map { (evidence: $0, goal: enrichedGoal) })
+                    for step in submittedSteps {
+                        let evidences = try await EvidenceService.fetchEvidences(forStepId: step.id)
+                        if !evidences.isEmpty {
+                            allStepsWithEvidences.append((step: step, evidences: evidences))
+                        }
+                    }
                 }
 
-                // Sort all evidences by timestamp, regardless of their goal
-                allEvidencesWithGoal.sort(by: { $0.evidence.timestamp.dateValue() > $1.evidence.timestamp.dateValue() })
-
-                DispatchQueue.main.async {
-                    // Here, instead of setting goalsWithEvidences, you'll likely need to adjust your UI to work with this new structure
-                    // For example, you might have a new @Published property for allEvidencesWithGoal
-                    self.allEvidencesWithGoal = allEvidencesWithGoal
-//                    print("DEBUG: Finished fetching user contracts. Total evidences: \(self.allEvidencesWithGoal.count)")
-                }
             } catch {
-                print("Error fetching goals and evidences: \(error)")
+                print("Error fetching steps and evidences: \(error)")
             }
         }
     }
@@ -108,31 +99,35 @@ class FeedViewModel: ObservableObject {
         Task {
             do {
                 let goalIDs = try await GoalService.fetchFriendGoalIDs(uid: uid)
-                var allEvidencesWithGoal: [(evidence: Evidence, goal: Goal)] = []
+                var tempAllStepsWithEvidences: [(step: Step, evidences: [Evidence], goal: Goal)] = []
 
                 for goalID in goalIDs {
-                    let goal = try await GoalService.fetchGoalDetails(goalId: goalID)
-                    let enrichedGoal = try await fetchGoalUserData(goal: goal)
+                    // Use fetchGoal here to fetch the specific Goal for the current goalID
+                    let goal = try await GoalService.fetchGoal(goalId: goalID)
+                    let steps = try await StepService.fetchSteps(forGoalId: goalID)
+                    let submittedSteps = steps.filter { $0.isSubmitted }
 
-                    let evidences = try await EvidenceService.fetchEvidences(forGoalId: enrichedGoal.id)
-                    // Append each evidence along with its goal to the list
-                    allEvidencesWithGoal.append(contentsOf: evidences.map { (evidence: $0, goal: enrichedGoal) })
+                    for step in submittedSteps {
+                        let evidences = try await EvidenceService.fetchEvidences(forStepId: step.id)
+                        if !evidences.isEmpty {
+                            // Append the tuple including the fetched goal
+                            tempAllStepsWithEvidences.append((step: step, evidences: evidences, goal: goal))
+                        }
+                    }
                 }
-
-                // Sort all evidences by timestamp, regardless of their goal
-                allEvidencesWithGoal.sort(by: { $0.evidence.timestamp.dateValue() > $1.evidence.timestamp.dateValue() })
-
+                
+                // Ensure to perform UI updates on the main thread
                 DispatchQueue.main.async {
-                    // Here, instead of setting goalsWithEvidences, you'll likely need to adjust your UI to work with this new structure
-                    // For example, you might have a new @Published property for allEvidencesWithGoal
-                    self.allEvidencesWithGoal = allEvidencesWithGoal
-//                    print("DEBUG: Finished fetching evidences. Total evidences: \(self.allEvidencesWithGoal.count)")
+                    self.allStepsWithEvidences = tempAllStepsWithEvidences
                 }
+
             } catch {
-                print("Error fetching goals and evidences: \(error)")
+                print("Error fetching steps and evidences: \(error)")
             }
         }
     }
+
+
 
     func fetchGoals() async {
         do {

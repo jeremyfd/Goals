@@ -19,7 +19,7 @@ struct FeedView: View {
     }
     
     @Namespace var animation
-
+    
     
     var body: some View {
         
@@ -66,10 +66,10 @@ struct FeedView: View {
                                         LazyHStack {
                                             ForEach(viewModel.goals, id: \.id) { goal in
                                                 CalendarViewFeedView(goal: goal, currentUser: currentUser)
-
+                                                
                                             }
                                         }
-                                            .padding(.leading)
+                                        .padding(.leading)
                                         
                                         Button(action: {
                                             showGoalCreationView = true
@@ -102,7 +102,7 @@ struct FeedView: View {
                                             .foregroundColor(Color.black)
                                             .background(Color.white)
                                             .cornerRadius(40)
-
+                                        
                                     }
                                 })
                                 .padding(.leading)
@@ -113,7 +113,7 @@ struct FeedView: View {
                                 .fontWeight(.bold)
                                 .padding(.leading)
                                 .padding(.top)
-
+                            
                             
                             // Directly integrate the content for "My Contracts"
                             contentForYourContracts()
@@ -135,7 +135,7 @@ struct FeedView: View {
             Task { try await viewModel.fetchGoals() }
             viewModel.fetchDataForYourFriendsContracts()
         }
-
+        
     }
     
     func contentForYourContracts() -> some View {
@@ -143,7 +143,7 @@ struct FeedView: View {
             
             FeedFilterView(selectedFilter: $viewModel.selectedFilter)
             
-            if viewModel.sortedGroupedEvidencesKeys.isEmpty {
+            if viewModel.allStepsWithEvidences.isEmpty {
                 // Show a message when there are no evidences
                 VStack {
                     Text("No evidences yet")
@@ -173,32 +173,20 @@ struct FeedView: View {
                 
             } else {
                 LazyVStack(spacing: 20) {
-                    ForEach(viewModel.sortedGroupedEvidencesKeys, id: \.self) { date in
-                        Section(header:
-                                    HStack {
-                            Spacer()
-
-                            Text(date, formatter: DateFormatter.mediumDateFormatter)
-                                .font(.title2)
-                                .fontWeight(.bold)
-                                .padding(.trailing)
-                                .padding(.trailing)
-
-                        }
-                            .padding(.top)
+                    ForEach(viewModel.allStepsWithEvidences, id: \.step.id) { stepWithEvidences in
+                        EvidenceViewFeedView(
+                            step: stepWithEvidences.step,
+                            evidences: stepWithEvidences.evidences,
+                            goal: stepWithEvidences.goal,
+                            currentUser: viewModel.currentUser
                         )
-                        {
-                            ForEach(viewModel.groupedEvidences[date] ?? [], id: \.evidence.id) { evidenceWithGoal in
-                                EvidenceViewFeedView(evidence: evidenceWithGoal.evidence, goal: evidenceWithGoal.goal, currentUser: viewModel.currentUser)
-                            }
-                        }
                     }
                 }
-                .padding(.bottom)
+                
             }
         }
     }
-
+    
 }
 
 extension DateFormatter {

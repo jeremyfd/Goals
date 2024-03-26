@@ -15,6 +15,8 @@ class GoalViewCellViewModel: ObservableObject {
     @Published var reactionUsernames: [String: [String]] = [:] // Maps reaction types to usernames
     @Published var reactionCounts: [String: [String: Int]] = [:] // Maps reaction types to user names and their reaction counts
     @Published var stepDescription: String?
+    @Published var isStepVerified: Bool = false
+
     
     let uid = Auth.auth().currentUser?.uid
 
@@ -78,16 +80,31 @@ class GoalViewCellViewModel: ObservableObject {
         }
     }
     
-    func fetchStepDescription(stepID: String) {
+    func fetchStepDescriptionAndVerifyStatus(stepID: String) {
         Task {
             do {
                 let step = try await StepService.fetchStep(stepId: stepID)
                 DispatchQueue.main.async {
                     self.stepDescription = step.description
+                    // Assume your Step model has an isVerified field
+                    self.isStepVerified = step.isVerified ?? false
                 }
             } catch {
-                print("Error fetching step description: \(error.localizedDescription)")
+                print("Error fetching step details: \(error.localizedDescription)")
             }
         }
     }
+
+    
+    func verifyStep(stepId: String, isVerified: Bool) {
+        Task {
+            do {
+                try await StepService.updateStepVerification(stepId: stepId, isVerified: isVerified, goalId: self.goalId)
+                await fetchStepDescriptionAndVerifyStatus(stepID: stepId)
+            } catch {
+                print("Error verifying step: \(error.localizedDescription)")
+            }
+        }
+    }
+
 }
