@@ -17,8 +17,6 @@ struct EvidenceViewFeedView: View {
     @StateObject private var viewModel: GoalViewCellViewModel
     @State private var selectedImageURL: String?
     @State private var isImageViewerPresented = false
-//    @State private var snappedItem = 0.0
-//    @State private var draggingItem = 0.0
     @State private var showReactions = false
     @State private var currentIndex: Int = 0
     @GestureState private var dragOffset: CGFloat = 0
@@ -42,37 +40,43 @@ struct EvidenceViewFeedView: View {
                 ForEach(Array(evidences.enumerated()), id: \.element.id) { (index, evidence) in
                     KFImage(URL(string: evidence.imageUrl))
                         .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 250, height: 250, alignment: .center)
+                        .contentShape(Rectangle())
+                        .clipped()
                         .cornerRadius(20)
-                        .scaledToFit()
-                        .frame(width: 300, height: 300) // These values can be adjusted as needed
                         .opacity(self.currentIndex == index ? 1.0 : 0.5)
                         .scaleEffect(self.currentIndex == index ? 1.2 : 0.8)
-                        .offset(x: CGFloat(index - self.currentIndex) * 300 + self.dragOffset, y: 0)
+                        .offset(x: CGFloat(index - self.currentIndex) * 250 + self.dragOffset, y: 0)
+                        .zIndex(self.currentIndex == index ? 1 : 0)
                         .onTapGesture {
                             self.selectedImageURL = evidence.imageUrl
                             self.isImageViewerPresented = true
                         }
                 }
             }
-            .gesture(
-                DragGesture()
-                    .updating($dragOffset, body: { (value, state, _) in
-                        state = value.translation.width
-                    })
-                    .onEnded({ value in
-                        let threshold: CGFloat = 100 // Threshold to determine if the drag should result in an index change
-                        if value.translation.width > threshold {
-                            currentIndex = max(0, currentIndex - 1)
-                        } else if value.translation.width < -threshold {
-                            currentIndex = min(evidences.count - 1, currentIndex + 1)
-                        }
-                    })
-            )
-            .frame(width: 300, height: 300) // Here we use fixed dimensions for the ZStack
+            .if(evidences.count > 1) { view in
+                view.gesture(
+                    DragGesture()
+                        .updating($dragOffset, body: { (value, state, _) in
+                            state = value.translation.width
+                        })
+                        .onEnded({ value in
+                            let threshold: CGFloat = 100 // Threshold to determine if the drag should result in an index change
+                            if value.translation.width > threshold {
+                                currentIndex = max(0, currentIndex - 1)
+                            } else if value.translation.width < -threshold {
+                                currentIndex = min(evidences.count - 1, currentIndex + 1)
+                            }
+                        })
+                )
+            }
+            .frame(width: 500, height: 300) // Here we use fixed dimensions for the ZStack
+            .background(Color.clear) // Apply a clear background to prevent images from showing through
             .sheet(isPresented: $isImageViewerPresented) {
                 ImageViewer(imageURL: $selectedImageURL, isPresented: $isImageViewerPresented)
             }
-            
+            .padding(.vertical)
             
             HStack {
                 Text(viewModel.stepDescription ?? "")
@@ -171,6 +175,7 @@ struct EvidenceViewFeedView: View {
             }
             
         }
+        .padding(.bottom)
         .onAppear {
             viewModel.fetchStepDescriptionAndVerifyStatus(stepID: step.id)
         }
