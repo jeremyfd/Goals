@@ -41,44 +41,39 @@ struct GoalViewCell: View {
                     .fontWeight(.bold)
                     .foregroundStyle(Color.black)
                 
-                ForEach(Array(viewModel.evidencesByStep.keys), id: \.self) { stepID in
-                        VStack(alignment: .leading) {
-                            Text("Step \(stepID)").bold() // Display step identifier; adjust as needed
-                            ScrollView(.horizontal, showsIndicators: false) {
-                                HStack(spacing: 10) {
-                                    ForEach(viewModel.evidencesByStep[stepID] ?? [], id: \.id) { evidence in
-                                        ZStack {
-                                            KFImage(URL(string: evidence.imageUrl))
-                                                .setProcessor(DownsamplingImageProcessor(size: CGSize(width: 50, height: 50)))
-                                                .scaleFactor(UIScreen.main.scale)
-                                                .cacheOriginalImage()
-                                                .resizable()
-                                                .scaledToFill()
-                                                .frame(width: 110, height: 110)
-                                                .cornerRadius(40)
-                                                .onTapGesture {
-                                                    selectedImageURL = evidence.imageUrl
-                                                    isShowingImage = true
-                                                }
-                                            
-                                            if evidence.verified {
-                                                Image(systemName: "checkmark.circle.fill")
-                                                    .resizable()
-                                                    .aspectRatio(contentMode: .fit)
-                                                    .frame(width: 40, height: 40)
-                                                    .foregroundColor(.green)
-                                                    .background(Color.white)
-                                                    .clipShape(Circle())
-                                                    .offset(x: 40, y: 40)
-                                            }
-                                        }
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 10) {
+                        ForEach(viewModel.evidences, id: \.id) { evidence in // Ensure your evidence conforms to Identifiable or provides a unique ID
+                            ZStack {
+                                KFImage(URL(string: evidence.imageUrl)) // Ensure this matches your model's property name
+                                    .setProcessor(DownsamplingImageProcessor(size: CGSize(width: 50, height: 50)))
+                                    .scaleFactor(UIScreen.main.scale)
+                                    .cacheOriginalImage()
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: 110, height: 110)
+                                    .cornerRadius(40)
+                                    .onTapGesture {
+                                        selectedImageURL = evidence.imageUrl // Ensure this matches your model's property name
+                                        isShowingImage = true
                                     }
+                                
+                                if evidence.verified { // Adjust according to your actual property name
+                                    Image(systemName: "checkmark.circle.fill")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 40, height: 40)
+                                        .foregroundColor(.green)
+                                        .background(Color.white)
+                                        .clipShape(Circle())
+                                        .offset(x: 40, y: 40) // Adjusted for visibility
                                 }
                             }
                         }
                         .padding(.bottom)
                     }
-                    .matchedGeometryEffect(id: "collapsedScroll", in: animation)
+                }
+                .matchedGeometryEffect(id: "collapsedScroll", in: animation)
 
                 if showReactions {
                     ReactionButtonsView(goalID: goal.id, ownerUid: goal.ownerUid, viewModel: viewModel)

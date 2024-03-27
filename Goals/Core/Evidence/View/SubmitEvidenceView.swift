@@ -33,15 +33,15 @@ struct SubmitEvidenceView: View {
                     .padding(.horizontal)
                 }
                 .frame(height: 300)
-                .background(Color.gray.opacity(0.1))
+//                .background(Color.gray.opacity(0.1))
                 .cornerRadius(12)
-                .padding(.vertical)
+                .padding()
 
                 TextField("Step Description", text: $stepDescription)
                     .padding()
                     .background(Color(.systemGray6))
                     .cornerRadius(8)
-                    .padding(.bottom)
+                    .padding()
 
                 Button("Select pictures") { // Updated for multiple selections
                     isPickerPresented = true
@@ -52,6 +52,7 @@ struct SubmitEvidenceView: View {
                 .background(Color.blue) // Changed for better visibility
                 .foregroundColor(.white)
                 .cornerRadius(20)
+                .padding(.horizontal)
 
                 if isSubmitting {
                     ProgressView()
@@ -81,7 +82,8 @@ struct SubmitEvidenceView: View {
                     .background(Color.blue) // Changed for consistency
                     .foregroundColor(.white)
                     .cornerRadius(20)
-                    .disabled(isSubmitting)
+                    .disabled(viewModel.uiImages.isEmpty || isSubmitting)
+                    .padding(.horizontal)
                 }
             }
             .navigationTitle("Select & Submit")
@@ -89,7 +91,7 @@ struct SubmitEvidenceView: View {
             .photosPicker(
                 isPresented: $isPickerPresented,
                 selection: $viewModel.selectedImages, // Use the updated property
-                maxSelectionCount: nil, 
+                maxSelectionCount: 4,
                 matching: .images,
                 photoLibrary: .shared() // Allow multiple selections
             )

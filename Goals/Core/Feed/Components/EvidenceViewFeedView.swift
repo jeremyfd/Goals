@@ -41,7 +41,7 @@ struct EvidenceViewFeedView: View {
                     KFImage(URL(string: evidence.imageUrl))
                         .resizable()
                         .aspectRatio(contentMode: .fill)
-                        .frame(width: 250, height: 250, alignment: .center)
+                        .frame(width: 250, height: 300, alignment: .center)
                         .contentShape(Rectangle())
                         .clipped()
                         .cornerRadius(20)
@@ -71,7 +71,7 @@ struct EvidenceViewFeedView: View {
                         })
                 )
             }
-            .frame(width: 500, height: 300) // Here we use fixed dimensions for the ZStack
+            .frame(width: 500, height: 350) // Here we use fixed dimensions for the ZStack
             .background(Color.clear) // Apply a clear background to prevent images from showing through
             .sheet(isPresented: $isImageViewerPresented) {
                 ImageViewer(imageURL: $selectedImageURL, isPresented: $isImageViewerPresented)
