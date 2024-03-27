@@ -22,6 +22,8 @@ struct Step: Identifiable, Hashable, Codable {
     var isSubmitted: Bool
     var isVerified: Bool
     var description: String?
+    var submittedTimestamp: Timestamp?
+    
     
     var id: String {
         return stepId ?? NSUUID().uuidString

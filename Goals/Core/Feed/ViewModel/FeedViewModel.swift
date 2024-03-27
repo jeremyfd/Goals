@@ -73,7 +73,7 @@ class FeedViewModel: ObservableObject {
         Task {
             do {
                 let goalIDs = try await GoalService.fetchPartnerGoalIDs(uid: uid)
-                var tempAllStepsWithEvidences: [(step: Step, evidences: [Evidence], goal: Goal)] = []
+                var allSubmittedSteps: [(step: Step, goal: Goal)] = []
 
                 for goalID in goalIDs {
                     let goal = try await GoalService.fetchGoal(goalId: goalID)
@@ -83,10 +83,22 @@ class FeedViewModel: ObservableObject {
                     let submittedSteps = steps.filter { $0.isSubmitted }
 
                     for step in submittedSteps {
-                        let evidences = try await EvidenceService.fetchEvidences(forStepId: step.id)
-                        if !evidences.isEmpty {
-                            tempAllStepsWithEvidences.append((step: step, evidences: evidences, goal: enrichedGoal))
-                        }
+                        allSubmittedSteps.append((step: step, goal: enrichedGoal))
+                    }
+                }
+
+                // Sort all submitted steps by submittedTimestamp before associating them with evidences
+                let sortedAllSubmittedSteps = allSubmittedSteps.sorted {
+                    ($0.step.submittedTimestamp?.dateValue() ?? Date.distantPast) >
+                    ($1.step.submittedTimestamp?.dateValue() ?? Date.distantPast)
+                }
+
+                var tempAllStepsWithEvidences: [(step: Step, evidences: [Evidence], goal: Goal)] = []
+                
+                for (step, goal) in sortedAllSubmittedSteps {
+                    let evidences = try await EvidenceService.fetchEvidences(forStepId: step.id)
+                    if !evidences.isEmpty {
+                        tempAllStepsWithEvidences.append((step: step, evidences: evidences, goal: goal))
                     }
                 }
 
@@ -99,14 +111,14 @@ class FeedViewModel: ObservableObject {
             }
         }
     }
-
+    
     func fetchDataForYourFriendsContracts() {
         guard let uid = currentUser?.id else { return }
 
         Task {
             do {
                 let goalIDs = try await GoalService.fetchFriendGoalIDs(uid: uid)
-                var tempAllStepsWithEvidences: [(step: Step, evidences: [Evidence], goal: Goal)] = []
+                var allSubmittedSteps: [(step: Step, goal: Goal)] = []
 
                 for goalID in goalIDs {
                     let goal = try await GoalService.fetchGoal(goalId: goalID)
@@ -116,10 +128,22 @@ class FeedViewModel: ObservableObject {
                     let submittedSteps = steps.filter { $0.isSubmitted }
 
                     for step in submittedSteps {
-                        let evidences = try await EvidenceService.fetchEvidences(forStepId: step.id)
-                        if !evidences.isEmpty {
-                            tempAllStepsWithEvidences.append((step: step, evidences: evidences, goal: enrichedGoal))
-                        }
+                        allSubmittedSteps.append((step: step, goal: enrichedGoal))
+                    }
+                }
+
+                // Sort all submitted steps by submittedTimestamp before associating them with evidences
+                let sortedAllSubmittedSteps = allSubmittedSteps.sorted {
+                    ($0.step.submittedTimestamp?.dateValue() ?? Date.distantPast) >
+                    ($1.step.submittedTimestamp?.dateValue() ?? Date.distantPast)
+                }
+
+                var tempAllStepsWithEvidences: [(step: Step, evidences: [Evidence], goal: Goal)] = []
+                
+                for (step, goal) in sortedAllSubmittedSteps {
+                    let evidences = try await EvidenceService.fetchEvidences(forStepId: step.id)
+                    if !evidences.isEmpty {
+                        tempAllStepsWithEvidences.append((step: step, evidences: evidences, goal: goal))
                     }
                 }
 
@@ -132,8 +156,6 @@ class FeedViewModel: ObservableObject {
             }
         }
     }
-
-
 
 
     func fetchGoals() async {

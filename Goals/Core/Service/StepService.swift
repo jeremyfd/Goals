@@ -39,8 +39,18 @@ struct StepService {
 
     
     static func updateStepSubmission(stepId: String, isSubmitted: Bool) async throws {
+        var updateData: [String: Any] = ["isSubmitted": isSubmitted]
+
+        // If the step is submitted, set the submittedTimestamp to the current server timestamp
+        if isSubmitted {
+            updateData["submittedTimestamp"] = FieldValue.serverTimestamp()
+        } else {
+            // If the step is not submitted, remove the submittedTimestamp field
+            updateData["submittedTimestamp"] = FieldValue.delete()
+        }
+
         do {
-            try await FirestoreConstants.StepsCollection.document(stepId).updateData(["isSubmitted": isSubmitted])
+            try await FirestoreConstants.StepsCollection.document(stepId).updateData(updateData)
         } catch {
             print("DEBUG: Failed to update submission status for step with ID: \(stepId). Error: \(error.localizedDescription)")
             throw error
