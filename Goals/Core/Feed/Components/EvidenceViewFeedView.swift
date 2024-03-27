@@ -17,9 +17,11 @@ struct EvidenceViewFeedView: View {
     @StateObject private var viewModel: GoalViewCellViewModel
     @State private var selectedImageURL: String?
     @State private var isImageViewerPresented = false
-    @State private var snappedItem = 0.0
-    @State private var draggingItem = 0.0
+//    @State private var snappedItem = 0.0
+//    @State private var draggingItem = 0.0
     @State private var showReactions = false
+    @State private var currentIndex: Int = 0
+    @GestureState private var dragOffset: CGFloat = 0
     
     // Initialize with a goal and optionally a user
     init(step: Step, evidences: [Evidence], goal: Goal, currentUser: User?) {
@@ -37,39 +39,36 @@ struct EvidenceViewFeedView: View {
     var body: some View {
         VStack {
             ZStack {
-                ForEach(evidences) { evidence in
+                ForEach(Array(evidences.enumerated()), id: \.element.id) { (index, evidence) in
                     KFImage(URL(string: evidence.imageUrl))
                         .resizable()
                         .cornerRadius(20)
                         .scaledToFit()
-                        .frame(width: 300, height: 300)
-                        .scaleEffect(1.0 - abs(distance(evidence.id)) * 0.2)
-                        .opacity(1.0 - abs(distance(evidence.id)) * 0.3)
-                        .offset(x: myXOffset(evidence.id), y: 0)
-                        .zIndex(1.0 - abs(distance(evidence.id)) * 0.1)
+                        .frame(width: 300, height: 300) // These values can be adjusted as needed
+                        .opacity(self.currentIndex == index ? 1.0 : 0.5)
+                        .scaleEffect(self.currentIndex == index ? 1.2 : 0.8)
+                        .offset(x: CGFloat(index - self.currentIndex) * 300 + self.dragOffset, y: 0)
                         .onTapGesture {
                             self.selectedImageURL = evidence.imageUrl
                             self.isImageViewerPresented = true
                         }
                 }
             }
-            // Apply gesture conditionally
-            .if(evidences.count > 1) { view in
-                view.gesture(
-                    DragGesture()
-                        .onChanged { value in
-                            draggingItem = snappedItem + value.translation.width / 100
+            .gesture(
+                DragGesture()
+                    .updating($dragOffset, body: { (value, state, _) in
+                        state = value.translation.width
+                    })
+                    .onEnded({ value in
+                        let threshold: CGFloat = 100 // Threshold to determine if the drag should result in an index change
+                        if value.translation.width > threshold {
+                            currentIndex = max(0, currentIndex - 1)
+                        } else if value.translation.width < -threshold {
+                            currentIndex = min(evidences.count - 1, currentIndex + 1)
                         }
-                        .onEnded { value in
-                            withAnimation {
-                                draggingItem = snappedItem + value.predictedEndTranslation.width / 100
-                                draggingItem = round(draggingItem).remainder(dividingBy: Double(evidences.count))
-                                snappedItem = draggingItem
-                            }
-                        }
-                )
-            }
-//            .frame(height: 300) // Adjust based on your UI needs
+                    })
+            )
+            .frame(width: 300, height: 300) // Here we use fixed dimensions for the ZStack
             .sheet(isPresented: $isImageViewerPresented) {
                 ImageViewer(imageURL: $selectedImageURL, isPresented: $isImageViewerPresented)
             }
@@ -171,26 +170,10 @@ struct EvidenceViewFeedView: View {
                 .cornerRadius(40) // Rounded corners
             }
             
-            // Other UI elements as needed
         }
         .onAppear {
             viewModel.fetchStepDescriptionAndVerifyStatus(stepID: step.id)
         }
-    }
-    
-    func distance(_ evidenceID: String) -> Double {
-        if let index = evidences.firstIndex(where: { $0.id == evidenceID }) {
-            return (draggingItem - Double(index)).remainder(dividingBy: Double(evidences.count))
-        }
-        return 0
-    }
-    
-    func myXOffset(_ evidenceID: String) -> CGFloat {
-        if let index = evidences.firstIndex(where: { $0.id == evidenceID }) {
-            let angle = Double.pi * 2 / Double(evidences.count) * distance(evidenceID)
-            return CGFloat(sin(angle) * 200)
-        }
-        return 0
     }
     
 }
@@ -209,3 +192,33 @@ extension View {
 //#Preview {
 //    EvidenceViewFeedView()
 //}
+
+//
+//VStack {
+//    ZStack {
+//        ForEach(0..<images.count, id: \.self) { index in
+//            Image(images[index])
+//                .frame(width: 300, height: 500)
+//                .cornerRadius(25)
+//                .opacity(currentIndex == index ? 1.0 : 0.5)
+//                .scaleEffect(currentIndex == index ? 1.2 : 0.8)
+//                .offset(x: CGFloat(index - currentIndex) * 300 + dragOffset, y: 0)
+//        }
+//    }
+//    .gesture(
+//        DragGesture()
+//            .onEnded({ value in
+//                let threshold: CGFloat = 50
+//                if value.translation.width > threshold {
+//                    withAnimation {
+//                        currentIndex = max(0, currentIndex - 1)
+//                    }
+//                } else if value.translation.width < -threshold {
+//                    withAnimation {
+//                        currentIndex = min(images.count - 1, currentIndex + 1)
+//                    }
+//                }
+//            })
+//    )
+//}
+//.navigationTitle("Image carousel")

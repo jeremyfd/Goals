@@ -24,6 +24,7 @@
 		4F51D0972B88CA8200B66A47 /* FeedFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F51D0962B88CA8200B66A47 /* FeedFilterView.swift */; };
 		4F51D0992B88CAA800B66A47 /* FeedFilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F51D0982B88CAA800B66A47 /* FeedFilterViewModel.swift */; };
 		4F5B03A42BB2224D00BF4612 /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F5B03A32BB2224D00BF4612 /* Test.swift */; };
+		4F5B03A62BB478F000BF4612 /* SnapCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F5B03A52BB478F000BF4612 /* SnapCarousel.swift */; };
 		4F6CE9FA2B934D72002DA338 /* ReactionsButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6CE9F92B934D72002DA338 /* ReactionsButtonsView.swift */; };
 		4F6CE9FC2B934DD0002DA338 /* UserReactionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6CE9FB2B934DD0002DA338 /* UserReactionsView.swift */; };
 		4F6CE9FE2B93D452002DA338 /* Reaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6CE9FD2B93D452002DA338 /* Reaction.swift */; };
@@ -187,6 +188,7 @@
 		4F51D0962B88CA8200B66A47 /* FeedFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedFilterView.swift; sourceTree = "<group>"; };
 		4F51D0982B88CAA800B66A47 /* FeedFilterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedFilterViewModel.swift; sourceTree = "<group>"; };
 		4F5B03A32BB2224D00BF4612 /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
+		4F5B03A52BB478F000BF4612 /* SnapCarousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapCarousel.swift; sourceTree = "<group>"; };
 		4F6CE9F92B934D72002DA338 /* ReactionsButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactionsButtonsView.swift; sourceTree = "<group>"; };
 		4F6CE9FB2B934DD0002DA338 /* UserReactionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserReactionsView.swift; sourceTree = "<group>"; };
 		4F6CE9FD2B93D452002DA338 /* Reaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reaction.swift; sourceTree = "<group>"; };
@@ -384,6 +386,7 @@
 				969F91FD2B3F2510004BECB1 /* ExpansionButtonView.swift */,
 				4F6CE9F92B934D72002DA338 /* ReactionsButtonsView.swift */,
 				4F5B03A32BB2224D00BF4612 /* Test.swift */,
+				4F5B03A52BB478F000BF4612 /* SnapCarousel.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1369,6 +1372,7 @@
 				4F6ED7922B7436A6000E4594 /* ExpandedGoalViewModel.swift in Sources */,
 				4F6ED77C2B726CB6000E4594 /* UserProfileView.swift in Sources */,
 				96F246EA2B38252A000CC323 /* LoginView.swift in Sources */,
+				4F5B03A62BB478F000BF4612 /* SnapCarousel.swift in Sources */,
 				969F91F92B3F0116004BECB1 /* SettingsView.swift in Sources */,
 				4FFC13BD2B867F1D001D898D /* ActivityBadgeView.swift in Sources */,
 				96F246EC2B382544000CC323 /* LoginViewModel.swift in Sources */,
