@@ -85,7 +85,7 @@ struct EvidenceService {
         try await FirestoreConstants.EvidencesCollection.document(evidenceId).delete()
         
         try await StepService.updateStepSubmission(stepId: evidence.stepID, isSubmitted: false)
-        try await StepService.updateStepVerification(stepId: evidence.stepID, isVerified: false, goalId: evidence.goalID)
+//        try await StepService.updateStepVerification(stepId: evidence.stepID, isVerified: false, goalId: evidence.goalID)
         
     }
 }
